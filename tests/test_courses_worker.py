@@ -48,16 +48,16 @@ class CoursesWorkerTest:
         print("\n" + "=" * 80)
         print(f"{Fore.CYAN}🏇 COURSES WORKER TEST{Style.RESET_ALL}")
         print("=" * 80)
-        print(f"Testing: racing_courses table")
+        print(f"Testing: ra_courses table")
         print(f"Timestamp: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
         print("=" * 80 + "\n")
 
     def test_table_exists(self):
-        """Test 1: Verify racing_courses table exists with data"""
-        print(f"{Fore.YELLOW}[TEST 1]{Style.RESET_ALL} Checking if racing_courses table exists...")
+        """Test 1: Verify ra_courses table exists with data"""
+        print(f"{Fore.YELLOW}[TEST 1]{Style.RESET_ALL} Checking if ra_courses table exists...")
 
         try:
-            response = self.client.table('racing_courses').select('*', count='exact').limit(1).execute()
+            response = self.client.table('ra_courses').select('*', count='exact').limit(1).execute()
 
             if response.count > 0:
                 print(f"{Fore.GREEN}✅ PASS{Style.RESET_ALL} - Table exists with {response.count:,} total records")
@@ -78,7 +78,7 @@ class CoursesWorkerTest:
 
         try:
             # Check for non-UK/Ireland courses
-            response = self.client.table('racing_courses')\
+            response = self.client.table('ra_courses')\
                 .select('region_code', count='exact')\
                 .not_.in_('region_code', ['gb', 'ire'])\
                 .execute()
@@ -103,7 +103,7 @@ class CoursesWorkerTest:
         print(f"\n{Fore.YELLOW}[TEST 3]{Style.RESET_ALL} Checking data freshness...")
 
         try:
-            response = self.client.table('racing_courses')\
+            response = self.client.table('ra_courses')\
                 .select('updated_at')\
                 .order('updated_at', desc=True)\
                 .limit(1)\
@@ -138,7 +138,7 @@ class CoursesWorkerTest:
 
         try:
             # Check for NULL values in critical fields
-            response = self.client.table('racing_courses')\
+            response = self.client.table('ra_courses')\
                 .select('id,name,region_code')\
                 .limit(100)\
                 .execute()
@@ -169,7 +169,7 @@ class CoursesWorkerTest:
         print(f"\n{Fore.YELLOW}[TEST 5]{Style.RESET_ALL} Checking course count...")
 
         try:
-            response = self.client.table('racing_courses').select('*', count='exact').execute()
+            response = self.client.table('ra_courses').select('*', count='exact').execute()
             count = response.count
 
             if 40 <= count <= 100:

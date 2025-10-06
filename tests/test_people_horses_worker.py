@@ -43,7 +43,7 @@ class PeopleHorsesWorkerTest:
             'warnings': 0
         }
 
-        self.tables = ['racing_jockeys', 'racing_trainers', 'racing_owners', 'racing_horses']
+        self.tables = ['ra_jockeys', 'ra_trainers', 'ra_owners', 'ra_horses']
 
     def print_header(self):
         """Print test header"""
@@ -89,10 +89,10 @@ class PeopleHorsesWorkerTest:
 
         try:
             minimums = {
-                'racing_jockeys': 100,
-                'racing_trainers': 100,
-                'racing_owners': 50,
-                'racing_horses': 500
+                'ra_jockeys': 100,
+                'ra_trainers': 100,
+                'ra_owners': 50,
+                'ra_horses': 500
             }
 
             all_pass = True
@@ -188,7 +188,7 @@ class PeopleHorsesWorkerTest:
 
         try:
             # Sample check: verify horses have region codes if available
-            response = self.client.table('racing_horses')\
+            response = self.client.table('ra_horses')\
                 .select('region_code')\
                 .limit(100)\
                 .execute()
