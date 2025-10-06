@@ -162,16 +162,41 @@ class RacingAPIClient:
             params['name'] = name
         return self._make_request('/owners/search', params)
 
-    def get_results(self, date: Optional[str] = None, course_ids: Optional[List[str]] = None,
+    def get_results(self, date: Optional[str] = None, start_date: Optional[str] = None,
+                    end_date: Optional[str] = None, course_ids: Optional[List[str]] = None,
                     region_codes: Optional[List[str]] = None, limit: int = 50, skip: int = 0) -> Optional[Dict]:
-        """Get race results - Note: Max limit is 50"""
+        """
+        Get race results - Note: Max limit is 50
+
+        Args:
+            date: Single date (YYYY-MM-DD) - converted to start_date/end_date
+            start_date: Start date (YYYY-MM-DD) for date range
+            end_date: End date (YYYY-MM-DD) for date range
+            course_ids: List of course IDs (maps to 'course' in API)
+            region_codes: List of region codes (maps to 'region' in API)
+            limit: Max results per page (max 50)
+            skip: Number of results to skip
+        """
         params = {'limit': min(limit, 50), 'skip': skip}
+
+        # Handle date parameters (API uses start_date/end_date, not date)
         if date:
-            params['date'] = date
+            params['start_date'] = date
+            params['end_date'] = date
+        else:
+            if start_date:
+                params['start_date'] = start_date
+            if end_date:
+                params['end_date'] = end_date
+
+        # API uses 'course' not 'course_ids'
         if course_ids:
-            params['course_ids'] = course_ids
+            params['course'] = course_ids
+
+        # API uses 'region' not 'region_codes'
         if region_codes:
-            params['region_codes'] = region_codes
+            params['region'] = region_codes
+
         return self._make_request('/results', params)
 
     def get_racecards_pro(self, date: Optional[str] = None, course_ids: Optional[List[str]] = None,
