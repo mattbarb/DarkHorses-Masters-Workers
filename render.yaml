@@ -5,7 +5,7 @@ services:
     env: python
     plan: starter  # Required for always-on scheduled tasks
     buildCommand: pip install --upgrade pip && pip install -r requirements.txt
-    startCommand: python3 render_worker.py
+    startCommand: python3 start_worker.py
     envVars:
       - key: RACING_API_USERNAME
         sync: false

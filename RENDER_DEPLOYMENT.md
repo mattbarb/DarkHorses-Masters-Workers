@@ -17,7 +17,7 @@ Render will auto-detect `render.yaml` and show:
 Service Name: darkhorses-masters-worker
 Environment: Python 3
 Build Command: pip install --upgrade pip && pip install -r requirements.txt
-Start Command: python3 render_worker.py
+Start Command: python3 start_worker.py
 Plan: Starter ($7/month) ⚠️ IMPORTANT - NOT Free tier
 ```
 

@@ -49,7 +49,7 @@ services:
   - type: web
     name: darkhorses-masters-worker
     rootDirectory: masters-worker
-    startCommand: python3 render_worker.py
+    startCommand: python3 start_worker.py
 ```
 
 **Deployment Steps:**
@@ -87,7 +87,7 @@ The worker runs on this schedule:
 | **Race Cards** | Daily | 1:00 AM | New race cards daily |
 | **Results** | Daily | 1:00 AM | Results daily |
 
-**Implemented in**: `render_worker.py` using Python `schedule` library
+**Implemented in**: `start_worker.py` using Python `schedule` library
 
 ## Database Tables
 
@@ -193,7 +193,7 @@ python main.py --test --entities courses
 
 ```bash
 # Run the scheduler (same as Render deployment)
-python render_worker.py
+python start_worker.py
 ```
 
 This will run continuously with scheduled updates.
@@ -221,7 +221,7 @@ masters-worker/
 │   ├── logger.py
 │   └── regional_filter.py
 ├── main.py              # CLI orchestrator
-├── render_worker.py     # Render.com worker
+├── start_worker.py      # Render.com worker
 ├── health_check.py      # Health monitoring
 ├── data_quality_check.py  # Quality validation
 └── requirements.txt
@@ -229,7 +229,7 @@ masters-worker/
 
 ### Key Components
 
-1. **render_worker.py**: Continuous worker with scheduled tasks
+1. **start_worker.py**: Continuous worker with scheduled tasks
 2. **main.py**: Manual execution orchestrator
 3. **fetchers/**: Individual entity fetchers
 4. **utils/api_client.py**: Racing API client
