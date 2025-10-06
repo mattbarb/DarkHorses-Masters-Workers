@@ -1,6 +1,8 @@
-# Racing API Reference Data Fetcher - Production
+# DarkHorses Masters Workers
 
-Production-ready system for fetching and maintaining UK and Ireland racing reference data from The Racing API into Supabase PostgreSQL database.
+Production-ready system for fetching and maintaining UK and Ireland racing **reference/master data** from The Racing API into Supabase PostgreSQL database.
+
+**Note**: This repository handles REFERENCE DATA only (courses, jockeys, trainers, etc.). For odds data, see [DarkHorses-Odds-Workers](https://github.com/mattbarb/DarkHorses-Odds-Workers).
 
 ## Overview
 
@@ -15,6 +17,9 @@ This system automatically fetches and synchronizes racing reference data includi
 - Race results (GB & IRE results)
 
 **Regional Filtering**: All data is automatically filtered to include only UK (GB) and Ireland (IRE) racing.
+
+**Related Repository**:
+- [DarkHorses-Odds-Workers](https://github.com/mattbarb/DarkHorses-Odds-Workers) - Live & historical odds collection - $7/month
 
 ## System Architecture
 
