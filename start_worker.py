@@ -31,6 +31,30 @@ def run_daily_fetch():
         results = orchestrator.run_fetch(entities=['races', 'results'])
 
         success = all(r.get('success', False) for r in results.values())
+
+        # Log summary of downloaded records
+        logger.info("\n" + "=" * 80)
+        logger.info("DAILY FETCH SUMMARY")
+        logger.info("=" * 80)
+
+        for entity, result in results.items():
+            if entity == 'races':
+                races_fetched = result.get('races_fetched', result.get('fetched', 0))
+                runners_fetched = result.get('runners_fetched', 0)
+                races_inserted = result.get('races_inserted', result.get('inserted', 0))
+                runners_inserted = result.get('runners_inserted', 0)
+                logger.info(f"Races:   {races_fetched} fetched, {races_inserted} new/updated")
+                logger.info(f"Runners: {runners_fetched} fetched, {runners_inserted} new/updated")
+            elif entity == 'results':
+                results_fetched = result.get('fetched', 0)
+                results_inserted = result.get('inserted', 0)
+                days_fetched = result.get('days_fetched', 0)
+                days_with_data = result.get('days_with_data', 0)
+                logger.info(f"Results: {results_fetched} fetched, {results_inserted} new/updated")
+                logger.info(f"         {days_with_data}/{days_fetched} days had data")
+
+        logger.info("=" * 80)
+
         if success:
             logger.info("Daily fetch completed successfully")
         else:
@@ -53,6 +77,19 @@ def run_weekly_fetch():
         )
 
         success = all(r.get('success', False) for r in results.values())
+
+        # Log summary of downloaded records
+        logger.info("\n" + "=" * 80)
+        logger.info("WEEKLY FETCH SUMMARY")
+        logger.info("=" * 80)
+
+        for entity, result in results.items():
+            fetched = result.get('fetched', 0)
+            inserted = result.get('inserted', 0)
+            logger.info(f"{entity.capitalize()}: {fetched} fetched, {inserted} new/updated")
+
+        logger.info("=" * 80)
+
         if success:
             logger.info("Weekly fetch completed successfully")
         else:
@@ -75,6 +112,19 @@ def run_monthly_fetch():
         )
 
         success = all(r.get('success', False) for r in results.values())
+
+        # Log summary of downloaded records
+        logger.info("\n" + "=" * 80)
+        logger.info("MONTHLY FETCH SUMMARY")
+        logger.info("=" * 80)
+
+        for entity, result in results.items():
+            fetched = result.get('fetched', 0)
+            inserted = result.get('inserted', 0)
+            logger.info(f"{entity.capitalize()}: {fetched} fetched, {inserted} new/updated")
+
+        logger.info("=" * 80)
+
         if success:
             logger.info("Monthly fetch completed successfully")
         else:
