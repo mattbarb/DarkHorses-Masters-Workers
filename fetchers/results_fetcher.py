@@ -169,7 +169,6 @@ class ResultsFetcher:
                     'rating_band': race_data.get('rating_band'),  # Rating band
                     'jumps': race_data.get('jumps'),  # Number of jumps
                     'prize': race_data.get('prize'),  # RENAMED: prize_money → prize
-                    'currency': race_data.get('currency', 'GBP'),
                     'region': race_data.get('region'),
                     'field_size': len(race_data.get('runners', [])),
                     # Result-specific fields (only available in results, not racecards)
@@ -189,8 +188,7 @@ class ResultsFetcher:
                     'is_abandoned': race_data.get('is_abandoned', False),
                     'is_big_race': race_data.get('big_race', False),
                     'race_number': race_data.get('race_number'),
-                    'meet_id': race_data.get('meet_id'),
-                    'api_data': race_data
+                    'meet_id': race_data.get('meet_id')
                 }
                 if race_record['id']:
                     races_to_insert.append(race_record)
@@ -232,9 +230,7 @@ class ResultsFetcher:
                     'tote_ex': race_data.get('tote_ex'),
                     'tote_csf': race_data.get('tote_csf'),
                     'tote_tricast': race_data.get('tote_tricast'),
-                    'tote_trifecta': race_data.get('tote_trifecta'),
-                    # Metadata
-                    'api_data': race_data
+                    'tote_trifecta': race_data.get('tote_trifecta')
                 }
                 if result_record.get('race_id'):
                     results_to_insert.append(result_record)
@@ -342,11 +338,9 @@ class ResultsFetcher:
             'surface': result.get('surface'),
             'going': result.get('going'),
             'prize': result.get('prize'),  # RENAMED: prize_money → prize
-            'currency': result.get('currency'),
             'region': result.get('region'),
             # Note: results_status field doesn't exist in ra_races schema
             'is_abandoned': result.get('is_abandoned', False),
-            'api_data': result,  # Store full API response
             'created_at': datetime.utcnow().isoformat(),
             'updated_at': datetime.utcnow().isoformat()
         }
@@ -393,12 +387,9 @@ class ResultsFetcher:
                 if not horse_id:
                     continue
 
-                runner_id = f"{race_id}_{horse_id}"
-
                 runner_record = {
-                    'id': runner_id,  # RENAMED: runner_id → id (auto-increment primary key)
+                    # DO NOT SET 'id' - it's auto-increment bigint primary key
                     'race_id': race_id,
-                    # race_date is in ra_races table, not ra_runners - removed to match schema
                     'horse_id': horse_id,
                     'horse_name': runner.get('horse'),
                     'jockey_id': runner.get('jockey_id'),
@@ -407,44 +398,52 @@ class ResultsFetcher:
                     'trainer_name': runner.get('trainer'),
                     'owner_id': runner.get('owner_id'),
                     'owner_name': runner.get('owner'),
-                    # Integer fields - safely parse to handle empty strings
-                    'horse_age': parse_int_field(runner.get('age')),  # Renamed: age → horse_age
-                    'horse_sex': runner.get('sex'),  # Renamed: sex → horse_sex
-                    'weight_lbs': parse_int_field(runner.get('weight_lbs')),  # Numeric weight in lbs
-                    'draw': parse_int_field(runner.get('draw')),
-                    'number': parse_int_field(runner.get('number')),
-                    'headgear': runner.get('headgear'),
-                    # Form fields (racecards-only, will be NULL in results)
-                    'form': runner.get('form_string'),  # Racecards-only field (NULL in results)
-                    'form_string': runner.get('form_string'),  # Racecards-only field (NULL in results)
-                    'silk_url': runner.get('silk_url'),  # Jockey silk URL
-                    'prize_money_won': runner.get('prize'),  # API: 'prize' (prize money for this race)
-                    # Rating fields - API may return "–" for missing values, parse safely
-                    'ofr': parse_rating(runner.get('or')),  # RENAMED: official_rating → ofr
-                    'rpr': parse_rating(runner.get('rpr')),  # Racing Post Rating
-                    'ts': parse_rating(runner.get('tsr')),  # RENAMED: tsr → ts
-                    # Position fields - THE CRITICAL DATA FOR ML
-                    'position': position_data['position'],
-                    'distance_beaten': position_data['distance_beaten'],
-                    'prize_won': position_data['prize_won'],
-                    'starting_price': position_data['starting_price'],
-                    'result_updated_at': datetime.utcnow().isoformat(),
-                    # NEW FIELDS - Additional result data (Migration 011)
-                    'finishing_time': parse_text_field(runner.get('time')),  # Race finishing time (e.g., "1:48.55")
-                    'starting_price_decimal': parse_decimal_field(runner.get('sp_dec')),  # Decimal odds (e.g., 4.50)
-                    'overall_beaten_distance': parse_decimal_field(runner.get('ovr_btn')),  # Overall beaten distance
-                    'jockey_claim_lbs': parse_int_field(runner.get('jockey_claim_lbs')),  # Jockey weight allowance
-                    'weight_st_lbs': parse_text_field(runner.get('weight')),  # RENAMED: weight_stones_lbs → weight_st_lbs
-                    'comment': parse_text_field(runner.get('comment')),  # FIXED: Use 'comment' not 'race_comment' (dropped column!)
+                    # Number and draw fields (schema: character varying, not integer)
+                    'number': str(runner.get('number')) if runner.get('number') is not None else None,
+                    'draw': str(runner.get('draw')) if runner.get('draw') is not None else None,
                     # Pedigree fields
                     'sire_id': runner.get('sire_id'),
-                    'sire_name': runner.get('sire'),  # Will be filtered by supabase_client.py
                     'dam_id': runner.get('dam_id'),
-                    'dam_name': runner.get('dam'),  # Will be filtered by supabase_client.py
                     'damsire_id': runner.get('damsire_id'),
-                    'damsire_name': runner.get('damsire'),  # Will be filtered by supabase_client.py
-                    # Store full runner API data
-                    'api_data': runner,
+                    # Weight fields
+                    'weight_lbs': parse_int_field(runner.get('weight_lbs')),  # integer in schema
+                    'weight_st_lbs': parse_text_field(runner.get('weight')),  # character varying
+                    # Horse metadata - CORRECT field names (age, sex, sex_code, colour, dob)
+                    'age': parse_int_field(runner.get('age')),
+                    'sex': runner.get('sex'),
+                    'sex_code': runner.get('sex_code'),
+                    'colour': runner.get('colour'),
+                    'dob': runner.get('dob'),
+                    # Headgear and equipment
+                    'headgear': runner.get('headgear'),
+                    'headgear_run': runner.get('headgear_run'),
+                    'wind_surgery': runner.get('wind_surgery'),
+                    'wind_surgery_run': runner.get('wind_surgery_run'),
+                    # Form and performance
+                    'form': runner.get('form'),
+                    'last_run': runner.get('last_run'),
+                    # Rating fields - API may return "–" for missing values, parse safely
+                    'ofr': parse_rating(runner.get('or')),
+                    'rpr': parse_rating(runner.get('rpr')),
+                    'ts': parse_rating(runner.get('tsr')),
+                    # Comment and analysis
+                    'comment': parse_text_field(runner.get('comment')),
+                    'spotlight': runner.get('spotlight'),
+                    'trainer_rtf': runner.get('trainer_rtf'),
+                    'past_results_flags': runner.get('past_results_flags'),
+                    # Claiming prices
+                    'claiming_price_min': parse_int_field(runner.get('claiming_price_min')),
+                    'claiming_price_max': parse_int_field(runner.get('claiming_price_max')),
+                    # Medication and equipment
+                    'medication': runner.get('medication'),
+                    'equipment': runner.get('equipment'),
+                    # Odds
+                    'morning_line_odds': runner.get('morning_line_odds'),
+                    # Status
+                    'is_scratched': runner.get('is_scratched', False),
+                    # Silk URL
+                    'silk_url': runner.get('silk_url'),
+                    # Timestamps
                     'created_at': datetime.utcnow().isoformat(),
                     'updated_at': datetime.utcnow().isoformat()
                 }

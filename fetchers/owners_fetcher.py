@@ -1,6 +1,20 @@
 """
 Owners Reference Data Fetcher
 Fetches owner profiles from Racing API
+
+DEPRECATION WARNING:
+This fetcher is NOT RECOMMENDED for production use because:
+1. The /v1/owners/search API endpoint REQUIRES a 'name' parameter (HTTP 422 error without it)
+2. Owners are automatically extracted from racecards and results (entity_extractor.py)
+3. This fetcher currently calls the API without the required 'name' parameter and will fail
+
+RECOMMENDED APPROACH:
+Owners should be populated via:
+- races_fetcher.py (extracts owners from racecards)
+- results_fetcher.py (extracts owners from results)
+Both use EntityExtractor which automatically discovers and stores new owners.
+
+If you need to use this fetcher for specific owner lookups, you MUST provide a name parameter.
 """
 
 from datetime import datetime
@@ -33,12 +47,13 @@ class OwnersFetcher:
             batch_size=self.config.supabase.batch_size
         )
 
-    def fetch_and_store(self, limit_per_page: int = 500, max_pages: int = None,
+    def fetch_and_store(self, name: str = None, limit_per_page: int = 500, max_pages: int = None,
                         filter_uk_ireland: bool = True) -> Dict:
         """
         Fetch owners from API and store in database
 
         Args:
+            name: Owner name to search (REQUIRED by API - will fail with HTTP 422 if not provided)
             limit_per_page: Number of owners per page
             max_pages: Maximum pages to fetch (None = all)
             filter_uk_ireland: Filter to UK and Ireland owners only (default: True)
@@ -49,6 +64,20 @@ class OwnersFetcher:
         Returns:
             Statistics dictionary
         """
+        logger.warning("=" * 80)
+        logger.warning("DEPRECATION WARNING: This fetcher is NOT recommended for production use!")
+        logger.warning("The /v1/owners/search API requires a 'name' parameter.")
+        logger.warning("Owners should be extracted from racecards/results instead.")
+        logger.warning("See module docstring for details.")
+        logger.warning("=" * 80)
+
+        if not name:
+            error_msg = "ERROR: The /v1/owners/search API endpoint requires a 'name' parameter. " \
+                       "This fetcher will fail with HTTP 422 without it. " \
+                       "Please use races_fetcher.py or results_fetcher.py to populate owners instead."
+            logger.error(error_msg)
+            return {'success': False, 'error': error_msg}
+
         logger.info("Starting owners fetch")
         if filter_uk_ireland:
             logger.warning("UK/Ireland filtering requested but not available for owners API endpoint")
@@ -65,7 +94,7 @@ class OwnersFetcher:
 
             # Fetch page
             logger.info(f"Fetching page {page + 1} (skip={skip})")
-            api_response = self.api_client.search_owners(limit=limit_per_page, skip=skip)
+            api_response = self.api_client.search_owners(name=name, limit=limit_per_page, skip=skip)
 
             if not api_response or 'owners' not in api_response:
                 logger.warning(f"No owners returned for page {page + 1}")

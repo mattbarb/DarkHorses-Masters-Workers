@@ -58,12 +58,12 @@ class CoursesFetcher:
         courses_transformed = []
         for course in courses_raw:
             course_record = {
-                'id': course.get('id'),  # RENAMED: course_id → id
-                'name': course.get('course'),  # API returns 'course' not 'name'
-                'region': course.get('region_code'),  # Use region_code
-                'country': course.get('region'),  # Full region name
-                'latitude': None,  # Not provided by courses endpoint
-                'longitude': None,  # Not provided by courses endpoint
+                'id': course.get('id'),  # API: 'id' → DB: 'id'
+                'name': course.get('course'),  # API: 'course' → DB: 'name'
+                'region_code': course.get('region_code'),  # API: 'region_code' → DB: 'region_code'
+                'region': course.get('region'),  # API: 'region' → DB: 'region' (e.g., "Great Britain")
+                'latitude': None,  # Not provided by /courses endpoint
+                'longitude': None,  # Not provided by /courses endpoint
                 'created_at': datetime.utcnow().isoformat(),
                 'updated_at': datetime.utcnow().isoformat()
             }
