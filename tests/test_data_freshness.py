@@ -66,10 +66,10 @@ class DataFreshnessTest:
             'schedule': 'Daily (1:00 AM)',
             'entities': 'Race cards'
         },
-        'ra_results': {
+        'ra_runners': {
             'max_age_days': 3,  # Daily + buffer
             'schedule': 'Daily (1:00 AM)',
-            'entities': 'Race results'
+            'entities': 'Race runners (includes results)'
         }
     }
 
@@ -267,11 +267,11 @@ class DataFreshnessTest:
             return False
 
     def test_daily_tables_freshness(self):
-        """Test 3: Check freshness of daily updated tables (races, results)"""
+        """Test 3: Check freshness of daily updated tables (races, runners)"""
         print(f"\n{Fore.YELLOW}[TEST 3]{Style.RESET_ALL} Checking daily tables freshness...")
 
         start = time.time()
-        daily_tables = ['ra_races', 'ra_results']
+        daily_tables = ['ra_races', 'ra_runners']
 
         all_fresh = True
         results = []

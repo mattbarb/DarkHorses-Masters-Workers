@@ -3,10 +3,6 @@ Jockeys Reference Data Fetcher
 Fetches jockey profiles from Racing API
 """
 
-import sys
-from pathlib import Path
-sys.path.append(str(Path(__file__).parent.parent))
-
 from datetime import datetime
 from typing import Dict
 from config.config import get_config
@@ -104,7 +100,7 @@ class JockeysFetcher:
         jockeys_transformed = []
         for jockey in all_jockeys:
             jockey_record = {
-                'jockey_id': jockey.get('id'),
+                'id': jockey.get('id'),  # RENAMED: jockey_id → id
                 'name': jockey.get('name'),
                 'created_at': datetime.utcnow().isoformat(),
                 'updated_at': datetime.utcnow().isoformat()

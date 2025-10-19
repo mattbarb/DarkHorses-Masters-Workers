@@ -1,0 +1,95 @@
+/Users/matthewbarber/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+================================================================================
+RA_RUNNERS SAMPLE-BASED AUDIT
+Analyzing recent 5,000 records per field
+================================================================================
+
+Total ra_runners rows: 1,325,718
+Sample size per field: 5,000 (most recent records)
+
+
+RACE_ENTRY FIELDS:
+----------------------------------------------------------------------
+❌ draw......................................... ERROR: {'message': 'canceling statement due to statement timeout', 'code': '57014', 'hint': None, 'details'
+❌ number....................................... ERROR: {'message': 'canceling statement due to statement timeout', 'code': '57014', 'hint': None, 'details'
+❌ form......................................... ERROR: {'message': 'canceling statement due to statement timeout', 'code': '57014', 'hint': None, 'details'
+❌ weight....................................... ERROR: {'message': 'canceling statement due to statement timeout', 'code': '57014', 'hint': None, 'details'
+❌ headgear..................................... ERROR: {'message': 'canceling statement due to statement timeout', 'code': '57014', 'hint': None, 'details'
+
+RESULTS_ORIGINAL FIELDS:
+----------------------------------------------------------------------
+❌ position..................................... ERROR: {'message': 'canceling statement due to statement timeout', 'code': '57014', 'hint': None, 'details'
+❌ distance_beaten.............................. ERROR: {'message': 'canceling statement due to statement timeout', 'code': '57014', 'hint': None, 'details'
+❌ prize_won.................................... ERROR: {'message': 'canceling statement due to statement timeout', 'code': '57014', 'hint': None, 'details'
+❌ starting_price............................... ERROR: {'message': 'canceling statement due to statement timeout', 'code': '57014', 'hint': None, 'details'
+❌ finishing_time............................... ERROR: {'message': 'canceling statement due to statement timeout', 'code': '57014', 'hint': None, 'details'
+
+RESULTS_ENHANCED FIELDS:
+----------------------------------------------------------------------
+❌ starting_price_decimal....................... ERROR: {'message': 'canceling statement due to statement timeout', 'code': '57014', 'hint': None, 'details'
+❌ race_comment................................. ERROR: {'message': 'canceling statement due to statement timeout', 'code': '57014', 'hint': None, 'details'
+❌ jockey_silk_url.............................. ERROR: {'message': 'canceling statement due to statement timeout', 'code': '57014', 'hint': None, 'details'
+❌ overall_beaten_distance...................... ERROR: {'message': 'canceling statement due to statement timeout', 'code': '57014', 'hint': None, 'details'
+❌ jockey_claim_lbs............................. ERROR: {'message': 'canceling statement due to statement timeout', 'code': '57014', 'hint': None, 'details'
+❌ weight_stones_lbs............................ ERROR: {'message': 'canceling statement due to statement timeout', 'code': '57014', 'hint': None, 'details'
+
+PEDIGREE FIELDS:
+----------------------------------------------------------------------
+❌ sire_id...................................... ERROR: {'message': 'canceling statement due to statement timeout', 'code': '57014', 'hint': None, 'details'
+❌ sire_name.................................... ERROR: {'message': 'canceling statement due to statement timeout', 'code': '57014', 'hint': None, 'details'
+❌ dam_id....................................... ERROR: {'message': 'canceling statement due to statement timeout', 'code': '57014', 'hint': None, 'details'
+❌ dam_name..................................... ERROR: {'message': 'canceling statement due to statement timeout', 'code': '57014', 'hint': None, 'details'
+❌ damsire_id................................... ERROR: {'message': 'canceling statement due to statement timeout', 'code': '57014', 'hint': None, 'details'
+❌ damsire_name................................. ERROR: {'message': 'canceling statement due to statement timeout', 'code': '57014', 'hint': None, 'details'
+
+DUPLICATES FIELDS:
+----------------------------------------------------------------------
+❌ silk_url..................................... ERROR: {'message': 'canceling statement due to statement timeout', 'code': '57014', 'hint': None, 'details'
+❌ jockey_silk_url.............................. ERROR: {'message': 'canceling statement due to statement timeout', 'code': '57014', 'hint': None, 'details'
+
+================================================================================
+SAMPLE DATA INSPECTION
+================================================================================
+
+Error inspecting sample: {'message': 'canceling statement due to statement timeout', 'code': '57014', 'hint': None, 'details': None}
+
+================================================================================
+SUMMARY
+================================================================================
+
+RACE_ENTRY:
+  ✓ Fully populated (≥99%): 0
+  ⚠ Mostly populated (75-98%): 0
+  ⚠ Partially populated (1-74%): 0
+  ❌ Empty (0%): 0
+  ❌ Errors: 5
+
+RESULTS_ORIGINAL:
+  ✓ Fully populated (≥99%): 0
+  ⚠ Mostly populated (75-98%): 0
+  ⚠ Partially populated (1-74%): 0
+  ❌ Empty (0%): 0
+  ❌ Errors: 5
+
+RESULTS_ENHANCED:
+  ✓ Fully populated (≥99%): 0
+  ⚠ Mostly populated (75-98%): 0
+  ⚠ Partially populated (1-74%): 0
+  ❌ Empty (0%): 0
+  ❌ Errors: 6
+
+PEDIGREE:
+  ✓ Fully populated (≥99%): 0
+  ⚠ Mostly populated (75-98%): 0
+  ⚠ Partially populated (1-74%): 0
+  ❌ Empty (0%): 0
+  ❌ Errors: 6
+
+DUPLICATES:
+  ✓ Fully populated (≥99%): 0
+  ⚠ Mostly populated (75-98%): 0
+  ⚠ Partially populated (1-74%): 0
+  ❌ Empty (0%): 0
+  ❌ Errors: 2
+

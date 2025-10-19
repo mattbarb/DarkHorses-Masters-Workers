@@ -3,16 +3,19 @@ Races Reference Data Fetcher
 Fetches race and runner data from Racing API racecards endpoint
 """
 
-import sys
-from pathlib import Path
-sys.path.append(str(Path(__file__).parent.parent))
-
 from datetime import datetime, timedelta
 from typing import Dict, List, Optional
 from config.config import get_config
 from utils.logger import get_logger
 from utils.api_client import RacingAPIClient
 from utils.supabase_client import SupabaseReferenceClient
+from utils.entity_extractor import EntityExtractor
+from utils.position_parser import (
+    parse_int_field,
+    parse_rating,
+    parse_decimal_field,
+    parse_text_field
+)
 
 logger = get_logger('races_fetcher')
 
@@ -35,6 +38,8 @@ class RacesFetcher:
             service_key=self.config.supabase.service_key,
             batch_size=self.config.supabase.batch_size
         )
+        # Pass API client to entity extractor for Pro enrichment
+        self.entity_extractor = EntityExtractor(self.db_client, self.api_client)
 
     def fetch_and_store(
         self,
@@ -126,6 +131,11 @@ class RacesFetcher:
             results['runners'] = runner_stats
             logger.info(f"Runners inserted: {runner_stats}")
 
+            # Extract and store entities (jockeys, trainers, owners, horses) from runners
+            logger.info("Extracting entities from runner data...")
+            entity_stats = self.entity_extractor.extract_and_store_from_runners(all_runners)
+            results['entities'] = entity_stats
+
         return {
             'success': True,
             'fetched': len(all_races),
@@ -205,63 +215,66 @@ class RacesFetcher:
             except (ValueError, AttributeError):
                 return None
 
-        # Helper function to safely parse integers
-        def safe_int(value):
-            """Safely convert value to integer, handling strings like '-', 'NR', etc."""
-            if value is None:
-                return None
-            if isinstance(value, int):
-                return value
-            if isinstance(value, str):
-                value = value.strip()
-                if value in ('', '-', 'NR', 'N/A', 'DNF', 'PU', 'F', 'UR', 'RO', 'BD'):
-                    return None
-                try:
-                    return int(value)
-                except ValueError:
-                    return None
-            try:
-                return int(value)
-            except (ValueError, TypeError):
-                return None
+        # Note: Using imported parse_int_field() and parse_rating() functions from utils.position_parser
+        # These handle en-dash "–", empty strings, and other edge cases properly
 
         # Build race record
         race_record = {
-            'race_id': race_id,
-            'racing_api_race_id': race_id,
+            'id': race_id,
             'is_from_api': True,
-            'fetched_at': datetime.utcnow().isoformat(),
             'course_id': racecard.get('course_id'),
             'course_name': racecard.get('course'),
             'region': racecard.get('region'),
             'race_name': racecard.get('race_name'),
-            'race_date': racecard.get('date'),  # Changed from 'race_date' to 'date'
-            'off_datetime': racecard.get('off_dt'),
+            'date': racecard.get('date'),  # RENAMED: race_date → date
+            'off_dt': racecard.get('off_dt'),  # RENAMED: off_datetime → off_dt
             'off_time': racecard.get('off_time'),
-            'start_time': racecard.get('start_time'),
-            'race_type': racecard.get('type'),
+            # Note: start_time field doesn't exist in ra_races schema
+            'type': racecard.get('type'),  # RENAMED: race_type → type
             'race_class': racecard.get('race_class'),
             'distance': racecard.get('distance_f'),  # Numeric furlong value
             'distance_f': racecard.get('distance'),  # String like "1m"
-            'distance_meters': parse_distance_meters(racecard.get('distance_round')),
+            'distance_m': racecard.get('dist_m'),  # RENAMED: distance_meters → distance_m
+            'distance_round': racecard.get('distance_round'),  # Rounded distance
             'age_band': racecard.get('age_band'),
             'surface': racecard.get('surface'),
             'going': racecard.get('going'),
-            'track_condition': racecard.get('going_detailed'),
-            'weather_conditions': racecard.get('weather'),
+            'going_detailed': racecard.get('going_detailed'),  # Detailed going description
+            'track_condition': racecard.get('going_detailed'),  # DEPRECATED - keeping for backwards compat
+            'weather_conditions': racecard.get('weather'),  # DEPRECATED - keeping for backwards compat
             'rail_movements': racecard.get('rail_movements'),
-            'stalls_position': racecard.get('stalls_position'),
-            'race_status': racecard.get('status'),
-            'betting_status': racecard.get('betting_status'),
-            'results_status': racecard.get('results_status'),
+            'pattern': racecard.get('pattern'),  # Pattern race designation (Group 1/2/3)
+            'sex_restriction': racecard.get('sex_rest'),  # Sex restrictions (colts/fillies)
+            'rating_band': racecard.get('rating_band'),  # Rating band (e.g., "0-60")
+            'stalls': racecard.get('stalls'),  # Stall information
+            'jumps': racecard.get('jumps'),  # Number of jumps (NH racing)
+            'betting_enabled': racecard.get('betting_status') == 'enabled',  # Map betting_status to betting_enabled boolean
             'is_abandoned': racecard.get('is_abandoned', False),
             'currency': 'GBP',  # Default currency for UK/IRE races
-            'prize_money': parse_prize_money(racecard.get('prize')),
-            'total_prize_money': parse_prize_money(racecard.get('total_prize_money')),
-            'big_race': racecard.get('big_race', False),
+            'prize': parse_prize_money(racecard.get('prize')),  # RENAMED: prize_money → prize
+            # Note: total_prize_money field doesn't exist in ra_races schema
+            'is_big_race': racecard.get('big_race', False),  # RENAMED: big_race → is_big_race
             'field_size': len(racecard.get('runners', [])),
-            'live_stream_url': racecard.get('live_stream_url'),
-            'replay_url': racecard.get('replay_url'),
+            # Result-specific fields (only available in results endpoint, NULL in racecards)
+            'has_result': False,  # Racecards don't have results yet
+            'winning_time': None,  # Available in results only
+            'winning_time_detail': None,  # Available in results only
+            'comments': racecard.get('comments'),  # Race comments/verdict
+            'non_runners': racecard.get('non_runners'),  # Non-runners list
+            # Tote dividends (available in results only)
+            'tote_win': None,
+            'tote_pl': None,
+            'tote_ex': None,
+            'tote_csf': None,
+            'tote_tricast': None,
+            'tote_trifecta': None,
+            # Additional metadata
+            'race_number': racecard.get('race_number'),  # Race number on card
+            'tip': racecard.get('tip'),  # Racing Post tip
+            'verdict': racecard.get('verdict'),  # Race verdict
+            'betting_forecast': racecard.get('betting_forecast'),  # Pre-race forecast
+            'meet_id': racecard.get('meet_id'),  # Meeting ID
+            # Note: live_stream_url and replay_url fields don't exist in ra_races schema
             'api_data': racecard,  # Store full API response
             'created_at': datetime.utcnow().isoformat(),
             'updated_at': datetime.utcnow().isoformat()
@@ -282,32 +295,26 @@ class RacesFetcher:
             runner_id = f"{race_id}_{horse_id}"
 
             runner_record = {
-                'runner_id': runner_id,
+                'id': runner_id,  # RENAMED: runner_id → id (auto-increment primary key)
                 'is_from_api': True,
-                'fetched_at': datetime.utcnow().isoformat(),
                 'race_id': race_id,
-                'racing_api_race_id': race_id,
                 'horse_id': runner.get('horse_id'),
-                'racing_api_horse_id': runner.get('horse_id'),
                 'horse_name': runner.get('horse'),
-                'age': safe_int(runner.get('age')),
-                'sex': runner.get('sex'),
-                'number': safe_int(runner.get('number')),
-                'draw': safe_int(runner.get('draw')),
-                'stall': safe_int(runner.get('stall')),
+                # Integer fields - use parse_int_field() to handle empty strings and edge cases
+                'horse_age': parse_int_field(runner.get('age')),  # Renamed: age → horse_age
+                'horse_sex': runner.get('sex'),  # Renamed: sex → horse_sex
+                'number': parse_int_field(runner.get('number')),
+                'draw': parse_int_field(runner.get('draw')),
+                # Note: 'stall' field doesn't exist in ra_runners schema - using 'draw' instead
                 'jockey_id': runner.get('jockey_id'),
-                'racing_api_jockey_id': runner.get('jockey_id'),
                 'jockey_name': runner.get('jockey'),
                 'jockey_claim': runner.get('jockey_claim'),
                 'apprentice_allowance': runner.get('jockey_allowance'),
                 'trainer_id': runner.get('trainer_id'),
-                'racing_api_trainer_id': runner.get('trainer_id'),
                 'trainer_name': runner.get('trainer'),
                 'owner_id': runner.get('owner_id'),
-                'racing_api_owner_id': runner.get('owner_id'),
                 'owner_name': runner.get('owner'),
-                'weight': runner.get('lbs'),
-                'weight_lbs': runner.get('lbs'),  # Use 'lbs' field
+                'weight_lbs': runner.get('weight_lbs'),  # Numeric weight in lbs
                 'headgear': runner.get('headgear'),
                 # Parse headgear_run string for boolean flags (but don't store headgear_run itself)
                 'blinkers': 'b' in (runner.get('headgear_run') or '').lower(),
@@ -315,26 +322,63 @@ class RacesFetcher:
                 'visor': 'v' in (runner.get('headgear_run') or '').lower(),
                 'tongue_tie': 't' in (runner.get('headgear_run') or '').lower(),
                 'sire_id': runner.get('sire_id'),
-                'sire_name': runner.get('sire'),
+                'sire_name': runner.get('sire'),  # Will be filtered by supabase_client.py
                 'dam_id': runner.get('dam_id'),
-                'dam_name': runner.get('dam'),
+                'dam_name': runner.get('dam'),  # Will be filtered by supabase_client.py
                 'damsire_id': runner.get('damsire_id'),
-                'damsire_name': runner.get('damsire'),
-                'form': runner.get('form'),
-                'form_string': runner.get('form_string'),
-                'days_since_last_run': safe_int(runner.get('days_since_last_run')),
+                'damsire_name': runner.get('damsire'),  # Will be filtered by supabase_client.py
+                'form': runner.get('form'),  # API field is 'form' (e.g., '8', single character)
+                # Note: form_string doesn't exist in racecards API - only in results (and is NULL there too)
+                'days_since_last_run': parse_int_field(runner.get('days_since_last_run')),
                 'last_run_performance': runner.get('last_run'),
-                'career_runs': safe_int(runner.get('career_total', {}).get('runs')) if isinstance(runner.get('career_total'), dict) else None,
-                'career_wins': safe_int(runner.get('career_total', {}).get('wins')) if isinstance(runner.get('career_total'), dict) else None,
-                'career_places': safe_int(runner.get('career_total', {}).get('places')) if isinstance(runner.get('career_total'), dict) else None,
-                'prize_money_won': runner.get('prize_money'),
-                'official_rating': safe_int(runner.get('ofr')),
-                'racing_post_rating': safe_int(runner.get('rpr')),
-                'rpr': safe_int(runner.get('rpr')),
-                'timeform_rating': safe_int(runner.get('tfr')),
-                'tsr': safe_int(runner.get('ts')),
-                'comment': runner.get('comment'),  # Use comment field (spotlight doesn't exist in schema)
+                'career_runs': parse_int_field(runner.get('career_total', {}).get('runs')) if isinstance(runner.get('career_total'), dict) else None,
+                'career_wins': parse_int_field(runner.get('career_total', {}).get('wins')) if isinstance(runner.get('career_total'), dict) else None,
+                'career_places': parse_int_field(runner.get('career_total', {}).get('places')) if isinstance(runner.get('career_total'), dict) else None,
+                'prize_money_won': runner.get('prize'),  # API: 'prize' (e.g., "28012.50" or "€400")
+                # Rating fields - use parse_rating() to handle en-dash "–" and missing values
+                'ofr': parse_rating(runner.get('ofr')),  # RENAMED: official_rating → ofr
+                'racing_post_rating': parse_rating(runner.get('rpr')),
+                'rpr': parse_rating(runner.get('rpr')),
+                # Note: timeform_rating field doesn't exist in ra_runners schema
+                'ts': parse_rating(runner.get('ts')),  # RENAMED: tsr → ts
                 'silk_url': runner.get('silk_url'),
+                # NEW FIELDS - Additional data from Migration 011
+                'jockey_claim_lbs': parse_int_field(runner.get('jockey_claim_lbs')),  # API: 'jockey_claim_lbs' (numeric)
+                'weight_st_lbs': parse_text_field(runner.get('weight')),  # RENAMED: weight_stones_lbs → weight_st_lbs
+                'comment': parse_text_field(runner.get('comment')),  # FIXED: Use 'comment' not 'race_comment' (dropped column!)
+                'starting_price_decimal': parse_decimal_field(runner.get('sp_dec')),  # API: 'sp_dec' (decimal odds)
+                'overall_beaten_distance': parse_decimal_field(runner.get('ovr_btn')),  # API: 'ovr_btn' (distance in lengths)
+                'finishing_time': parse_text_field(runner.get('time')),  # API: 'time' (e.g., "1:15.23")
+                # MIGRATION 018 REVISED FIELDS - Standardized naming
+                # Horse metadata (existing columns from Migration 003, renamed in Migration 018 REVISED)
+                'horse_dob': runner.get('dob'),  # Horse date of birth (renamed from dob)
+                'horse_colour': runner.get('colour'),  # Bay, Chestnut, etc. (renamed from colour)
+                'breeder': runner.get('breeder'),  # Breeder name (existing from Migration 003)
+                # Pedigree regions (existing from Migration 003)
+                'sire_region': runner.get('sire_region'),
+                'dam_region': runner.get('dam_region'),
+                'damsire_region': runner.get('damsire_region'),
+                # Trainer data (existing from Migration 003, renamed in Migration 018 REVISED)
+                'trainer_location': runner.get('trainer_location'),  # Existing from Migration 003
+                'trainer_14_days': runner.get('trainer_14_days'),  # Renamed from trainer_14_days_data
+                'trainer_rtf': runner.get('trainer_rtf'),  # Existing from Migration 003
+                # Medical/Equipment (existing from Migration 003)
+                'wind_surgery': runner.get('wind_surgery'),
+                'wind_surgery_run': runner.get('wind_surgery_run'),
+                # Expert analysis (existing from Migration 003, renamed in Migration 018 REVISED)
+                'spotlight': runner.get('spotlight'),  # Existing from Migration 003
+                'quotes': runner.get('quotes'),  # Renamed from quotes_data
+                'stable_tour': runner.get('stable_tour'),  # Renamed from stable_tour_data
+                'medical': runner.get('medical'),  # Renamed from medical_data
+                'past_results_flags': runner.get('past_results_flags'),  # Existing from Migration 003
+                # NEW FIELDS from Migration 018 REVISED (truly new, not duplicates)
+                'horse_sex_code': runner.get('sex_code'),  # NEW: M/F/G/C (more precise than horse_sex)
+                'horse_region': runner.get('region'),  # NEW: GB/IRE/FR/USA
+                'headgear_run': runner.get('headgear_run'),  # NEW: "First time", "2nd time", etc.
+                'last_run_date': runner.get('last_run'),  # NEW: Date of last run
+                'prev_trainers': runner.get('prev_trainers'),  # NEW: Previous trainers (JSONB array)
+                'prev_owners': runner.get('prev_owners'),  # NEW: Previous owners (JSONB array)
+                'odds': runner.get('odds'),  # NEW: Live bookmaker odds (JSONB array)
                 'api_data': runner,  # Store full runner API response
                 'created_at': datetime.utcnow().isoformat(),
                 'updated_at': datetime.utcnow().isoformat()

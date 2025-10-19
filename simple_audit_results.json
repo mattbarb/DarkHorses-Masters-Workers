@@ -1,0 +1,192 @@
+{
+  "sample_size": 1000,
+  "timestamp": "/Users/matthewbarber/Documents/GitHub/DarkHorses-Masters-Workers",
+  "statistics": {
+    "Core ID": {
+      "runner_id": {
+        "total": 1000,
+        "non_null": 1000,
+        "null": 0,
+        "population_pct": 100.0
+      },
+      "race_id": {
+        "total": 1000,
+        "non_null": 1000,
+        "null": 0,
+        "population_pct": 100.0
+      },
+      "horse_id": {
+        "total": 1000,
+        "non_null": 1000,
+        "null": 0,
+        "population_pct": 100.0
+      },
+      "jockey_id": {
+        "total": 1000,
+        "non_null": 1000,
+        "null": 0,
+        "population_pct": 100.0
+      },
+      "trainer_id": {
+        "total": 1000,
+        "non_null": 1000,
+        "null": 0,
+        "population_pct": 100.0
+      }
+    },
+    "Race Entry": {
+      "draw": {
+        "total": 1000,
+        "non_null": 805,
+        "null": 195,
+        "population_pct": 80.5
+      },
+      "number": {
+        "total": 1000,
+        "non_null": 1000,
+        "null": 0,
+        "population_pct": 100.0
+      },
+      "form": {
+        "total": 1000,
+        "non_null": 0,
+        "null": 1000,
+        "population_pct": 0.0
+      },
+      "weight": {
+        "total": 1000,
+        "non_null": 0,
+        "null": 1000,
+        "population_pct": 0.0
+      },
+      "headgear": {
+        "total": 1000,
+        "non_null": 360,
+        "null": 640,
+        "population_pct": 36.0
+      }
+    },
+    "Results (Original)": {
+      "position": {
+        "total": 1000,
+        "non_null": 973,
+        "null": 27,
+        "population_pct": 97.3
+      },
+      "distance_beaten": {
+        "total": 1000,
+        "non_null": 1000,
+        "null": 0,
+        "population_pct": 100.0
+      },
+      "prize_won": {
+        "total": 1000,
+        "non_null": 534,
+        "null": 466,
+        "population_pct": 53.4
+      },
+      "starting_price": {
+        "total": 1000,
+        "non_null": 1000,
+        "null": 0,
+        "population_pct": 100.0
+      },
+      "finishing_time": {
+        "total": 1000,
+        "non_null": 0,
+        "null": 1000,
+        "population_pct": 0.0
+      }
+    },
+    "Results (Enhanced - Migration 011)": {
+      "starting_price_decimal": {
+        "total": 1000,
+        "non_null": 0,
+        "null": 1000,
+        "population_pct": 0.0
+      },
+      "race_comment": {
+        "total": 1000,
+        "non_null": 0,
+        "null": 1000,
+        "population_pct": 0.0
+      },
+      "jockey_silk_url": {
+        "total": 1000,
+        "non_null": 0,
+        "null": 1000,
+        "population_pct": 0.0
+      },
+      "overall_beaten_distance": {
+        "total": 1000,
+        "non_null": 0,
+        "null": 1000,
+        "population_pct": 0.0
+      },
+      "jockey_claim_lbs": {
+        "total": 1000,
+        "non_null": 0,
+        "null": 1000,
+        "population_pct": 0.0
+      },
+      "weight_stones_lbs": {
+        "total": 1000,
+        "non_null": 0,
+        "null": 1000,
+        "population_pct": 0.0
+      }
+    },
+    "Pedigree in Runners": {
+      "sire_id": {
+        "total": 1000,
+        "non_null": 1000,
+        "null": 0,
+        "population_pct": 100.0
+      },
+      "sire_name": {
+        "total": 1000,
+        "non_null": 1000,
+        "null": 0,
+        "population_pct": 100.0
+      },
+      "dam_id": {
+        "total": 1000,
+        "non_null": 1000,
+        "null": 0,
+        "population_pct": 100.0
+      },
+      "dam_name": {
+        "total": 1000,
+        "non_null": 1000,
+        "null": 0,
+        "population_pct": 100.0
+      },
+      "damsire_id": {
+        "total": 1000,
+        "non_null": 1000,
+        "null": 0,
+        "population_pct": 100.0
+      },
+      "damsire_name": {
+        "total": 1000,
+        "non_null": 1000,
+        "null": 0,
+        "population_pct": 100.0
+      }
+    },
+    "Duplicate Check": {
+      "silk_url": {
+        "total": 1000,
+        "non_null": 0,
+        "null": 1000,
+        "population_pct": 0.0
+      },
+      "jockey_silk_url": {
+        "total": 1000,
+        "non_null": 0,
+        "null": 1000,
+        "population_pct": 0.0
+      }
+    }
+  }
+}

@@ -27,7 +27,10 @@ class SupabaseReferenceClient:
         self.batch_size = batch_size
 
         try:
-            self.client: Client = create_client(url, service_key)
+            # Create client without proxy option (compatibility fix for supabase-py 2.3.4+)
+            from supabase.lib.client_options import ClientOptions
+            options = ClientOptions()
+            self.client: Client = create_client(url, service_key, options)
             logger.info(f"Connected to Supabase at {url}")
         except Exception as e:
             logger.error(f"Failed to connect to Supabase: {e}")
@@ -67,6 +70,31 @@ class SupabaseReferenceClient:
             logger.warning(f"No records to upsert for {table}")
             return {'inserted': 0, 'updated': 0, 'errors': 0}
 
+        # Filter out dropped columns for ra_runners (Migration 016a cleanup)
+        # These columns were dropped but may still be in fetcher code during transition
+        DROPPED_RUNNER_COLUMNS = {
+            'fetched_at',  # Use created_at instead
+            'racing_api_race_id',  # Use race_id instead
+            'racing_api_horse_id',  # Use horse_id instead
+            'racing_api_jockey_id',  # Use jockey_id instead
+            'racing_api_trainer_id',  # Use trainer_id instead
+            'racing_api_owner_id',  # Use owner_id instead
+            'weight',  # Use weight_lbs instead
+            'jockey_silk_url',  # Use silk_url instead
+            'sire_name',  # Now in ra_sires table
+            'dam_name',  # Now in ra_dams table
+            'damsire_name',  # Now in ra_damsires table
+        }
+
+        # Clean records if table is ra_runners
+        if table == 'ra_runners':
+            cleaned_records = []
+            for record in records:
+                # Remove dropped columns from this record
+                cleaned_record = {k: v for k, v in record.items() if k not in DROPPED_RUNNER_COLUMNS}
+                cleaned_records.append(cleaned_record)
+            records = cleaned_records
+
         batch_stats = {'inserted': 0, 'updated': 0, 'errors': 0}
 
         # Process in batches
@@ -93,27 +121,42 @@ class SupabaseReferenceClient:
     def insert_courses(self, courses: List[Dict]) -> Dict:
         """Insert/update courses"""
         logger.info(f"Inserting {len(courses)} courses")
-        return self.upsert_batch('ra_courses', courses, 'course_id')
+        return self.upsert_batch('ra_courses', courses, 'id')
 
     def insert_horses(self, horses: List[Dict]) -> Dict:
         """Insert/update horses"""
         logger.info(f"Inserting {len(horses)} horses")
-        return self.upsert_batch('ra_horses', horses, 'horse_id')
+        return self.upsert_batch('ra_horses', horses, 'id')
 
     def insert_jockeys(self, jockeys: List[Dict]) -> Dict:
         """Insert/update jockeys"""
         logger.info(f"Inserting {len(jockeys)} jockeys")
-        return self.upsert_batch('ra_jockeys', jockeys, 'jockey_id')
+        return self.upsert_batch('ra_jockeys', jockeys, 'id')
 
     def insert_trainers(self, trainers: List[Dict]) -> Dict:
         """Insert/update trainers"""
         logger.info(f"Inserting {len(trainers)} trainers")
-        return self.upsert_batch('ra_trainers', trainers, 'trainer_id')
+        return self.upsert_batch('ra_trainers', trainers, 'id')
 
     def insert_owners(self, owners: List[Dict]) -> Dict:
         """Insert/update owners"""
         logger.info(f"Inserting {len(owners)} owners")
-        return self.upsert_batch('ra_owners', owners, 'owner_id')
+        return self.upsert_batch('ra_owners', owners, 'id')
+
+    def insert_sires(self, sires: List[Dict]) -> Dict:
+        """Insert/update sires"""
+        logger.info(f"Inserting {len(sires)} sires")
+        return self.upsert_batch('ra_sires', sires, 'id')
+
+    def insert_dams(self, dams: List[Dict]) -> Dict:
+        """Insert/update dams"""
+        logger.info(f"Inserting {len(dams)} dams")
+        return self.upsert_batch('ra_dams', dams, 'id')
+
+    def insert_damsires(self, damsires: List[Dict]) -> Dict:
+        """Insert/update damsires"""
+        logger.info(f"Inserting {len(damsires)} damsires")
+        return self.upsert_batch('ra_damsires', damsires, 'id')
 
     def insert_pedigree(self, pedigrees: List[Dict]) -> Dict:
         """Insert/update horse pedigree data"""
@@ -123,22 +166,38 @@ class SupabaseReferenceClient:
     def insert_races(self, races: List[Dict]) -> Dict:
         """Insert/update races (unified table)"""
         logger.info(f"Inserting {len(races)} races")
-        return self.upsert_batch('ra_races', races, 'race_id')
-
-    def insert_runners(self, runners: List[Dict]) -> Dict:
-        """Insert/update runners (unified table)"""
-        logger.info(f"Inserting {len(runners)} runners")
-        return self.upsert_batch('ra_runners', runners, 'runner_id')
+        return self.upsert_batch('ra_races', races, 'id')
 
     def insert_results(self, results: List[Dict]) -> Dict:
-        """Insert/update results"""
+        """
+        Insert/update race results (ra_results table)
+
+        This stores race-level result data including tote pools, winning time,
+        comments, and non-runners. Runner-level results are stored in ra_runners.
+        """
         logger.info(f"Inserting {len(results)} results")
-        return self.upsert_batch('ra_results', results, 'race_id')
+        return self.upsert_batch('ra_results', results, 'id')
+
+    def insert_race_results(self, results: List[Dict]) -> Dict:
+        """Insert/update race results (ra_race_results table)"""
+        logger.info(f"Inserting {len(results)} race results")
+        return self.upsert_batch('ra_race_results', results, 'id')
+
+    def insert_runners(self, runners: List[Dict]) -> Dict:
+        """
+        Insert/update runners (unified table)
+
+        Note: This includes race results data (position, distance_beaten, prize_won, starting_price)
+        The ra_results table was removed - all results data is stored in ra_runners.
+        See: docs/RESULTS_DATA_ARCHITECTURE.md
+        """
+        logger.info(f"Inserting {len(runners)} runners")
+        return self.upsert_batch('ra_runners', runners, 'id')
 
     def insert_bookmakers(self, bookmakers: List[Dict]) -> Dict:
         """Insert/update bookmakers"""
         logger.info(f"Inserting {len(bookmakers)} bookmakers")
-        return self.upsert_batch('ra_bookmakers', bookmakers, 'bookmaker_id')
+        return self.upsert_batch('ra_bookmakers', bookmakers, 'code')
 
     def get_existing_ids(self, table: str, id_column: str) -> set:
         """

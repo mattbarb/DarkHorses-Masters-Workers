@@ -1,0 +1,660 @@
+{
+  "audit_timestamp": "2025-10-17T21:05:38.419884",
+  "tables": {
+    "ra_jockeys": {
+      "table_name": "ra_jockeys",
+      "schema": [
+        {
+          "column_name": "jockey_id",
+          "data_type": "unknown",
+          "is_nullable": "YES"
+        },
+        {
+          "column_name": "name",
+          "data_type": "unknown",
+          "is_nullable": "YES"
+        },
+        {
+          "column_name": "created_at",
+          "data_type": "unknown",
+          "is_nullable": "YES"
+        },
+        {
+          "column_name": "updated_at",
+          "data_type": "unknown",
+          "is_nullable": "YES"
+        },
+        {
+          "column_name": "total_rides",
+          "data_type": "unknown",
+          "is_nullable": "YES"
+        },
+        {
+          "column_name": "total_wins",
+          "data_type": "unknown",
+          "is_nullable": "YES"
+        },
+        {
+          "column_name": "total_places",
+          "data_type": "unknown",
+          "is_nullable": "YES"
+        },
+        {
+          "column_name": "total_seconds",
+          "data_type": "unknown",
+          "is_nullable": "YES"
+        },
+        {
+          "column_name": "total_thirds",
+          "data_type": "unknown",
+          "is_nullable": "YES"
+        },
+        {
+          "column_name": "win_rate",
+          "data_type": "unknown",
+          "is_nullable": "YES"
+        },
+        {
+          "column_name": "place_rate",
+          "data_type": "unknown",
+          "is_nullable": "YES"
+        },
+        {
+          "column_name": "stats_updated_at",
+          "data_type": "unknown",
+          "is_nullable": "YES"
+        }
+      ],
+      "population_stats": {
+        "total_rows": 3482,
+        "columns": {
+          "jockey_id": {
+            "non_null_count": 3482,
+            "null_count": 0,
+            "population_pct": 100.0
+          },
+          "name": {
+            "non_null_count": 3482,
+            "null_count": 0,
+            "population_pct": 100.0
+          },
+          "created_at": {
+            "non_null_count": 3482,
+            "null_count": 0,
+            "population_pct": 100.0
+          },
+          "updated_at": {
+            "non_null_count": 3482,
+            "null_count": 0,
+            "population_pct": 100.0
+          },
+          "total_rides": {
+            "non_null_count": 3482,
+            "null_count": 0,
+            "population_pct": 100.0
+          },
+          "total_wins": {
+            "non_null_count": 3482,
+            "null_count": 0,
+            "population_pct": 100.0
+          },
+          "total_places": {
+            "non_null_count": 3482,
+            "null_count": 0,
+            "population_pct": 100.0
+          },
+          "total_seconds": {
+            "non_null_count": 3482,
+            "null_count": 0,
+            "population_pct": 100.0
+          },
+          "total_thirds": {
+            "non_null_count": 3482,
+            "null_count": 0,
+            "population_pct": 100.0
+          },
+          "win_rate": {
+            "non_null_count": 3368,
+            "null_count": 114,
+            "population_pct": 96.73
+          },
+          "place_rate": {
+            "non_null_count": 3368,
+            "null_count": 114,
+            "population_pct": 96.73
+          },
+          "stats_updated_at": {
+            "non_null_count": 3482,
+            "null_count": 0,
+            "population_pct": 100.0
+          }
+        }
+      },
+      "empty_strings": {},
+      "statistics_fields": {
+        "has_statistics_fields": true,
+        "expected_fields": [
+          "total_rides",
+          "total_wins",
+          "win_rate",
+          "stats_updated_at"
+        ],
+        "field_status": {
+          "total_rides": "EXISTS_POPULATED (3482 rows)",
+          "total_wins": "EXISTS_POPULATED (3482 rows)",
+          "win_rate": "EXISTS_POPULATED (3368 rows)",
+          "stats_updated_at": "EXISTS_POPULATED (3482 rows)"
+        }
+      }
+    },
+    "ra_trainers": {
+      "table_name": "ra_trainers",
+      "schema": [
+        {
+          "column_name": "trainer_id",
+          "data_type": "unknown",
+          "is_nullable": "YES"
+        },
+        {
+          "column_name": "name",
+          "data_type": "unknown",
+          "is_nullable": "YES"
+        },
+        {
+          "column_name": "created_at",
+          "data_type": "unknown",
+          "is_nullable": "YES"
+        },
+        {
+          "column_name": "updated_at",
+          "data_type": "unknown",
+          "is_nullable": "YES"
+        },
+        {
+          "column_name": "total_runners",
+          "data_type": "unknown",
+          "is_nullable": "YES"
+        },
+        {
+          "column_name": "total_wins",
+          "data_type": "unknown",
+          "is_nullable": "YES"
+        },
+        {
+          "column_name": "total_places",
+          "data_type": "unknown",
+          "is_nullable": "YES"
+        },
+        {
+          "column_name": "total_seconds",
+          "data_type": "unknown",
+          "is_nullable": "YES"
+        },
+        {
+          "column_name": "total_thirds",
+          "data_type": "unknown",
+          "is_nullable": "YES"
+        },
+        {
+          "column_name": "win_rate",
+          "data_type": "unknown",
+          "is_nullable": "YES"
+        },
+        {
+          "column_name": "place_rate",
+          "data_type": "unknown",
+          "is_nullable": "YES"
+        },
+        {
+          "column_name": "recent_14d_runs",
+          "data_type": "unknown",
+          "is_nullable": "YES"
+        },
+        {
+          "column_name": "recent_14d_wins",
+          "data_type": "unknown",
+          "is_nullable": "YES"
+        },
+        {
+          "column_name": "recent_14d_win_rate",
+          "data_type": "unknown",
+          "is_nullable": "YES"
+        },
+        {
+          "column_name": "stats_updated_at",
+          "data_type": "unknown",
+          "is_nullable": "YES"
+        }
+      ],
+      "population_stats": {
+        "total_rows": 2780,
+        "columns": {
+          "trainer_id": {
+            "non_null_count": 2780,
+            "null_count": 0,
+            "population_pct": 100.0
+          },
+          "name": {
+            "non_null_count": 2780,
+            "null_count": 0,
+            "population_pct": 100.0
+          },
+          "created_at": {
+            "non_null_count": 2780,
+            "null_count": 0,
+            "population_pct": 100.0
+          },
+          "updated_at": {
+            "non_null_count": 2780,
+            "null_count": 0,
+            "population_pct": 100.0
+          },
+          "total_runners": {
+            "non_null_count": 2780,
+            "null_count": 0,
+            "population_pct": 100.0
+          },
+          "total_wins": {
+            "non_null_count": 2780,
+            "null_count": 0,
+            "population_pct": 100.0
+          },
+          "total_places": {
+            "non_null_count": 2780,
+            "null_count": 0,
+            "population_pct": 100.0
+          },
+          "total_seconds": {
+            "non_null_count": 2780,
+            "null_count": 0,
+            "population_pct": 100.0
+          },
+          "total_thirds": {
+            "non_null_count": 2780,
+            "null_count": 0,
+            "population_pct": 100.0
+          },
+          "win_rate": {
+            "non_null_count": 2612,
+            "null_count": 168,
+            "population_pct": 93.96
+          },
+          "place_rate": {
+            "non_null_count": 2612,
+            "null_count": 168,
+            "population_pct": 93.96
+          },
+          "recent_14d_runs": {
+            "non_null_count": 2780,
+            "null_count": 0,
+            "population_pct": 100.0
+          },
+          "recent_14d_wins": {
+            "non_null_count": 2780,
+            "null_count": 0,
+            "population_pct": 100.0
+          },
+          "recent_14d_win_rate": {
+            "non_null_count": 742,
+            "null_count": 2038,
+            "population_pct": 26.69
+          },
+          "stats_updated_at": {
+            "non_null_count": 2780,
+            "null_count": 0,
+            "population_pct": 100.0
+          }
+        }
+      },
+      "empty_strings": {},
+      "statistics_fields": {
+        "has_statistics_fields": true,
+        "expected_fields": [
+          "total_runners",
+          "total_wins",
+          "win_rate",
+          "recent_14d_runs",
+          "stats_updated_at"
+        ],
+        "field_status": {
+          "total_runners": "EXISTS_POPULATED (2780 rows)",
+          "total_wins": "EXISTS_POPULATED (2780 rows)",
+          "win_rate": "EXISTS_POPULATED (2612 rows)",
+          "recent_14d_runs": "EXISTS_POPULATED (2780 rows)",
+          "stats_updated_at": "EXISTS_POPULATED (2780 rows)"
+        }
+      }
+    },
+    "ra_owners": {
+      "table_name": "ra_owners",
+      "schema": [
+        {
+          "column_name": "owner_id",
+          "data_type": "unknown",
+          "is_nullable": "YES"
+        },
+        {
+          "column_name": "name",
+          "data_type": "unknown",
+          "is_nullable": "YES"
+        },
+        {
+          "column_name": "created_at",
+          "data_type": "unknown",
+          "is_nullable": "YES"
+        },
+        {
+          "column_name": "updated_at",
+          "data_type": "unknown",
+          "is_nullable": "YES"
+        },
+        {
+          "column_name": "total_horses",
+          "data_type": "unknown",
+          "is_nullable": "YES"
+        },
+        {
+          "column_name": "total_runners",
+          "data_type": "unknown",
+          "is_nullable": "YES"
+        },
+        {
+          "column_name": "total_wins",
+          "data_type": "unknown",
+          "is_nullable": "YES"
+        },
+        {
+          "column_name": "total_places",
+          "data_type": "unknown",
+          "is_nullable": "YES"
+        },
+        {
+          "column_name": "total_seconds",
+          "data_type": "unknown",
+          "is_nullable": "YES"
+        },
+        {
+          "column_name": "total_thirds",
+          "data_type": "unknown",
+          "is_nullable": "YES"
+        },
+        {
+          "column_name": "win_rate",
+          "data_type": "unknown",
+          "is_nullable": "YES"
+        },
+        {
+          "column_name": "place_rate",
+          "data_type": "unknown",
+          "is_nullable": "YES"
+        },
+        {
+          "column_name": "active_last_30d",
+          "data_type": "unknown",
+          "is_nullable": "YES"
+        },
+        {
+          "column_name": "stats_updated_at",
+          "data_type": "unknown",
+          "is_nullable": "YES"
+        }
+      ],
+      "population_stats": {
+        "total_rows": 48143,
+        "columns": {
+          "owner_id": {
+            "non_null_count": 48143,
+            "null_count": 0,
+            "population_pct": 100.0
+          },
+          "name": {
+            "non_null_count": 48143,
+            "null_count": 0,
+            "population_pct": 100.0
+          },
+          "created_at": {
+            "non_null_count": 48143,
+            "null_count": 0,
+            "population_pct": 100.0
+          },
+          "updated_at": {
+            "non_null_count": 48143,
+            "null_count": 0,
+            "population_pct": 100.0
+          },
+          "total_horses": {
+            "non_null_count": 48143,
+            "null_count": 0,
+            "population_pct": 100.0
+          },
+          "total_runners": {
+            "non_null_count": 48143,
+            "null_count": 0,
+            "population_pct": 100.0
+          },
+          "total_wins": {
+            "non_null_count": 48143,
+            "null_count": 0,
+            "population_pct": 100.0
+          },
+          "total_places": {
+            "non_null_count": 48143,
+            "null_count": 0,
+            "population_pct": 100.0
+          },
+          "total_seconds": {
+            "non_null_count": 48143,
+            "null_count": 0,
+            "population_pct": 100.0
+          },
+          "total_thirds": {
+            "non_null_count": 48143,
+            "null_count": 0,
+            "population_pct": 100.0
+          },
+          "win_rate": {
+            "non_null_count": 47147,
+            "null_count": 996,
+            "population_pct": 97.93
+          },
+          "place_rate": {
+            "non_null_count": 47147,
+            "null_count": 996,
+            "population_pct": 97.93
+          },
+          "active_last_30d": {
+            "non_null_count": 47147,
+            "null_count": 996,
+            "population_pct": 97.93
+          },
+          "stats_updated_at": {
+            "non_null_count": 48143,
+            "null_count": 0,
+            "population_pct": 100.0
+          }
+        }
+      },
+      "empty_strings": {},
+      "statistics_fields": {
+        "has_statistics_fields": true,
+        "expected_fields": [
+          "total_horses",
+          "total_runners",
+          "total_wins",
+          "win_rate",
+          "stats_updated_at"
+        ],
+        "field_status": {
+          "total_horses": "EXISTS_POPULATED (48143 rows)",
+          "total_runners": "EXISTS_POPULATED (48143 rows)",
+          "total_wins": "EXISTS_POPULATED (48143 rows)",
+          "win_rate": "EXISTS_POPULATED (47147 rows)",
+          "stats_updated_at": "EXISTS_POPULATED (48143 rows)"
+        }
+      }
+    },
+    "ra_courses": {
+      "table_name": "ra_courses",
+      "schema": [
+        {
+          "column_name": "course_id",
+          "data_type": "unknown",
+          "is_nullable": "YES"
+        },
+        {
+          "column_name": "name",
+          "data_type": "unknown",
+          "is_nullable": "YES"
+        },
+        {
+          "column_name": "region",
+          "data_type": "unknown",
+          "is_nullable": "YES"
+        },
+        {
+          "column_name": "latitude",
+          "data_type": "unknown",
+          "is_nullable": "YES"
+        },
+        {
+          "column_name": "longitude",
+          "data_type": "unknown",
+          "is_nullable": "YES"
+        },
+        {
+          "column_name": "created_at",
+          "data_type": "unknown",
+          "is_nullable": "YES"
+        },
+        {
+          "column_name": "updated_at",
+          "data_type": "unknown",
+          "is_nullable": "YES"
+        },
+        {
+          "column_name": "country",
+          "data_type": "unknown",
+          "is_nullable": "YES"
+        }
+      ],
+      "population_stats": {
+        "total_rows": 101,
+        "columns": {
+          "course_id": {
+            "non_null_count": 101,
+            "null_count": 0,
+            "population_pct": 100.0
+          },
+          "name": {
+            "non_null_count": 101,
+            "null_count": 0,
+            "population_pct": 100.0
+          },
+          "region": {
+            "non_null_count": 101,
+            "null_count": 0,
+            "population_pct": 100.0
+          },
+          "latitude": {
+            "non_null_count": 101,
+            "null_count": 0,
+            "population_pct": 100.0
+          },
+          "longitude": {
+            "non_null_count": 101,
+            "null_count": 0,
+            "population_pct": 100.0
+          },
+          "created_at": {
+            "non_null_count": 101,
+            "null_count": 0,
+            "population_pct": 100.0
+          },
+          "updated_at": {
+            "non_null_count": 101,
+            "null_count": 0,
+            "population_pct": 100.0
+          },
+          "country": {
+            "non_null_count": 101,
+            "null_count": 0,
+            "population_pct": 100.0
+          }
+        }
+      },
+      "empty_strings": {},
+      "statistics_fields": {
+        "has_statistics_fields": false
+      }
+    },
+    "ra_bookmakers": {
+      "table_name": "ra_bookmakers",
+      "schema": [
+        {
+          "column_name": "bookmaker_id",
+          "data_type": "unknown",
+          "is_nullable": "YES"
+        },
+        {
+          "column_name": "bookmaker_name",
+          "data_type": "unknown",
+          "is_nullable": "YES"
+        },
+        {
+          "column_name": "bookmaker_type",
+          "data_type": "unknown",
+          "is_nullable": "YES"
+        },
+        {
+          "column_name": "active",
+          "data_type": "unknown",
+          "is_nullable": "YES"
+        },
+        {
+          "column_name": "created_at",
+          "data_type": "unknown",
+          "is_nullable": "YES"
+        }
+      ],
+      "population_stats": {
+        "total_rows": 19,
+        "columns": {
+          "bookmaker_id": {
+            "non_null_count": 19,
+            "null_count": 0,
+            "population_pct": 100.0
+          },
+          "bookmaker_name": {
+            "non_null_count": 19,
+            "null_count": 0,
+            "population_pct": 100.0
+          },
+          "bookmaker_type": {
+            "non_null_count": 19,
+            "null_count": 0,
+            "population_pct": 100.0
+          },
+          "active": {
+            "non_null_count": 19,
+            "null_count": 0,
+            "population_pct": 100.0
+          },
+          "created_at": {
+            "non_null_count": 19,
+            "null_count": 0,
+            "population_pct": 100.0
+          }
+        }
+      },
+      "empty_strings": {},
+      "statistics_fields": {
+        "has_statistics_fields": false
+      }
+    }
+  },
+  "summary": {
+    "total_tables_audited": 5,
+    "critical_issues": [],
+    "recommendations": []
+  }
+}

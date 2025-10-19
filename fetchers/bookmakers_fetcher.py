@@ -3,10 +3,6 @@ Bookmakers Reference Data Fetcher
 Populates static bookmaker reference data
 """
 
-import sys
-from pathlib import Path
-sys.path.append(str(Path(__file__).parent.parent))
-
 from datetime import datetime
 from typing import Dict, List
 from config.config import get_config
@@ -64,11 +60,12 @@ class BookmakersFetcher:
         bookmakers_transformed = []
         for bookmaker in self.BOOKMAKERS:
             bookmaker_record = {
-                'bookmaker_id': bookmaker['id'],
-                'bookmaker_name': bookmaker['name'],
-                'bookmaker_type': bookmaker['type'],
-                'active': True,
+                'code': bookmaker['id'],  # RENAMED: bookmaker_id → code (unique key)
+                'name': bookmaker['name'],  # RENAMED: bookmaker_name → name
+                'type': bookmaker['type'],  # RENAMED: bookmaker_type → type
+                'is_active': True,  # RENAMED: active → is_active
                 'created_at': datetime.utcnow().isoformat()
+                # Note: 'id' is auto-increment bigint, don't include
             }
             bookmakers_transformed.append(bookmaker_record)
 

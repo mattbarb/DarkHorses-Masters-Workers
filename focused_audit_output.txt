@@ -1,0 +1,254 @@
+/Users/matthewbarber/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+================================================================================
+FOCUSED DATA QUALITY AUDIT
+DarkHorses Racing Database - Critical Fields Analysis
+================================================================================
+
+================================================================================
+TABLE: ra_runners
+================================================================================
+Total Rows: 1,325,718
+
+
+CORE FIELDS:
+------------------------------------------------------------
+✓ runner_id............................... 100.00% populated (0.00% NULL)
+✓ race_id................................. 100.00% populated (0.00% NULL)
+✓ horse_id................................ 100.00% populated (0.00% NULL)
+✓ jockey_id............................... 100.00% populated (0.00% NULL)
+✓ trainer_id.............................. 100.00% populated (0.00% NULL)
+
+RACE_ENTRY FIELDS:
+------------------------------------------------------------
+❌ draw.................................... ERROR: {'message': 'canceling statement due to 
+❌ number.................................. ERROR: {'message': 'canceling statement due to 
+❌ form.................................... ERROR: {'message': 'canceling statement due to 
+❌ weight.................................. ERROR: {'message': 'canceling statement due to 
+
+RESULTS_ORIGINAL FIELDS:
+------------------------------------------------------------
+⚠ position................................  90.12% populated (9.88% NULL)
+❌ distance_beaten......................... ERROR: {'message': 'canceling statement due to 
+❌ prize_won............................... ERROR: {'message': 'canceling statement due to 
+❌ starting_price.......................... ERROR: {'message': 'canceling statement due to 
+❌ finishing_time.......................... ERROR: {'message': 'canceling statement due to 
+
+RESULTS_ENHANCED FIELDS:
+------------------------------------------------------------
+⚠ starting_price_decimal..................   8.92% populated (91.08% NULL)
+❌ race_comment............................ ERROR: {'message': 'canceling statement due to 
+❌ jockey_silk_url......................... ERROR: {'message': 'canceling statement due to 
+⚠ overall_beaten_distance.................   8.42% populated (91.58% NULL)
+❌ jockey_claim_lbs........................ ERROR: {'message': 'canceling statement due to 
+❌ weight_stones_lbs....................... ERROR: {'message': 'canceling statement due to 
+
+PEDIGREE FIELDS:
+------------------------------------------------------------
+❌ sire_id................................. ERROR: {'message': 'canceling statement due to 
+❌ sire_name............................... ERROR: {'message': 'canceling statement due to 
+❌ dam_id.................................. ERROR: {'message': 'canceling statement due to 
+❌ dam_name................................ ERROR: {'message': 'canceling statement due to 
+❌ damsire_id.............................. ERROR: {'message': 'canceling statement due to 
+❌ damsire_name............................ ERROR: {'message': 'canceling statement due to 
+
+DUPLICATES FIELDS:
+------------------------------------------------------------
+❌ silk_url................................ ERROR: {'message': 'canceling statement due to 
+❌ jockey_silk_url......................... ERROR: {'message': 'canceling statement due to 
+
+================================================================================
+TABLE: ra_races
+================================================================================
+Total Rows: 136,875
+
+
+CORE FIELDS:
+------------------------------------------------------------
+✓ race_id................................. 100.00% populated (0.00% NULL)
+✓ course_id............................... 100.00% populated (0.00% NULL)
+✓ race_date............................... 100.00% populated (0.00% NULL)
+✓ off_time................................ 100.00% populated (0.00% NULL)
+
+DETAILS FIELDS:
+------------------------------------------------------------
+✓ race_name............................... 100.00% populated (0.00% NULL)
+✓ distance................................ 100.00% populated (0.00% NULL)
+✓ race_class.............................. 100.00% populated (0.00% NULL)
+✓ race_type............................... 100.00% populated (0.00% NULL)
+✓ surface................................. 100.00% populated (0.00% NULL)
+
+CLASSIFICATION FIELDS:
+------------------------------------------------------------
+⚠ age_band................................  26.99% populated (73.01% NULL)
+✓ going................................... 100.00% populated (0.00% NULL)
+⚠ prize_money.............................   1.23% populated (98.77% NULL)
+
+================================================================================
+TABLE: ra_horses
+================================================================================
+Total Rows: 111,585
+
+
+CORE FIELDS:
+------------------------------------------------------------
+✓ horse_id................................ 100.00% populated (0.00% NULL)
+✓ name.................................... 100.00% populated (0.00% NULL)
+✓ sex..................................... 100.00% populated (0.00% NULL)
+
+ENRICHED FIELDS:
+------------------------------------------------------------
+⚠ dob.....................................  99.77% populated (0.23% NULL)
+⚠ sex_code................................  99.77% populated (0.23% NULL)
+⚠ colour..................................  99.77% populated (0.23% NULL)
+⚠ colour_code.............................  99.77% populated (0.23% NULL)
+⚠ region..................................  31.50% populated (68.50% NULL)
+
+================================================================================
+TABLE: ra_horse_pedigree
+================================================================================
+Total Rows: 111,511
+
+
+CORE FIELDS:
+------------------------------------------------------------
+✓ horse_id................................ 100.00% populated (0.00% NULL)
+
+PEDIGREE FIELDS:
+------------------------------------------------------------
+✓ sire.................................... 100.00% populated (0.00% NULL)
+✓ sire_id................................. 100.00% populated (0.00% NULL)
+✓ dam..................................... 100.00% populated (0.00% NULL)
+✓ dam_id.................................. 100.00% populated (0.00% NULL)
+✓ damsire................................. 100.00% populated (0.00% NULL)
+✓ damsire_id.............................. 100.00% populated (0.00% NULL)
+
+BREEDER FIELDS:
+------------------------------------------------------------
+⚠ breeder.................................  99.95% populated (0.05% NULL)
+⚠ region..................................  31.52% populated (68.48% NULL)
+
+================================================================================
+DUPLICATE COLUMN ANALYSIS
+================================================================================
+
+ra_runners - Potential Duplicate:
+  silk_url: 0% populated
+  jockey_silk_url: 0% populated
+  ❌ Both columns are empty
+
+
+================================================================================
+EXECUTIVE SUMMARY
+================================================================================
+
+
+RA_RUNNERS
+------------------------------------------------------------
+Total Rows: 1,325,718
+
+  CORE:
+    ✓ Fully populated (100%): 5
+    ⚠ Mostly populated (75-99%): 0
+    ⚠ Partially populated (1-74%): 0
+    ❌ Empty (0%): 0
+
+  RACE_ENTRY:
+    ✓ Fully populated (100%): 0
+    ⚠ Mostly populated (75-99%): 0
+    ⚠ Partially populated (1-74%): 0
+    ❌ Empty (0%): 0
+    ❌ Errors: 4
+
+  RESULTS_ORIGINAL:
+    ✓ Fully populated (100%): 0
+    ⚠ Mostly populated (75-99%): 1
+    ⚠ Partially populated (1-74%): 0
+    ❌ Empty (0%): 0
+    ❌ Errors: 4
+
+  RESULTS_ENHANCED:
+    ✓ Fully populated (100%): 0
+    ⚠ Mostly populated (75-99%): 0
+    ⚠ Partially populated (1-74%): 2
+    ❌ Empty (0%): 0
+    ❌ Errors: 4
+
+  PEDIGREE:
+    ✓ Fully populated (100%): 0
+    ⚠ Mostly populated (75-99%): 0
+    ⚠ Partially populated (1-74%): 0
+    ❌ Empty (0%): 0
+    ❌ Errors: 6
+
+  DUPLICATES:
+    ✓ Fully populated (100%): 0
+    ⚠ Mostly populated (75-99%): 0
+    ⚠ Partially populated (1-74%): 0
+    ❌ Empty (0%): 0
+    ❌ Errors: 2
+
+RA_RACES
+------------------------------------------------------------
+Total Rows: 136,875
+
+  CORE:
+    ✓ Fully populated (100%): 4
+    ⚠ Mostly populated (75-99%): 0
+    ⚠ Partially populated (1-74%): 0
+    ❌ Empty (0%): 0
+
+  DETAILS:
+    ✓ Fully populated (100%): 5
+    ⚠ Mostly populated (75-99%): 0
+    ⚠ Partially populated (1-74%): 0
+    ❌ Empty (0%): 0
+
+  CLASSIFICATION:
+    ✓ Fully populated (100%): 1
+    ⚠ Mostly populated (75-99%): 0
+    ⚠ Partially populated (1-74%): 2
+    ❌ Empty (0%): 0
+
+RA_HORSES
+------------------------------------------------------------
+Total Rows: 111,585
+
+  CORE:
+    ✓ Fully populated (100%): 3
+    ⚠ Mostly populated (75-99%): 0
+    ⚠ Partially populated (1-74%): 0
+    ❌ Empty (0%): 0
+
+  ENRICHED:
+    ✓ Fully populated (100%): 0
+    ⚠ Mostly populated (75-99%): 4
+    ⚠ Partially populated (1-74%): 1
+    ❌ Empty (0%): 0
+
+RA_HORSE_PEDIGREE
+------------------------------------------------------------
+Total Rows: 111,511
+
+  CORE:
+    ✓ Fully populated (100%): 1
+    ⚠ Mostly populated (75-99%): 0
+    ⚠ Partially populated (1-74%): 0
+    ❌ Empty (0%): 0
+
+  PEDIGREE:
+    ✓ Fully populated (100%): 6
+    ⚠ Mostly populated (75-99%): 0
+    ⚠ Partially populated (1-74%): 0
+    ❌ Empty (0%): 0
+
+  BREEDER:
+    ✓ Fully populated (100%): 0
+    ⚠ Mostly populated (75-99%): 1
+    ⚠ Partially populated (1-74%): 1
+    ❌ Empty (0%): 0
+
+================================================================================
+Full results saved to: /Users/matthewbarber/Documents/GitHub/DarkHorses-Masters-Workers/focused_audit_results.json
+================================================================================
+

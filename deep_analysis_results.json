@@ -1,0 +1,530 @@
+{
+  "timestamp": "2025-10-17T21:06:13.826120",
+  "sample_data": {
+    "ra_jockeys": [
+      {
+        "jockey_id": "jky_311409",
+        "name": "Brian Mulvey",
+        "created_at": "2025-10-07T18:32:29.86189",
+        "updated_at": "2025-10-07T18:32:29.861891",
+        "total_rides": 1,
+        "total_wins": 0,
+        "total_places": 0,
+        "total_seconds": 0,
+        "total_thirds": 0,
+        "win_rate": 0.0,
+        "place_rate": 0.0,
+        "stats_updated_at": "2025-10-17T19:32:56.123947"
+      },
+      {
+        "jockey_id": "jky_310596",
+        "name": "Rebecca Parsons",
+        "created_at": "2025-10-17T19:25:08.392194",
+        "updated_at": "2025-10-17T19:25:08.392195",
+        "total_rides": 15,
+        "total_wins": 0,
+        "total_places": 4,
+        "total_seconds": 2,
+        "total_thirds": 2,
+        "win_rate": 0.0,
+        "place_rate": 26.67,
+        "stats_updated_at": "2025-10-17T19:32:56.123947"
+      },
+      {
+        "jockey_id": "jky_304419",
+        "name": "Jack Martin(7)",
+        "created_at": "2025-10-07T18:04:30.033637",
+        "updated_at": "2025-10-07T18:04:30.033638",
+        "total_rides": 57,
+        "total_wins": 7,
+        "total_places": 18,
+        "total_seconds": 6,
+        "total_thirds": 5,
+        "win_rate": 12.28,
+        "place_rate": 31.58,
+        "stats_updated_at": "2025-10-17T19:32:56.123947"
+      },
+      {
+        "jockey_id": "jky_268488",
+        "name": "Mr Robert Hawker",
+        "created_at": "2025-10-17T11:55:20.89112",
+        "updated_at": "2025-10-17T11:55:20.891121",
+        "total_rides": 207,
+        "total_wins": 16,
+        "total_places": 60,
+        "total_seconds": 17,
+        "total_thirds": 27,
+        "win_rate": 7.73,
+        "place_rate": 28.99,
+        "stats_updated_at": "2025-10-17T19:32:56.123947"
+      },
+      {
+        "jockey_id": "jky_305346",
+        "name": "Mr Andrew Burke-Ott",
+        "created_at": "2025-10-17T19:25:08.358879",
+        "updated_at": "2025-10-17T19:25:08.35888",
+        "total_rides": 66,
+        "total_wins": 6,
+        "total_places": 16,
+        "total_seconds": 5,
+        "total_thirds": 5,
+        "win_rate": 9.09,
+        "place_rate": 24.24,
+        "stats_updated_at": "2025-10-17T19:32:56.123947"
+      }
+    ],
+    "ra_trainers": [
+      {
+        "trainer_id": "trn_275976",
+        "name": "R C Pudd",
+        "created_at": "2025-10-17T19:25:08.389277",
+        "updated_at": "2025-10-17T19:25:08.389277",
+        "total_runners": 6,
+        "total_wins": 2,
+        "total_places": 5,
+        "total_seconds": 0,
+        "total_thirds": 3,
+        "win_rate": 33.33,
+        "place_rate": 83.33,
+        "recent_14d_runs": 0,
+        "recent_14d_wins": 0,
+        "recent_14d_win_rate": null,
+        "stats_updated_at": "2025-10-17T19:32:56.123947"
+      },
+      {
+        "trainer_id": "trn_86490",
+        "name": "Matt Sheppard",
+        "created_at": "2025-10-17T19:25:08.337865",
+        "updated_at": "2025-10-17T19:25:08.337866",
+        "total_runners": 875,
+        "total_wins": 117,
+        "total_places": 350,
+        "total_seconds": 107,
+        "total_thirds": 126,
+        "win_rate": 13.37,
+        "place_rate": 40.0,
+        "recent_14d_runs": 4,
+        "recent_14d_wins": 0,
+        "recent_14d_win_rate": 0.0,
+        "stats_updated_at": "2025-10-17T19:32:56.123947"
+      },
+      {
+        "trainer_id": "trn_238284",
+        "name": "Hywel Evans",
+        "created_at": "2025-10-07T17:50:59.423389",
+        "updated_at": "2025-10-07T17:50:59.42339",
+        "total_runners": 4,
+        "total_wins": 0,
+        "total_places": 1,
+        "total_seconds": 0,
+        "total_thirds": 1,
+        "win_rate": 0.0,
+        "place_rate": 25.0,
+        "recent_14d_runs": 0,
+        "recent_14d_wins": 0,
+        "recent_14d_win_rate": null,
+        "stats_updated_at": "2025-10-17T19:32:56.123947"
+      },
+      {
+        "trainer_id": "trn_64215",
+        "name": "Giuseppe Fierro",
+        "created_at": "2025-10-17T19:25:08.380033",
+        "updated_at": "2025-10-17T19:25:08.380033",
+        "total_runners": 29,
+        "total_wins": 2,
+        "total_places": 3,
+        "total_seconds": 1,
+        "total_thirds": 0,
+        "win_rate": 6.9,
+        "place_rate": 10.34,
+        "recent_14d_runs": 0,
+        "recent_14d_wins": 0,
+        "recent_14d_win_rate": null,
+        "stats_updated_at": "2025-10-17T19:32:56.123947"
+      },
+      {
+        "trainer_id": "trn_1098",
+        "name": "John Ryall",
+        "created_at": "2025-10-17T10:59:00.691452",
+        "updated_at": "2025-10-17T10:59:00.691454",
+        "total_runners": 15,
+        "total_wins": 1,
+        "total_places": 4,
+        "total_seconds": 2,
+        "total_thirds": 1,
+        "win_rate": 6.67,
+        "place_rate": 26.67,
+        "recent_14d_runs": 0,
+        "recent_14d_wins": 0,
+        "recent_14d_win_rate": null,
+        "stats_updated_at": "2025-10-17T19:32:56.123947"
+      }
+    ],
+    "ra_owners": [
+      {
+        "owner_id": "own_1006200",
+        "name": "H Moorhead C Fahy J Collins",
+        "created_at": "2025-10-07T17:02:18.67717",
+        "updated_at": "2025-10-07T17:02:18.677171",
+        "total_horses": 6,
+        "total_runners": 29,
+        "total_wins": 2,
+        "total_places": 9,
+        "total_seconds": 5,
+        "total_thirds": 2,
+        "win_rate": 6.9,
+        "place_rate": 31.03,
+        "active_last_30d": false,
+        "stats_updated_at": "2025-10-17T19:32:56.123947"
+      },
+      {
+        "owner_id": "own_1007080",
+        "name": "S Padmanabhan Aaron Bhadra",
+        "created_at": "2025-10-07T16:20:59.059734",
+        "updated_at": "2025-10-07T16:20:59.059734",
+        "total_horses": 1,
+        "total_runners": 7,
+        "total_wins": 0,
+        "total_places": 1,
+        "total_seconds": 0,
+        "total_thirds": 1,
+        "win_rate": 0.0,
+        "place_rate": 14.29,
+        "active_last_30d": false,
+        "stats_updated_at": "2025-10-17T19:32:56.123947"
+      },
+      {
+        "owner_id": "own_1056332",
+        "name": "Thomas Whitehead",
+        "created_at": "2025-10-17T19:25:08.416402",
+        "updated_at": "2025-10-17T19:25:08.416402",
+        "total_horses": 2,
+        "total_runners": 3,
+        "total_wins": 0,
+        "total_places": 1,
+        "total_seconds": 0,
+        "total_thirds": 1,
+        "win_rate": 0.0,
+        "place_rate": 33.33,
+        "active_last_30d": false,
+        "stats_updated_at": "2025-10-17T19:32:56.123947"
+      },
+      {
+        "owner_id": "own_1056336",
+        "name": "Havent A Pot D Macauliffe Anoj Don",
+        "created_at": "2025-10-17T19:25:08.345455",
+        "updated_at": "2025-10-17T19:25:08.345456",
+        "total_horses": 4,
+        "total_runners": 28,
+        "total_wins": 8,
+        "total_places": 13,
+        "total_seconds": 2,
+        "total_thirds": 3,
+        "win_rate": 28.57,
+        "place_rate": 46.43,
+        "active_last_30d": false,
+        "stats_updated_at": "2025-10-17T19:32:56.123947"
+      },
+      {
+        "owner_id": "own_1056340",
+        "name": "Ontoawinnerj Paktrojan Horse Partner",
+        "created_at": "2025-10-07T16:28:45.26748",
+        "updated_at": "2025-10-07T16:28:45.267481",
+        "total_horses": 1,
+        "total_runners": 4,
+        "total_wins": 2,
+        "total_places": 2,
+        "total_seconds": 0,
+        "total_thirds": 0,
+        "win_rate": 50.0,
+        "place_rate": 50.0,
+        "active_last_30d": false,
+        "stats_updated_at": "2025-10-17T19:32:56.123947"
+      }
+    ],
+    "ra_courses": [
+      {
+        "course_id": "crs_104",
+        "name": "Bangor-on-Dee",
+        "region": "gb",
+        "latitude": 52.995933,
+        "longitude": -2.927495,
+        "created_at": "2025-10-06T22:50:49.760922",
+        "updated_at": "2025-10-06T22:50:49.760923",
+        "country": "Great Britain"
+      },
+      {
+        "course_id": "crs_35178",
+        "name": "Newcastle-AW",
+        "region": "gb",
+        "latitude": 55.030499,
+        "longitude": -1.610799,
+        "created_at": "2025-10-06T22:50:49.760956",
+        "updated_at": "2025-10-06T22:50:49.760957",
+        "country": "Great Britain"
+      },
+      {
+        "course_id": "crs_78",
+        "name": "Ayr",
+        "region": "gb",
+        "latitude": 55.464899,
+        "longitude": -4.607528,
+        "created_at": "2025-10-06T22:50:49.760921",
+        "updated_at": "2025-10-06T22:50:49.760922",
+        "country": "Great Britain"
+      },
+      {
+        "course_id": "crs_130",
+        "name": "Bath",
+        "region": "gb",
+        "latitude": 51.416906,
+        "longitude": -2.40344,
+        "created_at": "2025-10-06T22:50:49.760923",
+        "updated_at": "2025-10-06T22:50:49.760924",
+        "country": "Great Britain"
+      },
+      {
+        "course_id": "crs_156",
+        "name": "Beverley",
+        "region": "gb",
+        "latitude": 53.845337,
+        "longitude": -0.452421,
+        "created_at": "2025-10-06T22:50:49.760924",
+        "updated_at": "2025-10-06T22:50:49.760925",
+        "country": "Great Britain"
+      }
+    ],
+    "ra_bookmakers": [
+      {
+        "bookmaker_id": "bet365",
+        "bookmaker_name": "Bet365",
+        "bookmaker_type": "online",
+        "active": true,
+        "created_at": "2025-10-06T22:50:50.018922+00:00"
+      },
+      {
+        "bookmaker_id": "william_hill",
+        "bookmaker_name": "William Hill",
+        "bookmaker_type": "online",
+        "active": true,
+        "created_at": "2025-10-06T22:50:50.018924+00:00"
+      },
+      {
+        "bookmaker_id": "ladbrokes",
+        "bookmaker_name": "Ladbrokes",
+        "bookmaker_type": "online",
+        "active": true,
+        "created_at": "2025-10-06T22:50:50.018925+00:00"
+      },
+      {
+        "bookmaker_id": "coral",
+        "bookmaker_name": "Coral",
+        "bookmaker_type": "online",
+        "active": true,
+        "created_at": "2025-10-06T22:50:50.018926+00:00"
+      },
+      {
+        "bookmaker_id": "paddy_power",
+        "bookmaker_name": "Paddy Power",
+        "bookmaker_type": "online",
+        "active": true,
+        "created_at": "2025-10-06T22:50:50.018926+00:00"
+      }
+    ]
+  },
+  "duplicate_analysis": {
+    "ra_jockeys": {
+      "total_records": 1000,
+      "unique_names": 999,
+      "duplicate_names": {
+        "Lt Billy Aprahamian(7)": 2
+      },
+      "duplicate_count": 1
+    },
+    "ra_trainers": {
+      "total_records": 1000,
+      "unique_names": 998,
+      "duplicate_names": {
+        "Belinda Clarke": 2,
+        "Miss Valerie Renwick": 2
+      },
+      "duplicate_count": 2
+    },
+    "ra_owners": {
+      "total_records": 1000,
+      "unique_names": 1000,
+      "duplicate_names": {},
+      "duplicate_count": 0
+    },
+    "ra_courses": {
+      "total_records": 101,
+      "unique_names": 101,
+      "duplicate_names": {},
+      "duplicate_count": 0
+    },
+    "ra_bookmakers": {
+      "total_records": 19,
+      "unique_names": 19,
+      "duplicate_names": {},
+      "duplicate_count": 0
+    }
+  },
+  "null_pattern_analysis": {
+    "ra_jockeys": {
+      "null_win_rate_sample": [
+        {
+          "jockey_id": "jky_269133",
+          "name": "Reserve 1",
+          "created_at": "2025-10-07T11:44:00.21964",
+          "updated_at": "2025-10-07T11:44:00.219641",
+          "total_rides": 0,
+          "total_wins": 0,
+          "total_places": 0,
+          "total_seconds": 0,
+          "total_thirds": 0,
+          "win_rate": null,
+          "place_rate": null,
+          "stats_updated_at": "2025-10-17T19:32:56.123947"
+        },
+        {
+          "jockey_id": "jky_313791",
+          "name": "Miss A Ruane(7)",
+          "created_at": "2025-10-07T11:51:55.994787",
+          "updated_at": "2025-10-07T11:51:55.994787",
+          "total_rides": 0,
+          "total_wins": 0,
+          "total_places": 0,
+          "total_seconds": 0,
+          "total_thirds": 0,
+          "win_rate": null,
+          "place_rate": null,
+          "stats_updated_at": "2025-10-17T19:32:56.123947"
+        },
+        {
+          "jockey_id": "jky_255084",
+          "name": "Mr C Coste",
+          "created_at": "2025-10-17T10:34:05.113828",
+          "updated_at": "2025-10-17T10:34:05.11383",
+          "total_rides": 0,
+          "total_wins": 0,
+          "total_places": 0,
+          "total_seconds": 0,
+          "total_thirds": 0,
+          "win_rate": null,
+          "place_rate": null,
+          "stats_updated_at": "2025-10-17T19:32:56.123947"
+        }
+      ],
+      "null_win_rate_count": 10
+    },
+    "ra_trainers": {
+      "null_win_rate_sample": [
+        {
+          "trainer_id": "trn_180954",
+          "name": "S Ross",
+          "created_at": "2025-10-17T09:15:34.910023",
+          "updated_at": "2025-10-17T09:15:34.910024",
+          "total_runners": 0,
+          "total_wins": 0,
+          "total_places": 0,
+          "total_seconds": 0,
+          "total_thirds": 0,
+          "win_rate": null,
+          "place_rate": null,
+          "recent_14d_runs": 0,
+          "recent_14d_wins": 0,
+          "recent_14d_win_rate": null,
+          "stats_updated_at": "2025-10-17T19:32:56.123947"
+        },
+        {
+          "trainer_id": "trn_313227",
+          "name": "O Brissenden",
+          "created_at": "2025-10-07T16:26:16.079929",
+          "updated_at": "2025-10-07T16:26:16.079929",
+          "total_runners": 0,
+          "total_wins": 0,
+          "total_places": 0,
+          "total_seconds": 0,
+          "total_thirds": 0,
+          "win_rate": null,
+          "place_rate": null,
+          "recent_14d_runs": 0,
+          "recent_14d_wins": 0,
+          "recent_14d_win_rate": null,
+          "stats_updated_at": "2025-10-17T19:32:56.123947"
+        },
+        {
+          "trainer_id": "trn_107649",
+          "name": "R Chotard",
+          "created_at": "2025-10-17T11:25:06.421239",
+          "updated_at": "2025-10-17T11:25:06.42124",
+          "total_runners": 0,
+          "total_wins": 0,
+          "total_places": 0,
+          "total_seconds": 0,
+          "total_thirds": 0,
+          "win_rate": null,
+          "place_rate": null,
+          "recent_14d_runs": 0,
+          "recent_14d_wins": 0,
+          "recent_14d_win_rate": null,
+          "stats_updated_at": "2025-10-17T19:32:56.123947"
+        }
+      ],
+      "null_win_rate_count": 10
+    },
+    "ra_owners": {
+      "null_win_rate_sample": [
+        {
+          "owner_id": "own_1057316",
+          "name": "Duncan Horton",
+          "created_at": "2025-10-07T16:28:45.277804",
+          "updated_at": "2025-10-07T16:28:45.277805",
+          "total_horses": 0,
+          "total_runners": 0,
+          "total_wins": 0,
+          "total_places": 0,
+          "total_seconds": 0,
+          "total_thirds": 0,
+          "win_rate": null,
+          "place_rate": null,
+          "active_last_30d": null,
+          "stats_updated_at": "2025-10-17T19:32:56.123947"
+        },
+        {
+          "owner_id": "own_147532",
+          "name": "Michael Berry",
+          "created_at": "2025-10-17T08:08:36.29375",
+          "updated_at": "2025-10-17T08:08:36.293757",
+          "total_horses": 0,
+          "total_runners": 0,
+          "total_wins": 0,
+          "total_places": 0,
+          "total_seconds": 0,
+          "total_thirds": 0,
+          "win_rate": null,
+          "place_rate": null,
+          "active_last_30d": null,
+          "stats_updated_at": "2025-10-17T19:32:56.123947"
+        },
+        {
+          "owner_id": "own_1059752",
+          "name": "Orleefa Partnership",
+          "created_at": "2025-10-07T16:28:45.289302",
+          "updated_at": "2025-10-07T16:28:45.289303",
+          "total_horses": 0,
+          "total_runners": 0,
+          "total_wins": 0,
+          "total_places": 0,
+          "total_seconds": 0,
+          "total_thirds": 0,
+          "win_rate": null,
+          "place_rate": null,
+          "active_last_30d": null,
+          "stats_updated_at": "2025-10-17T19:32:56.123947"
+        }
+      ],
+      "null_win_rate_count": 10
+    }
+  }
+}

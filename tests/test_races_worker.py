@@ -48,7 +48,7 @@ class RacesWorkerTest:
         print("\n" + "=" * 80)
         print(f"{Fore.CYAN}🏁 RACES WORKER TEST{Style.RESET_ALL}")
         print("=" * 80)
-        print(f"Testing: ra_races and ra_results tables")
+        print(f"Testing: ra_races and ra_runners tables")
         print(f"Timestamp: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
         print("=" * 80 + "\n")
 
@@ -141,11 +141,11 @@ class RacesWorkerTest:
             return False
 
     def test_results_table_exists(self):
-        """Test 4: Verify ra_results table exists with data"""
-        print(f"\n{Fore.YELLOW}[TEST 4]{Style.RESET_ALL} Checking if ra_results table exists...")
+        """Test 4: Verify ra_runners table exists with data"""
+        print(f"\n{Fore.YELLOW}[TEST 4]{Style.RESET_ALL} Checking if ra_runners table exists...")
 
         try:
-            response = self.client.table('ra_results').select('*', count='exact').limit(1).execute()
+            response = self.client.table('ra_runners').select('*', count='exact').limit(1).execute()
 
             if response.count > 0:
                 print(f"{Fore.GREEN}✅ PASS{Style.RESET_ALL} - Table exists with {response.count:,} total records")
@@ -162,26 +162,28 @@ class RacesWorkerTest:
             return False
 
     def test_results_coverage(self):
-        """Test 5: Check results data coverage"""
+        """Test 5: Check results data coverage (position data in ra_runners)"""
         print(f"\n{Fore.YELLOW}[TEST 5]{Style.RESET_ALL} Checking results coverage...")
 
         try:
-            # Get earliest and latest results
-            response_earliest = self.client.table('ra_results')\
-                .select('date_of_race')\
-                .order('date_of_race', desc=False)\
+            # Get earliest and latest results (from ra_runners with position data)
+            response_earliest = self.client.table('ra_runners')\
+                .select('race_date')\
+                .not_.is_('position', 'null')\
+                .order('race_date', desc=False)\
                 .limit(1)\
                 .execute()
 
-            response_latest = self.client.table('ra_results')\
-                .select('date_of_race')\
-                .order('date_of_race', desc=True)\
+            response_latest = self.client.table('ra_runners')\
+                .select('race_date')\
+                .not_.is_('position', 'null')\
+                .order('race_date', desc=True)\
                 .limit(1)\
                 .execute()
 
             if response_earliest.data and response_latest.data:
-                earliest_raw = response_earliest.data[0]['date_of_race']
-                latest_raw = response_latest.data[0]['date_of_race']
+                earliest_raw = response_earliest.data[0]['race_date']
+                latest_raw = response_latest.data[0]['race_date']
 
                 # Handle datetime format
                 earliest = earliest_raw.split('T')[0] if 'T' in str(earliest_raw) else str(earliest_raw)

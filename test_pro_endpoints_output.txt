@@ -1,0 +1,51 @@
+/Users/matthewbarber/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+Resource not found: https://api.theracingapi.com/v1/dams/dam_4206832/progeny/results
+Resource not found: https://api.theracingapi.com/v1/damsires/dsi_3722383/grandoffspring/results
+====================================================================================================
+TESTING PRO LINEAGE ENDPOINTS
+====================================================================================================
+
+STEP 1: Finding a popular dam for testing
+----------------------------------------------------------------------------------------------------
+Top dams by offspring count in our database:
+  Whazzat (GB)                             (dam_4206832) - 11 offspring
+  Intrigued (GB)                           (dam_4225109) - 11 offspring
+  Pious (GB)                               (dam_3870412) - 11 offspring
+  Alvarita (GB)                            (dam_4192965) - 11 offspring
+  Mamma Morton (IRE)                       (dam_4667852) - 11 offspring
+
+Testing with: Whazzat (GB) (dam_4206832)
+
+Top damsires by grandoffspring count in our database:
+  Galileo                                  (dsi_3722383) - 2109 grandoffspring
+  Presenting                               (dsi_676165) - 1594 grandoffspring
+  Pivotal                                  (dsi_753900) - 1459 grandoffspring
+  Oasis Dream                              (dsi_3960579) - 1315 grandoffspring
+  Sadler's Wells                           (dsi_3247825) - 1237 grandoffspring
+
+Testing with: Galileo (dsi_3722383)
+
+====================================================================================================
+TEST 2: /v1/dams/{dam_id}/progeny/results
+====================================================================================================
+
+Endpoint: /dams/dam_4206832/progeny/results
+Dam: Whazzat (GB) (dam_4206832)
+
+⚠️  Unexpected response format
+Response: None
+
+====================================================================================================
+TEST 3: /v1/damsires/{damsire_id}/grandoffspring/results
+====================================================================================================
+
+Endpoint: /damsires/dsi_3722383/grandoffspring/results
+Damsire: Galileo (dsi_3722383)
+
+⚠️  Unexpected response format
+Response: None
+
+====================================================================================================
+TESTING COMPLETE
+====================================================================================================

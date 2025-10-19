@@ -3,10 +3,6 @@ Courses Reference Data Fetcher
 Fetches course/track information from Racing API
 """
 
-import sys
-from pathlib import Path
-sys.path.append(str(Path(__file__).parent.parent))
-
 from datetime import datetime
 from typing import Dict, List
 from config.config import get_config
@@ -62,7 +58,7 @@ class CoursesFetcher:
         courses_transformed = []
         for course in courses_raw:
             course_record = {
-                'course_id': course.get('id'),
+                'id': course.get('id'),  # RENAMED: course_id → id
                 'name': course.get('course'),  # API returns 'course' not 'name'
                 'region': course.get('region_code'),  # Use region_code
                 'country': course.get('region'),  # Full region name

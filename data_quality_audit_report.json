@@ -1,0 +1,37 @@
+{
+  "ra_runners": {
+    "table_name": "ra_runners",
+    "row_count": 1325718,
+    "columns": [],
+    "population_stats": {},
+    "status": "schema_error"
+  },
+  "ra_races": {
+    "table_name": "ra_races",
+    "row_count": 136875,
+    "columns": [],
+    "population_stats": {},
+    "status": "schema_error"
+  },
+  "ra_results": {
+    "table_name": "ra_results",
+    "row_count": 0,
+    "columns": [],
+    "population_stats": {},
+    "status": "empty"
+  },
+  "ra_horses": {
+    "table_name": "ra_horses",
+    "row_count": 111585,
+    "columns": [],
+    "population_stats": {},
+    "status": "schema_error"
+  },
+  "ra_horse_pedigree": {
+    "table_name": "ra_horse_pedigree",
+    "row_count": 111511,
+    "columns": [],
+    "population_stats": {},
+    "status": "schema_error"
+  }
+}

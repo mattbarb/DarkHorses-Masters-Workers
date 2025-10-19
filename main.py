@@ -9,13 +9,9 @@ Use command-line arguments to control which entities to fetch.
 
 import sys
 import argparse
-from pathlib import Path
+import json
 from datetime import datetime
 from typing import Dict, List, Optional
-import json
-
-# Add current directory to path
-sys.path.append(str(Path(__file__).parent))
 
 from config.config import get_config
 from utils.logger import get_logger

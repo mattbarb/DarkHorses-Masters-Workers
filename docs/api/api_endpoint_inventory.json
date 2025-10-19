@@ -1,0 +1,93 @@
+{
+  "summary": {
+    "total_entity_types": 6,
+    "entities_with_pro_endpoints": 1,
+    "entities_with_analysis_endpoints": 4,
+    "total_endpoints_tested": 21,
+    "successful_tests": 21,
+    "failed_tests": 0
+  },
+  "individual_detail_endpoints": {
+    "horses": {
+      "pro": "/v1/horses/{id}/pro",
+      "standard": "/v1/horses/{id}/standard",
+      "exists": true,
+      "tested": true,
+      "success": true,
+      "new_fields": 6,
+      "recommendation": "IMPLEMENT - already done"
+    },
+    "jockeys": {
+      "pro": "N/A",
+      "standard": "N/A",
+      "exists": false,
+      "recommendation": "No individual endpoint exists"
+    },
+    "trainers": {
+      "pro": "N/A",
+      "standard": "N/A",
+      "exists": false,
+      "recommendation": "No individual endpoint exists"
+    },
+    "owners": {
+      "pro": "N/A",
+      "standard": "N/A",
+      "exists": false,
+      "recommendation": "No individual endpoint exists"
+    },
+    "courses": {
+      "pro": "N/A",
+      "standard": "N/A",
+      "exists": false,
+      "recommendation": "Basic reference data only"
+    },
+    "races": {
+      "pro": "/v1/racecards/{id}/pro",
+      "exists": true,
+      "tested": true,
+      "success": true,
+      "recommendation": "NOT RECOMMENDED - redundant with bulk racecard fetch"
+    }
+  },
+  "results_endpoints": {
+    "description": "Historical race results for entity",
+    "endpoints": {
+      "horses": "/v1/horses/{id}/results",
+      "jockeys": "/v1/jockeys/{id}/results",
+      "trainers": "/v1/trainers/{id}/results",
+      "owners": "/v1/owners/{id}/results"
+    },
+    "all_tested": true,
+    "all_successful": true,
+    "recommendation": "Query on-demand only - data already in ra_runners"
+  },
+  "analysis_endpoints": {
+    "description": "Calculated performance statistics",
+    "jockeys": [
+      "/v1/jockeys/{id}/analysis/courses",
+      "/v1/jockeys/{id}/analysis/distances",
+      "/v1/jockeys/{id}/analysis/trainers",
+      "/v1/jockeys/{id}/analysis/owners"
+    ],
+    "trainers": [
+      "/v1/trainers/{id}/analysis/courses",
+      "/v1/trainers/{id}/analysis/distances",
+      "/v1/trainers/{id}/analysis/jockeys",
+      "/v1/trainers/{id}/analysis/owners",
+      "/v1/trainers/{id}/analysis/horse-age"
+    ],
+    "owners": [
+      "/v1/owners/{id}/analysis/courses",
+      "/v1/owners/{id}/analysis/distances",
+      "/v1/owners/{id}/analysis/jockeys",
+      "/v1/owners/{id}/analysis/trainers"
+    ],
+    "horses": [
+      "/v1/horses/{id}/analysis/distance-times"
+    ],
+    "all_tested": true,
+    "all_successful": true,
+    "total_endpoints": 14,
+    "recommendation": "Calculate locally from ra_runners - don't store API data"
+  }
+}

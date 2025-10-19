@@ -3,10 +3,6 @@ Trainers Reference Data Fetcher
 Fetches trainer profiles from Racing API
 """
 
-import sys
-from pathlib import Path
-sys.path.append(str(Path(__file__).parent.parent))
-
 from datetime import datetime
 from typing import Dict
 from config.config import get_config
@@ -97,7 +93,7 @@ class TrainersFetcher:
         trainers_transformed = []
         for trainer in all_trainers:
             trainer_record = {
-                'trainer_id': trainer.get('id'),
+                'id': trainer.get('id'),  # RENAMED: trainer_id → id
                 'name': trainer.get('name'),
                 'location': trainer.get('location'),
                 'created_at': datetime.utcnow().isoformat(),

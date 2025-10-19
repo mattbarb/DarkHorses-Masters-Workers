@@ -1,0 +1,357 @@
+# DarkHorses Masters Workers - Scheduler Configuration
+# This file configures all automated update schedules and behaviors
+
+# =============================================================================
+# UPDATE INTERVALS
+# =============================================================================
+intervals:
+  # Live data updates during racing hours (high-frequency)
+  live_data:
+    enabled: true
+    frequency: "*/15 9-20 * * *"  # Every 15 min, 9 AM - 8:59 PM UTC
+    script: "scripts/update_live_data.py"
+    description: "Live race and result updates during racing hours"
+    timeout: 300  # 5 minutes max execution
+    priority: high
+
+  # Daily racecards and results (once per day)
+  daily_data:
+    enabled: true
+    frequency: "0 6 * * *"  # Daily at 6:00 AM UTC
+    script: "scripts/update_daily_data.py"
+    description: "Tomorrow's racecards and yesterday's results"
+    timeout: 900  # 15 minutes max execution
+    priority: critical
+
+  # Weekly reconciliation (catch missed data)
+  weekly_reconciliation:
+    enabled: true
+    frequency: "0 23 * * 0"  # Sunday at 11:00 PM UTC
+    script: "scripts/update_daily_data.py"
+    args: "--weekly"
+    description: "Weekly reconciliation of past 7 days"
+    timeout: 1800  # 30 minutes max execution
+    priority: medium
+
+  # Monthly reference data updates
+  monthly_reference:
+    enabled: true
+    frequency: "0 3 1 * *"  # 1st of month at 3:00 AM UTC
+    script: "scripts/update_reference_data.py"
+    description: "Monthly courses and bookmakers refresh"
+    timeout: 300  # 5 minutes max execution
+    priority: low
+
+# =============================================================================
+# RETRY POLICIES
+# =============================================================================
+retry:
+  # Maximum number of retry attempts
+  max_attempts: 5
+
+  # Initial retry delay (seconds)
+  initial_delay: 5
+
+  # Maximum retry delay (seconds)
+  max_delay: 300
+
+  # Exponential backoff multiplier
+  backoff_factor: 2
+
+  # Jitter (add randomness to avoid thundering herd)
+  jitter: true
+
+  # Retry on these HTTP status codes
+  retry_status_codes:
+    - 408  # Request Timeout
+    - 429  # Too Many Requests
+    - 500  # Internal Server Error
+    - 502  # Bad Gateway
+    - 503  # Service Unavailable
+    - 504  # Gateway Timeout
+
+# =============================================================================
+# API CONFIGURATION
+# =============================================================================
+api:
+  # Rate limit (requests per second)
+  rate_limit: 2.0
+
+  # Allow small bursts above rate limit
+  burst_allowance: 5
+
+  # Timeout for API requests (seconds)
+  timeout: 30
+
+  # Maximum retries per API call
+  max_retries: 5
+
+  # User agent
+  user_agent: "DarkHorses-Masters-Worker/1.0"
+
+# =============================================================================
+# DATABASE CONFIGURATION
+# =============================================================================
+database:
+  # Batch size for bulk inserts/updates
+  batch_size: 100
+
+  # Connection timeout (seconds)
+  connection_timeout: 10
+
+  # Query timeout (seconds)
+  query_timeout: 300
+
+  # Connection pool size (if using pooling)
+  pool_size: 5
+
+  # Max overflow connections
+  max_overflow: 10
+
+# =============================================================================
+# ALERTING
+# =============================================================================
+alerts:
+  # Enable/disable alerting
+  enabled: true
+
+  # Alert channels
+  channels:
+    # Always log alerts
+    - type: "log"
+      level: "ERROR"
+
+    # Email alerts (optional - configure SMTP)
+    # - type: "email"
+    #   smtp_host: "smtp.gmail.com"
+    #   smtp_port: 587
+    #   smtp_user: "${SMTP_USER}"
+    #   smtp_password: "${SMTP_PASSWORD}"
+    #   from_address: "alerts@darkhorses.com"
+    #   to_addresses:
+    #     - "admin@darkhorses.com"
+    #     - "devops@darkhorses.com"
+
+    # Slack alerts (optional - configure webhook)
+    # - type: "slack"
+    #   webhook_url: "${SLACK_WEBHOOK_URL}"
+    #   channel: "#darkhorses-alerts"
+    #   username: "DarkHorses Monitor"
+    #   icon_emoji: ":horse_racing:"
+
+  # Alert thresholds
+  thresholds:
+    # Alert after N consecutive failures
+    consecutive_failures: 3
+
+    # Alert if API error rate exceeds this percentage
+    api_error_rate: 0.10  # 10%
+
+    # Alert if no data fetched in N hours
+    stale_data_hours: 24
+
+    # Alert if execution time exceeds N times the average
+    slow_execution_multiplier: 3.0
+
+    # Alert if database write errors exceed this percentage
+    db_error_rate: 0.05  # 5%
+
+  # Alert cooldown (don't spam - wait N minutes between repeated alerts)
+  cooldown_minutes: 60
+
+# =============================================================================
+# LOGGING CONFIGURATION
+# =============================================================================
+logging:
+  # Log level: DEBUG, INFO, WARNING, ERROR, CRITICAL
+  level: "INFO"
+
+  # Log format
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+
+  # Date format
+  date_format: "%Y-%m-%d %H:%M:%S"
+
+  # Log file rotation
+  rotation:
+    # Max log file size before rotation (bytes)
+    max_bytes: 10485760  # 10 MB
+
+    # Number of backup files to keep
+    backup_count: 30  # Keep 30 days
+
+    # Compress old logs
+    compress: true
+
+  # Separate log files by script
+  separate_logs: true
+
+  # Log directory (relative to project root)
+  log_dir: "logs"
+
+  # Console logging (in addition to file)
+  console:
+    enabled: true
+    level: "INFO"
+    colorize: true
+
+# =============================================================================
+# HEALTH CHECKS
+# =============================================================================
+health_check:
+  # Enable health check monitoring
+  enabled: true
+
+  # Health check interval (seconds)
+  interval: 300  # 5 minutes
+
+  # Individual health checks
+  checks:
+    # Database connectivity
+    - name: "database_connection"
+      type: "database"
+      critical: true
+      timeout: 10
+
+    # API connectivity
+    - name: "api_connectivity"
+      type: "http"
+      url: "https://api.theracingapi.com/health"
+      critical: true
+      timeout: 10
+
+    # Data freshness check
+    - name: "data_freshness"
+      type: "query"
+      query: "SELECT MAX(updated_at) FROM ra_races"
+      max_age_hours: 24
+      critical: false
+
+    # Disk space check
+    - name: "disk_space"
+      type: "disk"
+      path: "/opt/render/project/src/logs"
+      min_free_mb: 100
+      critical: false
+
+# =============================================================================
+# CONCURRENCY CONTROL
+# =============================================================================
+concurrency:
+  # Enable lock files to prevent concurrent execution
+  enabled: true
+
+  # Lock file directory
+  lock_dir: "/tmp"
+
+  # Lock file prefix
+  lock_prefix: "darkhorses_update_"
+
+  # Stale lock timeout (seconds) - remove locks older than this
+  stale_timeout: 3600  # 1 hour
+
+  # Maximum concurrent scripts (0 = unlimited, but use locks)
+  max_concurrent: 1  # Only one update script at a time
+
+# =============================================================================
+# DATA COLLECTION PARAMETERS
+# =============================================================================
+data_collection:
+  # Regional filtering
+  regions:
+    enabled: true
+    codes:
+      - "gb"   # Great Britain
+      - "ire"  # Ireland
+
+  # Date ranges for different update types
+  date_ranges:
+    # Live updates: only today
+    live:
+      days_back: 0
+      days_ahead: 0
+
+    # Daily updates: yesterday + next 2 days
+    daily:
+      days_back: 1
+      days_ahead: 2
+
+    # Weekly reconciliation: last 7 days
+    weekly:
+      days_back: 7
+      days_ahead: 0
+
+    # Monthly reference: current data only
+    monthly:
+      days_back: 0
+      days_ahead: 0
+
+  # Entity extraction settings
+  entities:
+    # Auto-extract entities from race data
+    auto_extract: true
+
+    # Entities to extract
+    types:
+      - "jockeys"
+      - "trainers"
+      - "owners"
+      - "horses"
+
+# =============================================================================
+# PERFORMANCE TUNING
+# =============================================================================
+performance:
+  # Enable parallel processing (use with caution - respect API limits!)
+  parallel_processing:
+    enabled: false  # Disabled by default - API rate limit is strict
+    max_workers: 2
+
+  # Enable caching
+  caching:
+    enabled: true
+    ttl: 3600  # 1 hour cache TTL
+
+  # Database connection pooling
+  connection_pooling:
+    enabled: true
+    pool_size: 5
+    max_overflow: 10
+
+  # Batch processing
+  batching:
+    enabled: true
+    batch_size: 100
+
+# =============================================================================
+# FEATURE FLAGS
+# =============================================================================
+features:
+  # Dry run mode (don't write to database)
+  dry_run: false
+
+  # Verbose logging
+  verbose: false
+
+  # Skip entity extraction (faster but incomplete data)
+  skip_entity_extraction: false
+
+  # Skip results fetch (only fetch racecards)
+  skip_results: false
+
+  # Skip racecards fetch (only fetch results)
+  skip_racecards: false
+
+# =============================================================================
+# ENVIRONMENT-SPECIFIC OVERRIDES
+# =============================================================================
+# These settings can be overridden by environment variables
+# Environment variable format: DARKHORSES_{SECTION}_{KEY}
+# Example: DARKHORSES_LOGGING_LEVEL=DEBUG
+#
+# Supported overrides:
+#   - DARKHORSES_LOGGING_LEVEL
+#   - DARKHORSES_API_RATE_LIMIT
+#   - DARKHORSES_DATABASE_BATCH_SIZE
+#   - DARKHORSES_ALERTS_ENABLED
+#   - DARKHORSES_FEATURES_DRY_RUN

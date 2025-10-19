@@ -1,0 +1,475 @@
+================================================================================
+DARKHORSES DATABASE AUDIT - EXECUTIVE SUMMARY
+================================================================================
+Date: 2025-10-07
+Status: CRITICAL ISSUES IDENTIFIED
+
+================================================================================
+TOP 10 CRITICAL ISSUES
+================================================================================
+
+1. CRITICAL: entry_id column MISSING from ra_runners
+   - User reported issue confirmed through code analysis
+   - Code does NOT try to insert entry_id anywhere
+   - FIX: ALTER TABLE ra_runners ADD COLUMN entry_id TEXT;
+
+2. Database Connection Timeout
+   - All queries timing out
+   - Cannot verify actual schema or data
+   - Check Supabase dashboard, RLS policies, network
+
+3. All Tables Show 0 Rows
+   - Either empty database OR connection issue
+   - Verify data has been inserted
+
+4. Missing Schema Documentation
+   - No CREATE TABLE scripts in repo
+   - Only metadata tracking table has schema
+   - Recommendation: Export current schema and commit to repo
+
+5. Field Name Mismatches (API → Database)
+   - API 'date' → code expects 'race_date'
+   - API 'off' → code expects 'off_time' (results)
+   - API 'class' → code expects 'race_class'
+   - API 'course' → code expects 'name'
+
+6. Pedigree Data Duplication
+   - Stored in BOTH ra_runners AND ra_horse_pedigree
+   - Pick one location as source of truth
+   - Remove from the other
+
+7. API Response JSONB Storage
+   - Full API response stored in api_data column
+   - Important fields may be trapped in JSONB
+   - Extract frequently-queried fields to columns
+
+8. Duplicate Columns in ra_runners
+   - weight = weight_lbs
+   - rpr = racing_post_rating
+   - stall = draw
+   - racing_api_race_id = race_id
+   - Remove duplicates
+
+9. Always-NULL Columns
+   - ra_courses.latitude (always NULL - not in API)
+   - ra_courses.longitude (always NULL - not in API)
+   - Remove these columns
+
+10. Missing Foreign Key Constraints
+    - No FK constraints found
+    - ra_runners should link to ra_races, ra_horses, etc.
+    - Add constraints to enforce referential integrity
+
+================================================================================
+SCHEMA ANALYSIS BY TABLE
+================================================================================
+
+TABLE: ra_races
+--------------
+Expected Columns: 42
+Row Count: 0 (or timeout)
+Primary Key: race_id
+
+CRITICAL FIELDS:
+✓ race_id (TEXT PRIMARY KEY)
+✓ race_name (TEXT - should be NOT NULL)
+✓ race_date (DATE - should be NOT NULL)
+✓ course_id (TEXT - FK to ra_courses)
+
+ISSUES:
+- API returns 'date', code expects 'race_date'
+- Many nullable fields that could be constrained
+- api_data JSONB may contain unexported fields
+
+DATA INSERTED BY:
+- races_fetcher.py (racecards endpoint)
+- results_fetcher.py (results endpoint)
+
+
+TABLE: ra_runners
+----------------
+Expected Columns: 54
+Row Count: 0 (or timeout)
+Primary Key: runner_id (format: race_id_horse_id)
+
+CRITICAL FIELDS:
+✓ runner_id (TEXT PRIMARY KEY)
+⚠ entry_id (MISSING - user reported)
+✓ race_id (TEXT - should be NOT NULL, FK to ra_races)
+✓ horse_id (TEXT - should be NOT NULL, FK to ra_horses)
+✓ jockey_id (TEXT - FK to ra_jockeys, nullable)
+✓ trainer_id (TEXT - FK to ra_trainers, nullable)
+✓ owner_id (TEXT - FK to ra_owners, nullable)
+
+ISSUES:
+- entry_id column MISSING
+- Pedigree data duplicated (also in ra_horse_pedigree)
+- Duplicate columns: weight/weight_lbs, rpr/racing_post_rating, stall/draw
+- Many rating fields use safe_int() which returns NULL for invalid values
+
+DATA INSERTED BY:
+- races_fetcher.py (from racecards)
+
+
+TABLE: ra_horses
+---------------
+Expected Columns: 9 (MINIMAL)
+Row Count: 0 (or timeout)
+Primary Key: horse_id
+
+FIELDS:
+✓ horse_id (TEXT PRIMARY KEY)
+✓ name (TEXT - should be NOT NULL)
+✓ dob (DATE - often NULL)
+✓ sex (TEXT)
+✓ sex_code (TEXT)
+✓ colour (TEXT)
+✓ region (TEXT)
+✓ created_at, updated_at
+
+ISSUES:
+- Very minimal table
+- Data quality varies by source (fetcher vs entity_extractor)
+- No pedigree info (stored in separate table)
+
+DATA INSERTED BY:
+- horses_fetcher.py (full profiles)
+- entity_extractor.py (minimal fields from runners)
+
+
+TABLE: ra_horse_pedigree
+-----------------------
+Expected Columns: 13
+Row Count: 0 (or timeout)
+Primary Key: horse_id
+
+FIELDS:
+✓ horse_id (FK to ra_horses)
+✓ sire_id, sire, sire_region
+✓ dam_id, dam, dam_region
+✓ damsire_id, damsire, damsire_region
+✓ breeder
+
+ISSUES:
+- DUPLICATES data in ra_runners
+- Pick one location: keep in pedigree table OR runners table
+- Not both
+
+DATA INSERTED BY:
+- horses_fetcher.py (when pedigree data available)
+
+
+TABLE: ra_jockeys
+----------------
+Expected Columns: 4 (MINIMAL)
+Row Count: 0 (or timeout)
+Primary Key: jockey_id
+
+FIELDS:
+✓ jockey_id (TEXT PRIMARY KEY)
+✓ name (TEXT - should be NOT NULL)
+✓ created_at, updated_at
+
+ISSUES:
+- Very bare-bones
+- Missing: region, nationality, stats
+- Jockey-specific data trapped in ra_runners (claim, allowance)
+
+DATA INSERTED BY:
+- entity_extractor.py only
+
+
+TABLE: ra_trainers
+-----------------
+Expected Columns: 4 (MINIMAL)
+Row Count: 0 (or timeout)
+Primary Key: trainer_id
+
+FIELDS:
+✓ trainer_id (TEXT PRIMARY KEY)
+✓ name (TEXT - should be NOT NULL)
+✓ created_at, updated_at
+
+ISSUES:
+- Very bare-bones
+- Missing: location, region, stats
+
+DATA INSERTED BY:
+- entity_extractor.py only
+
+
+TABLE: ra_owners
+---------------
+Expected Columns: 4 (MINIMAL)
+Row Count: 0 (or timeout)
+Primary Key: owner_id
+
+FIELDS:
+✓ owner_id (TEXT PRIMARY KEY)
+✓ name (TEXT - should be NOT NULL)
+✓ created_at, updated_at
+
+ISSUES:
+- Very bare-bones
+- Missing: owner type (individual, syndicate), location
+
+DATA INSERTED BY:
+- entity_extractor.py only
+
+
+TABLE: ra_courses
+----------------
+Expected Columns: 7
+Row Count: 0 (or timeout)
+Primary Key: course_id
+
+FIELDS:
+✓ course_id (TEXT PRIMARY KEY)
+✓ name (TEXT - from API 'course')
+✓ region (TEXT - from API 'region_code')
+✓ country (TEXT - from API 'region')
+✗ latitude (NUMERIC - always NULL)
+✗ longitude (NUMERIC - always NULL)
+✓ created_at, updated_at
+
+ISSUES:
+- latitude/longitude always NULL (not in API)
+- Remove these columns
+- API field mapping: 'course' → 'name'
+
+DATA INSERTED BY:
+- courses_fetcher.py
+
+
+TABLE: ra_results
+----------------
+Expected Columns: 19
+Row Count: 0 (or timeout)
+Primary Key: race_id
+
+FIELDS:
+✓ race_id (FK to ra_races)
+✓ course_id, course_name
+✓ race_name, race_date
+✓ off_datetime, off_time
+✓ race_type, race_class
+✓ distance, distance_f
+✓ surface, going
+✓ prize_money, currency, region
+✓ results_status, is_abandoned
+✓ field_size
+✓ api_data, created_at, updated_at
+
+ISSUES:
+- Significant overlap with ra_races
+- Purpose unclear - merge into ra_races?
+- No runner result data (positions, times)
+- Suggest: Create ra_runner_results for finishing positions
+
+DATA INSERTED BY:
+- results_fetcher.py
+
+
+TABLE: ra_bookmakers
+-------------------
+Expected Columns: UNKNOWN
+Row Count: 0 (or timeout)
+
+NOTE: File exists but not analyzed in this audit
+
+
+TABLE: ra_collection_metadata
+-----------------------------
+Expected Columns: 9
+Status: ✓ SCHEMA CONFIRMED
+Primary Key: id (UUID)
+
+FIELDS:
+✓ id (UUID)
+✓ table_name, operation
+✓ records_processed, records_inserted, records_updated, records_skipped
+✓ status, error_message
+✓ metadata (JSONB)
+✓ created_at, updated_at
+
+STATUS: Only table with confirmed schema documentation
+
+================================================================================
+CODE-TO-SCHEMA MISMATCHES
+================================================================================
+
+FILE: fetchers/races_fetcher.py
+-------------------------------
+Line 245: 'race_date': racecard.get('date')
+  API field: 'date'
+  Database column: 'race_date'
+  Status: ✓ Correct mapping
+
+Line 291-349: Creates runner records
+  MISSING: entry_id column
+  ISSUE: Code doesn't try to insert entry_id
+
+
+FILE: fetchers/results_fetcher.py
+---------------------------------
+Line 137: 'race_date': race_data.get('date')
+  API field: 'date'
+  Database column: 'race_date'
+  Status: ✓ Correct mapping
+
+Line 138: 'off_time': race_data.get('off')
+  API field: 'off'
+  Database column: 'off_time'
+  Status: ⚠ Mismatch - should map correctly
+
+Line 141: 'race_class': race_data.get('class')
+  API field: 'class'
+  Database column: 'race_class'
+  Status: ✓ Correct mapping
+
+
+FILE: fetchers/courses_fetcher.py
+---------------------------------
+Line 66: 'name': course.get('course')
+  API field: 'course'
+  Database column: 'name'
+  Status: ✓ Correct mapping
+
+Line 67: 'region': course.get('region_code')
+  API field: 'region_code'
+  Database column: 'region'
+  Status: ✓ Correct mapping
+
+Lines 69-70: latitude/longitude set to None
+  Status: ⚠ Always NULL - remove columns
+
+
+FILE: utils/entity_extractor.py
+-------------------------------
+Lines 51-96: Extracts minimal entity data
+  ISSUE: Only inserts basic fields (id, name)
+  MISSING: Extended fields for jockeys, trainers, owners
+
+================================================================================
+DATA QUALITY SUMMARY
+================================================================================
+
+TABLES WITH BEST DATA QUALITY (Expected):
+- ra_courses (reference data, static)
+- ra_bookmakers (reference data, static)
+
+TABLES WITH POTENTIAL QUALITY ISSUES:
+- ra_races (many nullable fields, field mapping issues)
+- ra_runners (missing entry_id, duplicate columns, complex nulls)
+- ra_horses (varies by source - fetcher vs extractor)
+- ra_jockeys, ra_trainers, ra_owners (minimal data)
+
+CRITICAL MISSING DATA:
+- entry_id in ra_runners (user-reported)
+- latitude/longitude in ra_courses (always NULL)
+- Extended jockey/trainer/owner info (not extracted)
+
+FIELDS FREQUENTLY NULL (by design):
+- ra_races: start_time, weather, rail_movements, live_stream_url
+- ra_runners: jockey_claim, apprentice_allowance, pedigree fields
+- ra_horses: dob, colour
+
+================================================================================
+RECOMMENDED ACTIONS - QUICK REFERENCE
+================================================================================
+
+IMMEDIATE (Day 1):
+------------------
+1. Fix database connection timeout
+2. Add missing entry_id column to ra_runners
+   SQL: ALTER TABLE ra_runners ADD COLUMN entry_id TEXT;
+
+3. Fix field name mismatches in fetchers
+   - results_fetcher.py line 138: 'off_time': race_data.get('off')
+
+HIGH PRIORITY (Week 1):
+----------------------
+4. Add foreign key constraints (see full report for SQL)
+5. Add NOT NULL constraints on critical fields
+6. Remove duplicate columns (weight, rpr, stall)
+7. Remove always-NULL columns (latitude, longitude)
+
+MEDIUM PRIORITY (Week 2-4):
+--------------------------
+8. Resolve pedigree data duplication (pick one location)
+9. Clarify ra_results table purpose
+10. Add performance indexes (see full report)
+11. Create ra_runner_results for finishing positions
+12. Expand entity tables (jockeys, trainers, owners)
+
+================================================================================
+SQL FIX SCRIPTS - QUICK REFERENCE
+================================================================================
+
+-- 1. Add missing entry_id
+ALTER TABLE ra_runners ADD COLUMN IF NOT EXISTS entry_id TEXT;
+UPDATE ra_runners SET entry_id = runner_id WHERE entry_id IS NULL;
+CREATE INDEX idx_runners_entry_id ON ra_runners(entry_id);
+
+-- 2. Remove always-NULL columns
+ALTER TABLE ra_courses DROP COLUMN IF EXISTS latitude;
+ALTER TABLE ra_courses DROP COLUMN IF EXISTS longitude;
+
+-- 3. Remove duplicate columns
+ALTER TABLE ra_runners DROP COLUMN IF EXISTS weight;     -- Keep weight_lbs
+ALTER TABLE ra_runners DROP COLUMN IF EXISTS rpr;         -- Keep racing_post_rating
+ALTER TABLE ra_runners DROP COLUMN IF EXISTS stall;       -- Keep draw
+
+-- 4. Add NOT NULL constraints (after verifying no NULLs exist)
+ALTER TABLE ra_races ALTER COLUMN race_name SET NOT NULL;
+ALTER TABLE ra_races ALTER COLUMN race_date SET NOT NULL;
+ALTER TABLE ra_runners ALTER COLUMN race_id SET NOT NULL;
+ALTER TABLE ra_runners ALTER COLUMN horse_id SET NOT NULL;
+ALTER TABLE ra_horses ALTER COLUMN name SET NOT NULL;
+
+-- 5. Add foreign key constraints
+ALTER TABLE ra_races
+  ADD CONSTRAINT fk_races_course
+  FOREIGN KEY (course_id) REFERENCES ra_courses(course_id);
+
+ALTER TABLE ra_runners
+  ADD CONSTRAINT fk_runners_race
+  FOREIGN KEY (race_id) REFERENCES ra_races(race_id) ON DELETE CASCADE;
+
+ALTER TABLE ra_runners
+  ADD CONSTRAINT fk_runners_horse
+  FOREIGN KEY (horse_id) REFERENCES ra_horses(horse_id);
+
+-- See full report for complete FK script
+
+-- 6. Add performance indexes
+CREATE INDEX idx_races_race_date ON ra_races(race_date DESC);
+CREATE INDEX idx_races_course_date ON ra_races(course_id, race_date DESC);
+CREATE INDEX idx_runners_race_id ON ra_runners(race_id);
+CREATE INDEX idx_runners_horse_id ON ra_runners(horse_id);
+CREATE INDEX idx_races_api_data_gin ON ra_races USING GIN (api_data);
+
+-- See full report for complete index script
+
+================================================================================
+FILES GENERATED BY THIS AUDIT
+================================================================================
+
+1. DATABASE_AUDIT_REPORT.md   - Comprehensive 500+ line detailed report
+2. AUDIT_SUMMARY.txt           - This file (executive summary)
+3. audit_results.json          - Empty (database timeout prevented data collection)
+
+================================================================================
+NEXT STEPS
+================================================================================
+
+1. READ: DATABASE_AUDIT_REPORT.md for full details
+2. FIX: Database connection timeout issue
+3. VERIFY: Tables exist and contain data
+4. EXECUTE: SQL scripts from "IMMEDIATE" priority section
+5. TEST: Fetchers can insert data after fixes
+6. MONITOR: Use ra_collection_metadata to track data quality
+
+================================================================================
+END OF SUMMARY
+================================================================================

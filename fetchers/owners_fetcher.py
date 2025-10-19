@@ -3,10 +3,6 @@ Owners Reference Data Fetcher
 Fetches owner profiles from Racing API
 """
 
-import sys
-from pathlib import Path
-sys.path.append(str(Path(__file__).parent.parent))
-
 from datetime import datetime
 from typing import Dict
 from config.config import get_config
@@ -104,7 +100,7 @@ class OwnersFetcher:
         owners_transformed = []
         for owner in all_owners:
             owner_record = {
-                'owner_id': owner.get('id'),
+                'id': owner.get('id'),  # RENAMED: owner_id → id
                 'name': owner.get('name'),
                 'created_at': datetime.utcnow().isoformat(),
                 'updated_at': datetime.utcnow().isoformat()

@@ -1,0 +1,373 @@
+{
+  "ra_runners": {
+    "table": "ra_runners",
+    "total_rows": 1325718,
+    "categories": {
+      "core": {
+        "runner_id": {
+          "total": 1325718,
+          "null_count": 0,
+          "non_null_count": 1325718,
+          "null_pct": 0.0,
+          "population_pct": 100.0
+        },
+        "race_id": {
+          "total": 1325718,
+          "null_count": 0,
+          "non_null_count": 1325718,
+          "null_pct": 0.0,
+          "population_pct": 100.0
+        },
+        "horse_id": {
+          "total": 1325718,
+          "null_count": 0,
+          "non_null_count": 1325718,
+          "null_pct": 0.0,
+          "population_pct": 100.0
+        },
+        "jockey_id": {
+          "total": 1325718,
+          "null_count": 0,
+          "non_null_count": 1325718,
+          "null_pct": 0.0,
+          "population_pct": 100.0
+        },
+        "trainer_id": {
+          "total": 1325718,
+          "null_count": 0,
+          "non_null_count": 1325718,
+          "null_pct": 0.0,
+          "population_pct": 100.0
+        }
+      },
+      "race_entry": {
+        "draw": {
+          "error": "{'message': 'canceling statement due to statement timeout', 'code': '57014', 'hint': None, 'details': None}"
+        },
+        "number": {
+          "error": "{'message': 'canceling statement due to statement timeout', 'code': '57014', 'hint': None, 'details': None}"
+        },
+        "form": {
+          "error": "{'message': 'canceling statement due to statement timeout', 'code': '57014', 'hint': None, 'details': None}"
+        },
+        "weight": {
+          "error": "{'message': 'canceling statement due to statement timeout', 'code': '57014', 'hint': None, 'details': None}"
+        }
+      },
+      "results_original": {
+        "position": {
+          "total": 1325718,
+          "null_count": 131036,
+          "non_null_count": 1194682,
+          "null_pct": 9.88,
+          "population_pct": 90.12
+        },
+        "distance_beaten": {
+          "error": "{'message': 'canceling statement due to statement timeout', 'code': '57014', 'hint': None, 'details': None}"
+        },
+        "prize_won": {
+          "error": "{'message': 'canceling statement due to statement timeout', 'code': '57014', 'hint': None, 'details': None}"
+        },
+        "starting_price": {
+          "error": "{'message': 'canceling statement due to statement timeout', 'code': '57014', 'hint': None, 'details': None}"
+        },
+        "finishing_time": {
+          "error": "{'message': 'canceling statement due to statement timeout', 'code': '57014', 'hint': None, 'details': None}"
+        }
+      },
+      "results_enhanced": {
+        "starting_price_decimal": {
+          "total": 1325718,
+          "null_count": 1207501,
+          "non_null_count": 118217,
+          "null_pct": 91.08,
+          "population_pct": 8.92
+        },
+        "race_comment": {
+          "error": "{'message': 'canceling statement due to statement timeout', 'code': '57014', 'hint': None, 'details': None}"
+        },
+        "jockey_silk_url": {
+          "error": "{'message': 'canceling statement due to statement timeout', 'code': '57014', 'hint': None, 'details': None}"
+        },
+        "overall_beaten_distance": {
+          "total": 1325718,
+          "null_count": 1214040,
+          "non_null_count": 111678,
+          "null_pct": 91.58,
+          "population_pct": 8.42
+        },
+        "jockey_claim_lbs": {
+          "error": "{'message': 'canceling statement due to statement timeout', 'code': '57014', 'hint': None, 'details': None}"
+        },
+        "weight_stones_lbs": {
+          "error": "{'message': 'canceling statement due to statement timeout', 'code': '57014', 'hint': None, 'details': None}"
+        }
+      },
+      "pedigree": {
+        "sire_id": {
+          "error": "{'message': 'canceling statement due to statement timeout', 'code': '57014', 'hint': None, 'details': None}"
+        },
+        "sire_name": {
+          "error": "{'message': 'canceling statement due to statement timeout', 'code': '57014', 'hint': None, 'details': None}"
+        },
+        "dam_id": {
+          "error": "{'message': 'canceling statement due to statement timeout', 'code': '57014', 'hint': None, 'details': None}"
+        },
+        "dam_name": {
+          "error": "{'message': 'canceling statement due to statement timeout', 'code': '57014', 'hint': None, 'details': None}"
+        },
+        "damsire_id": {
+          "error": "{'message': 'canceling statement due to statement timeout', 'code': '57014', 'hint': None, 'details': None}"
+        },
+        "damsire_name": {
+          "error": "{'message': 'canceling statement due to statement timeout', 'code': '57014', 'hint': None, 'details': None}"
+        }
+      },
+      "duplicates": {
+        "silk_url": {
+          "error": "{'message': 'canceling statement due to statement timeout', 'code': '57014', 'hint': None, 'details': None}"
+        },
+        "jockey_silk_url": {
+          "error": "{'message': 'canceling statement due to statement timeout', 'code': '57014', 'hint': None, 'details': None}"
+        }
+      }
+    }
+  },
+  "ra_races": {
+    "table": "ra_races",
+    "total_rows": 136875,
+    "categories": {
+      "core": {
+        "race_id": {
+          "total": 136875,
+          "null_count": 0,
+          "non_null_count": 136875,
+          "null_pct": 0.0,
+          "population_pct": 100.0
+        },
+        "course_id": {
+          "total": 136875,
+          "null_count": 0,
+          "non_null_count": 136875,
+          "null_pct": 0.0,
+          "population_pct": 100.0
+        },
+        "race_date": {
+          "total": 136875,
+          "null_count": 0,
+          "non_null_count": 136875,
+          "null_pct": 0.0,
+          "population_pct": 100.0
+        },
+        "off_time": {
+          "total": 136875,
+          "null_count": 0,
+          "non_null_count": 136875,
+          "null_pct": 0.0,
+          "population_pct": 100.0
+        }
+      },
+      "details": {
+        "race_name": {
+          "total": 136875,
+          "null_count": 0,
+          "non_null_count": 136875,
+          "null_pct": 0.0,
+          "population_pct": 100.0
+        },
+        "distance": {
+          "total": 136875,
+          "null_count": 0,
+          "non_null_count": 136875,
+          "null_pct": 0.0,
+          "population_pct": 100.0
+        },
+        "race_class": {
+          "total": 136875,
+          "null_count": 0,
+          "non_null_count": 136875,
+          "null_pct": 0.0,
+          "population_pct": 100.0
+        },
+        "race_type": {
+          "total": 136875,
+          "null_count": 0,
+          "non_null_count": 136875,
+          "null_pct": 0.0,
+          "population_pct": 100.0
+        },
+        "surface": {
+          "total": 136875,
+          "null_count": 0,
+          "non_null_count": 136875,
+          "null_pct": 0.0,
+          "population_pct": 100.0
+        }
+      },
+      "classification": {
+        "age_band": {
+          "total": 136875,
+          "null_count": 99933,
+          "non_null_count": 36942,
+          "null_pct": 73.01,
+          "population_pct": 26.99
+        },
+        "going": {
+          "total": 136875,
+          "null_count": 0,
+          "non_null_count": 136875,
+          "null_pct": 0.0,
+          "population_pct": 100.0
+        },
+        "prize_money": {
+          "total": 136875,
+          "null_count": 135195,
+          "non_null_count": 1680,
+          "null_pct": 98.77,
+          "population_pct": 1.23
+        }
+      }
+    }
+  },
+  "ra_horses": {
+    "table": "ra_horses",
+    "total_rows": 111585,
+    "categories": {
+      "core": {
+        "horse_id": {
+          "total": 111585,
+          "null_count": 0,
+          "non_null_count": 111585,
+          "null_pct": 0.0,
+          "population_pct": 100.0
+        },
+        "name": {
+          "total": 111585,
+          "null_count": 0,
+          "non_null_count": 111585,
+          "null_pct": 0.0,
+          "population_pct": 100.0
+        },
+        "sex": {
+          "total": 111585,
+          "null_count": 0,
+          "non_null_count": 111585,
+          "null_pct": 0.0,
+          "population_pct": 100.0
+        }
+      },
+      "enriched": {
+        "dob": {
+          "total": 111585,
+          "null_count": 256,
+          "non_null_count": 111329,
+          "null_pct": 0.23,
+          "population_pct": 99.77
+        },
+        "sex_code": {
+          "total": 111585,
+          "null_count": 256,
+          "non_null_count": 111329,
+          "null_pct": 0.23,
+          "population_pct": 99.77
+        },
+        "colour": {
+          "total": 111585,
+          "null_count": 256,
+          "non_null_count": 111329,
+          "null_pct": 0.23,
+          "population_pct": 99.77
+        },
+        "colour_code": {
+          "total": 111585,
+          "null_count": 256,
+          "non_null_count": 111329,
+          "null_pct": 0.23,
+          "population_pct": 99.77
+        },
+        "region": {
+          "total": 111585,
+          "null_count": 76433,
+          "non_null_count": 35152,
+          "null_pct": 68.5,
+          "population_pct": 31.5
+        }
+      }
+    }
+  },
+  "ra_horse_pedigree": {
+    "table": "ra_horse_pedigree",
+    "total_rows": 111511,
+    "categories": {
+      "core": {
+        "horse_id": {
+          "total": 111511,
+          "null_count": 0,
+          "non_null_count": 111511,
+          "null_pct": 0.0,
+          "population_pct": 100.0
+        }
+      },
+      "pedigree": {
+        "sire": {
+          "total": 111511,
+          "null_count": 0,
+          "non_null_count": 111511,
+          "null_pct": 0.0,
+          "population_pct": 100.0
+        },
+        "sire_id": {
+          "total": 111511,
+          "null_count": 0,
+          "non_null_count": 111511,
+          "null_pct": 0.0,
+          "population_pct": 100.0
+        },
+        "dam": {
+          "total": 111511,
+          "null_count": 0,
+          "non_null_count": 111511,
+          "null_pct": 0.0,
+          "population_pct": 100.0
+        },
+        "dam_id": {
+          "total": 111511,
+          "null_count": 0,
+          "non_null_count": 111511,
+          "null_pct": 0.0,
+          "population_pct": 100.0
+        },
+        "damsire": {
+          "total": 111511,
+          "null_count": 0,
+          "non_null_count": 111511,
+          "null_pct": 0.0,
+          "population_pct": 100.0
+        },
+        "damsire_id": {
+          "total": 111511,
+          "null_count": 0,
+          "non_null_count": 111511,
+          "null_pct": 0.0,
+          "population_pct": 100.0
+        }
+      },
+      "breeder": {
+        "breeder": {
+          "total": 111511,
+          "null_count": 55,
+          "non_null_count": 111456,
+          "null_pct": 0.05,
+          "population_pct": 99.95
+        },
+        "region": {
+          "total": 111511,
+          "null_count": 76359,
+          "non_null_count": 35152,
+          "null_pct": 68.48,
+          "population_pct": 31.52
+        }
+      }
+    }
+  }
+}

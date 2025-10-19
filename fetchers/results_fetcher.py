@@ -3,16 +3,20 @@ Results Reference Data Fetcher
 Fetches race results from Racing API results endpoint
 """
 
-import sys
-from pathlib import Path
-sys.path.append(str(Path(__file__).parent.parent))
-
 from datetime import datetime, timedelta
 from typing import Dict, List, Optional
 from config.config import get_config
 from utils.logger import get_logger
 from utils.api_client import RacingAPIClient
 from utils.supabase_client import SupabaseReferenceClient
+from utils.entity_extractor import EntityExtractor
+from utils.position_parser import (
+    extract_position_data,
+    parse_rating,
+    parse_int_field,
+    parse_decimal_field,
+    parse_text_field
+)
 
 logger = get_logger('results_fetcher')
 
@@ -35,13 +39,16 @@ class ResultsFetcher:
             service_key=self.config.supabase.service_key,
             batch_size=self.config.supabase.batch_size
         )
+        # Pass API client to entity extractor for Pro enrichment
+        self.entity_extractor = EntityExtractor(self.db_client, self.api_client)
 
     def fetch_and_store(
         self,
         start_date: Optional[str] = None,
         end_date: Optional[str] = None,
         days_back: int = 365,
-        region_codes: List[str] = None
+        region_codes: List[str] = None,
+        skip_enrichment: bool = False
     ) -> Dict:
         """
         Fetch results from API and store in database
@@ -51,6 +58,7 @@ class ResultsFetcher:
             end_date: End date (YYYY-MM-DD format). If None, defaults to today
             days_back: Number of days to go back (default: 365 = ~12 months, API limit)
             region_codes: Optional list of region codes to filter (e.g., ['gb', 'ire'])
+            skip_enrichment: If True, skip entity enrichment (faster backfills)
 
         Returns:
             Statistics dictionary
@@ -119,14 +127,183 @@ class ResultsFetcher:
         # Store in database
         results_dict = {}
         if all_results:
-            result_stats = self.db_client.insert_results(all_results)
-            results_dict['results'] = result_stats
-            logger.info(f"Results inserted: {result_stats}")
+            # Insert race data into ra_races table AND ra_results table
+            logger.info(f"Inserting {len(all_results)} races into ra_races and ra_results...")
+            races_to_insert = []
+            results_to_insert = []
+            all_runners = []
+
+            for result in all_results:
+                # Prepare race record for ra_races table
+                race_data = result.get('api_data', {})
+
+                # Helper function to get winning time from runners
+                def get_winning_time(runners_list):
+                    """Extract winning time from position 1 runner"""
+                    if not runners_list:
+                        return None
+                    for runner in runners_list:
+                        if runner.get('position') == '1' or runner.get('position') == 1:
+                            return runner.get('time')
+                    return None
+
+                race_record = {
+                    'id': race_data.get('race_id'),  # RENAMED: race_id → id
+                    'course_id': race_data.get('course_id'),
+                    'course_name': race_data.get('course'),
+                    'race_name': race_data.get('race_name'),
+                    'date': race_data.get('date'),  # RENAMED: race_date → date
+                    'off_time': race_data.get('off'),  # API uses 'off' not 'off_time'
+                    'off_dt': race_data.get('off_dt'),  # RENAMED: off_datetime → off_dt
+                    'type': race_data.get('type'),  # RENAMED: race_type → type
+                    'race_class': race_data.get('class'),  # API uses 'class' not 'race_class'
+                    'distance': race_data.get('dist_m'),  # Distance in meters
+                    'distance_f': race_data.get('dist_f'),
+                    'distance_round': race_data.get('dist'),  # Rounded distance (e.g., "1m")
+                    'age_band': race_data.get('age_band'),
+                    'surface': race_data.get('surface'),
+                    'going': race_data.get('going'),
+                    'going_detailed': None,  # Not in results API (racecards only)
+                    'pattern': race_data.get('pattern'),  # Pattern race (Group 1/2/3)
+                    'sex_restriction': race_data.get('sex_rest'),  # Sex restrictions
+                    'rating_band': race_data.get('rating_band'),  # Rating band
+                    'jumps': race_data.get('jumps'),  # Number of jumps
+                    'prize': race_data.get('prize'),  # RENAMED: prize_money → prize
+                    'currency': race_data.get('currency', 'GBP'),
+                    'region': race_data.get('region'),
+                    'field_size': len(race_data.get('runners', [])),
+                    # Result-specific fields (only available in results, not racecards)
+                    'has_result': True,  # Results endpoint always has results
+                    'winning_time': get_winning_time(race_data.get('runners', [])),
+                    'winning_time_detail': race_data.get('winning_time_detail'),
+                    'comments': race_data.get('comments'),  # Race comments/verdict
+                    'non_runners': race_data.get('non_runners'),  # Non-runners list
+                    # Tote dividends
+                    'tote_win': race_data.get('tote_win'),
+                    'tote_pl': race_data.get('tote_pl'),
+                    'tote_ex': race_data.get('tote_ex'),
+                    'tote_csf': race_data.get('tote_csf'),
+                    'tote_tricast': race_data.get('tote_tricast'),
+                    'tote_trifecta': race_data.get('tote_trifecta'),
+                    # Note: results_status field doesn't exist in ra_races schema
+                    'is_abandoned': race_data.get('is_abandoned', False),
+                    'is_big_race': race_data.get('big_race', False),
+                    'race_number': race_data.get('race_number'),
+                    'meet_id': race_data.get('meet_id'),
+                    'api_data': race_data
+                }
+                if race_record['id']:
+                    races_to_insert.append(race_record)
+
+                # Prepare result record for ra_results table (NEW)
+                # Note: ra_results table uses 'race_id' as column name per Migration 017
+                result_record = {
+                    'race_id': race_data.get('race_id'),  # Primary key in ra_results table
+                    'course_id': race_data.get('course_id'),
+                    'course_name': race_data.get('course'),
+                    'race_name': race_data.get('race_name'),
+                    'race_date': race_data.get('date'),
+                    'off_time': race_data.get('off'),
+                    'off_datetime': race_data.get('off_dt'),
+                    'region': race_data.get('region'),
+                    # Race classification
+                    'type': race_data.get('type'),
+                    'class': race_data.get('class'),
+                    'pattern': race_data.get('pattern'),
+                    'rating_band': race_data.get('rating_band'),
+                    'age_band': race_data.get('age_band'),
+                    'sex_rest': race_data.get('sex_rest'),
+                    # Distance
+                    'dist': race_data.get('dist'),
+                    'dist_y': race_data.get('dist_y'),
+                    'dist_m': race_data.get('dist_m'),
+                    'dist_f': race_data.get('dist_f'),
+                    # Going and surface
+                    'going': race_data.get('going'),
+                    'surface': race_data.get('surface'),
+                    'jumps': race_data.get('jumps'),
+                    # Result-specific data
+                    'winning_time_detail': race_data.get('winning_time_detail'),
+                    'comments': race_data.get('comments'),
+                    'non_runners': race_data.get('non_runners'),
+                    # Tote pools
+                    'tote_win': race_data.get('tote_win'),
+                    'tote_pl': race_data.get('tote_pl'),
+                    'tote_ex': race_data.get('tote_ex'),
+                    'tote_csf': race_data.get('tote_csf'),
+                    'tote_tricast': race_data.get('tote_tricast'),
+                    'tote_trifecta': race_data.get('tote_trifecta'),
+                    # Metadata
+                    'api_data': race_data
+                }
+                if result_record.get('race_id'):
+                    results_to_insert.append(result_record)
+
+                # Collect runners for entity extraction
+                runners = race_data.get('runners', [])
+                for runner in runners:
+                    # Transform runner data to match expected format
+                    runner_data = {
+                        'horse_id': runner.get('horse_id'),
+                        'horse_name': runner.get('horse'),
+                        'sex': runner.get('sex'),
+                        'jockey_id': runner.get('jockey_id'),
+                        'jockey_name': runner.get('jockey'),
+                        'trainer_id': runner.get('trainer_id'),
+                        'trainer_name': runner.get('trainer'),
+                        'owner_id': runner.get('owner_id'),
+                        'owner_name': runner.get('owner')
+                    }
+                    # Only add if we have minimum required data
+                    if runner_data.get('horse_id') and runner_data.get('horse_name'):
+                        all_runners.append(runner_data)
+
+            # Insert races into ra_races table
+            if races_to_insert:
+                logger.info(f"Sample race before insert: {races_to_insert[0] if races_to_insert else 'NONE'}")
+                logger.info(f"Total races_to_insert: {len(races_to_insert)}")
+                race_stats = self.db_client.insert_races(races_to_insert)
+                results_dict['races'] = race_stats
+                logger.info(f"Races inserted: {race_stats}")
+            else:
+                logger.warning(f"No races to insert! all_results count: {len(all_results)}")
+
+            # Insert results into ra_results table (NEW)
+            if results_to_insert:
+                logger.info(f"Inserting {len(results_to_insert)} results into ra_results...")
+                result_stats = self.db_client.insert_results(results_to_insert)
+                results_dict['results'] = result_stats
+                logger.info(f"Results inserted: {result_stats}")
+            else:
+                logger.warning(f"No results to insert!")
+
+            # Insert runner records with position data into ra_runners
+            if all_runners:
+                logger.info(f"Inserting {len(all_runners)} runner records with position data...")
+                runner_records = self._prepare_runner_records(all_results)
+                if runner_records:
+                    runner_stats = self.db_client.insert_runners(runner_records)
+                    results_dict['runners'] = runner_stats
+                    logger.info(f"Runners inserted: {runner_stats}")
+                else:
+                    logger.warning("No runner records prepared for insertion")
+
+                # Extract and store entities (jockeys, trainers, owners, horses)
+                if skip_enrichment:
+                    logger.info(f"SKIPPING entity enrichment for {len(all_runners)} runners (fast mode)")
+                    entity_stats = {'skipped': True, 'message': 'Enrichment skipped for fast backfill'}
+                    results_dict['entities'] = entity_stats
+                else:
+                    logger.info(f"Extracting entities from {len(all_runners)} runners...")
+                    entity_stats = self.entity_extractor.extract_and_store_from_runners(all_runners)
+                    results_dict['entities'] = entity_stats
+            else:
+                logger.info("No runners found for entity extraction")
 
         return {
             'success': True,
             'fetched': len(all_results),
-            'inserted': results_dict.get('results', {}).get('inserted', 0),
+            'inserted': results_dict.get('races', {}).get('inserted', 0),
             'days_fetched': days_fetched,
             'days_with_data': days_with_data,
             'api_stats': self.api_client.get_stats(),
@@ -143,32 +320,31 @@ class ResultsFetcher:
         Returns:
             Transformed result dictionary or None if invalid
         """
-        race_id = result.get('id')
+        race_id = result.get('race_id')
         if not race_id:
             logger.warning("Result missing race ID, skipping")
             return None
 
-        # Build result record
-        # Note: The exact structure depends on your ra_results table schema
-        # This is a basic example - adjust fields as needed
+        # Build result record for ra_races table
+        # Note: Results data (positions) is stored in ra_runners table
         result_record = {
-            'race_id': race_id,
+            'id': race_id,  # RENAMED: race_id → id
             'course_id': result.get('course_id'),
             'course_name': result.get('course'),
             'race_name': result.get('race_name'),
-            'race_date': result.get('race_date'),
-            'off_datetime': result.get('off_dt'),
+            'date': result.get('race_date'),  # RENAMED: race_date → date
+            'off_dt': result.get('off_dt'),  # RENAMED: off_datetime → off_dt
             'off_time': result.get('off_time'),
-            'race_type': result.get('type'),
+            'type': result.get('type'),  # RENAMED: race_type → type
             'race_class': result.get('race_class'),
             'distance': result.get('distance'),
             'distance_f': result.get('distance_f'),
             'surface': result.get('surface'),
             'going': result.get('going'),
-            'prize_money': result.get('prize'),
+            'prize': result.get('prize'),  # RENAMED: prize_money → prize
             'currency': result.get('currency'),
             'region': result.get('region'),
-            'results_status': result.get('results_status'),
+            # Note: results_status field doesn't exist in ra_races schema
             'is_abandoned': result.get('is_abandoned', False),
             'api_data': result,  # Store full API response
             'created_at': datetime.utcnow().isoformat(),
@@ -184,6 +360,110 @@ class ResultsFetcher:
             # in a ra_runner_results table - that's optional
 
         return result_record
+
+    def _prepare_runner_records(self, results: List[Dict]) -> List[Dict]:
+        """
+        Prepare runner records with position data for insertion into ra_runners
+
+        Args:
+            results: List of result dictionaries (raw API responses)
+
+        Returns:
+            List of runner records ready for database insertion
+        """
+        runner_records = []
+
+        for result in results:
+            race_data = result.get('api_data', {})
+            race_id = race_data.get('race_id')
+            race_date = race_data.get('date')
+
+            if not race_id:
+                continue
+
+            runners = race_data.get('runners', [])
+
+            for runner in runners:
+                # Extract position data using our parsing utility
+                position_data = extract_position_data(runner)
+
+                # Build runner record
+                # Generate runner_id as composite key: race_id + horse_id
+                horse_id = runner.get('horse_id')
+                if not horse_id:
+                    continue
+
+                runner_id = f"{race_id}_{horse_id}"
+
+                runner_record = {
+                    'id': runner_id,  # RENAMED: runner_id → id (auto-increment primary key)
+                    'race_id': race_id,
+                    # race_date is in ra_races table, not ra_runners - removed to match schema
+                    'horse_id': horse_id,
+                    'horse_name': runner.get('horse'),
+                    'jockey_id': runner.get('jockey_id'),
+                    'jockey_name': runner.get('jockey'),
+                    'trainer_id': runner.get('trainer_id'),
+                    'trainer_name': runner.get('trainer'),
+                    'owner_id': runner.get('owner_id'),
+                    'owner_name': runner.get('owner'),
+                    # Integer fields - safely parse to handle empty strings
+                    'horse_age': parse_int_field(runner.get('age')),  # Renamed: age → horse_age
+                    'horse_sex': runner.get('sex'),  # Renamed: sex → horse_sex
+                    'weight_lbs': parse_int_field(runner.get('weight_lbs')),  # Numeric weight in lbs
+                    'draw': parse_int_field(runner.get('draw')),
+                    'number': parse_int_field(runner.get('number')),
+                    'headgear': runner.get('headgear'),
+                    # Form fields (racecards-only, will be NULL in results)
+                    'form': runner.get('form_string'),  # Racecards-only field (NULL in results)
+                    'form_string': runner.get('form_string'),  # Racecards-only field (NULL in results)
+                    'silk_url': runner.get('silk_url'),  # Jockey silk URL
+                    'prize_money_won': runner.get('prize'),  # API: 'prize' (prize money for this race)
+                    # Rating fields - API may return "–" for missing values, parse safely
+                    'ofr': parse_rating(runner.get('or')),  # RENAMED: official_rating → ofr
+                    'rpr': parse_rating(runner.get('rpr')),  # Racing Post Rating
+                    'ts': parse_rating(runner.get('tsr')),  # RENAMED: tsr → ts
+                    # Position fields - THE CRITICAL DATA FOR ML
+                    'position': position_data['position'],
+                    'distance_beaten': position_data['distance_beaten'],
+                    'prize_won': position_data['prize_won'],
+                    'starting_price': position_data['starting_price'],
+                    'result_updated_at': datetime.utcnow().isoformat(),
+                    # NEW FIELDS - Additional result data (Migration 011)
+                    'finishing_time': parse_text_field(runner.get('time')),  # Race finishing time (e.g., "1:48.55")
+                    'starting_price_decimal': parse_decimal_field(runner.get('sp_dec')),  # Decimal odds (e.g., 4.50)
+                    'overall_beaten_distance': parse_decimal_field(runner.get('ovr_btn')),  # Overall beaten distance
+                    'jockey_claim_lbs': parse_int_field(runner.get('jockey_claim_lbs')),  # Jockey weight allowance
+                    'weight_st_lbs': parse_text_field(runner.get('weight')),  # RENAMED: weight_stones_lbs → weight_st_lbs
+                    'comment': parse_text_field(runner.get('comment')),  # FIXED: Use 'comment' not 'race_comment' (dropped column!)
+                    # Pedigree fields
+                    'sire_id': runner.get('sire_id'),
+                    'sire_name': runner.get('sire'),  # Will be filtered by supabase_client.py
+                    'dam_id': runner.get('dam_id'),
+                    'dam_name': runner.get('dam'),  # Will be filtered by supabase_client.py
+                    'damsire_id': runner.get('damsire_id'),
+                    'damsire_name': runner.get('damsire'),  # Will be filtered by supabase_client.py
+                    # Store full runner API data
+                    'api_data': runner,
+                    'created_at': datetime.utcnow().isoformat(),
+                    'updated_at': datetime.utcnow().isoformat()
+                }
+
+                runner_records.append(runner_record)
+
+        logger.info(f"Prepared {len(runner_records)} runner records with position data")
+
+        # Log sample of position data for verification
+        if runner_records:
+            sample = runner_records[0]
+            logger.info(f"Sample runner record:")
+            logger.info(f"  Horse: {sample.get('horse_name')}")
+            logger.info(f"  Position: {sample.get('position')}")
+            logger.info(f"  Distance beaten: {sample.get('distance_beaten')}")
+            logger.info(f"  Prize: {sample.get('prize_won')}")
+            logger.info(f"  SP: {sample.get('starting_price')}")
+
+        return runner_records
 
 
 def main():

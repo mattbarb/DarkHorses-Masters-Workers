@@ -1,19 +1,22 @@
 """
 Horses Reference Data Fetcher
 Fetches horse profiles from Racing API
+
+HYBRID APPROACH:
+- Bulk search for discovery (fast)
+- Pro endpoint for new horses (complete data)
+- This ensures new horses have pedigree data immediately
 """
 
-import sys
-from pathlib import Path
-sys.path.append(str(Path(__file__).parent.parent))
-
+import time
 from datetime import datetime
-from typing import Dict, List
+from typing import Dict, List, Set
 from config.config import get_config
 from utils.logger import get_logger
 from utils.api_client import RacingAPIClient
 from utils.supabase_client import SupabaseReferenceClient
 from utils.regional_filter import RegionalFilter
+from utils.region_extractor import extract_region_from_name
 
 logger = get_logger('horses_fetcher')
 
@@ -36,6 +39,44 @@ class HorsesFetcher:
             service_key=self.config.supabase.service_key,
             batch_size=self.config.supabase.batch_size
         )
+
+    def _get_existing_horse_ids(self) -> Set[str]:
+        """
+        Get set of existing horse IDs from database
+
+        Returns:
+            Set of horse IDs already in database
+        """
+        try:
+            result = self.db_client.client.table('ra_horses').select('id').execute()
+            existing_ids = {row['id'] for row in result.data}
+            logger.info(f"Found {len(existing_ids)} existing horses in database")
+            return existing_ids
+        except Exception as e:
+            logger.error(f"Error fetching existing horse IDs: {e}")
+            return set()
+
+    def _fetch_horse_pro(self, horse_id: str) -> Dict:
+        """
+        Fetch complete horse data from Pro endpoint
+
+        Args:
+            horse_id: Horse ID to fetch
+
+        Returns:
+            Complete horse data dict or None if fetch fails
+        """
+        try:
+            response = self.api_client.get_horse_details(horse_id, tier='pro')
+            if response:
+                logger.debug(f"Successfully fetched Pro data for {horse_id}")
+                return response
+            else:
+                logger.warning(f"No data returned from Pro endpoint for {horse_id}")
+                return None
+        except Exception as e:
+            logger.error(f"Error fetching Pro data for {horse_id}: {e}")
+            return None
 
     def fetch_and_store(self, limit_per_page: int = 500, max_pages: int = None,
                         filter_uk_ireland: bool = True) -> Dict:
@@ -93,55 +134,122 @@ class HorsesFetcher:
             all_horses = RegionalFilter.filter_horses_by_region(all_horses)
             logger.info(f"After UK/Ireland filtering: {len(all_horses)} horses")
 
-        # Transform data for database
+        # Get existing horse IDs from database
+        existing_ids = self._get_existing_horse_ids()
+
+        # Separate new vs existing horses
+        new_horses = [h for h in all_horses if h.get('id') not in existing_ids]
+        existing_horses = [h for h in all_horses if h.get('id') in existing_ids]
+
+        logger.info(f"New horses: {len(new_horses)}, Existing horses: {len(existing_horses)}")
+
+        # Process horses
         horses_transformed = []
         pedigrees_transformed = []
+        pro_enrichment_stats = {'success': 0, 'failed': 0, 'pedigrees_captured': 0}
 
-        for horse in all_horses:
-            # Basic horse record
+        # Process EXISTING horses (basic update only)
+        for horse in existing_horses:
             horse_record = {
-                'horse_id': horse.get('id'),
+                'id': horse.get('id'),  # RENAMED: horse_id → id
                 'name': horse.get('name'),
-                'dob': horse.get('dob'),
                 'sex': horse.get('sex'),
-                'sex_code': horse.get('sex_code'),
-                'colour': horse.get('colour'),
-                'region': horse.get('region'),
-                'created_at': datetime.utcnow().isoformat(),
                 'updated_at': datetime.utcnow().isoformat()
             }
             horses_transformed.append(horse_record)
 
-            # Pedigree data (if available)
-            if any([horse.get('sire_id'), horse.get('dam_id'), horse.get('damsire_id')]):
-                pedigree_record = {
-                    'horse_id': horse.get('id'),
-                    'sire_id': horse.get('sire_id'),
-                    'sire': horse.get('sire'),
-                    'sire_region': horse.get('sire_region'),
-                    'dam_id': horse.get('dam_id'),
-                    'dam': horse.get('dam'),
-                    'dam_region': horse.get('dam_region'),
-                    'damsire_id': horse.get('damsire_id'),
-                    'damsire': horse.get('damsire'),
-                    'damsire_region': horse.get('damsire_region'),
-                    'breeder': horse.get('breeder'),
+        # Process NEW horses (Pro enrichment for complete data)
+        if new_horses:
+            logger.info(f"Enriching {len(new_horses)} new horses with Pro endpoint...")
+
+        for idx, horse in enumerate(new_horses):
+            horse_id = horse.get('id')
+            logger.info(f"[{idx+1}/{len(new_horses)}] New horse: {horse_id} - Fetching complete data...")
+
+            # Fetch complete data from Pro endpoint
+            horse_pro = self._fetch_horse_pro(horse_id)
+
+            if horse_pro:
+                # Extract region from horse name (breeding origin)
+                horse_name = horse_pro.get('name', '')
+                region = extract_region_from_name(horse_name)
+
+                # Success - insert complete horse data
+                horse_record = {
+                    'id': horse_pro.get('id'),  # RENAMED: horse_id → id
+                    'name': horse_name,
+                    'sex': horse_pro.get('sex'),
+                    'dob': horse_pro.get('dob'),
+                    'sex_code': horse_pro.get('sex_code'),
+                    'colour': horse_pro.get('colour'),
+                    'colour_code': horse_pro.get('colour_code'),
+                    'breeder': horse_pro.get('breeder'),  # Breeder name (also stored in pedigree)
+                    'region': region,  # Extracted from name
                     'created_at': datetime.utcnow().isoformat(),
                     'updated_at': datetime.utcnow().isoformat()
                 }
-                pedigrees_transformed.append(pedigree_record)
+                horses_transformed.append(horse_record)
+
+                # Insert pedigree if available
+                if any([horse_pro.get('sire_id'), horse_pro.get('dam_id'), horse_pro.get('damsire_id')]):
+                    pedigree_record = {
+                        'horse_id': horse_pro.get('id'),
+                        'sire_id': horse_pro.get('sire_id'),
+                        'sire': horse_pro.get('sire'),
+                        'dam_id': horse_pro.get('dam_id'),
+                        'dam': horse_pro.get('dam'),
+                        'damsire_id': horse_pro.get('damsire_id'),
+                        'damsire': horse_pro.get('damsire'),
+                        'breeder': horse_pro.get('breeder'),
+                        'region': region,  # Extracted from horse name
+                        'created_at': datetime.utcnow().isoformat(),
+                        'updated_at': datetime.utcnow().isoformat()
+                    }
+                    pedigrees_transformed.append(pedigree_record)
+                    pro_enrichment_stats['pedigrees_captured'] += 1
+                    logger.info(f"  ✓ Pedigree captured for {horse_id}")
+
+                pro_enrichment_stats['success'] += 1
+
+                # Rate limiting: 2 requests/second
+                time.sleep(0.5)
+
+            else:
+                # Fallback - insert basic data if Pro fetch fails
+                logger.warning(f"  ✗ Pro fetch failed for {horse_id}, using basic data")
+                horse_record = {
+                    'id': horse.get('id'),  # RENAMED: horse_id → id
+                    'name': horse.get('name'),
+                    'sex': horse.get('sex'),
+                    'created_at': datetime.utcnow().isoformat(),
+                    'updated_at': datetime.utcnow().isoformat()
+                }
+                horses_transformed.append(horse_record)
+                pro_enrichment_stats['failed'] += 1
 
         # Store in database
         results = {}
         if horses_transformed:
             horse_stats = self.db_client.insert_horses(horses_transformed)
             results['horses'] = horse_stats
-            logger.info(f"Horses inserted: {horse_stats}")
+            logger.info(f"Horses inserted/updated: {horse_stats}")
 
         if pedigrees_transformed:
             pedigree_stats = self.db_client.insert_pedigree(pedigrees_transformed)
             results['pedigrees'] = pedigree_stats
             logger.info(f"Pedigrees inserted: {pedigree_stats}")
+
+        # Log Pro enrichment statistics
+        if new_horses:
+            logger.info("=" * 60)
+            logger.info("PRO ENRICHMENT STATISTICS")
+            logger.info(f"New horses found: {len(new_horses)}")
+            logger.info(f"Successfully enriched: {pro_enrichment_stats['success']}")
+            logger.info(f"Failed enrichments: {pro_enrichment_stats['failed']}")
+            logger.info(f"Pedigrees captured: {pro_enrichment_stats['pedigrees_captured']}")
+            success_rate = (pro_enrichment_stats['success'] / len(new_horses) * 100) if new_horses else 0
+            logger.info(f"Success rate: {success_rate:.1f}%")
+            logger.info("=" * 60)
 
         # Calculate statistics
         total_inserted = results.get('horses', {}).get('inserted', 0)
@@ -149,9 +257,12 @@ class HorsesFetcher:
         return {
             'success': True,
             'fetched': len(all_horses),
-            'inserted': total_inserted,  # For consistency with other fetchers
+            'new_horses': len(new_horses),
+            'existing_horses': len(existing_horses),
+            'inserted': total_inserted,
             'horses_inserted': total_inserted,
             'pedigrees_inserted': results.get('pedigrees', {}).get('inserted', 0),
+            'pro_enrichment': pro_enrichment_stats,
             'api_stats': self.api_client.get_stats(),
             'db_stats': results
         }
@@ -160,7 +271,7 @@ class HorsesFetcher:
 def main():
     """Main execution"""
     logger.info("=" * 60)
-    logger.info("HORSES REFERENCE DATA FETCHER")
+    logger.info("HORSES REFERENCE DATA FETCHER (HYBRID MODE)")
     logger.info("=" * 60)
 
     fetcher = HorsesFetcher()
@@ -171,9 +282,18 @@ def main():
     logger.info("\n" + "=" * 60)
     logger.info("FETCH COMPLETE")
     logger.info(f"Success: {result.get('success')}")
-    logger.info(f"Fetched: {result.get('fetched', 0)} horses")
-    logger.info(f"Horses inserted: {result.get('horses_inserted', 0)}")
+    logger.info(f"Total fetched: {result.get('fetched', 0)} horses")
+    logger.info(f"New horses: {result.get('new_horses', 0)}")
+    logger.info(f"Existing horses: {result.get('existing_horses', 0)}")
+    logger.info(f"Horses inserted/updated: {result.get('horses_inserted', 0)}")
     logger.info(f"Pedigrees inserted: {result.get('pedigrees_inserted', 0)}")
+
+    pro_stats = result.get('pro_enrichment', {})
+    if pro_stats.get('success', 0) > 0 or pro_stats.get('failed', 0) > 0:
+        logger.info("\nPro Enrichment:")
+        logger.info(f"  Enriched: {pro_stats.get('success', 0)}/{result.get('new_horses', 0)}")
+        logger.info(f"  Pedigrees: {pro_stats.get('pedigrees_captured', 0)}")
+
     logger.info("=" * 60)
 
     return result
