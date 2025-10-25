@@ -1,0 +1,659 @@
+{
+  "summary_stats": {
+    "total_tables": 14,
+    "total_columns": 176,
+    "fully_populated": 70,
+    "partially_populated": 49,
+    "not_populated": 57
+  },
+  "tables": {
+    "ra_horse_pedigree": {
+      "fetcher": "utils/entity_extractor.py (_enrich_new_horses)",
+      "total_columns": 9,
+      "fully_populated": 8,
+      "partially_populated": 1,
+      "not_populated": 0,
+      "fully_populated_list": [
+        "horse_id",
+        "sire_id",
+        "sire",
+        "dam_id",
+        "dam",
+        "damsire_id",
+        "damsire",
+        "breeder"
+      ],
+      "partially_populated_list": [
+        [
+          "region",
+          36.81
+        ]
+      ],
+      "not_populated_list": []
+    },
+    "ra_mst_bookmakers": {
+      "fetcher": "fetchers/bookmakers_fetcher.py (hardcoded data)",
+      "total_columns": 5,
+      "fully_populated": 5,
+      "partially_populated": 0,
+      "not_populated": 0,
+      "fully_populated_list": [
+        "id",
+        "name",
+        "code",
+        "is_active",
+        "type"
+      ],
+      "partially_populated_list": [],
+      "not_populated_list": []
+    },
+    "ra_mst_courses": {
+      "fetcher": "fetchers/courses_fetcher.py",
+      "total_columns": 4,
+      "fully_populated": 4,
+      "partially_populated": 0,
+      "not_populated": 0,
+      "fully_populated_list": [
+        "id",
+        "name",
+        "region_code",
+        "region"
+      ],
+      "partially_populated_list": [],
+      "not_populated_list": []
+    },
+    "ra_mst_dams": {
+      "fetcher": "utils/entity_extractor.py (extract_breeding_from_runners)",
+      "total_columns": 1,
+      "fully_populated": 1,
+      "partially_populated": 0,
+      "not_populated": 0,
+      "fully_populated_list": [
+        "id"
+      ],
+      "partially_populated_list": [],
+      "not_populated_list": []
+    },
+    "ra_mst_damsires": {
+      "fetcher": "utils/entity_extractor.py (extract_breeding_from_runners)",
+      "total_columns": 1,
+      "fully_populated": 1,
+      "partially_populated": 0,
+      "not_populated": 0,
+      "fully_populated_list": [
+        "id"
+      ],
+      "partially_populated_list": [],
+      "not_populated_list": []
+    },
+    "ra_mst_horses": {
+      "fetcher": "utils/entity_extractor.py (_enrich_new_horses) + fetchers/horses_fetcher.py",
+      "total_columns": 11,
+      "fully_populated": 9,
+      "partially_populated": 2,
+      "not_populated": 0,
+      "fully_populated_list": [
+        "id",
+        "name",
+        "sire_id",
+        "dam_id",
+        "damsire_id",
+        "dob",
+        "sex",
+        "sex_code",
+        "colour"
+      ],
+      "partially_populated_list": [
+        [
+          "colour_code",
+          25.1
+        ],
+        [
+          "region",
+          29.6
+        ]
+      ],
+      "not_populated_list": []
+    },
+    "ra_mst_jockeys": {
+      "fetcher": "utils/entity_extractor.py (extract_from_runners)",
+      "total_columns": 2,
+      "fully_populated": 2,
+      "partially_populated": 0,
+      "not_populated": 0,
+      "fully_populated_list": [
+        "id",
+        "name"
+      ],
+      "partially_populated_list": [],
+      "not_populated_list": []
+    },
+    "ra_mst_owners": {
+      "fetcher": "utils/entity_extractor.py (extract_from_runners)",
+      "total_columns": 2,
+      "fully_populated": 2,
+      "partially_populated": 0,
+      "not_populated": 0,
+      "fully_populated_list": [
+        "id",
+        "name"
+      ],
+      "partially_populated_list": [],
+      "not_populated_list": []
+    },
+    "ra_mst_regions": {
+      "fetcher": "UNKNOWN",
+      "total_columns": 2,
+      "fully_populated": 2,
+      "partially_populated": 0,
+      "not_populated": 0,
+      "fully_populated_list": [
+        "code",
+        "name"
+      ],
+      "partially_populated_list": [],
+      "not_populated_list": []
+    },
+    "ra_mst_sires": {
+      "fetcher": "utils/entity_extractor.py (extract_breeding_from_runners)",
+      "total_columns": 1,
+      "fully_populated": 1,
+      "partially_populated": 0,
+      "not_populated": 0,
+      "fully_populated_list": [
+        "id"
+      ],
+      "partially_populated_list": [],
+      "not_populated_list": []
+    },
+    "ra_mst_trainers": {
+      "fetcher": "utils/entity_extractor.py (extract_from_runners)",
+      "total_columns": 3,
+      "fully_populated": 2,
+      "partially_populated": 1,
+      "not_populated": 0,
+      "fully_populated_list": [
+        "id",
+        "name"
+      ],
+      "partially_populated_list": [
+        [
+          "location",
+          46.57
+        ]
+      ],
+      "not_populated_list": []
+    },
+    "ra_odds_historical": {
+      "fetcher": "UNKNOWN",
+      "total_columns": 1,
+      "fully_populated": 1,
+      "partially_populated": 0,
+      "not_populated": 0,
+      "fully_populated_list": [
+        "horse_name"
+      ],
+      "partially_populated_list": [],
+      "not_populated_list": []
+    },
+    "ra_odds_live": {
+      "fetcher": "UNKNOWN",
+      "total_columns": 3,
+      "fully_populated": 3,
+      "partially_populated": 0,
+      "not_populated": 0,
+      "fully_populated_list": [
+        "race_id",
+        "horse_id",
+        "horse_name"
+      ],
+      "partially_populated_list": [],
+      "not_populated_list": []
+    },
+    "ra_odds_live_latest": {
+      "fetcher": "UNKNOWN",
+      "total_columns": 2,
+      "fully_populated": 2,
+      "partially_populated": 0,
+      "not_populated": 0,
+      "fully_populated_list": [
+        "race_id",
+        "horse_name"
+      ],
+      "partially_populated_list": [],
+      "not_populated_list": []
+    },
+    "ra_odds_statistics": {
+      "fetcher": "UNKNOWN",
+      "total_columns": 1,
+      "fully_populated": 0,
+      "partially_populated": 0,
+      "not_populated": 1,
+      "fully_populated_list": [],
+      "partially_populated_list": [],
+      "not_populated_list": [
+        "race_id"
+      ]
+    },
+    "ra_race_results": {
+      "fetcher": "NOT IMPLEMENTED (table exists but not populated)",
+      "total_columns": 36,
+      "fully_populated": 0,
+      "partially_populated": 0,
+      "not_populated": 36,
+      "fully_populated_list": [],
+      "partially_populated_list": [],
+      "not_populated_list": [
+        "race_id",
+        "race_date",
+        "horse_id",
+        "horse_name",
+        "jockey_name",
+        "trainer_name",
+        "owner_name",
+        "position",
+        "position_str",
+        "number",
+        "draw",
+        "jockey_id",
+        "jockey_claim_lbs",
+        "trainer_id",
+        "owner_id",
+        "sire_id",
+        "dam_id",
+        "damsire_id",
+        "age",
+        "sex",
+        "weight_lbs",
+        "weight_st_lbs",
+        "headgear",
+        "sp",
+        "sp_decimal",
+        "btn",
+        "ovr_btn",
+        "time_seconds",
+        "time_display",
+        "official_rating",
+        "rpr",
+        "tsr",
+        "prize_won",
+        "comment",
+        "silk_url",
+        "margin"
+      ]
+    },
+    "ra_races": {
+      "fetcher": "fetchers/races_fetcher.py + fetchers/results_fetcher.py",
+      "total_columns": 46,
+      "fully_populated": 16,
+      "partially_populated": 24,
+      "not_populated": 6,
+      "fully_populated_list": [
+        "id",
+        "course_id",
+        "course_name",
+        "date",
+        "off_time",
+        "off_dt",
+        "race_name",
+        "distance",
+        "distance_f",
+        "region",
+        "type",
+        "surface",
+        "going",
+        "is_big_race",
+        "is_abandoned",
+        "has_result"
+      ],
+      "partially_populated_list": [
+        [
+          "distance_round",
+          9.37
+        ],
+        [
+          "distance_m",
+          26.42
+        ],
+        [
+          "pattern",
+          0.52
+        ],
+        [
+          "race_class",
+          78.57
+        ],
+        [
+          "age_band",
+          27.28
+        ],
+        [
+          "sex_restriction",
+          1.19
+        ],
+        [
+          "rating_band",
+          5.35
+        ],
+        [
+          "prize",
+          5.89
+        ],
+        [
+          "field_size",
+          27.28
+        ],
+        [
+          "jumps",
+          3.27
+        ],
+        [
+          "winning_time",
+          9.27
+        ],
+        [
+          "winning_time_detail",
+          9.27
+        ],
+        [
+          "comments",
+          0.36
+        ],
+        [
+          "non_runners",
+          4.63
+        ],
+        [
+          "tote_win",
+          9.26
+        ],
+        [
+          "tote_pl",
+          8.73
+        ],
+        [
+          "tote_ex",
+          9.23
+        ],
+        [
+          "tote_csf",
+          9.23
+        ],
+        [
+          "tote_tricast",
+          4.61
+        ],
+        [
+          "tote_trifecta",
+          9.09
+        ],
+        [
+          "tip",
+          0.23
+        ],
+        [
+          "verdict",
+          0.24
+        ],
+        [
+          "betting_forecast",
+          0.24
+        ],
+        [
+          "time",
+          93.87
+        ]
+      ],
+      "not_populated_list": [
+        "race_number",
+        "going_detailed",
+        "stalls",
+        "rail_movements",
+        "weather",
+        "meet_id"
+      ]
+    },
+    "ra_runner_odds": {
+      "fetcher": "UNKNOWN",
+      "total_columns": 2,
+      "fully_populated": 0,
+      "partially_populated": 0,
+      "not_populated": 2,
+      "fully_populated_list": [],
+      "partially_populated_list": [],
+      "not_populated_list": [
+        "race_id",
+        "horse_id"
+      ]
+    },
+    "ra_runners": {
+      "fetcher": "fetchers/races_fetcher.py + fetchers/results_fetcher.py",
+      "total_columns": 53,
+      "fully_populated": 17,
+      "partially_populated": 21,
+      "not_populated": 15,
+      "fully_populated_list": [
+        "race_id",
+        "horse_id",
+        "horse_name",
+        "jockey_name",
+        "trainer_name",
+        "owner_name",
+        "number",
+        "draw",
+        "jockey_id",
+        "trainer_id",
+        "owner_id",
+        "sire_id",
+        "dam_id",
+        "damsire_id",
+        "age",
+        "sex",
+        "is_scratched"
+      ],
+      "partially_populated_list": [
+        [
+          "weight_lbs",
+          91.45
+        ],
+        [
+          "weight_st_lbs",
+          9.11
+        ],
+        [
+          "sex_code",
+          91.14
+        ],
+        [
+          "colour",
+          0.04
+        ],
+        [
+          "dob",
+          0.04
+        ],
+        [
+          "headgear",
+          37.05
+        ],
+        [
+          "form",
+          18.67
+        ],
+        [
+          "ofr",
+          74.15
+        ],
+        [
+          "rpr",
+          91.54
+        ],
+        [
+          "ts",
+          79.78
+        ],
+        [
+          "comment",
+          8.91
+        ],
+        [
+          "spotlight",
+          0.04
+        ],
+        [
+          "trainer_rtf",
+          0.04
+        ],
+        [
+          "past_results_flags",
+          0.04
+        ],
+        [
+          "silk_url",
+          28.85
+        ],
+        [
+          "position",
+          8.41
+        ],
+        [
+          "distance_beaten",
+          8.9
+        ],
+        [
+          "prize_won",
+          3.62
+        ],
+        [
+          "starting_price",
+          8.9
+        ],
+        [
+          "result_updated_at",
+          8.41
+        ],
+        [
+          "trainer_location",
+          8.54
+        ]
+      ],
+      "not_populated_list": [
+        "headgear_run",
+        "wind_surgery",
+        "wind_surgery_run",
+        "claiming_price_min",
+        "claiming_price_max",
+        "medication",
+        "equipment",
+        "morning_line_odds",
+        "finishing_time",
+        "starting_price_decimal",
+        "race_comment",
+        "jockey_silk_url",
+        "overall_beaten_distance",
+        "jockey_claim_lbs",
+        "weight_stones_lbs"
+      ]
+    }
+  },
+  "issues_found": [
+    {
+      "table": "ra_races",
+      "column": "race_number",
+      "population_rate": 0.0,
+      "api_endpoint": "/v1/racecards/pro -> races[]",
+      "field_path": "response.races[].race_number"
+    },
+    {
+      "table": "ra_races",
+      "column": "going_detailed",
+      "population_rate": 0.0,
+      "api_endpoint": "/v1/racecards/pro -> races[]",
+      "field_path": "response.races[].going_detailed"
+    },
+    {
+      "table": "ra_races",
+      "column": "stalls",
+      "population_rate": 0.0,
+      "api_endpoint": "/v1/racecards/pro -> races[]",
+      "field_path": "response.races[].stalls"
+    },
+    {
+      "table": "ra_races",
+      "column": "rail_movements",
+      "population_rate": 0.0,
+      "api_endpoint": "/v1/racecards/pro -> races[]",
+      "field_path": "response.races[].rail_movements"
+    },
+    {
+      "table": "ra_races",
+      "column": "weather",
+      "population_rate": 0.0,
+      "api_endpoint": "/v1/racecards/pro -> races[]",
+      "field_path": "response.races[].weather"
+    },
+    {
+      "table": "ra_races",
+      "column": "meet_id",
+      "population_rate": 0.0,
+      "api_endpoint": "/v1/racecards/pro -> races[]",
+      "field_path": "response.races[].meet_id"
+    },
+    {
+      "table": "ra_runners",
+      "column": "headgear_run",
+      "population_rate": 0.0,
+      "api_endpoint": "/v1/racecards/pro OR /v1/results",
+      "field_path": "response.races[].runners[].headgear_run"
+    },
+    {
+      "table": "ra_runners",
+      "column": "wind_surgery",
+      "population_rate": 0.0,
+      "api_endpoint": "/v1/racecards/pro OR /v1/results",
+      "field_path": "response.races[].runners[].wind_surgery"
+    },
+    {
+      "table": "ra_runners",
+      "column": "wind_surgery_run",
+      "population_rate": 0.0,
+      "api_endpoint": "/v1/racecards/pro OR /v1/results",
+      "field_path": "response.races[].runners[].wind_surgery_run"
+    },
+    {
+      "table": "ra_runners",
+      "column": "claiming_price_min",
+      "population_rate": 0.0,
+      "api_endpoint": "/v1/racecards/pro OR /v1/results",
+      "field_path": "response.races[].runners[].claiming_price_min"
+    },
+    {
+      "table": "ra_runners",
+      "column": "claiming_price_max",
+      "population_rate": 0.0,
+      "api_endpoint": "/v1/racecards/pro OR /v1/results",
+      "field_path": "response.races[].runners[].claiming_price_max"
+    },
+    {
+      "table": "ra_runners",
+      "column": "medication",
+      "population_rate": 0.0,
+      "api_endpoint": "/v1/racecards/pro OR /v1/results",
+      "field_path": "response.races[].runners[].medication"
+    },
+    {
+      "table": "ra_runners",
+      "column": "equipment",
+      "population_rate": 0.0,
+      "api_endpoint": "/v1/racecards/pro OR /v1/results",
+      "field_path": "response.races[].runners[].equipment"
+    },
+    {
+      "table": "ra_runners",
+      "column": "morning_line_odds",
+      "population_rate": 0.0,
+      "api_endpoint": "/v1/racecards/pro OR /v1/results",
+      "field_path": "response.races[].runners[].morning_line_odds"
+    }
+  ]
+}

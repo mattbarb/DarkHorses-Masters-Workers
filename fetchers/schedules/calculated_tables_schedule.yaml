@@ -1,0 +1,139 @@
+# Calculated Tables Schedule Configuration
+# =======================================
+# Defines when each calculated table should be updated
+
+version: "1.0"
+updated: "2025-10-22"
+
+# Schedule definitions
+schedules:
+  daily:
+    description: "Daily calculation updates (after Racing API fetch completes)"
+    cron: "30 2 * * *"  # 2:30 AM daily
+    time_uk: "02:30 AM UK time"
+    runs_after: "Racing API daily fetch (01:00 AM)"
+    script: "fetchers/populate_all_calculated_tables.py"
+    tables:
+      - ra_entity_combinations
+      - ra_runner_statistics
+      - ra_performance_by_distance
+      - ra_performance_by_venue
+    parameters:
+      min_runs: 5
+      min_runs_runner: 3
+      min_runs_distance: 5
+      min_runs_venue: 5
+
+  weekly:
+    description: "Weekly full recalculation with strict thresholds"
+    cron: "30 3 * * 0"  # Sunday 3:30 AM
+    time_uk: "03:30 AM UK time (Sunday)"
+    runs_after: "Racing API weekly fetch (02:00 AM)"
+    script: "fetchers/populate_all_calculated_tables.py"
+    tables:
+      - ra_entity_combinations
+      - ra_runner_statistics
+      - ra_performance_by_distance
+      - ra_performance_by_venue
+    parameters:
+      min_runs: 10
+      min_runs_runner: 5
+      min_runs_distance: 10
+      min_runs_venue: 10
+
+# Table definitions
+tables:
+  ra_entity_combinations:
+    name: "Jockey-Trainer Partnerships"
+    phase: 1
+    data_source: "ra_runners (aggregated)"
+    update_frequency: "daily"
+    calculation_time: "2-5 minutes"
+    records_expected: "200-500 partnerships"
+
+  ra_runner_statistics:
+    name: "Runner Performance Metrics"
+    phase: 2
+    data_source: "ra_runners + ra_races (aggregated)"
+    update_frequency: "daily"
+    calculation_time: "5-8 minutes"
+    records_expected: "50K-100K runners"
+    fields: 60
+
+  ra_performance_by_distance:
+    name: "Distance-Based Performance"
+    phase: 2
+    data_source: "ra_runners + ra_races (aggregated)"
+    update_frequency: "daily"
+    calculation_time: "5-8 minutes"
+    records_expected: "5K-15K records"
+    entities: ["horse", "jockey", "trainer"]
+
+  ra_performance_by_venue:
+    name: "Venue-Based Performance (Course Specialists)"
+    phase: 2
+    data_source: "ra_runners + ra_races (aggregated)"
+    update_frequency: "daily"
+    calculation_time: "5-8 minutes"
+    records_expected: "3K-10K records"
+    entities: ["jockey", "trainer"]
+
+# Execution order
+execution_order:
+  - description: "Phase 1 must complete before Phase 2"
+  - phase: 1
+    tables:
+      - ra_entity_combinations
+  - phase: 2
+    tables:
+      - ra_runner_statistics
+      - ra_performance_by_distance
+      - ra_performance_by_venue
+
+# Dependencies
+dependencies:
+  racing_api_fetch:
+    description: "Calculated tables depend on Racing API data"
+    required_tables:
+      - ra_runners
+      - ra_races
+      - ra_odds_live
+    must_complete_before: "calculated_tables"
+
+  calculated_tables:
+    description: "Derived statistics calculated from source data"
+    requires:
+      - racing_api_fetch
+    provides:
+      - ra_entity_combinations
+      - ra_runner_statistics
+      - ra_performance_by_distance
+      - ra_performance_by_venue
+
+# Monitoring
+monitoring:
+  log_location: "logs/cron_calculated_tables.log"
+  error_patterns:
+    - "❌ FAILED"
+    - "Error"
+    - "Exception"
+  success_pattern: "✅ All calculated tables populated successfully"
+  max_runtime_minutes: 35
+  alert_if_exceeds: true
+
+# Cron configuration
+cron_jobs:
+  - name: "Racing API Scheduled Fetch"
+    command: "python3 fetchers/master_fetcher_controller.py --mode scheduled"
+    schedule: "0 * * * *"
+    log: "logs/cron_scheduled.log"
+
+  - name: "Daily Calculated Tables"
+    command: "python3 fetchers/populate_all_calculated_tables.py"
+    schedule: "30 2 * * *"
+    log: "logs/cron_calculated_tables.log"
+
+  - name: "Weekly Full Recalculation"
+    command: "python3 fetchers/populate_all_calculated_tables.py --min-runs 10 --min-runs-runner 5 --min-runs-distance 10 --min-runs-venue 10"
+    schedule: "30 3 * * 0"
+    log: "logs/cron_calculated_weekly.log"

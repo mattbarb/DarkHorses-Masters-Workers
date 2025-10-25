@@ -10,7 +10,7 @@ HYBRID APPROACH:
 
 import logging
 import time
-from typing import Dict, List, Set, Tuple
+from typing import Dict, List, Set, Tuple, Optional
 from datetime import datetime
 from utils.region_extractor import extract_region_from_name
 
@@ -73,6 +73,7 @@ class EntityExtractor:
                 trainers[trainer_id] = {
                     'id': trainer_id,
                     'name': trainer_name,
+                    'location': runner.get('trainer_location'),  # Capture trainer location from API
                     'created_at': datetime.utcnow().isoformat(),
                     'updated_at': datetime.utcnow().isoformat()
                 }
@@ -112,9 +113,77 @@ class EntityExtractor:
             'horses': list(horses.values())
         }
 
+    def _lookup_horse_id_by_name(self, name: str, region: str = None) -> Optional[str]:
+        """
+        Look up horse_id in database by horse name and optional region
+        Uses intelligent matching strategy:
+        1. Try name + region match (most accurate)
+        2. Fallback to name-only match if region not provided or no match found
+
+        Args:
+            name: Horse name (e.g., "Masked Marvel (GB)")
+            region: Region code (e.g., "GB", "IRE") - optional for better matching
+
+        Returns:
+            horse_id if found, None otherwise
+        """
+        if not name:
+            return None
+
+        try:
+            # Normalize name for matching (remove extra whitespace, lowercase)
+            normalized_name = ' '.join(name.split()).lower()
+
+            # Strategy 1: Try name + region match (if region provided)
+            if region:
+                result = self.db_client.client.table('ra_mst_horses')\
+                    .select('id, name, region')\
+                    .execute()
+
+                # Filter in Python for case-insensitive name and region match
+                for horse in result.data:
+                    horse_name_normalized = ' '.join(horse.get('name', '').split()).lower()
+                    horse_region = horse.get('region', '').upper() if horse.get('region') else None
+
+                    if horse_name_normalized == normalized_name and horse_region == region.upper():
+                        horse_id = horse.get('id')
+                        logger.debug(f"✓ Found horse_id '{horse_id}' for '{name}' (region: {region}) via name+region match")
+                        return horse_id
+
+            # Strategy 2: Fallback to name-only match
+            result = self.db_client.client.table('ra_mst_horses')\
+                .select('id, name')\
+                .execute()
+
+            # Filter in Python for case-insensitive exact name match
+            matches = []
+            for horse in result.data:
+                horse_name_normalized = ' '.join(horse.get('name', '').split()).lower()
+                if horse_name_normalized == normalized_name:
+                    matches.append(horse)
+
+            if len(matches) == 1:
+                # Single match - safe to use
+                horse_id = matches[0].get('id')
+                match_type = "name-only (no region)" if not region else "name-only (region mismatch)"
+                logger.debug(f"✓ Found horse_id '{horse_id}' for '{name}' via {match_type}")
+                return horse_id
+            elif len(matches) > 1:
+                # Multiple matches - ambiguous, skip for safety
+                logger.debug(f"⚠ Multiple horses found for '{name}' ({len(matches)} matches), skipping for safety")
+                return None
+            else:
+                logger.debug(f"No horse_id found for '{name}'" + (f" (region: {region})" if region else ""))
+                return None
+
+        except Exception as e:
+            logger.warning(f"Error looking up horse_id for '{name}': {e}")
+            return None
+
     def extract_breeding_from_runners(self, runner_records: List[Dict]) -> Dict[str, List[Dict]]:
         """
         Extract unique breeding entities from runner records
+        NOW WITH HORSE_ID LOOKUP!
 
         Args:
             runner_records: List of runner dictionaries
@@ -127,35 +196,56 @@ class EntityExtractor:
         damsires = {}
 
         for runner in runner_records:
+            # Extract sire with horse_id lookup (using region-aware matching)
             sire_id = runner.get('sire_id')
             sire_name = runner.get('sire_name')
+            sire_region = runner.get('sire_region')
             if sire_id and sire_name and sire_id not in sires:
+                sire_horse_id = self._lookup_horse_id_by_name(sire_name, sire_region)
                 sires[sire_id] = {
                     'id': sire_id,
                     'name': sire_name,
+                    'horse_id': sire_horse_id,  # Link to horse record
+                    'region': sire_region,  # Region for better matching
                     'created_at': datetime.utcnow().isoformat(),
                     'updated_at': datetime.utcnow().isoformat()
                 }
+                if sire_horse_id:
+                    logger.debug(f"  ✓ Linked sire '{sire_name}' to horse_id '{sire_horse_id}'")
 
+            # Extract dam with horse_id lookup (using region-aware matching)
             dam_id = runner.get('dam_id')
             dam_name = runner.get('dam_name')
+            dam_region = runner.get('dam_region')
             if dam_id and dam_name and dam_id not in dams:
+                dam_horse_id = self._lookup_horse_id_by_name(dam_name, dam_region)
                 dams[dam_id] = {
                     'id': dam_id,
                     'name': dam_name,
+                    'horse_id': dam_horse_id,  # Link to horse record
+                    'region': dam_region,  # Region for better matching
                     'created_at': datetime.utcnow().isoformat(),
                     'updated_at': datetime.utcnow().isoformat()
                 }
+                if dam_horse_id:
+                    logger.debug(f"  ✓ Linked dam '{dam_name}' to horse_id '{dam_horse_id}'")
 
+            # Extract damsire with horse_id lookup (using region-aware matching)
             damsire_id = runner.get('damsire_id')
             damsire_name = runner.get('damsire_name')
+            damsire_region = runner.get('damsire_region')
             if damsire_id and damsire_name and damsire_id not in damsires:
+                damsire_horse_id = self._lookup_horse_id_by_name(damsire_name, damsire_region)
                 damsires[damsire_id] = {
                     'id': damsire_id,
                     'name': damsire_name,
+                    'horse_id': damsire_horse_id,  # Link to horse record
+                    'region': damsire_region,  # Region for better matching
                     'created_at': datetime.utcnow().isoformat(),
                     'updated_at': datetime.utcnow().isoformat()
                 }
+                if damsire_horse_id:
+                    logger.debug(f"  ✓ Linked damsire '{damsire_name}' to horse_id '{damsire_horse_id}'")
 
         return {
             'sires': list(sires.values()),
@@ -278,7 +368,7 @@ class EntityExtractor:
             Set of horse IDs already in database
         """
         try:
-            result = self.db_client.client.table('ra_horses').select('id').execute()
+            result = self.db_client.client.table('ra_mst_horses').select('id').execute()
             return {row['id'] for row in result.data}
         except Exception as e:
             logger.error(f"Error fetching existing horse IDs: {e}")
@@ -361,6 +451,7 @@ class EntityExtractor:
                     'sex_code': horse_pro.get('sex_code'),
                     'colour': horse_pro.get('colour'),
                     'colour_code': horse_pro.get('colour_code'),
+                    'breeder': horse_pro.get('breeder'),
                     'region': region,  # Extracted from horse name
                     'updated_at': datetime.utcnow().isoformat()
                 }

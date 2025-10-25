@@ -1,6 +1,24 @@
 # DarkHorses Masters Workers - Documentation Index
 
-Production-ready system for fetching and maintaining UK and Ireland racing reference/master data from The Racing API into Supabase PostgreSQL database.
+**Last Updated:** 2025-10-21
+**Status:** ✅ Production Ready v2.0
+**Major Cleanup:** 101 deprecated files moved to `_deprecated_2025_10_21/`
+
+Production-ready system for fetching and maintaining UK and Ireland racing data from The Racing API into Supabase PostgreSQL database.
+
+---
+
+## 🎯 Start Here (Canonical References)
+
+**These are the PRIMARY references - always start here:**
+
+1. **[DATA_SOURCE_STRATEGY.md](../DATA_SOURCE_STRATEGY.md)** - **CANONICAL** - What data comes from where
+2. **[CLAUDE.md](CLAUDE.md)** - **CANONICAL** - Complete system guide for AI assistants
+3. **[Fetchers Directory](/fetchers/)** - **CANONICAL** - Complete fetcher system documentation
+4. **[COMPLETE_DATA_FILLING_SUMMARY.md](COMPLETE_DATA_FILLING_SUMMARY.md)** - Statistics population guide
+5. **[FETCHER_SCHEDULING_GUIDE.md](FETCHER_SCHEDULING_GUIDE.md)** - Production scheduling
+
+---
 
 ## Quick Navigation
 
@@ -11,6 +29,40 @@ Production-ready system for fetching and maintaining UK and Ireland racing refer
 - [Idiots Guide](architecture/IDIOTS_GUIDE.md) - Simplified instructions
 
 ### Core Documentation by Topic
+
+## Fetcher System (PRODUCTION READY)
+**Location:** `/fetchers/` (PRIMARY) | `docs/` (SCHEDULING)
+
+**⭐ START HERE:** [Fetchers Index](/fetchers/FETCHERS_INDEX.md) - Quick navigation for fetcher system
+
+**Primary Documentation (in `/fetchers/`):**
+- **[Complete Fetcher Data Filling Summary](/fetchers/COMPLETE_FETCHER_DATA_FILLING_SUMMARY.md)** - Comprehensive implementation guide (CANONICAL)
+- **[Fetchers README](/fetchers/README.md)** - Complete fetcher system guide
+- **[Table to Script Mapping](/fetchers/TABLE_TO_SCRIPT_MAPPING.md)** - Definitive reference for which script populates which table
+- **[Table Column Mapping JSON](/fetchers/TABLE_COLUMN_MAPPING.json)** - Detailed column-level mapping with API endpoints
+
+**Scheduling & Deployment (in `/docs/`):**
+- **[Fetcher Scheduling Guide](FETCHER_SCHEDULING_GUIDE.md)** - Cron, systemd, Docker, Kubernetes setup
+
+**Quick Commands:**
+```bash
+# Daily sync (for 1am cron)
+python3 fetchers/master_fetcher_controller.py --mode daily
+
+# Initial backfill from 2015
+python3 fetchers/master_fetcher_controller.py --mode backfill
+
+# List all available tables
+python3 fetchers/master_fetcher_controller.py --list
+```
+
+**What It Does:**
+- Fetches ALL 10 Racing API tables (300+ columns)
+- Three modes: backfill (2015+), daily (1am sync), manual (ad-hoc)
+- Hybrid horse enrichment (automatic pedigree capture for NEW horses)
+- Regional filtering (GB & IRE only)
+- Rate limit compliance (2 req/sec)
+- Production-ready with comprehensive logging
 
 ## ML API Reference (NEW)
 **Location:** `docs/api_reference/`
@@ -260,11 +312,38 @@ Start with: `docs/architecture/START_HERE.md`
 - **GitHub (Masters Workers):** https://github.com/mattbarb/DarkHorses-Masters-Workers
 - **GitHub (Odds Workers):** https://github.com/mattbarb/DarkHorses-Odds-Workers
 
+## Deprecated Documentation
+
+**Location:** `docs/_deprecated_2025_10_21/`
+
+**What's There:**
+- 101 deprecated documentation files
+- Moved during major documentation cleanup on 2025-10-21
+- Preserved for historical reference only
+
+**Why Deprecated:**
+- Consolidation into canonical references
+- Organization into topic subdirectories
+- Elimination of duplicate/overlapping docs
+- Creation of clear documentation hierarchy
+
+**Should You Use Them?**
+- ❌ NO - Do not use for current development
+- ✅ YES - Reference only for historical context
+- ⚠️ FIRST - Always check canonical docs first
+
+**See:** [_deprecated_2025_10_21/README.md](_deprecated_2025_10_21/README.md) for complete deprecation index and migration guide.
+
+---
+
 ## Maintenance
 
-This documentation was reorganized on 2025-10-15 for improved navigation and clarity.
-
-For project cleanup details, see: `docs/PROJECT_CLEANUP_REPORT.md` (when created)
+**Major Updates:**
+- **2025-10-21:** Documentation cleanup - 101 files deprecated, canonical references established
+- **2025-10-21:** CLAUDE.md updated with correct data flow (API first, calculations second)
+- **2025-10-21:** Created DATA_SOURCE_STRATEGY.md as canonical data source reference
+- **2025-10-21:** Enhanced master_fetcher_controller.py v2.0 (scheduling + progress monitoring)
+- **2025-10-15:** Initial documentation reorganization
 
 ## Related Repositories
 
@@ -273,6 +352,12 @@ For project cleanup details, see: `docs/PROJECT_CLEANUP_REPORT.md` (when created
 
 ## Version
 
-Documentation Structure v2.0
-Last Updated: 2025-10-15
-System Version: Production Release v1.0
+**Documentation Structure:** v3.0 (Major cleanup)
+**System Version:** Production Release v2.0 (Enhanced controller)
+**Last Updated:** 2025-10-21
+
+**Key Changes in v3.0:**
+- Canonical references clearly identified
+- Deprecated documentation organized
+- Clear data flow documented
+- Fetcher system fully documented in `/fetchers/`

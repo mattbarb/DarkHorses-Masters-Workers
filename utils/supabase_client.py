@@ -44,7 +44,7 @@ class SupabaseReferenceClient:
             'skipped': 0
         }
 
-    def verify_connection(self, table: str = 'ra_courses') -> bool:
+    def verify_connection(self, table: str = 'ra_mst_courses') -> bool:
         """Verify database connection"""
         try:
             result = self.client.table(table).select('*').limit(1).execute()
@@ -118,45 +118,123 @@ class SupabaseReferenceClient:
 
         return batch_stats
 
+    def insert_batch_no_conflict(self, table: str, records: List[Dict]) -> Dict:
+        """
+        Insert batch of records without ON CONFLICT clause
+
+        Use this for tables with auto-increment primary key and no unique constraints.
+        This performs simple INSERT, allowing duplicate race_id/horse_id combinations.
+
+        Args:
+            table: Table name
+            records: List of record dictionaries
+
+        Returns:
+            Statistics dictionary
+        """
+        if not records:
+            logger.warning(f"No records to insert for {table}")
+            return {'inserted': 0, 'updated': 0, 'errors': 0}
+
+        batch_stats = {'inserted': 0, 'updated': 0, 'errors': 0}
+
+        # Process in batches
+        for i in range(0, len(records), self.batch_size):
+            batch = records[i:i + self.batch_size]
+
+            try:
+                # Simple insert without ON CONFLICT
+                result = self.client.table(table).insert(batch).execute()
+
+                # Count as successful
+                batch_stats['inserted'] += len(batch)
+                logger.debug(f"Inserted {len(batch)} records to {table}")
+
+            except Exception as e:
+                batch_stats['errors'] += len(batch)
+                logger.error(f"Error inserting batch to {table}: {e}")
+
+        return batch_stats
+
     def insert_courses(self, courses: List[Dict]) -> Dict:
-        """Insert/update courses"""
+        """
+        Insert/update courses with coordinate preservation
+
+        IMPORTANT: Coordinates are preserved for existing courses.
+        Only new courses or courses with NULL coordinates will have them updated.
+        """
         logger.info(f"Inserting {len(courses)} courses")
-        return self.upsert_batch('ra_courses', courses, 'id')
+
+        # Fetch existing courses to check for coordinates
+        try:
+            course_ids = [c.get('id') for c in courses if c.get('id')]
+            existing_response = self.client.table('ra_mst_courses').select(
+                'id, latitude, longitude'
+            ).in_('id', course_ids).execute()
+
+            # Build map of courses with existing coordinates
+            existing_coords = {}
+            for existing in existing_response.data:
+                if existing.get('latitude') is not None and existing.get('longitude') is not None:
+                    existing_coords[existing['id']] = True
+
+            logger.info(f"Found {len(existing_coords)} courses with existing coordinates")
+
+            # Remove coordinates from records that already have them
+            preserved_count = 0
+            for course in courses:
+                course_id = course.get('id')
+                if course_id in existing_coords:
+                    # Remove lat/lon to prevent overwrite
+                    if 'latitude' in course:
+                        del course['latitude']
+                    if 'longitude' in course:
+                        del course['longitude']
+                    preserved_count += 1
+
+            if preserved_count > 0:
+                logger.info(f"Preserved coordinates for {preserved_count} existing courses")
+
+        except Exception as e:
+            logger.warning(f"Could not check existing coordinates: {e}")
+            # Continue with upsert anyway
+
+        return self.upsert_batch('ra_mst_courses', courses, 'id')
 
     def insert_horses(self, horses: List[Dict]) -> Dict:
         """Insert/update horses"""
         logger.info(f"Inserting {len(horses)} horses")
-        return self.upsert_batch('ra_horses', horses, 'id')
+        return self.upsert_batch('ra_mst_horses', horses, 'id')
 
     def insert_jockeys(self, jockeys: List[Dict]) -> Dict:
         """Insert/update jockeys"""
         logger.info(f"Inserting {len(jockeys)} jockeys")
-        return self.upsert_batch('ra_jockeys', jockeys, 'id')
+        return self.upsert_batch('ra_mst_jockeys', jockeys, 'id')
 
     def insert_trainers(self, trainers: List[Dict]) -> Dict:
         """Insert/update trainers"""
         logger.info(f"Inserting {len(trainers)} trainers")
-        return self.upsert_batch('ra_trainers', trainers, 'id')
+        return self.upsert_batch('ra_mst_trainers', trainers, 'id')
 
     def insert_owners(self, owners: List[Dict]) -> Dict:
         """Insert/update owners"""
         logger.info(f"Inserting {len(owners)} owners")
-        return self.upsert_batch('ra_owners', owners, 'id')
+        return self.upsert_batch('ra_mst_owners', owners, 'id')
 
     def insert_sires(self, sires: List[Dict]) -> Dict:
         """Insert/update sires"""
         logger.info(f"Inserting {len(sires)} sires")
-        return self.upsert_batch('ra_sires', sires, 'id')
+        return self.upsert_batch('ra_mst_sires', sires, 'id')
 
     def insert_dams(self, dams: List[Dict]) -> Dict:
         """Insert/update dams"""
         logger.info(f"Inserting {len(dams)} dams")
-        return self.upsert_batch('ra_dams', dams, 'id')
+        return self.upsert_batch('ra_mst_dams', dams, 'id')
 
     def insert_damsires(self, damsires: List[Dict]) -> Dict:
         """Insert/update damsires"""
         logger.info(f"Inserting {len(damsires)} damsires")
-        return self.upsert_batch('ra_damsires', damsires, 'id')
+        return self.upsert_batch('ra_mst_damsires', damsires, 'id')
 
     def insert_pedigree(self, pedigrees: List[Dict]) -> Dict:
         """Insert/update horse pedigree data"""
@@ -179,9 +257,16 @@ class SupabaseReferenceClient:
         return self.upsert_batch('ra_results', results, 'id')
 
     def insert_race_results(self, results: List[Dict]) -> Dict:
-        """Insert/update race results (ra_race_results table)"""
-        logger.info(f"Inserting {len(results)} race results")
-        return self.upsert_batch('ra_race_results', results, 'id')
+        """
+        Insert/update runner race results (ra_race_results table)
+
+        Note: This table stores individual runner results.
+        Uses auto-increment 'id' as primary key, no unique constraint on race_id/horse_id.
+        So we use insert-only (no upsert) to avoid conflicts.
+        """
+        logger.info(f"Inserting {len(results)} runner race results")
+        # Use insert without ON CONFLICT since table has no unique constraint
+        return self.insert_batch_no_conflict('ra_race_results', results)
 
     def insert_runners(self, runners: List[Dict]) -> Dict:
         """
@@ -190,14 +275,21 @@ class SupabaseReferenceClient:
         Note: This includes race results data (position, distance_beaten, prize_won, starting_price)
         The ra_results table was removed - all results data is stored in ra_runners.
         See: docs/RESULTS_DATA_ARCHITECTURE.md
+
+        IMPORTANT: ra_runners uses composite unique key (race_id, horse_id) not 'id'
         """
         logger.info(f"Inserting {len(runners)} runners")
-        return self.upsert_batch('ra_runners', runners, 'id')
+        return self.upsert_batch('ra_runners', runners, 'race_id,horse_id')
 
     def insert_bookmakers(self, bookmakers: List[Dict]) -> Dict:
         """Insert/update bookmakers"""
         logger.info(f"Inserting {len(bookmakers)} bookmakers")
-        return self.upsert_batch('ra_bookmakers', bookmakers, 'code')
+        return self.upsert_batch('ra_mst_bookmakers', bookmakers, 'code')
+
+    def insert_regions(self, regions: List[Dict]) -> Dict:
+        """Insert/update regions"""
+        logger.info(f"Inserting {len(regions)} regions")
+        return self.upsert_batch('ra_mst_regions', regions, 'code')
 
     def get_existing_ids(self, table: str, id_column: str) -> set:
         """

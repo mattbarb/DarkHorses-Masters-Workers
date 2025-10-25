@@ -199,6 +199,75 @@ class RacingAPIClient:
 
         return self._make_request('/results', params)
 
+    def get_jockey_results(self, jockey_id: str, start_date: Optional[str] = None,
+                          end_date: Optional[str] = None, region: Optional[List[str]] = None,
+                          limit: int = 50, skip: int = 0) -> Optional[Dict]:
+        """
+        Get results for a specific jockey
+
+        Args:
+            jockey_id: Jockey ID (e.g., 'jky_123456')
+            start_date: Start date (YYYY-MM-DD)
+            end_date: End date (YYYY-MM-DD)
+            region: List of region codes
+            limit: Max results per page (max 50)
+            skip: Number of results to skip
+        """
+        params = {'limit': min(limit, 50), 'skip': skip}
+        if start_date:
+            params['start_date'] = start_date
+        if end_date:
+            params['end_date'] = end_date
+        if region:
+            params['region'] = region
+        return self._make_request(f'/jockeys/{jockey_id}/results', params)
+
+    def get_trainer_results(self, trainer_id: str, start_date: Optional[str] = None,
+                           end_date: Optional[str] = None, region: Optional[List[str]] = None,
+                           limit: int = 50, skip: int = 0) -> Optional[Dict]:
+        """
+        Get results for a specific trainer
+
+        Args:
+            trainer_id: Trainer ID (e.g., 'trn_123456')
+            start_date: Start date (YYYY-MM-DD)
+            end_date: End date (YYYY-MM-DD)
+            region: List of region codes
+            limit: Max results per page (max 50)
+            skip: Number of results to skip
+        """
+        params = {'limit': min(limit, 50), 'skip': skip}
+        if start_date:
+            params['start_date'] = start_date
+        if end_date:
+            params['end_date'] = end_date
+        if region:
+            params['region'] = region
+        return self._make_request(f'/trainers/{trainer_id}/results', params)
+
+    def get_owner_results(self, owner_id: str, start_date: Optional[str] = None,
+                         end_date: Optional[str] = None, region: Optional[List[str]] = None,
+                         limit: int = 50, skip: int = 0) -> Optional[Dict]:
+        """
+        Get results for a specific owner
+
+        Args:
+            owner_id: Owner ID (e.g., 'own_123456')
+            start_date: Start date (YYYY-MM-DD)
+            end_date: End date (YYYY-MM-DD)
+            region: List of region codes
+            limit: Max results per page (max 50)
+            skip: Number of results to skip
+        """
+        params = {'limit': min(limit, 50), 'skip': skip}
+        if start_date:
+            params['start_date'] = start_date
+        if end_date:
+            params['end_date'] = end_date
+        if region:
+            params['region'] = region
+        return self._make_request(f'/owners/{owner_id}/results', params)
+
     def get_racecards_pro(self, date: Optional[str] = None, course_ids: Optional[List[str]] = None,
                           region_codes: Optional[List[str]] = None) -> Optional[Dict]:
         """Get racecards (pro tier) - Note: This endpoint doesn't support limit/skip parameters"""

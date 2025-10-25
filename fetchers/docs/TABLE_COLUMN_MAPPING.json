@@ -1,0 +1,214 @@
+{
+  "generated": "2025-10-21",
+  "description": "Complete mapping of database tables to Racing API endpoints and fields",
+  "version": "2.0",
+  "tables": {
+    "ra_mst_courses": {
+      "fetcher": "courses_fetcher.py",
+      "api_endpoint": "/v1/courses",
+      "type": "bulk",
+      "update_frequency": "monthly",
+      "columns": {
+        "id": {"source": "course.id", "type": "varchar(50)", "description": "Unique course ID from API"},
+        "name": {"source": "course.name", "type": "varchar(255)", "description": "Course name"},
+        "code": {"source": "course.code", "type": "varchar(20)", "description": "Short course code"},
+        "region": {"source": "course.region", "type": "varchar(50)", "description": "Region (GB/IRE)"},
+        "country": {"source": "course.country", "type": "varchar(50)", "description": "Country name"},
+        "type": {"source": "course.type", "type": "varchar(50)", "description": "Flat/Jump/Both"},
+        "surface": {"source": "course.surface", "type": "varchar(50)", "description": "Turf/All-weather"},
+        "latitude": {"source": "course.latitude", "type": "numeric(10,6)", "description": "GPS latitude"},
+        "longitude": {"source": "course.longitude", "type": "numeric(10,6)", "description": "GPS longitude"}
+      }
+    },
+    "ra_mst_bookmakers": {
+      "fetcher": "bookmakers_fetcher.py",
+      "api_endpoint": "/v1/bookmakers",
+      "type": "bulk",
+      "update_frequency": "monthly",
+      "columns": {
+        "id": {"source": "bookmaker.id", "type": "varchar(50)", "description": "Unique bookmaker ID"},
+        "name": {"source": "bookmaker.name", "type": "varchar(255)", "description": "Bookmaker name"},
+        "url": {"source": "bookmaker.url", "type": "text", "description": "Website URL"}
+      }
+    },
+    "ra_mst_jockeys": {
+      "fetcher": "jockeys_fetcher.py",
+      "api_endpoint": "/v1/jockeys",
+      "type": "bulk",
+      "update_frequency": "weekly",
+      "filter": "region_codes=['gb', 'ire']",
+      "columns": {
+        "id": {"source": "jockey.id", "type": "varchar(50)", "description": "Unique jockey ID"},
+        "name": {"source": "jockey.name", "type": "varchar(255)", "description": "Jockey name"},
+        "region": {"source": "jockey.region", "type": "varchar(50)", "description": "GB/IRE"},
+        "nationality": {"source": "jockey.nationality", "type": "varchar(100)", "description": "Nationality"},
+        "dob": {"source": "jockey.dob", "type": "date", "description": "Date of birth"},
+        "statistics": {"source": "jockey.statistics.*", "type": "various", "description": "Performance statistics from API"}
+      }
+    },
+    "ra_mst_trainers": {
+      "fetcher": "trainers_fetcher.py",
+      "api_endpoint": "/v1/trainers",
+      "type": "bulk",
+      "update_frequency": "weekly",
+      "filter": "region_codes=['gb', 'ire']",
+      "columns": {
+        "id": {"source": "trainer.id", "type": "varchar(50)", "description": "Unique trainer ID"},
+        "name": {"source": "trainer.name", "type": "varchar(255)", "description": "Trainer name"},
+        "region": {"source": "trainer.region", "type": "varchar(50)", "description": "GB/IRE"},
+        "location": {"source": "trainer.location", "type": "varchar(255)", "description": "Training yard location"},
+        "statistics": {"source": "trainer.statistics.*", "type": "various", "description": "Performance statistics from API"}
+      }
+    },
+    "ra_mst_owners": {
+      "fetcher": "owners_fetcher.py",
+      "api_endpoint": "/v1/owners",
+      "type": "bulk",
+      "update_frequency": "weekly",
+      "filter": "region_codes=['gb', 'ire']",
+      "columns": {
+        "id": {"source": "owner.id", "type": "varchar(50)", "description": "Unique owner ID"},
+        "name": {"source": "owner.name", "type": "varchar(255)", "description": "Owner name"},
+        "region": {"source": "owner.region", "type": "varchar(50)", "description": "GB/IRE"},
+        "statistics": {"source": "owner.statistics.*", "type": "various", "description": "Performance statistics from API"}
+      }
+    },
+    "ra_mst_horses": {
+      "fetcher": "races_fetcher.py",
+      "api_endpoint": "/v1/racecards/pro (discovery) + /v1/horses/{id}/pro (enrichment)",
+      "type": "extracted + enriched",
+      "update_frequency": "daily",
+      "enrichment": "NEW horses only - automatic Pro endpoint enrichment",
+      "columns": {
+        "id": {"source": "runner.horse.id", "type": "varchar(50)", "description": "Unique horse ID (discovery)"},
+        "name": {"source": "runner.horse.name", "type": "varchar(255)", "description": "Horse name (discovery)"},
+        "sex": {"source": "runner.horse.sex", "type": "varchar(10)", "description": "Sex (discovery)"},
+        "sex_code": {"source": "horse_pro.sex_code", "type": "varchar(10)", "description": "M/F/G/C (enrichment)"},
+        "dob": {"source": "horse_pro.dob", "type": "date", "description": "Date of birth (enrichment)"},
+        "colour": {"source": "horse_pro.colour", "type": "varchar(50)", "description": "Horse colour (enrichment)"},
+        "colour_code": {"source": "horse_pro.colour_code", "type": "varchar(20)", "description": "Colour code (enrichment)"},
+        "region": {"source": "horse_pro.region", "type": "varchar(50)", "description": "GB/IRE (enrichment)"},
+        "sire_id": {"source": "horse_pro.pedigree.sire_id", "type": "varchar(50)", "description": "Sire ID (enrichment)"},
+        "dam_id": {"source": "horse_pro.pedigree.dam_id", "type": "varchar(50)", "description": "Dam ID (enrichment)"},
+        "damsire_id": {"source": "horse_pro.pedigree.damsire_id", "type": "varchar(50)", "description": "Damsire ID (enrichment)"}
+      }
+    },
+    "ra_horse_pedigree": {
+      "fetcher": "races_fetcher.py",
+      "api_endpoint": "/v1/horses/{id}/pro",
+      "type": "extracted during enrichment",
+      "update_frequency": "daily",
+      "trigger": "Captured when NEW horse is enriched",
+      "columns": {
+        "horse_id": {"source": "horse.id", "type": "varchar(50)", "description": "Horse ID (FK)"},
+        "sire": {"source": "pedigree.sire", "type": "varchar(255)", "description": "Sire name"},
+        "sire_id": {"source": "pedigree.sire_id", "type": "varchar(50)", "description": "Sire ID (FK)"},
+        "dam": {"source": "pedigree.dam", "type": "varchar(255)", "description": "Dam name"},
+        "dam_id": {"source": "pedigree.dam_id", "type": "varchar(50)", "description": "Dam ID (FK)"},
+        "damsire": {"source": "pedigree.damsire", "type": "varchar(255)", "description": "Damsire name"},
+        "damsire_id": {"source": "pedigree.damsire_id", "type": "varchar(50)", "description": "Damsire ID (FK)"},
+        "breeder": {"source": "pedigree.breeder", "type": "varchar(255)", "description": "Breeder name"},
+        "breeder_location": {"source": "pedigree.breeder_location", "type": "varchar(255)", "description": "Breeder location"}
+      }
+    },
+    "ra_races": {
+      "fetcher": "races_fetcher.py",
+      "api_endpoint": "/v1/racecards/pro",
+      "type": "date_range",
+      "update_frequency": "daily",
+      "filter": "region_codes=['gb', 'ire']",
+      "columns": {
+        "id": {"source": "race.id", "type": "varchar(50)", "description": "Unique race ID"},
+        "date": {"source": "race.date", "type": "date", "description": "Race date"},
+        "time": {"source": "race.time", "type": "time", "description": "Race time"},
+        "course_id": {"source": "race.course.id", "type": "varchar(50)", "description": "Course ID (FK)"},
+        "course_name": {"source": "race.course.name", "type": "varchar(255)", "description": "Course name"},
+        "race_class": {"source": "race.class", "type": "varchar(20)", "description": "Race class (1-7)"},
+        "distance": {"source": "race.distance", "type": "varchar(50)", "description": "Distance text"},
+        "distance_f": {"source": "race.distance_f", "type": "varchar(20)", "description": "Distance in furlongs"},
+        "distance_m": {"source": "race.distance_m", "type": "integer", "description": "Distance in meters"},
+        "going": {"source": "race.going", "type": "varchar(50)", "description": "Going description"},
+        "prize_money": {"source": "race.prize", "type": "integer", "description": "Total prize money"},
+        "race_type": {"source": "race.type", "type": "varchar(50)", "description": "Flat/Jump/NH/etc"}
+      }
+    },
+    "ra_runners": {
+      "fetcher": "races_fetcher.py + results_fetcher.py",
+      "api_endpoint": "/v1/racecards/pro (pre-race) + /v1/results (post-race)",
+      "type": "date_range",
+      "update_frequency": "daily",
+      "columns": {
+        "id": {"source": "runner.id", "type": "varchar(50)", "description": "Unique runner ID"},
+        "race_id": {"source": "race.id", "type": "varchar(50)", "description": "Race ID (FK)"},
+        "horse_id": {"source": "runner.horse.id", "type": "varchar(50)", "description": "Horse ID (FK)"},
+        "jockey_id": {"source": "runner.jockey.id", "type": "varchar(50)", "description": "Jockey ID (FK)"},
+        "trainer_id": {"source": "runner.trainer.id", "type": "varchar(50)", "description": "Trainer ID (FK)"},
+        "owner_id": {"source": "runner.owner.id", "type": "varchar(50)", "description": "Owner ID (FK)"},
+        "sire_id": {"source": "runner.horse.sire_id", "type": "varchar(50)", "description": "Sire ID (FK)"},
+        "dam_id": {"source": "runner.horse.dam_id", "type": "varchar(50)", "description": "Dam ID (FK)"},
+        "damsire_id": {"source": "runner.horse.damsire_id", "type": "varchar(50)", "description": "Damsire ID (FK)"},
+        "draw": {"source": "runner.draw", "type": "integer", "description": "Starting stall number"},
+        "weight": {"source": "runner.weight", "type": "varchar(20)", "description": "Weight carried"},
+        "age": {"source": "runner.age", "type": "integer", "description": "Horse age"},
+        "form": {"source": "runner.form", "type": "varchar(50)", "description": "Recent form string"},
+        "official_rating": {"source": "runner.official_rating", "type": "integer", "description": "Official Rating"},
+        "position": {"source": "result.position", "type": "integer", "description": "Finishing position (from results)"},
+        "distance_beaten": {"source": "result.distance_beaten", "type": "numeric(6,2)", "description": "Distance behind winner (from results)"},
+        "finishing_time": {"source": "result.time", "type": "varchar(20)", "description": "Finishing time (from results)"},
+        "starting_price": {"source": "result.sp", "type": "varchar(20)", "description": "SP fractional (from results)"},
+        "starting_price_decimal": {"source": "result.sp_decimal", "type": "numeric(10,2)", "description": "SP decimal (from results)"},
+        "race_comment": {"source": "result.comment", "type": "text", "description": "Race commentary (from results)"},
+        "jockey_silk_url": {"source": "runner.jockey_silk_url", "type": "text", "description": "Jockey silk SVG URL"},
+        "overall_beaten_distance": {"source": "result.overall_beaten_distance", "type": "numeric(6,2)", "description": "Alternative distance metric"},
+        "jockey_claim_lbs": {"source": "runner.jockey_claim", "type": "integer", "description": "Jockey weight allowance"},
+        "weight_stones_lbs": {"source": "runner.weight_stones_lbs", "type": "varchar(20)", "description": "Weight in UK format (8-13)"}
+      }
+    },
+    "ra_race_results": {
+      "fetcher": "results_fetcher.py",
+      "api_endpoint": "/v1/results",
+      "type": "date_range",
+      "update_frequency": "daily",
+      "filter": "region_codes=['gb', 'ire']",
+      "action": "Updates ra_runners with position data",
+      "columns": {
+        "race_id": {"source": "race.id", "type": "varchar(50)", "description": "Race ID (FK)"},
+        "runner_id": {"source": "runner.id", "type": "varchar(50)", "description": "Runner ID (FK)"},
+        "position": {"source": "runner.position", "type": "integer", "description": "Finishing position"},
+        "distance_beaten": {"source": "runner.distance_beaten", "type": "numeric(6,2)", "description": "Distance behind winner"},
+        "finishing_time": {"source": "runner.time", "type": "varchar(20)", "description": "Race time"},
+        "starting_price": {"source": "runner.sp", "type": "varchar(20)", "description": "SP (fractional)"},
+        "starting_price_decimal": {"source": "runner.sp_decimal", "type": "numeric(10,2)", "description": "SP (decimal)"},
+        "race_comment": {"source": "runner.comment", "type": "text", "description": "Race commentary"}
+      }
+    }
+  },
+  "fetcher_execution_order": {
+    "backfill": [
+      "1_master_tables",
+      "ra_mst_courses",
+      "ra_mst_bookmakers",
+      "ra_mst_jockeys",
+      "ra_mst_trainers",
+      "ra_mst_owners",
+      "2_transaction_tables",
+      "ra_races",
+      "ra_runners",
+      "ra_mst_horses",
+      "ra_horse_pedigree",
+      "3_results",
+      "ra_race_results"
+    ],
+    "daily": [
+      "Same order as backfill but with smaller date ranges (last 3 days)"
+    ]
+  },
+  "notes": {
+    "enrichment": "Horse enrichment is automatic - NEW horses discovered in racecards are automatically enriched with /v1/horses/{id}/pro to get complete metadata + pedigree",
+    "rate_limiting": "All fetchers respect 2 requests/second API rate limit",
+    "regional_filtering": "All data is filtered to GB & IRE only via region_codes parameter",
+    "backfill_date": "Backfill starts from 2015-01-01 (Racing API Pro plan historical data)",
+    "daily_schedule": "Daily sync runs at 1am UK time via cron",
+    "error_handling": "All fetchers implement retry with exponential backoff (5 max retries)"
+  }
+}

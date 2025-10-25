@@ -1,0 +1,155 @@
+{
+  "races_fetcher.py": {
+    "file": "races_fetcher.py",
+    "path": "/Users/matthewbarber/Documents/GitHub/DarkHorses-Masters-Workers/fetchers/races_fetcher.py",
+    "target_tables": [
+      "ra_races",
+      "ra_runners"
+    ],
+    "field_mappings": {},
+    "api_endpoints": [],
+    "has_error_handling": true,
+    "has_logging": true,
+    "uses_entity_extractor": true,
+    "lines_of_code": 385
+  },
+  "owners_fetcher.py": {
+    "file": "owners_fetcher.py",
+    "path": "/Users/matthewbarber/Documents/GitHub/DarkHorses-Masters-Workers/fetchers/owners_fetcher.py",
+    "target_tables": [
+      "ra_mst_owners"
+    ],
+    "field_mappings": {},
+    "api_endpoints": [
+      "/v1/owners/search"
+    ],
+    "has_error_handling": false,
+    "has_logging": true,
+    "uses_entity_extractor": true,
+    "lines_of_code": 179
+  },
+  "courses_fetcher.py": {
+    "file": "courses_fetcher.py",
+    "path": "/Users/matthewbarber/Documents/GitHub/DarkHorses-Masters-Workers/fetchers/courses_fetcher.py",
+    "target_tables": [
+      "ra_mst_courses"
+    ],
+    "field_mappings": {},
+    "api_endpoints": [],
+    "has_error_handling": false,
+    "has_logging": true,
+    "uses_entity_extractor": false,
+    "lines_of_code": 146
+  },
+  "events_fetcher.py": {
+    "file": "events_fetcher.py",
+    "path": "/Users/matthewbarber/Documents/GitHub/DarkHorses-Masters-Workers/fetchers/events_fetcher.py",
+    "target_tables": [
+      "ra_races",
+      "ra_runners"
+    ],
+    "field_mappings": {},
+    "api_endpoints": [],
+    "has_error_handling": true,
+    "has_logging": true,
+    "uses_entity_extractor": true,
+    "lines_of_code": 701
+  },
+  "results_fetcher.py": {
+    "file": "results_fetcher.py",
+    "path": "/Users/matthewbarber/Documents/GitHub/DarkHorses-Masters-Workers/fetchers/results_fetcher.py",
+    "target_tables": [
+      "ra_races",
+      "ra_runners",
+      "ra_race_results"
+    ],
+    "field_mappings": {},
+    "api_endpoints": [],
+    "has_error_handling": true,
+    "has_logging": true,
+    "uses_entity_extractor": true,
+    "lines_of_code": 584
+  },
+  "statistics_fetcher.py": {
+    "file": "statistics_fetcher.py",
+    "path": "/Users/matthewbarber/Documents/GitHub/DarkHorses-Masters-Workers/fetchers/statistics_fetcher.py",
+    "target_tables": [],
+    "field_mappings": {},
+    "api_endpoints": [],
+    "has_error_handling": true,
+    "has_logging": true,
+    "uses_entity_extractor": false,
+    "lines_of_code": 154
+  },
+  "jockeys_fetcher.py": {
+    "file": "jockeys_fetcher.py",
+    "path": "/Users/matthewbarber/Documents/GitHub/DarkHorses-Masters-Workers/fetchers/jockeys_fetcher.py",
+    "target_tables": [
+      "ra_mst_jockeys"
+    ],
+    "field_mappings": {},
+    "api_endpoints": [
+      "/v1/jockeys/search"
+    ],
+    "has_error_handling": false,
+    "has_logging": true,
+    "uses_entity_extractor": true,
+    "lines_of_code": 179
+  },
+  "bookmakers_fetcher.py": {
+    "file": "bookmakers_fetcher.py",
+    "path": "/Users/matthewbarber/Documents/GitHub/DarkHorses-Masters-Workers/fetchers/bookmakers_fetcher.py",
+    "target_tables": [
+      "ra_mst_bookmakers"
+    ],
+    "field_mappings": {},
+    "api_endpoints": [],
+    "has_error_handling": false,
+    "has_logging": true,
+    "uses_entity_extractor": false,
+    "lines_of_code": 111
+  },
+  "horses_fetcher.py": {
+    "file": "horses_fetcher.py",
+    "path": "/Users/matthewbarber/Documents/GitHub/DarkHorses-Masters-Workers/fetchers/horses_fetcher.py",
+    "target_tables": [
+      "ra_mst_horses"
+    ],
+    "field_mappings": {},
+    "api_endpoints": [],
+    "has_error_handling": true,
+    "has_logging": true,
+    "uses_entity_extractor": false,
+    "lines_of_code": 287
+  },
+  "trainers_fetcher.py": {
+    "file": "trainers_fetcher.py",
+    "path": "/Users/matthewbarber/Documents/GitHub/DarkHorses-Masters-Workers/fetchers/trainers_fetcher.py",
+    "target_tables": [
+      "ra_mst_trainers"
+    ],
+    "field_mappings": {},
+    "api_endpoints": [
+      "/v1/trainers/search"
+    ],
+    "has_error_handling": false,
+    "has_logging": true,
+    "uses_entity_extractor": true,
+    "lines_of_code": 173
+  },
+  "masters_fetcher.py": {
+    "file": "masters_fetcher.py",
+    "path": "/Users/matthewbarber/Documents/GitHub/DarkHorses-Masters-Workers/fetchers/masters_fetcher.py",
+    "target_tables": [
+      "ra_mst_courses",
+      "ra_mst_bookmakers",
+      "ra_mst_regions"
+    ],
+    "field_mappings": {},
+    "api_endpoints": [],
+    "has_error_handling": false,
+    "has_logging": true,
+    "uses_entity_extractor": false,
+    "lines_of_code": 455
+  }
+}

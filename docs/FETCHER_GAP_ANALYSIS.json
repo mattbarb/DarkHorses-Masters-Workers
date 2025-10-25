@@ -1,0 +1,71 @@
+{
+  "summary": {
+    "total_tables": 14,
+    "tables_with_fetchers": 10,
+    "tables_without_fetchers": 4
+  },
+  "table_to_fetcher_mapping": {
+    "ra_races": [
+      "races_fetcher.py",
+      "events_fetcher.py",
+      "results_fetcher.py"
+    ],
+    "ra_runners": [
+      "races_fetcher.py",
+      "events_fetcher.py",
+      "results_fetcher.py"
+    ],
+    "ra_mst_owners": [
+      "owners_fetcher.py"
+    ],
+    "ra_mst_courses": [
+      "courses_fetcher.py",
+      "masters_fetcher.py"
+    ],
+    "ra_race_results": [
+      "results_fetcher.py"
+    ],
+    "ra_mst_jockeys": [
+      "jockeys_fetcher.py"
+    ],
+    "ra_mst_bookmakers": [
+      "bookmakers_fetcher.py",
+      "masters_fetcher.py"
+    ],
+    "ra_mst_horses": [
+      "horses_fetcher.py"
+    ],
+    "ra_mst_trainers": [
+      "trainers_fetcher.py"
+    ],
+    "ra_mst_regions": [
+      "masters_fetcher.py"
+    ]
+  },
+  "tables_without_fetchers": [
+    "ra_mst_sires",
+    "ra_mst_dams",
+    "ra_mst_damsires",
+    "ra_horse_pedigree"
+  ],
+  "tables_with_multiple_fetchers": {
+    "ra_races": [
+      "races_fetcher.py",
+      "events_fetcher.py",
+      "results_fetcher.py"
+    ],
+    "ra_runners": [
+      "races_fetcher.py",
+      "events_fetcher.py",
+      "results_fetcher.py"
+    ],
+    "ra_mst_courses": [
+      "courses_fetcher.py",
+      "masters_fetcher.py"
+    ],
+    "ra_mst_bookmakers": [
+      "bookmakers_fetcher.py",
+      "masters_fetcher.py"
+    ]
+  }
+}

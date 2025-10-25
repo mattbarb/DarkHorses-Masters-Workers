@@ -210,7 +210,8 @@ def extract_position_data(runner_dict: dict) -> dict:
             'position': int or None,
             'distance_beaten': str or None,
             'prize_won': float or None,
-            'starting_price': str or None
+            'starting_price': str or None,
+            'starting_price_decimal': float or None
         }
 
     Example:
@@ -219,7 +220,8 @@ def extract_position_data(runner_dict: dict) -> dict:
             'position': '1',
             'btn': '0',
             'prize': '3245.08',
-            'sp': '9/4'
+            'sp': '9/4',
+            'sp_dec': 3.25
         }
 
         result = extract_position_data(runner)
@@ -227,14 +229,16 @@ def extract_position_data(runner_dict: dict) -> dict:
         #     'position': 1,
         #     'distance_beaten': '0',
         #     'prize_won': 3245.08,
-        #     'starting_price': '9/4'
+        #     'starting_price': '9/4',
+        #     'starting_price_decimal': 3.25
         # }
     """
     return {
         'position': parse_position(runner_dict.get('position')),
         'distance_beaten': parse_distance_beaten(runner_dict.get('btn')),
         'prize_won': parse_prize_money(runner_dict.get('prize')),
-        'starting_price': parse_starting_price(runner_dict.get('sp'))
+        'starting_price': parse_starting_price(runner_dict.get('sp')),
+        'starting_price_decimal': parse_decimal_field(runner_dict.get('sp_dec'))
     }
 
 

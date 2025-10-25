@@ -1,0 +1,4747 @@
+{
+  "ra_entity_combinations": {
+    "analysis": {
+      "table": "ra_entity_combinations",
+      "total_columns": 16,
+      "auto_columns": [
+        "id",
+        "created_at",
+        "updated_at"
+      ],
+      "foreign_keys": [
+        "entity1_id",
+        "entity2_id"
+      ],
+      "data_columns": [
+        "entity1_type",
+        "entity2_type",
+        "total_runs",
+        "wins",
+        "places_2nd",
+        "places_3rd",
+        "win_percent",
+        "place_percent",
+        "ae_index",
+        "profit_loss_1u",
+        "query_filters",
+        "calculated_at"
+      ],
+      "fetcher": null
+    },
+    "columns": [
+      {
+        "column": "id",
+        "type": "bigint",
+        "nullable": "NO",
+        "default": "nextval('ra_entity_combinations_id_seq'::regclass)"
+      },
+      {
+        "column": "entity1_type",
+        "type": "character varying",
+        "nullable": "NO",
+        "default": null
+      },
+      {
+        "column": "entity1_id",
+        "type": "character varying",
+        "nullable": "NO",
+        "default": null
+      },
+      {
+        "column": "entity2_type",
+        "type": "character varying",
+        "nullable": "NO",
+        "default": null
+      },
+      {
+        "column": "entity2_id",
+        "type": "character varying",
+        "nullable": "NO",
+        "default": null
+      },
+      {
+        "column": "total_runs",
+        "type": "integer",
+        "nullable": "NO",
+        "default": "0"
+      },
+      {
+        "column": "wins",
+        "type": "integer",
+        "nullable": "NO",
+        "default": "0"
+      },
+      {
+        "column": "places_2nd",
+        "type": "integer",
+        "nullable": "NO",
+        "default": "0"
+      },
+      {
+        "column": "places_3rd",
+        "type": "integer",
+        "nullable": "NO",
+        "default": "0"
+      },
+      {
+        "column": "win_percent",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "place_percent",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "ae_index",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "profit_loss_1u",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "query_filters",
+        "type": "jsonb",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "calculated_at",
+        "type": "timestamp without time zone",
+        "nullable": "NO",
+        "default": null
+      },
+      {
+        "column": "created_at",
+        "type": "timestamp without time zone",
+        "nullable": "YES",
+        "default": "CURRENT_TIMESTAMP"
+      }
+    ]
+  },
+  "ra_horse_pedigree": {
+    "analysis": {
+      "table": "ra_horse_pedigree",
+      "total_columns": 11,
+      "auto_columns": [
+        "id",
+        "created_at",
+        "updated_at"
+      ],
+      "foreign_keys": [
+        "horse_id",
+        "sire_id",
+        "dam_id",
+        "damsire_id"
+      ],
+      "data_columns": [
+        "sire",
+        "dam",
+        "damsire",
+        "breeder",
+        "region"
+      ],
+      "fetcher": null
+    },
+    "columns": [
+      {
+        "column": "horse_id",
+        "type": "character varying",
+        "nullable": "NO",
+        "default": null
+      },
+      {
+        "column": "sire_id",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "sire",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "dam_id",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "dam",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "damsire_id",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "damsire",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "breeder",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "created_at",
+        "type": "timestamp without time zone",
+        "nullable": "YES",
+        "default": "CURRENT_TIMESTAMP"
+      },
+      {
+        "column": "updated_at",
+        "type": "timestamp without time zone",
+        "nullable": "YES",
+        "default": "CURRENT_TIMESTAMP"
+      },
+      {
+        "column": "region",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      }
+    ]
+  },
+  "ra_mst_bookmakers": {
+    "analysis": {
+      "table": "ra_mst_bookmakers",
+      "total_columns": 6,
+      "auto_columns": [
+        "id",
+        "created_at",
+        "updated_at"
+      ],
+      "foreign_keys": [],
+      "data_columns": [
+        "name",
+        "code",
+        "is_active",
+        "type"
+      ],
+      "fetcher": null
+    },
+    "columns": [
+      {
+        "column": "id",
+        "type": "bigint",
+        "nullable": "NO",
+        "default": "nextval('ra_bookmakers_id_seq'::regclass)"
+      },
+      {
+        "column": "name",
+        "type": "character varying",
+        "nullable": "NO",
+        "default": null
+      },
+      {
+        "column": "code",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "is_active",
+        "type": "boolean",
+        "nullable": "YES",
+        "default": "true"
+      },
+      {
+        "column": "created_at",
+        "type": "timestamp without time zone",
+        "nullable": "YES",
+        "default": "CURRENT_TIMESTAMP"
+      },
+      {
+        "column": "type",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      }
+    ]
+  },
+  "ra_mst_courses": {
+    "analysis": {
+      "table": "ra_mst_courses",
+      "total_columns": 8,
+      "auto_columns": [
+        "id",
+        "created_at",
+        "updated_at"
+      ],
+      "foreign_keys": [],
+      "data_columns": [
+        "name",
+        "region_code",
+        "region",
+        "longitude",
+        "latitude"
+      ],
+      "fetcher": null
+    },
+    "columns": [
+      {
+        "column": "id",
+        "type": "character varying",
+        "nullable": "NO",
+        "default": null
+      },
+      {
+        "column": "name",
+        "type": "character varying",
+        "nullable": "NO",
+        "default": null
+      },
+      {
+        "column": "region_code",
+        "type": "character varying",
+        "nullable": "NO",
+        "default": null
+      },
+      {
+        "column": "region",
+        "type": "character varying",
+        "nullable": "NO",
+        "default": null
+      },
+      {
+        "column": "longitude",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "latitude",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "created_at",
+        "type": "timestamp without time zone",
+        "nullable": "YES",
+        "default": "CURRENT_TIMESTAMP"
+      },
+      {
+        "column": "updated_at",
+        "type": "timestamp without time zone",
+        "nullable": "YES",
+        "default": "CURRENT_TIMESTAMP"
+      }
+    ]
+  },
+  "ra_mst_dams": {
+    "analysis": {
+      "table": "ra_mst_dams",
+      "total_columns": 47,
+      "auto_columns": [
+        "id",
+        "created_at",
+        "updated_at"
+      ],
+      "foreign_keys": [
+        "horse_id"
+      ],
+      "data_columns": [
+        "name",
+        "total_runners",
+        "total_wins",
+        "total_places_2nd",
+        "total_places_3rd",
+        "overall_win_percent",
+        "overall_ae_index",
+        "best_class",
+        "best_class_ae",
+        "best_distance",
+        "best_distance_ae",
+        "analysis_last_updated",
+        "data_quality_score",
+        "class_1_name",
+        "class_1_runners",
+        "class_1_wins",
+        "class_1_win_percent",
+        "class_1_ae",
+        "class_2_name",
+        "class_2_runners",
+        "class_2_wins",
+        "class_2_win_percent",
+        "class_2_ae",
+        "class_3_name",
+        "class_3_runners",
+        "class_3_wins",
+        "class_3_win_percent",
+        "class_3_ae",
+        "distance_1_name",
+        "distance_1_runners",
+        "distance_1_wins",
+        "distance_1_win_percent",
+        "distance_1_ae",
+        "distance_2_name",
+        "distance_2_runners",
+        "distance_2_wins",
+        "distance_2_win_percent",
+        "distance_2_ae",
+        "distance_3_name",
+        "distance_3_runners",
+        "distance_3_wins",
+        "distance_3_win_percent",
+        "distance_3_ae"
+      ],
+      "fetcher": null
+    },
+    "columns": [
+      {
+        "column": "id",
+        "type": "character varying",
+        "nullable": "NO",
+        "default": null
+      },
+      {
+        "column": "name",
+        "type": "character varying",
+        "nullable": "NO",
+        "default": null
+      },
+      {
+        "column": "horse_id",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "created_at",
+        "type": "timestamp without time zone",
+        "nullable": "YES",
+        "default": "CURRENT_TIMESTAMP"
+      },
+      {
+        "column": "updated_at",
+        "type": "timestamp without time zone",
+        "nullable": "YES",
+        "default": "CURRENT_TIMESTAMP"
+      },
+      {
+        "column": "total_runners",
+        "type": "integer",
+        "nullable": "YES",
+        "default": "0"
+      },
+      {
+        "column": "total_wins",
+        "type": "integer",
+        "nullable": "YES",
+        "default": "0"
+      },
+      {
+        "column": "total_places_2nd",
+        "type": "integer",
+        "nullable": "YES",
+        "default": "0"
+      },
+      {
+        "column": "total_places_3rd",
+        "type": "integer",
+        "nullable": "YES",
+        "default": "0"
+      },
+      {
+        "column": "overall_win_percent",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "overall_ae_index",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "best_class",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "best_class_ae",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "best_distance",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "best_distance_ae",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "analysis_last_updated",
+        "type": "timestamp without time zone",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "data_quality_score",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "class_1_name",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "class_1_runners",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "class_1_wins",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "class_1_win_percent",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "class_1_ae",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "class_2_name",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "class_2_runners",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "class_2_wins",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "class_2_win_percent",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "class_2_ae",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "class_3_name",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "class_3_runners",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "class_3_wins",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "class_3_win_percent",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "class_3_ae",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "distance_1_name",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "distance_1_runners",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "distance_1_wins",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "distance_1_win_percent",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "distance_1_ae",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "distance_2_name",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "distance_2_runners",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "distance_2_wins",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "distance_2_win_percent",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "distance_2_ae",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "distance_3_name",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "distance_3_runners",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "distance_3_wins",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "distance_3_win_percent",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "distance_3_ae",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      }
+    ]
+  },
+  "ra_mst_damsires": {
+    "analysis": {
+      "table": "ra_mst_damsires",
+      "total_columns": 47,
+      "auto_columns": [
+        "id",
+        "created_at",
+        "updated_at"
+      ],
+      "foreign_keys": [
+        "horse_id"
+      ],
+      "data_columns": [
+        "name",
+        "total_runners",
+        "total_wins",
+        "total_places_2nd",
+        "total_places_3rd",
+        "overall_win_percent",
+        "overall_ae_index",
+        "best_class",
+        "best_class_ae",
+        "best_distance",
+        "best_distance_ae",
+        "analysis_last_updated",
+        "data_quality_score",
+        "class_1_name",
+        "class_1_runners",
+        "class_1_wins",
+        "class_1_win_percent",
+        "class_1_ae",
+        "class_2_name",
+        "class_2_runners",
+        "class_2_wins",
+        "class_2_win_percent",
+        "class_2_ae",
+        "class_3_name",
+        "class_3_runners",
+        "class_3_wins",
+        "class_3_win_percent",
+        "class_3_ae",
+        "distance_1_name",
+        "distance_1_runners",
+        "distance_1_wins",
+        "distance_1_win_percent",
+        "distance_1_ae",
+        "distance_2_name",
+        "distance_2_runners",
+        "distance_2_wins",
+        "distance_2_win_percent",
+        "distance_2_ae",
+        "distance_3_name",
+        "distance_3_runners",
+        "distance_3_wins",
+        "distance_3_win_percent",
+        "distance_3_ae"
+      ],
+      "fetcher": null
+    },
+    "columns": [
+      {
+        "column": "id",
+        "type": "character varying",
+        "nullable": "NO",
+        "default": null
+      },
+      {
+        "column": "name",
+        "type": "character varying",
+        "nullable": "NO",
+        "default": null
+      },
+      {
+        "column": "horse_id",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "created_at",
+        "type": "timestamp without time zone",
+        "nullable": "YES",
+        "default": "CURRENT_TIMESTAMP"
+      },
+      {
+        "column": "updated_at",
+        "type": "timestamp without time zone",
+        "nullable": "YES",
+        "default": "CURRENT_TIMESTAMP"
+      },
+      {
+        "column": "total_runners",
+        "type": "integer",
+        "nullable": "YES",
+        "default": "0"
+      },
+      {
+        "column": "total_wins",
+        "type": "integer",
+        "nullable": "YES",
+        "default": "0"
+      },
+      {
+        "column": "total_places_2nd",
+        "type": "integer",
+        "nullable": "YES",
+        "default": "0"
+      },
+      {
+        "column": "total_places_3rd",
+        "type": "integer",
+        "nullable": "YES",
+        "default": "0"
+      },
+      {
+        "column": "overall_win_percent",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "overall_ae_index",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "best_class",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "best_class_ae",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "best_distance",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "best_distance_ae",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "analysis_last_updated",
+        "type": "timestamp without time zone",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "data_quality_score",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "class_1_name",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "class_1_runners",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "class_1_wins",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "class_1_win_percent",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "class_1_ae",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "class_2_name",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "class_2_runners",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "class_2_wins",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "class_2_win_percent",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "class_2_ae",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "class_3_name",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "class_3_runners",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "class_3_wins",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "class_3_win_percent",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "class_3_ae",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "distance_1_name",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "distance_1_runners",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "distance_1_wins",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "distance_1_win_percent",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "distance_1_ae",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "distance_2_name",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "distance_2_runners",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "distance_2_wins",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "distance_2_win_percent",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "distance_2_ae",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "distance_3_name",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "distance_3_runners",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "distance_3_wins",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "distance_3_win_percent",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "distance_3_ae",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      }
+    ]
+  },
+  "ra_mst_horses": {
+    "analysis": {
+      "table": "ra_mst_horses",
+      "total_columns": 15,
+      "auto_columns": [
+        "id",
+        "created_at",
+        "updated_at"
+      ],
+      "foreign_keys": [
+        "sire_id",
+        "dam_id",
+        "damsire_id"
+      ],
+      "data_columns": [
+        "name",
+        "dob",
+        "age",
+        "sex",
+        "sex_code",
+        "colour",
+        "colour_code",
+        "breeder",
+        "region"
+      ],
+      "fetcher": null
+    },
+    "columns": [
+      {
+        "column": "id",
+        "type": "character varying",
+        "nullable": "NO",
+        "default": null
+      },
+      {
+        "column": "name",
+        "type": "character varying",
+        "nullable": "NO",
+        "default": null
+      },
+      {
+        "column": "sire_id",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "dam_id",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "damsire_id",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "dob",
+        "type": "date",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "age",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "sex",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "sex_code",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "colour",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "colour_code",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "breeder",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "region",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "created_at",
+        "type": "timestamp without time zone",
+        "nullable": "YES",
+        "default": "CURRENT_TIMESTAMP"
+      },
+      {
+        "column": "updated_at",
+        "type": "timestamp without time zone",
+        "nullable": "YES",
+        "default": "CURRENT_TIMESTAMP"
+      }
+    ]
+  },
+  "ra_mst_jockeys": {
+    "analysis": {
+      "table": "ra_mst_jockeys",
+      "total_columns": 22,
+      "auto_columns": [
+        "id",
+        "created_at",
+        "updated_at"
+      ],
+      "foreign_keys": [],
+      "data_columns": [
+        "name",
+        "total_rides",
+        "total_wins",
+        "total_places",
+        "total_seconds",
+        "total_thirds",
+        "win_rate",
+        "place_rate",
+        "stats_updated_at",
+        "last_ride_date",
+        "last_win_date",
+        "days_since_last_ride",
+        "days_since_last_win",
+        "recent_14d_rides",
+        "recent_14d_wins",
+        "recent_14d_win_rate",
+        "recent_30d_rides",
+        "recent_30d_wins",
+        "recent_30d_win_rate"
+      ],
+      "fetcher": null
+    },
+    "columns": [
+      {
+        "column": "id",
+        "type": "character varying",
+        "nullable": "NO",
+        "default": null
+      },
+      {
+        "column": "name",
+        "type": "character varying",
+        "nullable": "NO",
+        "default": null
+      },
+      {
+        "column": "created_at",
+        "type": "timestamp without time zone",
+        "nullable": "YES",
+        "default": "CURRENT_TIMESTAMP"
+      },
+      {
+        "column": "updated_at",
+        "type": "timestamp without time zone",
+        "nullable": "YES",
+        "default": "CURRENT_TIMESTAMP"
+      },
+      {
+        "column": "total_rides",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "total_wins",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "total_places",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "total_seconds",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "total_thirds",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "win_rate",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "place_rate",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "stats_updated_at",
+        "type": "timestamp without time zone",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "last_ride_date",
+        "type": "date",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "last_win_date",
+        "type": "date",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "days_since_last_ride",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "days_since_last_win",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "recent_14d_rides",
+        "type": "integer",
+        "nullable": "YES",
+        "default": "0"
+      },
+      {
+        "column": "recent_14d_wins",
+        "type": "integer",
+        "nullable": "YES",
+        "default": "0"
+      },
+      {
+        "column": "recent_14d_win_rate",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": "0.00"
+      },
+      {
+        "column": "recent_30d_rides",
+        "type": "integer",
+        "nullable": "YES",
+        "default": "0"
+      },
+      {
+        "column": "recent_30d_wins",
+        "type": "integer",
+        "nullable": "YES",
+        "default": "0"
+      },
+      {
+        "column": "recent_30d_win_rate",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": "0.00"
+      }
+    ]
+  },
+  "ra_mst_owners": {
+    "analysis": {
+      "table": "ra_mst_owners",
+      "total_columns": 24,
+      "auto_columns": [
+        "id",
+        "created_at",
+        "updated_at"
+      ],
+      "foreign_keys": [],
+      "data_columns": [
+        "name",
+        "total_horses",
+        "total_runners",
+        "total_wins",
+        "total_places",
+        "total_seconds",
+        "total_thirds",
+        "win_rate",
+        "place_rate",
+        "active_last_30d",
+        "stats_updated_at",
+        "last_runner_date",
+        "last_win_date",
+        "days_since_last_runner",
+        "days_since_last_win",
+        "recent_14d_runs",
+        "recent_14d_wins",
+        "recent_14d_win_rate",
+        "recent_30d_runs",
+        "recent_30d_wins",
+        "recent_30d_win_rate"
+      ],
+      "fetcher": null
+    },
+    "columns": [
+      {
+        "column": "id",
+        "type": "character varying",
+        "nullable": "NO",
+        "default": null
+      },
+      {
+        "column": "name",
+        "type": "character varying",
+        "nullable": "NO",
+        "default": null
+      },
+      {
+        "column": "created_at",
+        "type": "timestamp without time zone",
+        "nullable": "YES",
+        "default": "CURRENT_TIMESTAMP"
+      },
+      {
+        "column": "updated_at",
+        "type": "timestamp without time zone",
+        "nullable": "YES",
+        "default": "CURRENT_TIMESTAMP"
+      },
+      {
+        "column": "total_horses",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "total_runners",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "total_wins",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "total_places",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "total_seconds",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "total_thirds",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "win_rate",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "place_rate",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "active_last_30d",
+        "type": "boolean",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "stats_updated_at",
+        "type": "timestamp without time zone",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "last_runner_date",
+        "type": "date",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "last_win_date",
+        "type": "date",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "days_since_last_runner",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "days_since_last_win",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "recent_14d_runs",
+        "type": "integer",
+        "nullable": "YES",
+        "default": "0"
+      },
+      {
+        "column": "recent_14d_wins",
+        "type": "integer",
+        "nullable": "YES",
+        "default": "0"
+      },
+      {
+        "column": "recent_14d_win_rate",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": "0.00"
+      },
+      {
+        "column": "recent_30d_runs",
+        "type": "integer",
+        "nullable": "YES",
+        "default": "0"
+      },
+      {
+        "column": "recent_30d_wins",
+        "type": "integer",
+        "nullable": "YES",
+        "default": "0"
+      },
+      {
+        "column": "recent_30d_win_rate",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": "0.00"
+      }
+    ]
+  },
+  "ra_mst_regions": {
+    "analysis": {
+      "table": "ra_mst_regions",
+      "total_columns": 3,
+      "auto_columns": [
+        "id",
+        "created_at",
+        "updated_at"
+      ],
+      "foreign_keys": [],
+      "data_columns": [
+        "code",
+        "name"
+      ],
+      "fetcher": null
+    },
+    "columns": [
+      {
+        "column": "code",
+        "type": "character varying",
+        "nullable": "NO",
+        "default": null
+      },
+      {
+        "column": "name",
+        "type": "character varying",
+        "nullable": "NO",
+        "default": null
+      },
+      {
+        "column": "created_at",
+        "type": "timestamp without time zone",
+        "nullable": "YES",
+        "default": "CURRENT_TIMESTAMP"
+      }
+    ]
+  },
+  "ra_mst_sires": {
+    "analysis": {
+      "table": "ra_mst_sires",
+      "total_columns": 47,
+      "auto_columns": [
+        "id",
+        "created_at",
+        "updated_at"
+      ],
+      "foreign_keys": [
+        "horse_id"
+      ],
+      "data_columns": [
+        "name",
+        "total_runners",
+        "total_wins",
+        "total_places_2nd",
+        "total_places_3rd",
+        "overall_win_percent",
+        "overall_ae_index",
+        "best_class",
+        "best_class_ae",
+        "best_distance",
+        "best_distance_ae",
+        "analysis_last_updated",
+        "data_quality_score",
+        "class_1_name",
+        "class_1_runners",
+        "class_1_wins",
+        "class_1_win_percent",
+        "class_1_ae",
+        "class_2_name",
+        "class_2_runners",
+        "class_2_wins",
+        "class_2_win_percent",
+        "class_2_ae",
+        "class_3_name",
+        "class_3_runners",
+        "class_3_wins",
+        "class_3_win_percent",
+        "class_3_ae",
+        "distance_1_name",
+        "distance_1_runners",
+        "distance_1_wins",
+        "distance_1_win_percent",
+        "distance_1_ae",
+        "distance_2_name",
+        "distance_2_runners",
+        "distance_2_wins",
+        "distance_2_win_percent",
+        "distance_2_ae",
+        "distance_3_name",
+        "distance_3_runners",
+        "distance_3_wins",
+        "distance_3_win_percent",
+        "distance_3_ae"
+      ],
+      "fetcher": null
+    },
+    "columns": [
+      {
+        "column": "id",
+        "type": "character varying",
+        "nullable": "NO",
+        "default": null
+      },
+      {
+        "column": "name",
+        "type": "character varying",
+        "nullable": "NO",
+        "default": null
+      },
+      {
+        "column": "horse_id",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "created_at",
+        "type": "timestamp without time zone",
+        "nullable": "YES",
+        "default": "CURRENT_TIMESTAMP"
+      },
+      {
+        "column": "updated_at",
+        "type": "timestamp without time zone",
+        "nullable": "YES",
+        "default": "CURRENT_TIMESTAMP"
+      },
+      {
+        "column": "total_runners",
+        "type": "integer",
+        "nullable": "YES",
+        "default": "0"
+      },
+      {
+        "column": "total_wins",
+        "type": "integer",
+        "nullable": "YES",
+        "default": "0"
+      },
+      {
+        "column": "total_places_2nd",
+        "type": "integer",
+        "nullable": "YES",
+        "default": "0"
+      },
+      {
+        "column": "total_places_3rd",
+        "type": "integer",
+        "nullable": "YES",
+        "default": "0"
+      },
+      {
+        "column": "overall_win_percent",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "overall_ae_index",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "best_class",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "best_class_ae",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "best_distance",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "best_distance_ae",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "analysis_last_updated",
+        "type": "timestamp without time zone",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "data_quality_score",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "class_1_name",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "class_1_runners",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "class_1_wins",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "class_1_win_percent",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "class_1_ae",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "class_2_name",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "class_2_runners",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "class_2_wins",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "class_2_win_percent",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "class_2_ae",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "class_3_name",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "class_3_runners",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "class_3_wins",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "class_3_win_percent",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "class_3_ae",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "distance_1_name",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "distance_1_runners",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "distance_1_wins",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "distance_1_win_percent",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "distance_1_ae",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "distance_2_name",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "distance_2_runners",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "distance_2_wins",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "distance_2_win_percent",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "distance_2_ae",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "distance_3_name",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "distance_3_runners",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "distance_3_wins",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "distance_3_win_percent",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "distance_3_ae",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      }
+    ]
+  },
+  "ra_mst_trainers": {
+    "analysis": {
+      "table": "ra_mst_trainers",
+      "total_columns": 23,
+      "auto_columns": [
+        "id",
+        "created_at",
+        "updated_at"
+      ],
+      "foreign_keys": [],
+      "data_columns": [
+        "name",
+        "location",
+        "total_runners",
+        "total_wins",
+        "total_places",
+        "total_seconds",
+        "total_thirds",
+        "win_rate",
+        "place_rate",
+        "stats_updated_at",
+        "last_runner_date",
+        "last_win_date",
+        "days_since_last_runner",
+        "days_since_last_win",
+        "recent_14d_runs",
+        "recent_14d_wins",
+        "recent_14d_win_rate",
+        "recent_30d_runs",
+        "recent_30d_wins",
+        "recent_30d_win_rate"
+      ],
+      "fetcher": null
+    },
+    "columns": [
+      {
+        "column": "id",
+        "type": "character varying",
+        "nullable": "NO",
+        "default": null
+      },
+      {
+        "column": "name",
+        "type": "character varying",
+        "nullable": "NO",
+        "default": null
+      },
+      {
+        "column": "location",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "created_at",
+        "type": "timestamp without time zone",
+        "nullable": "YES",
+        "default": "CURRENT_TIMESTAMP"
+      },
+      {
+        "column": "updated_at",
+        "type": "timestamp without time zone",
+        "nullable": "YES",
+        "default": "CURRENT_TIMESTAMP"
+      },
+      {
+        "column": "total_runners",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "total_wins",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "total_places",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "total_seconds",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "total_thirds",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "win_rate",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "place_rate",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "stats_updated_at",
+        "type": "timestamp without time zone",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "last_runner_date",
+        "type": "date",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "last_win_date",
+        "type": "date",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "days_since_last_runner",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "days_since_last_win",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "recent_14d_runs",
+        "type": "integer",
+        "nullable": "YES",
+        "default": "0"
+      },
+      {
+        "column": "recent_14d_wins",
+        "type": "integer",
+        "nullable": "YES",
+        "default": "0"
+      },
+      {
+        "column": "recent_14d_win_rate",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": "0.00"
+      },
+      {
+        "column": "recent_30d_runs",
+        "type": "integer",
+        "nullable": "YES",
+        "default": "0"
+      },
+      {
+        "column": "recent_30d_wins",
+        "type": "integer",
+        "nullable": "YES",
+        "default": "0"
+      },
+      {
+        "column": "recent_30d_win_rate",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": "0.00"
+      }
+    ]
+  },
+  "ra_odds_historical": {
+    "analysis": {
+      "table": "ra_odds_historical",
+      "total_columns": 36,
+      "auto_columns": [
+        "id",
+        "created_at",
+        "updated_at"
+      ],
+      "foreign_keys": [
+        "racing_bet_data_id"
+      ],
+      "data_columns": [
+        "date_of_race",
+        "country",
+        "track",
+        "race_time",
+        "going",
+        "race_type",
+        "distance",
+        "race_class",
+        "runners_count",
+        "horse_name",
+        "official_rating",
+        "age",
+        "weight",
+        "jockey",
+        "trainer",
+        "headgear",
+        "stall_number",
+        "sp_favorite_position",
+        "industry_sp",
+        "finishing_position",
+        "winning_distance",
+        "ip_min",
+        "ip_max",
+        "pre_race_min",
+        "pre_race_max",
+        "forecasted_odds",
+        "sp_win_return",
+        "ew_return",
+        "place_return",
+        "data_source",
+        "file_source",
+        "match_timestamp",
+        "race_name"
+      ],
+      "fetcher": null
+    },
+    "columns": [
+      {
+        "column": "racing_bet_data_id",
+        "type": "bigint",
+        "nullable": "NO",
+        "default": "nextval('rb_odds_historical_racing_bet_data_id_seq'::regclass)"
+      },
+      {
+        "column": "date_of_race",
+        "type": "timestamp with time zone",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "country",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "track",
+        "type": "text",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "race_time",
+        "type": "time without time zone",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "going",
+        "type": "text",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "race_type",
+        "type": "text",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "distance",
+        "type": "text",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "race_class",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "runners_count",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "horse_name",
+        "type": "text",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "official_rating",
+        "type": "integer",
+        "nullable": "YES",
+        "default": "0"
+      },
+      {
+        "column": "age",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "weight",
+        "type": "text",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "jockey",
+        "type": "text",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "trainer",
+        "type": "text",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "headgear",
+        "type": "text",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "stall_number",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "sp_favorite_position",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "industry_sp",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "finishing_position",
+        "type": "text",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "winning_distance",
+        "type": "text",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "ip_min",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "ip_max",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "pre_race_min",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "pre_race_max",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "forecasted_odds",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "sp_win_return",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "ew_return",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "place_return",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "data_source",
+        "type": "text",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "file_source",
+        "type": "text",
+        "nullable": "YES",
+        "default": "'Racing API'::text"
+      },
+      {
+        "column": "created_at",
+        "type": "timestamp with time zone",
+        "nullable": "NO",
+        "default": "now()"
+      },
+      {
+        "column": "updated_at",
+        "type": "timestamp with time zone",
+        "nullable": "NO",
+        "default": "now()"
+      },
+      {
+        "column": "match_timestamp",
+        "type": "timestamp with time zone",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "race_name",
+        "type": "text",
+        "nullable": "YES",
+        "default": null
+      }
+    ]
+  },
+  "ra_odds_live": {
+    "analysis": {
+      "table": "ra_odds_live",
+      "total_columns": 32,
+      "auto_columns": [
+        "id",
+        "created_at",
+        "updated_at"
+      ],
+      "foreign_keys": [
+        "race_id",
+        "horse_id",
+        "bookmaker_id"
+      ],
+      "data_columns": [
+        "race_date",
+        "race_time",
+        "off_dt",
+        "course",
+        "race_name",
+        "race_class",
+        "race_type",
+        "distance",
+        "going",
+        "runners",
+        "horse_name",
+        "horse_number",
+        "jockey",
+        "trainer",
+        "draw",
+        "weight",
+        "age",
+        "form",
+        "bookmaker_name",
+        "bookmaker_type",
+        "market_type",
+        "odds_decimal",
+        "odds_fractional",
+        "market_status",
+        "in_play",
+        "odds_timestamp",
+        "fetched_at"
+      ],
+      "fetcher": null
+    },
+    "columns": [
+      {
+        "column": "id",
+        "type": "bigint",
+        "nullable": "NO",
+        "default": "nextval('ra_odds_live_id_seq'::regclass)"
+      },
+      {
+        "column": "race_id",
+        "type": "text",
+        "nullable": "NO",
+        "default": null
+      },
+      {
+        "column": "horse_id",
+        "type": "text",
+        "nullable": "NO",
+        "default": null
+      },
+      {
+        "column": "bookmaker_id",
+        "type": "text",
+        "nullable": "NO",
+        "default": null
+      },
+      {
+        "column": "race_date",
+        "type": "date",
+        "nullable": "NO",
+        "default": null
+      },
+      {
+        "column": "race_time",
+        "type": "time without time zone",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "off_dt",
+        "type": "timestamp with time zone",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "course",
+        "type": "text",
+        "nullable": "NO",
+        "default": null
+      },
+      {
+        "column": "race_name",
+        "type": "text",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "race_class",
+        "type": "text",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "race_type",
+        "type": "text",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "distance",
+        "type": "text",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "going",
+        "type": "text",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "runners",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "horse_name",
+        "type": "text",
+        "nullable": "NO",
+        "default": null
+      },
+      {
+        "column": "horse_number",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "jockey",
+        "type": "text",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "trainer",
+        "type": "text",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "draw",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "weight",
+        "type": "text",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "age",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "form",
+        "type": "text",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "bookmaker_name",
+        "type": "text",
+        "nullable": "NO",
+        "default": null
+      },
+      {
+        "column": "bookmaker_type",
+        "type": "text",
+        "nullable": "YES",
+        "default": "'fixed'::text"
+      },
+      {
+        "column": "market_type",
+        "type": "text",
+        "nullable": "YES",
+        "default": "'WIN'::text"
+      },
+      {
+        "column": "odds_decimal",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "odds_fractional",
+        "type": "text",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "market_status",
+        "type": "text",
+        "nullable": "YES",
+        "default": "'OPEN'::text"
+      },
+      {
+        "column": "in_play",
+        "type": "boolean",
+        "nullable": "YES",
+        "default": "false"
+      },
+      {
+        "column": "odds_timestamp",
+        "type": "timestamp with time zone",
+        "nullable": "NO",
+        "default": null
+      },
+      {
+        "column": "fetched_at",
+        "type": "timestamp with time zone",
+        "nullable": "YES",
+        "default": "now()"
+      },
+      {
+        "column": "updated_at",
+        "type": "timestamp with time zone",
+        "nullable": "YES",
+        "default": "now()"
+      }
+    ]
+  },
+  "ra_odds_live_latest": {
+    "analysis": {
+      "table": "ra_odds_live_latest",
+      "total_columns": 13,
+      "auto_columns": [
+        "id",
+        "created_at",
+        "updated_at"
+      ],
+      "foreign_keys": [
+        "race_id"
+      ],
+      "data_columns": [
+        "race_date",
+        "race_time",
+        "off_dt",
+        "course",
+        "race_name",
+        "runners",
+        "horse_name",
+        "horse_number",
+        "odds_decimal",
+        "odds_fractional",
+        "bookmaker_name",
+        "fetched_at"
+      ],
+      "fetcher": null
+    },
+    "columns": [
+      {
+        "column": "race_id",
+        "type": "text",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "race_date",
+        "type": "date",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "race_time",
+        "type": "time without time zone",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "off_dt",
+        "type": "timestamp with time zone",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "course",
+        "type": "text",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "race_name",
+        "type": "text",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "runners",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "horse_name",
+        "type": "text",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "horse_number",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "odds_decimal",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "odds_fractional",
+        "type": "text",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "bookmaker_name",
+        "type": "text",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "fetched_at",
+        "type": "timestamp with time zone",
+        "nullable": "YES",
+        "default": null
+      }
+    ]
+  },
+  "ra_odds_statistics": {
+    "analysis": {
+      "table": "ra_odds_statistics",
+      "total_columns": 11,
+      "auto_columns": [
+        "id",
+        "created_at",
+        "updated_at"
+      ],
+      "foreign_keys": [
+        "race_id"
+      ],
+      "data_columns": [
+        "fetch_timestamp",
+        "races_count",
+        "horses_count",
+        "bookmakers_found",
+        "total_odds_fetched",
+        "bookmaker_list",
+        "fetch_duration_ms",
+        "errors_count"
+      ],
+      "fetcher": null
+    },
+    "columns": [
+      {
+        "column": "id",
+        "type": "integer",
+        "nullable": "NO",
+        "default": "nextval('ra_odds_statistics_id_seq'::regclass)"
+      },
+      {
+        "column": "fetch_timestamp",
+        "type": "timestamp with time zone",
+        "nullable": "NO",
+        "default": null
+      },
+      {
+        "column": "race_id",
+        "type": "text",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "races_count",
+        "type": "integer",
+        "nullable": "YES",
+        "default": "0"
+      },
+      {
+        "column": "horses_count",
+        "type": "integer",
+        "nullable": "YES",
+        "default": "0"
+      },
+      {
+        "column": "bookmakers_found",
+        "type": "integer",
+        "nullable": "YES",
+        "default": "0"
+      },
+      {
+        "column": "total_odds_fetched",
+        "type": "integer",
+        "nullable": "YES",
+        "default": "0"
+      },
+      {
+        "column": "bookmaker_list",
+        "type": "ARRAY",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "fetch_duration_ms",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "errors_count",
+        "type": "integer",
+        "nullable": "YES",
+        "default": "0"
+      },
+      {
+        "column": "created_at",
+        "type": "timestamp with time zone",
+        "nullable": "YES",
+        "default": "now()"
+      }
+    ]
+  },
+  "ra_performance_by_distance": {
+    "analysis": {
+      "table": "ra_performance_by_distance",
+      "total_columns": 20,
+      "auto_columns": [
+        "id",
+        "created_at",
+        "updated_at"
+      ],
+      "foreign_keys": [
+        "entity_id"
+      ],
+      "data_columns": [
+        "entity_type",
+        "distance_yards",
+        "distance_display",
+        "total_runs",
+        "wins",
+        "places_2nd",
+        "places_3rd",
+        "win_percent",
+        "place_percent",
+        "ae_index",
+        "profit_loss_1u",
+        "best_time_seconds",
+        "avg_time_seconds",
+        "last_time_seconds",
+        "going_breakdown",
+        "query_filters",
+        "calculated_at"
+      ],
+      "fetcher": null
+    },
+    "columns": [
+      {
+        "column": "id",
+        "type": "bigint",
+        "nullable": "NO",
+        "default": "nextval('ra_performance_by_distance_id_seq'::regclass)"
+      },
+      {
+        "column": "entity_type",
+        "type": "character varying",
+        "nullable": "NO",
+        "default": null
+      },
+      {
+        "column": "entity_id",
+        "type": "character varying",
+        "nullable": "NO",
+        "default": null
+      },
+      {
+        "column": "distance_yards",
+        "type": "integer",
+        "nullable": "NO",
+        "default": null
+      },
+      {
+        "column": "distance_display",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "total_runs",
+        "type": "integer",
+        "nullable": "NO",
+        "default": "0"
+      },
+      {
+        "column": "wins",
+        "type": "integer",
+        "nullable": "NO",
+        "default": "0"
+      },
+      {
+        "column": "places_2nd",
+        "type": "integer",
+        "nullable": "NO",
+        "default": "0"
+      },
+      {
+        "column": "places_3rd",
+        "type": "integer",
+        "nullable": "NO",
+        "default": "0"
+      },
+      {
+        "column": "win_percent",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "place_percent",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "ae_index",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "profit_loss_1u",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "best_time_seconds",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "avg_time_seconds",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "last_time_seconds",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "going_breakdown",
+        "type": "jsonb",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "query_filters",
+        "type": "jsonb",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "calculated_at",
+        "type": "timestamp without time zone",
+        "nullable": "NO",
+        "default": null
+      },
+      {
+        "column": "created_at",
+        "type": "timestamp without time zone",
+        "nullable": "YES",
+        "default": "CURRENT_TIMESTAMP"
+      }
+    ]
+  },
+  "ra_performance_by_venue": {
+    "analysis": {
+      "table": "ra_performance_by_venue",
+      "total_columns": 15,
+      "auto_columns": [
+        "id",
+        "created_at",
+        "updated_at"
+      ],
+      "foreign_keys": [
+        "entity_id",
+        "venue_id"
+      ],
+      "data_columns": [
+        "entity_type",
+        "total_runs",
+        "wins",
+        "places_2nd",
+        "places_3rd",
+        "win_percent",
+        "place_percent",
+        "ae_index",
+        "profit_loss_1u",
+        "query_filters",
+        "calculated_at"
+      ],
+      "fetcher": null
+    },
+    "columns": [
+      {
+        "column": "id",
+        "type": "bigint",
+        "nullable": "NO",
+        "default": "nextval('ra_performance_by_venue_id_seq'::regclass)"
+      },
+      {
+        "column": "entity_type",
+        "type": "character varying",
+        "nullable": "NO",
+        "default": null
+      },
+      {
+        "column": "entity_id",
+        "type": "character varying",
+        "nullable": "NO",
+        "default": null
+      },
+      {
+        "column": "venue_id",
+        "type": "character varying",
+        "nullable": "NO",
+        "default": null
+      },
+      {
+        "column": "total_runs",
+        "type": "integer",
+        "nullable": "NO",
+        "default": "0"
+      },
+      {
+        "column": "wins",
+        "type": "integer",
+        "nullable": "NO",
+        "default": "0"
+      },
+      {
+        "column": "places_2nd",
+        "type": "integer",
+        "nullable": "NO",
+        "default": "0"
+      },
+      {
+        "column": "places_3rd",
+        "type": "integer",
+        "nullable": "NO",
+        "default": "0"
+      },
+      {
+        "column": "win_percent",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "place_percent",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "ae_index",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "profit_loss_1u",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "query_filters",
+        "type": "jsonb",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "calculated_at",
+        "type": "timestamp without time zone",
+        "nullable": "NO",
+        "default": null
+      },
+      {
+        "column": "created_at",
+        "type": "timestamp without time zone",
+        "nullable": "YES",
+        "default": "CURRENT_TIMESTAMP"
+      }
+    ]
+  },
+  "ra_race_results": {
+    "analysis": {
+      "table": "ra_race_results",
+      "total_columns": 38,
+      "auto_columns": [
+        "id",
+        "created_at",
+        "updated_at"
+      ],
+      "foreign_keys": [
+        "race_id",
+        "horse_id",
+        "jockey_id",
+        "trainer_id",
+        "owner_id",
+        "sire_id",
+        "dam_id",
+        "damsire_id"
+      ],
+      "data_columns": [
+        "race_date",
+        "horse_name",
+        "jockey_name",
+        "trainer_name",
+        "owner_name",
+        "position",
+        "position_str",
+        "number",
+        "draw",
+        "jockey_claim_lbs",
+        "age",
+        "sex",
+        "weight_lbs",
+        "weight_st_lbs",
+        "headgear",
+        "sp",
+        "sp_decimal",
+        "btn",
+        "ovr_btn",
+        "time_seconds",
+        "time_display",
+        "official_rating",
+        "rpr",
+        "tsr",
+        "prize_won",
+        "comment",
+        "silk_url",
+        "margin"
+      ],
+      "fetcher": null
+    },
+    "columns": [
+      {
+        "column": "id",
+        "type": "bigint",
+        "nullable": "NO",
+        "default": "nextval('ra_race_results_id_seq'::regclass)"
+      },
+      {
+        "column": "race_id",
+        "type": "character varying",
+        "nullable": "NO",
+        "default": null
+      },
+      {
+        "column": "race_date",
+        "type": "date",
+        "nullable": "NO",
+        "default": null
+      },
+      {
+        "column": "horse_id",
+        "type": "character varying",
+        "nullable": "NO",
+        "default": null
+      },
+      {
+        "column": "horse_name",
+        "type": "character varying",
+        "nullable": "NO",
+        "default": null
+      },
+      {
+        "column": "jockey_name",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "trainer_name",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "owner_name",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "position",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "position_str",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "number",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "draw",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "jockey_id",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "jockey_claim_lbs",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "trainer_id",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "owner_id",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "sire_id",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "dam_id",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "damsire_id",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "age",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "sex",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "weight_lbs",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "weight_st_lbs",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "headgear",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "sp",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "sp_decimal",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "btn",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "ovr_btn",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "time_seconds",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "time_display",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "official_rating",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "rpr",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "tsr",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "prize_won",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "comment",
+        "type": "text",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "silk_url",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "margin",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "created_at",
+        "type": "timestamp without time zone",
+        "nullable": "YES",
+        "default": "CURRENT_TIMESTAMP"
+      }
+    ]
+  },
+  "ra_races": {
+    "analysis": {
+      "table": "ra_races",
+      "total_columns": 48,
+      "auto_columns": [
+        "id",
+        "created_at",
+        "updated_at"
+      ],
+      "foreign_keys": [
+        "course_id",
+        "meet_id"
+      ],
+      "data_columns": [
+        "course_name",
+        "date",
+        "off_time",
+        "off_dt",
+        "race_name",
+        "race_number",
+        "distance",
+        "distance_round",
+        "distance_f",
+        "distance_m",
+        "region",
+        "type",
+        "surface",
+        "going",
+        "going_detailed",
+        "pattern",
+        "race_class",
+        "age_band",
+        "sex_restriction",
+        "rating_band",
+        "prize",
+        "field_size",
+        "stalls",
+        "rail_movements",
+        "weather",
+        "jumps",
+        "is_big_race",
+        "is_abandoned",
+        "has_result",
+        "winning_time",
+        "winning_time_detail",
+        "comments",
+        "non_runners",
+        "tote_win",
+        "tote_pl",
+        "tote_ex",
+        "tote_csf",
+        "tote_tricast",
+        "tote_trifecta",
+        "tip",
+        "verdict",
+        "betting_forecast",
+        "time"
+      ],
+      "fetcher": "races_fetcher.py"
+    },
+    "columns": [
+      {
+        "column": "id",
+        "type": "character varying",
+        "nullable": "NO",
+        "default": null
+      },
+      {
+        "column": "course_id",
+        "type": "character varying",
+        "nullable": "NO",
+        "default": null
+      },
+      {
+        "column": "course_name",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "date",
+        "type": "date",
+        "nullable": "NO",
+        "default": null
+      },
+      {
+        "column": "off_time",
+        "type": "time without time zone",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "off_dt",
+        "type": "timestamp without time zone",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "race_name",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "race_number",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "distance",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "distance_round",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "distance_f",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "distance_m",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "region",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "type",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "surface",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "going",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "going_detailed",
+        "type": "text",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "pattern",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "race_class",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "age_band",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "sex_restriction",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "rating_band",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "prize",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "field_size",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "stalls",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "rail_movements",
+        "type": "text",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "weather",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "jumps",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "is_big_race",
+        "type": "boolean",
+        "nullable": "YES",
+        "default": "false"
+      },
+      {
+        "column": "is_abandoned",
+        "type": "boolean",
+        "nullable": "YES",
+        "default": "false"
+      },
+      {
+        "column": "has_result",
+        "type": "boolean",
+        "nullable": "YES",
+        "default": "false"
+      },
+      {
+        "column": "winning_time",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "winning_time_detail",
+        "type": "text",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "comments",
+        "type": "text",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "non_runners",
+        "type": "text",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "tote_win",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "tote_pl",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "tote_ex",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "tote_csf",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "tote_tricast",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "tote_trifecta",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "tip",
+        "type": "text",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "verdict",
+        "type": "text",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "betting_forecast",
+        "type": "text",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "meet_id",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "created_at",
+        "type": "timestamp without time zone",
+        "nullable": "YES",
+        "default": "CURRENT_TIMESTAMP"
+      },
+      {
+        "column": "updated_at",
+        "type": "timestamp without time zone",
+        "nullable": "YES",
+        "default": "CURRENT_TIMESTAMP"
+      },
+      {
+        "column": "time",
+        "type": "time without time zone",
+        "nullable": "YES",
+        "default": null
+      }
+    ]
+  },
+  "ra_runner_odds": {
+    "analysis": {
+      "table": "ra_runner_odds",
+      "total_columns": 10,
+      "auto_columns": [
+        "id",
+        "created_at",
+        "updated_at"
+      ],
+      "foreign_keys": [
+        "race_id",
+        "horse_id",
+        "bookmaker_id"
+      ],
+      "data_columns": [
+        "fractional_odds",
+        "decimal_odds",
+        "ew_places",
+        "ew_denom",
+        "captured_at"
+      ],
+      "fetcher": null
+    },
+    "columns": [
+      {
+        "column": "id",
+        "type": "bigint",
+        "nullable": "NO",
+        "default": "nextval('ra_runner_odds_id_seq'::regclass)"
+      },
+      {
+        "column": "race_id",
+        "type": "character varying",
+        "nullable": "NO",
+        "default": null
+      },
+      {
+        "column": "horse_id",
+        "type": "character varying",
+        "nullable": "NO",
+        "default": null
+      },
+      {
+        "column": "bookmaker_id",
+        "type": "bigint",
+        "nullable": "NO",
+        "default": null
+      },
+      {
+        "column": "fractional_odds",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "decimal_odds",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "ew_places",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "ew_denom",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "updated_at",
+        "type": "timestamp without time zone",
+        "nullable": "NO",
+        "default": null
+      },
+      {
+        "column": "captured_at",
+        "type": "timestamp without time zone",
+        "nullable": "YES",
+        "default": "CURRENT_TIMESTAMP"
+      }
+    ]
+  },
+  "ra_runner_statistics": {
+    "analysis": {
+      "table": "ra_runner_statistics",
+      "total_columns": 60,
+      "auto_columns": [
+        "id",
+        "created_at",
+        "updated_at"
+      ],
+      "foreign_keys": [
+        "runner_id",
+        "horse_id"
+      ],
+      "data_columns": [
+        "career_prize",
+        "career_win_percent",
+        "career_place_percent",
+        "course_runs",
+        "course_wins",
+        "course_2nds",
+        "course_3rds",
+        "course_distance_runs",
+        "course_distance_wins",
+        "course_distance_2nds",
+        "course_distance_3rds",
+        "distance_runs",
+        "distance_wins",
+        "distance_2nds",
+        "distance_3rds",
+        "firm_runs",
+        "firm_wins",
+        "firm_2nds",
+        "firm_3rds",
+        "good_runs",
+        "good_wins",
+        "good_2nds",
+        "good_3rds",
+        "soft_runs",
+        "soft_wins",
+        "soft_2nds",
+        "soft_3rds",
+        "heavy_runs",
+        "heavy_wins",
+        "heavy_2nds",
+        "heavy_3rds",
+        "aw_runs",
+        "aw_wins",
+        "aw_2nds",
+        "aw_3rds",
+        "jockey_runs",
+        "jockey_wins",
+        "jockey_2nds",
+        "jockey_3rds",
+        "jumps_runs",
+        "jumps_wins",
+        "jumps_2nds",
+        "jumps_3rds",
+        "last_10_runs",
+        "last_10_wins",
+        "last_10_2nds",
+        "last_10_3rds",
+        "last_12m_runs",
+        "last_12m_wins",
+        "last_12m_2nds",
+        "last_12m_3rds",
+        "last_raced",
+        "last_won",
+        "min_winning_distance_yards",
+        "max_winning_distance_yards"
+      ],
+      "fetcher": null
+    },
+    "columns": [
+      {
+        "column": "id",
+        "type": "bigint",
+        "nullable": "NO",
+        "default": "nextval('ra_runner_statistics_id_seq'::regclass)"
+      },
+      {
+        "column": "runner_id",
+        "type": "bigint",
+        "nullable": "NO",
+        "default": null
+      },
+      {
+        "column": "horse_id",
+        "type": "character varying",
+        "nullable": "NO",
+        "default": null
+      },
+      {
+        "column": "career_prize",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "career_win_percent",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "career_place_percent",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "course_runs",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "course_wins",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "course_2nds",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "course_3rds",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "course_distance_runs",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "course_distance_wins",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "course_distance_2nds",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "course_distance_3rds",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "distance_runs",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "distance_wins",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "distance_2nds",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "distance_3rds",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "firm_runs",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "firm_wins",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "firm_2nds",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "firm_3rds",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "good_runs",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "good_wins",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "good_2nds",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "good_3rds",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "soft_runs",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "soft_wins",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "soft_2nds",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "soft_3rds",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "heavy_runs",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "heavy_wins",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "heavy_2nds",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "heavy_3rds",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "aw_runs",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "aw_wins",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "aw_2nds",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "aw_3rds",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "jockey_runs",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "jockey_wins",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "jockey_2nds",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "jockey_3rds",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "jumps_runs",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "jumps_wins",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "jumps_2nds",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "jumps_3rds",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "last_10_runs",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "last_10_wins",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "last_10_2nds",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "last_10_3rds",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "last_12m_runs",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "last_12m_wins",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "last_12m_2nds",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "last_12m_3rds",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "last_raced",
+        "type": "date",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "last_won",
+        "type": "date",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "min_winning_distance_yards",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "max_winning_distance_yards",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "created_at",
+        "type": "timestamp without time zone",
+        "nullable": "YES",
+        "default": "CURRENT_TIMESTAMP"
+      },
+      {
+        "column": "updated_at",
+        "type": "timestamp without time zone",
+        "nullable": "YES",
+        "default": "CURRENT_TIMESTAMP"
+      }
+    ]
+  },
+  "ra_runner_supplementary": {
+    "analysis": {
+      "table": "ra_runner_supplementary",
+      "total_columns": 16,
+      "auto_columns": [
+        "id",
+        "created_at",
+        "updated_at"
+      ],
+      "foreign_keys": [
+        "runner_id",
+        "entity_id",
+        "quote_race_id"
+      ],
+      "data_columns": [
+        "record_type",
+        "entity_type",
+        "entity_name",
+        "change_date",
+        "medical_type",
+        "medical_date",
+        "quote_text",
+        "stable_tour_text",
+        "stats_runs",
+        "stats_wins",
+        "stats_win_percent"
+      ],
+      "fetcher": null
+    },
+    "columns": [
+      {
+        "column": "id",
+        "type": "bigint",
+        "nullable": "NO",
+        "default": "nextval('ra_runner_supplementary_id_seq'::regclass)"
+      },
+      {
+        "column": "runner_id",
+        "type": "bigint",
+        "nullable": "NO",
+        "default": null
+      },
+      {
+        "column": "record_type",
+        "type": "character varying",
+        "nullable": "NO",
+        "default": null
+      },
+      {
+        "column": "entity_type",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "entity_id",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "entity_name",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "change_date",
+        "type": "date",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "medical_type",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "medical_date",
+        "type": "date",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "quote_text",
+        "type": "text",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "quote_race_id",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "stable_tour_text",
+        "type": "text",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "stats_runs",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "stats_wins",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "stats_win_percent",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "created_at",
+        "type": "timestamp without time zone",
+        "nullable": "YES",
+        "default": "CURRENT_TIMESTAMP"
+      }
+    ]
+  },
+  "ra_runners": {
+    "analysis": {
+      "table": "ra_runners",
+      "total_columns": 57,
+      "auto_columns": [
+        "id",
+        "created_at",
+        "updated_at"
+      ],
+      "foreign_keys": [
+        "race_id",
+        "horse_id",
+        "jockey_id",
+        "trainer_id",
+        "owner_id",
+        "sire_id",
+        "dam_id",
+        "damsire_id"
+      ],
+      "data_columns": [
+        "horse_name",
+        "jockey_name",
+        "trainer_name",
+        "owner_name",
+        "number",
+        "draw",
+        "weight_lbs",
+        "weight_st_lbs",
+        "age",
+        "sex",
+        "sex_code",
+        "colour",
+        "dob",
+        "headgear",
+        "headgear_run",
+        "wind_surgery",
+        "wind_surgery_run",
+        "form",
+        "last_run",
+        "ofr",
+        "rpr",
+        "ts",
+        "comment",
+        "spotlight",
+        "trainer_rtf",
+        "past_results_flags",
+        "claiming_price_min",
+        "claiming_price_max",
+        "medication",
+        "equipment",
+        "morning_line_odds",
+        "is_scratched",
+        "silk_url",
+        "position",
+        "distance_beaten",
+        "prize_won",
+        "starting_price",
+        "result_updated_at",
+        "finishing_time",
+        "starting_price_decimal",
+        "race_comment",
+        "jockey_silk_url",
+        "overall_beaten_distance",
+        "jockey_claim_lbs",
+        "weight_stones_lbs",
+        "trainer_location"
+      ],
+      "fetcher": "races_fetcher.py"
+    },
+    "columns": [
+      {
+        "column": "id",
+        "type": "bigint",
+        "nullable": "NO",
+        "default": "nextval('ra_runners_id_seq'::regclass)"
+      },
+      {
+        "column": "race_id",
+        "type": "character varying",
+        "nullable": "NO",
+        "default": null
+      },
+      {
+        "column": "horse_id",
+        "type": "character varying",
+        "nullable": "NO",
+        "default": null
+      },
+      {
+        "column": "horse_name",
+        "type": "character varying",
+        "nullable": "NO",
+        "default": null
+      },
+      {
+        "column": "jockey_name",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "trainer_name",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "owner_name",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "number",
+        "type": "character varying",
+        "nullable": "NO",
+        "default": null
+      },
+      {
+        "column": "draw",
+        "type": "character varying",
+        "nullable": "NO",
+        "default": null
+      },
+      {
+        "column": "jockey_id",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "trainer_id",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "owner_id",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "sire_id",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "dam_id",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "damsire_id",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "weight_lbs",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "weight_st_lbs",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "age",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "sex",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "sex_code",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "colour",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "dob",
+        "type": "date",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "headgear",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "headgear_run",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "wind_surgery",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "wind_surgery_run",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "form",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "last_run",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "ofr",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "rpr",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "ts",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "comment",
+        "type": "text",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "spotlight",
+        "type": "text",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "trainer_rtf",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "past_results_flags",
+        "type": "jsonb",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "claiming_price_min",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "claiming_price_max",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "medication",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "equipment",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "morning_line_odds",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "is_scratched",
+        "type": "boolean",
+        "nullable": "YES",
+        "default": "false"
+      },
+      {
+        "column": "silk_url",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "created_at",
+        "type": "timestamp without time zone",
+        "nullable": "YES",
+        "default": "CURRENT_TIMESTAMP"
+      },
+      {
+        "column": "updated_at",
+        "type": "timestamp without time zone",
+        "nullable": "YES",
+        "default": "CURRENT_TIMESTAMP"
+      },
+      {
+        "column": "position",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "distance_beaten",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "prize_won",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "starting_price",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "result_updated_at",
+        "type": "timestamp without time zone",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "finishing_time",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "starting_price_decimal",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "race_comment",
+        "type": "text",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "jockey_silk_url",
+        "type": "text",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "overall_beaten_distance",
+        "type": "numeric",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "jockey_claim_lbs",
+        "type": "integer",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "weight_stones_lbs",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      },
+      {
+        "column": "trainer_location",
+        "type": "character varying",
+        "nullable": "YES",
+        "default": null
+      }
+    ]
+  }
+}

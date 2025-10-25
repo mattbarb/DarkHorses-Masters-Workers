@@ -1,0 +1,1747 @@
+[
+  {
+    "course_id": "crs_001",
+    "course": "Aintree",
+    "country": "GB",
+    "code": "AIN",
+    "type": "Jump",
+    "latitude": 53.476596633991065,
+    "longitude": -2.946296640869064,
+    "coord_source_country": "UK",
+    "validation": {
+      "status": "verified",
+      "source": "manual_extraction",
+      "notes": "Near Liverpool, famous for Grand National",
+      "timestamp": "2025-09-21T10:03:40.732582",
+      "updated": "2025-10-11T15:25:46.088541"
+    },
+    "validated": true,
+    "validation_date": "2025-09-21T12:56:25.707707",
+    "validation_method": "hyper-precise"
+  },
+  {
+    "course_id": "crs_002",
+    "course": "Ascot",
+    "country": "GB",
+    "code": "ASC",
+    "type": "Both",
+    "latitude": 51.41661734225887,
+    "longitude": -0.6764800559238249,
+    "coord_source_country": "UK",
+    "validation": {
+      "status": "verified",
+      "source": "manual_extraction",
+      "notes": "Berkshire, Royal Ascot",
+      "timestamp": "2025-09-21T10:03:40.732588",
+      "updated": "2025-10-11T15:25:46.088544"
+    },
+    "validated": true,
+    "validation_date": "2025-09-21T12:56:25.707714",
+    "validation_method": "hyper-precise"
+  },
+  {
+    "course_id": "crs_003",
+    "course": "Ayr",
+    "country": "GB",
+    "code": "AYR",
+    "type": "Both",
+    "latitude": 55.46489928476665,
+    "longitude": -4.607527712746227,
+    "coord_source_country": "UK",
+    "validation": {
+      "status": "verified",
+      "source": "manual_extraction",
+      "notes": "Scotland, west coast",
+      "timestamp": "2025-09-21T10:03:40.732591",
+      "updated": "2025-10-11T15:25:46.088545"
+    },
+    "validated": true,
+    "validation_date": "2025-09-21T12:56:25.707715",
+    "validation_method": "hyper-precise"
+  },
+  {
+    "course_id": "crs_004",
+    "course": "Bangor",
+    "country": "GB",
+    "code": "BAN",
+    "type": "Jump",
+    "latitude": 52.9959325692826,
+    "longitude": -2.9274951544075867,
+    "coord_source_country": "UK",
+    "validation": {
+      "status": "verified",
+      "source": "manual_extraction",
+      "notes": "Actually Bangor-on-Dee in Wales",
+      "timestamp": "2025-09-21T10:03:40.732593",
+      "updated": "2025-10-11T15:25:46.088546"
+    },
+    "validated": true,
+    "validation_date": "2025-09-21T12:56:25.707716",
+    "validation_method": "hyper-precise"
+  },
+  {
+    "course_id": "crs_005",
+    "course": "Bath",
+    "country": "GB",
+    "code": "BAT",
+    "type": "Flat",
+    "latitude": 51.416906002244055,
+    "longitude": -2.4034401783977666,
+    "coord_source_country": "UK",
+    "validation": {
+      "status": "verified",
+      "source": "manual_extraction",
+      "notes": "Near Bath city",
+      "timestamp": "2025-09-21T10:03:40.732595",
+      "updated": "2025-10-11T15:25:46.088547"
+    },
+    "validated": true,
+    "validation_date": "2025-09-21T12:56:25.707717",
+    "validation_method": "hyper-precise"
+  },
+  {
+    "course_id": "crs_006",
+    "course": "Beverley",
+    "country": "GB",
+    "code": "BEV",
+    "type": "Flat",
+    "latitude": 53.84533744919823,
+    "longitude": -0.45242092138571,
+    "coord_source_country": "UK",
+    "validation": {
+      "status": "verified",
+      "source": "manual_extraction",
+      "notes": "East Yorkshire",
+      "timestamp": "2025-09-21T10:03:40.732597",
+      "updated": "2025-10-11T15:25:46.088547"
+    },
+    "validated": true,
+    "validation_date": "2025-09-21T12:56:25.707718",
+    "validation_method": "hyper-precise"
+  },
+  {
+    "course_id": "crs_007",
+    "course": "Brighton",
+    "country": "GB",
+    "code": "BRI",
+    "type": "Flat",
+    "latitude": 50.83059314815911,
+    "longitude": -0.10436934713212054,
+    "coord_source_country": "UK",
+    "validation": {
+      "status": "verified",
+      "source": "manual_extraction",
+      "notes": "Sussex coast",
+      "timestamp": "2025-09-21T10:03:40.732599",
+      "updated": "2025-10-11T15:25:46.088548"
+    },
+    "validated": true,
+    "validation_date": "2025-09-21T12:56:25.707719",
+    "validation_method": "hyper-precise"
+  },
+  {
+    "course_id": "crs_008",
+    "course": "Carlisle",
+    "country": "GB",
+    "code": "CAR",
+    "type": "Both",
+    "latitude": 54.86230393668564,
+    "longitude": -2.933366562352162,
+    "coord_source_country": "UK",
+    "validation": {
+      "status": "verified",
+      "source": "manual_extraction",
+      "notes": "Near Scottish border",
+      "timestamp": "2025-09-21T10:03:40.732601",
+      "updated": "2025-10-11T15:25:46.088549"
+    },
+    "validated": true,
+    "validation_date": "2025-09-21T12:56:25.707720",
+    "validation_method": "hyper-precise"
+  },
+  {
+    "course_id": "crs_009",
+    "course": "Cartmel",
+    "country": "GB",
+    "code": "CTM",
+    "type": "Jump",
+    "latitude": 54.202302830104834,
+    "longitude": -2.956926268718667,
+    "coord_source_country": "UK",
+    "validation": {
+      "status": "verified",
+      "source": "manual_extraction",
+      "notes": "Cumbria, Lake District",
+      "timestamp": "2025-09-21T10:03:40.732602",
+      "updated": "2025-10-11T15:25:46.088549"
+    },
+    "validated": true,
+    "validation_date": "2025-09-21T12:56:25.707721",
+    "validation_method": "hyper-precise"
+  },
+  {
+    "course_id": "crs_010",
+    "course": "Catterick",
+    "country": "GB",
+    "code": "CAT",
+    "type": "Both",
+    "latitude": 54.38519867514532,
+    "longitude": -1.6483334219512935,
+    "coord_source_country": "UK",
+    "validation": {
+      "status": "verified",
+      "source": "manual_extraction",
+      "notes": "North Yorkshire",
+      "timestamp": "2025-09-21T10:03:40.732604",
+      "updated": "2025-10-11T15:25:46.088550"
+    },
+    "validated": true,
+    "validation_date": "2025-09-21T12:56:25.707722",
+    "validation_method": "hyper-precise"
+  },
+  {
+    "course_id": "crs_011",
+    "course": "Chelmsford",
+    "country": "GB",
+    "code": "CHM",
+    "type": "Flat",
+    "latitude": 51.841543322586695,
+    "longitude": 0.5130932497375351,
+    "coord_source_country": "UK",
+    "validation": {
+      "status": "verified",
+      "source": "manual_extraction",
+      "notes": "Essex, all-weather track",
+      "timestamp": "2025-09-21T10:03:40.732606",
+      "updated": "2025-10-11T15:25:46.088551"
+    },
+    "validated": true,
+    "validation_date": "2025-09-21T12:56:25.707723",
+    "validation_method": "hyper-precise"
+  },
+  {
+    "course_id": "crs_012",
+    "course": "Cheltenham",
+    "country": "GB",
+    "code": "CHE",
+    "type": "Jump",
+    "latitude": 51.920543565269305,
+    "longitude": -2.0566638355144984,
+    "coord_source_country": "UK",
+    "validation": {
+      "status": "verified",
+      "source": "manual_extraction",
+      "notes": "Gloucestershire, Prestbury Park",
+      "timestamp": "2025-09-21T10:03:40.732608",
+      "updated": "2025-10-11T15:25:46.088552"
+    },
+    "validated": true,
+    "validation_date": "2025-09-21T12:56:25.707724",
+    "validation_method": "hyper-precise"
+  },
+  {
+    "course_id": "crs_013",
+    "course": "Chepstow",
+    "country": "GB",
+    "code": "CHP",
+    "type": "Both",
+    "latitude": 51.65560388619853,
+    "longitude": -2.6886334494939623,
+    "coord_source_country": "UK",
+    "validation": {
+      "status": "verified",
+      "source": "manual_extraction",
+      "notes": "Welsh border",
+      "timestamp": "2025-09-21T10:03:40.732609",
+      "updated": "2025-10-11T15:25:46.088552"
+    },
+    "validated": true,
+    "validation_date": "2025-09-21T12:56:25.707725",
+    "validation_method": "hyper-precise"
+  },
+  {
+    "course_id": "crs_014",
+    "course": "Chester",
+    "country": "GB",
+    "code": "CHC",
+    "type": "Flat",
+    "latitude": 53.186146672953676,
+    "longitude": -2.8994810595245424,
+    "coord_source_country": "UK",
+    "validation": {
+      "status": "verified",
+      "source": "manual_extraction",
+      "notes": "The Roodee",
+      "timestamp": "2025-09-21T10:03:40.732611",
+      "updated": "2025-10-11T15:25:46.088553"
+    },
+    "validated": true,
+    "validation_date": "2025-09-21T12:56:25.707726",
+    "validation_method": "hyper-precise"
+  },
+  {
+    "course_id": "crs_015",
+    "course": "Doncaster",
+    "country": "GB",
+    "code": "DON",
+    "type": "Both",
+    "latitude": 53.52018725870381,
+    "longitude": -1.094573561285399,
+    "coord_source_country": "UK",
+    "validation": {
+      "status": "verified",
+      "source": "manual_extraction",
+      "notes": "Town Moor",
+      "timestamp": "2025-09-21T10:03:40.732613",
+      "updated": "2025-10-11T15:25:46.088554"
+    },
+    "validated": true,
+    "validation_date": "2025-09-21T12:56:25.707728",
+    "validation_method": "hyper-precise"
+  },
+  {
+    "course_id": "crs_016",
+    "course": "Epsom",
+    "country": "GB",
+    "code": "EPS",
+    "type": "Flat",
+    "latitude": 51.31006351681712,
+    "longitude": -0.25317393404136856,
+    "coord_source_country": "UK",
+    "validation": {
+      "status": "verified",
+      "source": "manual_extraction",
+      "notes": "Surrey, Epsom Downs",
+      "timestamp": "2025-09-21T10:03:40.732615",
+      "updated": "2025-10-11T15:25:46.088554"
+    },
+    "validated": true,
+    "validation_date": "2025-09-21T12:56:25.707729",
+    "validation_method": "hyper-precise"
+  },
+  {
+    "course_id": "crs_017",
+    "course": "Exeter",
+    "country": "GB",
+    "code": "EXE",
+    "type": "Both",
+    "latitude": 50.63942772606881,
+    "longitude": -3.557283563198843,
+    "coord_source_country": "UK",
+    "validation": {
+      "status": "verified",
+      "source": "manual_extraction",
+      "notes": "Haldon Hill, Devon",
+      "timestamp": "2025-09-21T10:03:40.732616",
+      "updated": "2025-10-11T15:25:46.088555"
+    },
+    "validated": true,
+    "validation_date": "2025-09-21T12:56:25.707730",
+    "validation_method": "hyper-precise"
+  },
+  {
+    "course_id": "crs_018",
+    "course": "Fakenham",
+    "country": "GB",
+    "code": "FAK",
+    "type": "Jump",
+    "latitude": 52.82284613437195,
+    "longitude": 0.8568764436599396,
+    "coord_source_country": "UK",
+    "validation": {
+      "status": "verified",
+      "source": "manual_extraction",
+      "notes": "Norfolk",
+      "timestamp": "2025-09-21T10:03:40.732618",
+      "updated": "2025-10-11T15:25:46.088556"
+    },
+    "validated": true,
+    "validation_date": "2025-09-21T12:56:25.707731",
+    "validation_method": "hyper-precise"
+  },
+  {
+    "course_id": "crs_019",
+    "course": "Ffos Las",
+    "country": "GB",
+    "code": "FFL",
+    "type": "Both",
+    "latitude": 51.72912404282809,
+    "longitude": -4.23166189481234,
+    "coord_source_country": "UK",
+    "validation": {
+      "status": "verified",
+      "source": "manual_extraction",
+      "notes": "Carmarthenshire, Wales",
+      "timestamp": "2025-09-21T10:03:40.732620",
+      "updated": "2025-10-11T15:25:46.088556"
+    },
+    "validated": true,
+    "validation_date": "2025-09-21T12:56:25.707732",
+    "validation_method": "hyper-precise"
+  },
+  {
+    "course_id": "crs_020",
+    "course": "Fontwell",
+    "country": "GB",
+    "code": "FON",
+    "type": "Jump",
+    "latitude": 50.852550327485176,
+    "longitude": -0.6562534928428576,
+    "coord_source_country": "UK",
+    "validation": {
+      "status": "verified",
+      "source": "manual_extraction",
+      "notes": "West Sussex",
+      "timestamp": "2025-09-21T10:03:40.732622",
+      "updated": "2025-10-11T15:25:46.088557"
+    },
+    "validated": true,
+    "validation_date": "2025-09-21T12:56:25.707733",
+    "validation_method": "hyper-precise"
+  },
+  {
+    "course_id": "crs_021",
+    "course": "Goodwood",
+    "country": "GB",
+    "code": "GOO",
+    "type": "Flat",
+    "latitude": 50.896534069730585,
+    "longitude": -0.738767142880179,
+    "coord_source_country": "UK",
+    "validation": {
+      "status": "verified",
+      "source": "manual_extraction",
+      "notes": "West Sussex, Glorious Goodwood",
+      "timestamp": "2025-09-21T10:03:40.732623",
+      "updated": "2025-10-11T15:25:46.088558"
+    },
+    "validated": true,
+    "validation_date": "2025-09-21T12:56:25.707735",
+    "validation_method": "hyper-precise"
+  },
+  {
+    "course_id": "crs_022",
+    "course": "Hamilton",
+    "country": "GB",
+    "code": "HAM",
+    "type": "Flat",
+    "latitude": 55.787493525694344,
+    "longitude": -4.048066428385992,
+    "coord_source_country": "UK",
+    "validation": {
+      "status": "verified",
+      "source": "manual_extraction",
+      "notes": "Scotland, South Lanarkshire",
+      "timestamp": "2025-09-21T10:03:40.732625",
+      "updated": "2025-10-11T15:25:46.088559"
+    },
+    "validated": true,
+    "validation_date": "2025-09-21T12:56:25.707736",
+    "validation_method": "hyper-precise"
+  },
+  {
+    "course_id": "crs_023",
+    "course": "Haydock",
+    "country": "GB",
+    "code": "HAY",
+    "type": "Both",
+    "latitude": 53.47810592656725,
+    "longitude": -2.6212580853275536,
+    "coord_source_country": "UK",
+    "validation": {
+      "status": "verified",
+      "source": "manual_extraction",
+      "notes": "Merseyside",
+      "timestamp": "2025-09-21T10:03:40.732627",
+      "updated": "2025-10-11T15:25:46.088559"
+    },
+    "validated": true,
+    "validation_date": "2025-09-21T12:56:25.707737",
+    "validation_method": "hyper-precise"
+  },
+  {
+    "course_id": "crs_024",
+    "course": "Hereford",
+    "country": "GB",
+    "code": "HER",
+    "type": "Jump",
+    "latitude": 52.070638805330795,
+    "longitude": -2.728963075933488,
+    "coord_source_country": "UK",
+    "validation": {
+      "status": "verified",
+      "source": "manual_extraction",
+      "notes": "Herefordshire",
+      "timestamp": "2025-09-21T10:03:40.732628",
+      "updated": "2025-10-11T15:25:46.088560"
+    },
+    "validated": true,
+    "validation_date": "2025-09-21T12:56:25.707739",
+    "validation_method": "hyper-precise"
+  },
+  {
+    "course_id": "crs_025",
+    "course": "Hexham",
+    "country": "GB",
+    "code": "HEX",
+    "type": "Jump",
+    "latitude": 54.95324659946922,
+    "longitude": -2.131920918322532,
+    "coord_source_country": "UK",
+    "validation": {
+      "status": "verified",
+      "source": "manual_extraction",
+      "notes": "Northumberland",
+      "timestamp": "2025-09-21T10:03:40.732630",
+      "updated": "2025-10-11T15:25:46.088561"
+    },
+    "validated": true,
+    "validation_date": "2025-09-21T12:56:25.707740",
+    "validation_method": "hyper-precise"
+  },
+  {
+    "course_id": "crs_026",
+    "course": "Huntingdon",
+    "country": "GB",
+    "code": "HUN",
+    "type": "Jump",
+    "latitude": 52.33496676117891,
+    "longitude": -0.23353364233127172,
+    "coord_source_country": "UK",
+    "validation": {
+      "status": "verified",
+      "source": "manual_extraction",
+      "notes": "Cambridgeshire",
+      "timestamp": "2025-09-21T10:03:40.732631",
+      "updated": "2025-10-11T15:25:46.088561"
+    },
+    "validated": true,
+    "validation_date": "2025-09-21T12:56:25.707742",
+    "validation_method": "hyper-precise"
+  },
+  {
+    "course_id": "crs_027",
+    "course": "Kelso",
+    "country": "GB",
+    "code": "KEL",
+    "type": "Jump",
+    "latitude": 55.61389844508936,
+    "longitude": -2.430494873785183,
+    "coord_source_country": "UK",
+    "validation": {
+      "status": "verified",
+      "source": "manual_extraction",
+      "notes": "Scottish Borders",
+      "timestamp": "2025-09-21T10:03:40.732633",
+      "updated": "2025-10-11T15:25:46.088562"
+    },
+    "validated": true,
+    "validation_date": "2025-09-21T12:56:25.707743",
+    "validation_method": "hyper-precise"
+  },
+  {
+    "course_id": "crs_028",
+    "course": "Kempton",
+    "country": "GB",
+    "code": "KEM",
+    "type": "Both",
+    "latitude": 51.41919886708642,
+    "longitude": -0.40041381370850226,
+    "coord_source_country": "UK",
+    "validation": {
+      "status": "verified",
+      "source": "manual_extraction",
+      "notes": "Surrey, Sunbury-on-Thames",
+      "timestamp": "2025-09-21T10:03:40.732635",
+      "updated": "2025-10-11T15:25:46.088563"
+    },
+    "validated": true,
+    "validation_date": "2025-09-21T12:56:25.707746",
+    "validation_method": "hyper-precise"
+  },
+  {
+    "course_id": "crs_029",
+    "course": "Leicester",
+    "country": "GB",
+    "code": "LEI",
+    "type": "Both",
+    "latitude": 52.598655460238874,
+    "longitude": -1.0957150486877398,
+    "coord_source_country": "UK",
+    "validation": {
+      "status": "verified",
+      "source": "manual_extraction",
+      "notes": "Oadby",
+      "timestamp": "2025-09-21T10:03:40.732637",
+      "updated": "2025-10-11T15:25:46.088564"
+    },
+    "validated": true,
+    "validation_date": "2025-09-21T12:56:25.707748",
+    "validation_method": "hyper-precise"
+  },
+  {
+    "course_id": "crs_030",
+    "course": "Lingfield",
+    "country": "GB",
+    "code": "LIN",
+    "type": "Both",
+    "latitude": 51.168698073762776,
+    "longitude": -0.010551590243526032,
+    "coord_source_country": "UK",
+    "validation": {
+      "status": "verified",
+      "source": "manual_extraction",
+      "notes": "Surrey/Kent border",
+      "timestamp": "2025-09-21T10:03:40.732638",
+      "updated": "2025-10-11T15:25:46.088564"
+    },
+    "validated": true,
+    "validation_date": "2025-09-21T12:56:25.707749",
+    "validation_method": "hyper-precise"
+  },
+  {
+    "course_id": "crs_031",
+    "course": "Ludlow",
+    "country": "GB",
+    "code": "LUD",
+    "type": "Jump",
+    "latitude": 52.39359155454617,
+    "longitude": -2.7465217658524677,
+    "coord_source_country": "UK",
+    "validation": {
+      "status": "verified",
+      "source": "manual_extraction",
+      "notes": "Shropshire",
+      "timestamp": "2025-09-21T10:03:40.732640",
+      "updated": "2025-10-11T15:25:46.088565"
+    },
+    "validated": true,
+    "validation_date": "2025-09-21T12:56:25.707751",
+    "validation_method": "hyper-precise"
+  },
+  {
+    "course_id": "crs_032",
+    "course": "Market Rasen",
+    "country": "GB",
+    "code": "MKR",
+    "type": "Both",
+    "latitude": 53.38171387942168,
+    "longitude": -0.3096523322821776,
+    "coord_source_country": "UK",
+    "validation": {
+      "status": "verified",
+      "source": "manual_extraction",
+      "notes": "Lincolnshire",
+      "timestamp": "2025-09-21T10:03:40.732642",
+      "updated": "2025-10-11T15:25:46.088566"
+    },
+    "validated": true,
+    "validation_date": "2025-09-21T12:56:25.707752",
+    "validation_method": "hyper-precise"
+  },
+  {
+    "course_id": "crs_033",
+    "course": "Musselburgh",
+    "country": "GB",
+    "code": "MUS",
+    "type": "Both",
+    "latitude": 55.94703303961501,
+    "longitude": -3.0378072946594337,
+    "coord_source_country": "UK",
+    "validation": {
+      "status": "verified",
+      "source": "manual_extraction",
+      "notes": "Scotland, near Edinburgh",
+      "timestamp": "2025-09-21T10:03:40.732643",
+      "updated": "2025-10-11T15:25:46.088566"
+    },
+    "validated": true,
+    "validation_date": "2025-09-21T12:56:25.707754",
+    "validation_method": "hyper-precise"
+  },
+  {
+    "course_id": "crs_034",
+    "course": "Newbury",
+    "country": "GB",
+    "code": "NBY",
+    "type": "Both",
+    "latitude": 51.39425063162202,
+    "longitude": -1.2987026158435167,
+    "coord_source_country": "UK",
+    "validation": {
+      "status": "verified",
+      "source": "manual_extraction",
+      "notes": "Berkshire",
+      "timestamp": "2025-09-21T10:03:40.732645",
+      "updated": "2025-10-11T15:25:46.088567"
+    },
+    "validated": true,
+    "validation_date": "2025-09-21T12:56:25.707756",
+    "validation_method": "hyper-precise"
+  },
+  {
+    "course_id": "crs_035",
+    "course": "Newcastle",
+    "country": "GB",
+    "code": "NCS",
+    "type": "Both",
+    "latitude": 55.03049892500853,
+    "longitude": -1.6107990038366893,
+    "coord_source_country": "UK",
+    "validation": {
+      "status": "verified",
+      "source": "manual_extraction",
+      "notes": "Gosforth Park",
+      "timestamp": "2025-09-21T10:03:40.732647",
+      "updated": "2025-10-11T15:25:46.088568"
+    },
+    "validated": true,
+    "validation_date": "2025-09-21T12:56:25.707757",
+    "validation_method": "hyper-precise"
+  },
+  {
+    "course_id": "crs_036",
+    "course": "Newmarket",
+    "country": "GB",
+    "code": "NMK",
+    "type": "Flat",
+    "latitude": 52.234115128688615,
+    "longitude": 0.36817742088255834,
+    "coord_source_country": "UK",
+    "validation": {
+      "status": "verified",
+      "source": "manual_extraction",
+      "notes": "Suffolk, HQ of racing",
+      "timestamp": "2025-09-21T10:03:40.732649",
+      "updated": "2025-10-11T15:25:46.088569"
+    },
+    "validated": true,
+    "validation_date": "2025-09-21T12:56:25.707759",
+    "validation_method": "hyper-precise"
+  },
+  {
+    "course_id": "crs_037",
+    "course": "Newton Abbot",
+    "country": "GB",
+    "code": "NWA",
+    "type": "Jump",
+    "latitude": 50.53801892260233,
+    "longitude": -3.596764117166138,
+    "coord_source_country": "UK",
+    "validation": {
+      "status": "verified",
+      "source": "manual_extraction",
+      "notes": "Devon",
+      "timestamp": "2025-09-21T10:03:40.732650",
+      "updated": "2025-10-11T15:25:46.088569"
+    },
+    "validated": true,
+    "validation_date": "2025-09-21T12:56:25.707761",
+    "validation_method": "hyper-precise"
+  },
+  {
+    "course_id": "crs_038",
+    "course": "Nottingham",
+    "country": "GB",
+    "code": "NOT",
+    "type": "Flat",
+    "latitude": 52.9483005522272,
+    "longitude": -1.1063870291680056,
+    "coord_source_country": "UK",
+    "validation": {
+      "status": "verified",
+      "source": "manual_extraction",
+      "notes": "Colwick Park",
+      "timestamp": "2025-09-21T10:03:40.732652",
+      "updated": "2025-10-11T15:25:46.088570"
+    },
+    "validated": true,
+    "validation_date": "2025-09-21T12:56:25.707762",
+    "validation_method": "hyper-precise"
+  },
+  {
+    "course_id": "crs_039",
+    "course": "Perth",
+    "country": "GB",
+    "code": "PER",
+    "type": "Jump",
+    "latitude": 56.42614832216671,
+    "longitude": -3.4510421250185797,
+    "coord_source_country": "UK",
+    "validation": {
+      "status": "verified",
+      "source": "manual_extraction",
+      "notes": "Scotland, Scone Palace",
+      "timestamp": "2025-09-21T10:03:40.732654",
+      "updated": "2025-10-11T15:25:46.088571"
+    },
+    "validated": true,
+    "validation_date": "2025-09-21T12:56:25.707764",
+    "validation_method": "hyper-precise"
+  },
+  {
+    "course_id": "crs_040",
+    "course": "Plumpton",
+    "country": "GB",
+    "code": "PLU",
+    "type": "Jump",
+    "latitude": 50.92500571436987,
+    "longitude": -0.06148324124755744,
+    "coord_source_country": "UK",
+    "validation": {
+      "status": "verified",
+      "source": "manual_extraction",
+      "notes": "East Sussex",
+      "timestamp": "2025-09-21T10:03:40.732655",
+      "updated": "2025-10-11T15:25:46.088571"
+    },
+    "validated": true,
+    "validation_date": "2025-09-21T12:56:25.707766",
+    "validation_method": "hyper-precise"
+  },
+  {
+    "course_id": "crs_041",
+    "course": "Pontefract",
+    "country": "GB",
+    "code": "PON",
+    "type": "Flat",
+    "latitude": 53.701540142331375,
+    "longitude": -1.3323915062677982,
+    "coord_source_country": "UK",
+    "validation": {
+      "status": "verified",
+      "source": "manual_extraction",
+      "notes": "West Yorkshire",
+      "timestamp": "2025-09-21T10:03:40.732657",
+      "updated": "2025-10-11T15:25:46.088572"
+    },
+    "validated": true,
+    "validation_date": "2025-09-21T12:56:25.707768",
+    "validation_method": "hyper-precise"
+  },
+  {
+    "course_id": "crs_042",
+    "course": "Redcar",
+    "country": "GB",
+    "code": "RED",
+    "type": "Flat",
+    "latitude": 54.607088052923814,
+    "longitude": -1.0649803405435398,
+    "coord_source_country": "UK",
+    "validation": {
+      "status": "verified",
+      "source": "manual_extraction",
+      "notes": "North Yorkshire coast",
+      "timestamp": "2025-09-21T10:03:40.732659",
+      "updated": "2025-10-11T15:25:46.088573"
+    },
+    "validated": true,
+    "validation_date": "2025-09-21T12:56:25.707770",
+    "validation_method": "hyper-precise"
+  },
+  {
+    "course_id": "crs_043",
+    "course": "Ripon",
+    "country": "GB",
+    "code": "RIP",
+    "type": "Flat",
+    "latitude": 54.1208849136822,
+    "longitude": -1.4969149317381203,
+    "coord_source_country": "UK",
+    "validation": {
+      "status": "verified",
+      "source": "manual_extraction",
+      "notes": "North Yorkshire",
+      "timestamp": "2025-09-21T10:03:40.732660",
+      "updated": "2025-10-11T15:25:46.088573"
+    },
+    "validated": true,
+    "validation_date": "2025-09-21T12:56:25.707772",
+    "validation_method": "hyper-precise"
+  },
+  {
+    "course_id": "crs_044",
+    "course": "Salisbury",
+    "country": "GB",
+    "code": "SAL",
+    "type": "Flat",
+    "latitude": 51.054118830325756,
+    "longitude": -1.8567517263568911,
+    "coord_source_country": "UK",
+    "validation": {
+      "status": "verified",
+      "source": "manual_extraction",
+      "notes": "Wiltshire",
+      "timestamp": "2025-09-21T10:03:40.732662",
+      "updated": "2025-10-11T15:25:46.088574"
+    },
+    "validated": true,
+    "validation_date": "2025-09-21T12:56:25.707774",
+    "validation_method": "hyper-precise"
+  },
+  {
+    "course_id": "crs_045",
+    "course": "Sandown",
+    "country": "GB",
+    "code": "SAN",
+    "type": "Both",
+    "latitude": 51.37738297357976,
+    "longitude": -0.3603101168814349,
+    "coord_source_country": "UK",
+    "validation": {
+      "status": "verified",
+      "source": "manual_extraction",
+      "notes": "Esher, Surrey",
+      "timestamp": "2025-09-21T10:03:40.732664",
+      "updated": "2025-10-11T15:25:46.088575"
+    },
+    "validated": true,
+    "validation_date": "2025-09-21T12:56:25.707776",
+    "validation_method": "hyper-precise"
+  },
+  {
+    "course_id": "crs_046",
+    "course": "Sedgefield",
+    "country": "GB",
+    "code": "SED",
+    "type": "Jump",
+    "latitude": 54.64630033869647,
+    "longitude": -1.4674179028724654,
+    "coord_source_country": "UK",
+    "validation": {
+      "status": "verified",
+      "source": "manual_extraction",
+      "notes": "County Durham",
+      "timestamp": "2025-09-21T10:03:40.732666",
+      "updated": "2025-10-11T15:25:46.088576"
+    },
+    "validated": true,
+    "validation_date": "2025-09-21T12:56:25.707778",
+    "validation_method": "hyper-precise"
+  },
+  {
+    "course_id": "crs_047",
+    "course": "Southwell",
+    "country": "GB",
+    "code": "SOU",
+    "type": "Both",
+    "latitude": 53.069479998284976,
+    "longitude": -0.9055276452255456,
+    "coord_source_country": "UK",
+    "validation": {
+      "status": "verified",
+      "source": "manual_extraction",
+      "notes": "Nottinghamshire",
+      "timestamp": "2025-09-21T10:03:40.732668",
+      "updated": "2025-10-11T15:25:46.088576"
+    },
+    "validated": true
+  },
+  {
+    "course_id": "crs_048",
+    "course": "Stratford",
+    "country": "GB",
+    "code": "STR",
+    "type": "Jump",
+    "latitude": 52.18110628842726,
+    "longitude": -1.7224081226763444,
+    "coord_source_country": "UK",
+    "validation": {
+      "status": "verified",
+      "source": "manual_extraction",
+      "notes": "Stratford-upon-Avon",
+      "timestamp": "2025-09-21T10:03:40.732669",
+      "updated": "2025-10-11T15:25:46.088577"
+    },
+    "validated": true
+  },
+  {
+    "course_id": "crs_049",
+    "course": "Taunton",
+    "country": "GB",
+    "code": "TAU",
+    "type": "Jump",
+    "latitude": 50.989006980008206,
+    "longitude": -3.083011582000732,
+    "coord_source_country": "UK",
+    "validation": {
+      "status": "verified",
+      "source": "manual_extraction",
+      "notes": "Somerset",
+      "timestamp": "2025-09-21T10:03:40.732671",
+      "updated": "2025-10-11T15:25:46.088578"
+    },
+    "validated": true
+  },
+  {
+    "course_id": "crs_050",
+    "course": "Thirsk",
+    "country": "GB",
+    "code": "THI",
+    "type": "Flat",
+    "latitude": 54.23214155214776,
+    "longitude": -1.357431434644727,
+    "coord_source_country": "UK",
+    "validation": {
+      "status": "verified",
+      "source": "manual_extraction",
+      "notes": "North Yorkshire",
+      "timestamp": "2025-09-21T10:03:40.732673",
+      "updated": "2025-10-11T15:25:46.088579"
+    },
+    "validated": true
+  },
+  {
+    "course_id": "crs_051",
+    "course": "Towcester",
+    "country": "GB",
+    "code": "TOW",
+    "type": "Jump",
+    "latitude": 52.12782367366133,
+    "longitude": -0.9726665477673935,
+    "coord_source_country": "UK",
+    "validation": {
+      "status": "verified",
+      "source": "manual_extraction",
+      "notes": "Northamptonshire",
+      "timestamp": "2025-09-21T10:03:40.732674",
+      "updated": "2025-10-11T15:25:46.088579"
+    },
+    "validated": true
+  },
+  {
+    "course_id": "crs_052",
+    "course": "Uttoxeter",
+    "country": "GB",
+    "code": "UTT",
+    "type": "Jump",
+    "latitude": 52.89286042876735,
+    "longitude": -1.8488582764550232,
+    "coord_source_country": "UK",
+    "validation": {
+      "status": "verified",
+      "source": "manual_extraction",
+      "notes": "Staffordshire",
+      "timestamp": "2025-09-21T10:03:40.732676",
+      "updated": "2025-10-11T15:25:46.088580"
+    },
+    "validated": true
+  },
+  {
+    "course_id": "crs_053",
+    "course": "Warwick",
+    "country": "GB",
+    "code": "WAR",
+    "type": "Both",
+    "latitude": 52.28106289576377,
+    "longitude": -1.6001141230950644,
+    "coord_source_country": "UK",
+    "validation": {
+      "status": "verified",
+      "source": "manual_extraction",
+      "notes": "Warwickshire",
+      "timestamp": "2025-09-21T10:03:40.732678",
+      "updated": "2025-10-11T15:25:46.088581"
+    },
+    "validated": true
+  },
+  {
+    "course_id": "crs_054",
+    "course": "Wetherby",
+    "country": "GB",
+    "code": "WET",
+    "type": "Jump",
+    "latitude": 53.93347144876387,
+    "longitude": -1.3640906442170153,
+    "coord_source_country": "UK",
+    "validation": {
+      "status": "verified",
+      "source": "manual_extraction",
+      "notes": "West Yorkshire",
+      "timestamp": "2025-09-21T10:03:40.732680",
+      "updated": "2025-10-11T15:25:46.088582"
+    },
+    "validated": true
+  },
+  {
+    "course_id": "crs_055",
+    "course": "Wincanton",
+    "country": "GB",
+    "code": "WIN",
+    "type": "Jump",
+    "latitude": 51.067595338525734,
+    "longitude": -2.4199639845682097,
+    "coord_source_country": "UK",
+    "validation": {
+      "status": "verified",
+      "source": "manual_extraction",
+      "notes": "Somerset",
+      "timestamp": "2025-09-21T10:03:40.732681",
+      "updated": "2025-10-11T15:25:46.088582"
+    },
+    "validated": true
+  },
+  {
+    "course_id": "crs_056",
+    "course": "Windsor",
+    "country": "GB",
+    "code": "WND",
+    "type": "Flat",
+    "latitude": 51.49024963936332,
+    "longitude": -0.6351351726980381,
+    "coord_source_country": "UK",
+    "validation": {
+      "status": "verified",
+      "source": "manual_extraction",
+      "notes": "Berkshire",
+      "timestamp": "2025-09-21T10:03:40.732683",
+      "updated": "2025-10-11T15:25:46.088583"
+    },
+    "validated": true
+  },
+  {
+    "course_id": "crs_057",
+    "course": "Wolverhampton",
+    "country": "GB",
+    "code": "WOL",
+    "type": "Flat",
+    "latitude": 52.60422217707455,
+    "longitude": -2.144870451342782,
+    "coord_source_country": "UK",
+    "validation": {
+      "status": "verified",
+      "source": "manual_extraction",
+      "notes": "West Midlands, Dunstall Park",
+      "timestamp": "2025-09-21T10:03:40.732685",
+      "updated": "2025-10-11T15:25:46.088584"
+    },
+    "validated": true
+  },
+  {
+    "course_id": "crs_058",
+    "course": "Worcester",
+    "country": "GB",
+    "code": "WOR",
+    "type": "Jump",
+    "latitude": 52.199331582455905,
+    "longitude": -2.2325813423305485,
+    "coord_source_country": "UK",
+    "validation": {
+      "status": "verified",
+      "source": "manual_extraction",
+      "notes": "Pitchcroft",
+      "timestamp": "2025-09-21T10:03:40.732687",
+      "updated": "2025-10-11T15:25:46.088584"
+    },
+    "validated": true
+  },
+  {
+    "course_id": "crs_059",
+    "course": "Yarmouth",
+    "country": "GB",
+    "code": "YAR",
+    "type": "Flat",
+    "latitude": 52.63427034239757,
+    "longitude": 1.734636875144151,
+    "coord_source_country": "UK",
+    "validation": {
+      "status": "verified",
+      "source": "manual_extraction",
+      "notes": "Great Yarmouth, Norfolk",
+      "timestamp": "2025-09-21T10:03:40.732688",
+      "updated": "2025-10-11T15:25:46.088585"
+    },
+    "validated": true
+  },
+  {
+    "course_id": "crs_060",
+    "course": "York",
+    "country": "GB",
+    "code": "YOR",
+    "type": "Flat",
+    "latitude": 53.937541783655576,
+    "longitude": -1.097775380581294,
+    "coord_source_country": "UK",
+    "validation": {
+      "status": "verified",
+      "source": "manual_extraction",
+      "notes": "Knavesmire",
+      "timestamp": "2025-09-21T10:03:40.732690",
+      "updated": "2025-10-11T15:25:46.088586"
+    },
+    "validated": true
+  },
+  {
+    "course_id": "crs_101",
+    "course": "Ballinrobe",
+    "country": "IRE",
+    "code": "BAL",
+    "type": "Both",
+    "latitude": 53.63845412656573,
+    "longitude": -9.247625066800726,
+    "coord_source_country": "Ireland",
+    "validation": {
+      "status": "verified",
+      "source": "manual_extraction",
+      "notes": "County Mayo",
+      "timestamp": "2025-09-21T10:03:40.732692",
+      "updated": "2025-10-11T15:25:46.088586"
+    },
+    "validated": true
+  },
+  {
+    "course_id": "crs_102",
+    "course": "Bellewstown",
+    "country": "IRE",
+    "code": "BEL",
+    "type": "Flat",
+    "latitude": 53.6449176968319,
+    "longitude": -6.351528939456174,
+    "coord_source_country": "Ireland",
+    "validation": {
+      "status": "verified",
+      "source": "manual_extraction",
+      "notes": "County Meath",
+      "timestamp": "2025-09-21T10:03:40.732693",
+      "updated": "2025-10-11T15:25:46.088587"
+    },
+    "validated": true
+  },
+  {
+    "course_id": "crs_103",
+    "course": "Clonmel",
+    "country": "IRE",
+    "code": "CLO",
+    "type": "Both",
+    "latitude": 52.36765047209471,
+    "longitude": -7.679343906854241,
+    "coord_source_country": "Ireland",
+    "validation": {
+      "status": "verified",
+      "source": "manual_extraction",
+      "notes": "Powerstown Park, Tipperary",
+      "timestamp": "2025-09-21T10:03:40.732695",
+      "updated": "2025-10-11T15:25:46.088588"
+    },
+    "validated": true
+  },
+  {
+    "course_id": "crs_104",
+    "course": "Cork",
+    "country": "IRE",
+    "code": "COR",
+    "type": "Both",
+    "latitude": 52.12950345467096,
+    "longitude": -8.692636064304715,
+    "coord_source_country": "Ireland",
+    "validation": {
+      "status": "verified",
+      "source": "manual_extraction",
+      "notes": "Mallow, County Cork",
+      "timestamp": "2025-09-21T10:03:40.732697",
+      "updated": "2025-10-11T15:25:46.088588"
+    },
+    "validated": true
+  },
+  {
+    "course_id": "crs_105",
+    "course": "Curragh",
+    "country": "IRE",
+    "code": "CUR",
+    "type": "Flat",
+    "latitude": 53.165420833999406,
+    "longitude": -6.844854400833135,
+    "coord_source_country": "Ireland",
+    "validation": {
+      "status": "verified",
+      "source": "manual_extraction",
+      "notes": "County Kildare, HQ of Irish racing",
+      "timestamp": "2025-09-21T10:03:40.732699",
+      "updated": "2025-10-11T15:25:46.088589"
+    },
+    "validated": true
+  },
+  {
+    "course_id": "crs_106",
+    "course": "Down Royal",
+    "country": "IRE",
+    "code": "DOW",
+    "type": "Both",
+    "latitude": 54.49165278956994,
+    "longitude": -6.128160915968328,
+    "coord_source_country": "Ireland",
+    "validation": {
+      "status": "verified",
+      "source": "manual_extraction",
+      "notes": "Lisburn, Northern Ireland",
+      "timestamp": "2025-09-21T10:03:40.732700",
+      "updated": "2025-10-11T15:25:46.088590"
+    },
+    "validated": true
+  },
+  {
+    "course_id": "crs_107",
+    "course": "Downpatrick",
+    "country": "IRE",
+    "code": "DOP",
+    "type": "Jump",
+    "latitude": 54.3124330221705,
+    "longitude": -5.727605867296741,
+    "coord_source_country": "Ireland",
+    "validation": {
+      "status": "verified",
+      "source": "manual_extraction",
+      "notes": "County Down",
+      "timestamp": "2025-09-21T10:03:40.732702",
+      "updated": "2025-10-11T15:25:46.088590"
+    },
+    "validated": true
+  },
+  {
+    "course_id": "crs_108",
+    "course": "Dundalk",
+    "country": "IRE",
+    "code": "DUN",
+    "type": "Flat",
+    "latitude": 54.02202990004093,
+    "longitude": -6.379251086885467,
+    "coord_source_country": "Ireland",
+    "validation": {
+      "status": "verified",
+      "source": "manual_extraction",
+      "notes": "County Louth, all-weather",
+      "timestamp": "2025-09-21T10:03:40.732704",
+      "updated": "2025-10-11T15:25:46.088591"
+    },
+    "validated": true
+  },
+  {
+    "course_id": "crs_109",
+    "course": "Fairyhouse",
+    "country": "IRE",
+    "code": "FAI",
+    "type": "Both",
+    "latitude": 53.48042639342959,
+    "longitude": -6.461624070729295,
+    "coord_source_country": "Ireland",
+    "validation": {
+      "status": "verified",
+      "source": "manual_extraction",
+      "notes": "County Meath",
+      "timestamp": "2025-09-21T10:03:40.732706",
+      "updated": "2025-10-11T15:25:46.088592"
+    },
+    "validated": true
+  },
+  {
+    "course_id": "crs_110",
+    "course": "Galway",
+    "country": "IRE",
+    "code": "GAL",
+    "type": "Both",
+    "latitude": 53.29564911989461,
+    "longitude": -8.997323326458735,
+    "coord_source_country": "Ireland",
+    "validation": {
+      "status": "verified",
+      "source": "manual_extraction",
+      "notes": "Ballybrit, County Galway",
+      "timestamp": "2025-09-21T10:03:40.732707",
+      "updated": "2025-10-11T15:25:46.088592"
+    },
+    "validated": true
+  },
+  {
+    "course_id": "crs_111",
+    "course": "Gowran Park",
+    "country": "IRE",
+    "code": "GOW",
+    "type": "Both",
+    "latitude": 52.615950584179245,
+    "longitude": -7.071133004674614,
+    "coord_source_country": "Ireland",
+    "validation": {
+      "status": "verified",
+      "source": "manual_extraction",
+      "notes": "County Kilkenny",
+      "timestamp": "2025-09-21T10:03:40.732709",
+      "updated": "2025-10-11T15:25:46.088593"
+    },
+    "validated": true
+  },
+  {
+    "course_id": "crs_112",
+    "course": "Kilbeggan",
+    "country": "IRE",
+    "code": "KIL",
+    "type": "Jump",
+    "latitude": 53.3870292470821,
+    "longitude": -7.495423082772836,
+    "coord_source_country": "Ireland",
+    "validation": {
+      "status": "verified",
+      "source": "manual_extraction",
+      "notes": "County Westmeath",
+      "timestamp": "2025-09-21T10:03:40.732711",
+      "updated": "2025-10-11T15:25:46.088594"
+    },
+    "validated": true
+  },
+  {
+    "course_id": "crs_113",
+    "course": "Killarney",
+    "country": "IRE",
+    "code": "KLY",
+    "type": "Both",
+    "latitude": 52.04689505013171,
+    "longitude": -9.517327334921605,
+    "coord_source_country": "Ireland",
+    "validation": {
+      "status": "verified",
+      "source": "manual_extraction",
+      "notes": "County Kerry",
+      "timestamp": "2025-09-21T10:03:40.732713",
+      "updated": "2025-10-11T15:25:46.088595"
+    },
+    "validated": true
+  },
+  {
+    "course_id": "crs_114",
+    "course": "Laytown",
+    "country": "IRE",
+    "code": "LAY",
+    "type": "Flat",
+    "latitude": 53.68580764885621,
+    "longitude": -6.23897720463473,
+    "coord_source_country": "Ireland",
+    "validation": {
+      "status": "verified",
+      "source": "manual_extraction",
+      "notes": "Beach racing, County Meath",
+      "timestamp": "2025-09-21T10:03:40.732714",
+      "updated": "2025-10-11T15:25:46.088595"
+    },
+    "validated": true
+  },
+  {
+    "course_id": "crs_115",
+    "course": "Leopardstown",
+    "country": "IRE",
+    "code": "LEO",
+    "type": "Both",
+    "latitude": 53.26607967396227,
+    "longitude": -6.189271208953852,
+    "coord_source_country": "Ireland",
+    "validation": {
+      "status": "verified",
+      "source": "manual_extraction",
+      "notes": "Dublin",
+      "timestamp": "2025-09-21T10:03:40.732716",
+      "updated": "2025-10-11T15:25:46.088596"
+    },
+    "validated": true
+  },
+  {
+    "course_id": "crs_116",
+    "course": "Limerick",
+    "country": "IRE",
+    "code": "LIM",
+    "type": "Both",
+    "latitude": 52.590485736200804,
+    "longitude": -8.689330073233034,
+    "coord_source_country": "Ireland",
+    "validation": {
+      "status": "verified",
+      "source": "manual_extraction",
+      "notes": "Greenmount Park",
+      "timestamp": "2025-09-21T10:03:40.732718",
+      "updated": "2025-10-11T15:25:46.088597"
+    },
+    "validated": true
+  },
+  {
+    "course_id": "crs_117",
+    "course": "Listowel",
+    "country": "IRE",
+    "code": "LIS",
+    "type": "Both",
+    "latitude": 52.443276172084445,
+    "longitude": -9.492976008181769,
+    "coord_source_country": "Ireland",
+    "validation": {
+      "status": "verified",
+      "source": "manual_extraction",
+      "notes": "County Kerry",
+      "timestamp": "2025-09-21T10:03:40.732719",
+      "updated": "2025-10-11T15:25:46.088597"
+    },
+    "validated": true
+  },
+  {
+    "course_id": "crs_118",
+    "course": "Naas",
+    "country": "IRE",
+    "code": "NAA",
+    "type": "Both",
+    "latitude": 53.221900269865,
+    "longitude": -6.640531223495487,
+    "coord_source_country": "Ireland",
+    "validation": {
+      "status": "verified",
+      "source": "manual_extraction",
+      "notes": "County Kildare",
+      "timestamp": "2025-09-21T10:03:40.732721",
+      "updated": "2025-10-11T15:25:46.088598"
+    },
+    "validated": true
+  },
+  {
+    "course_id": "crs_119",
+    "course": "Navan",
+    "country": "IRE",
+    "code": "NAV",
+    "type": "Both",
+    "latitude": 53.68493095247737,
+    "longitude": -6.680613050118886,
+    "coord_source_country": "Ireland",
+    "validation": {
+      "status": "verified",
+      "source": "manual_extraction",
+      "notes": "County Meath",
+      "timestamp": "2025-09-21T10:03:40.732723",
+      "updated": "2025-10-11T15:25:46.088599"
+    },
+    "validated": true
+  },
+  {
+    "course_id": "crs_120",
+    "course": "Punchestown",
+    "country": "IRE",
+    "code": "PUN",
+    "type": "Jump",
+    "latitude": 53.18456000691172,
+    "longitude": -6.621452572350106,
+    "coord_source_country": "Ireland",
+    "validation": {
+      "status": "verified",
+      "source": "manual_extraction",
+      "notes": "County Kildare",
+      "timestamp": "2025-09-21T10:03:40.732724",
+      "updated": "2025-10-11T15:25:46.088599"
+    },
+    "validated": true
+  },
+  {
+    "course_id": "crs_121",
+    "course": "Roscommon",
+    "country": "IRE",
+    "code": "ROS",
+    "type": "Both",
+    "latitude": 53.64343564045389,
+    "longitude": -8.222212993146927,
+    "coord_source_country": "Ireland",
+    "validation": {
+      "status": "verified",
+      "source": "manual_extraction",
+      "notes": "County Roscommon",
+      "timestamp": "2025-09-21T10:03:40.732726",
+      "updated": "2025-10-11T15:25:46.088600"
+    },
+    "validated": true
+  },
+  {
+    "course_id": "crs_122",
+    "course": "Sligo",
+    "country": "IRE",
+    "code": "SLI",
+    "type": "Both",
+    "latitude": 54.263072155041066,
+    "longitude": -8.456725098063053,
+    "coord_source_country": "Ireland",
+    "validation": {
+      "status": "verified",
+      "source": "manual_extraction",
+      "notes": "County Sligo",
+      "timestamp": "2025-09-21T10:03:40.732728",
+      "updated": "2025-10-11T15:25:46.088601"
+    },
+    "validated": true
+  },
+  {
+    "course_id": "crs_123",
+    "course": "Thurles",
+    "country": "IRE",
+    "code": "THU",
+    "type": "Jump",
+    "latitude": 52.68916891155975,
+    "longitude": -7.835998736671934,
+    "coord_source_country": "Ireland",
+    "validation": {
+      "status": "verified",
+      "source": "manual_extraction",
+      "notes": "County Tipperary",
+      "timestamp": "2025-09-21T10:03:40.732729",
+      "updated": "2025-10-11T15:25:46.088602"
+    },
+    "validated": true
+  },
+  {
+    "course_id": "crs_124",
+    "course": "Tipperary",
+    "country": "IRE",
+    "code": "TIP",
+    "type": "Both",
+    "latitude": 52.50306324637156,
+    "longitude": -8.20651925146191,
+    "coord_source_country": "Ireland",
+    "validation": {
+      "status": "verified",
+      "source": "manual_extraction",
+      "notes": "County Tipperary",
+      "timestamp": "2025-09-21T10:03:40.732731",
+      "updated": "2025-10-11T15:25:46.088602"
+    },
+    "validated": true
+  },
+  {
+    "course_id": "crs_125",
+    "course": "Tramore",
+    "country": "IRE",
+    "code": "TRA",
+    "type": "Both",
+    "latitude": 52.17291783639313,
+    "longitude": -7.148618982803338,
+    "coord_source_country": "Ireland",
+    "validation": {
+      "status": "verified",
+      "source": "manual_extraction",
+      "notes": "County Waterford",
+      "timestamp": "2025-09-21T10:03:40.732733",
+      "updated": "2025-10-11T15:25:46.088603"
+    },
+    "validated": true
+  },
+  {
+    "course_id": "crs_126",
+    "course": "Wexford",
+    "country": "IRE",
+    "code": "WEX",
+    "type": "Both",
+    "latitude": 52.33895216988511,
+    "longitude": -6.49192737438816,
+    "coord_source_country": "Ireland",
+    "validation": {
+      "status": "verified",
+      "source": "manual_extraction",
+      "notes": "County Wexford",
+      "timestamp": "2025-09-21T10:03:40.732734",
+      "updated": "2025-10-11T15:25:46.088604"
+    },
+    "validated": true
+  },
+  {
+    "course_id": "crs_494",
+    "course": "Folkestone",
+    "country": "GB",
+    "code": "FOL",
+    "type": "Both",
+    "latitude": 51.09177199153551,
+    "longitude": 1.0303544998168948,
+    "coord_source_country": "UK",
+    "validation": {
+      "status": "user-updated",
+      "source": "manual_addition",
+      "notes": "Closed 2012 - Westenhanger, Kent - coordinates pending refinement",
+      "timestamp": "2025-10-11T13:15:14.833106",
+      "last_updated": "2025-10-11T15:56:52.072378",
+      "zoom_level": 17
+    },
+    "validated": true,
+    "validation_date": null,
+    "validation_method": "manual"
+  },
+  {
+    "course_id": "crs_37024",
+    "course": "Larkhill",
+    "country": "GB",
+    "code": "LAR",
+    "type": "Jump",
+    "latitude": 51.05462028443841,
+    "longitude": -1.8598330020904543,
+    "coord_source_country": "UK",
+    "validation": {
+      "status": "user-updated",
+      "source": "manual_addition",
+      "notes": "Point-to-point course - Salisbury Plain, Wiltshire - coordinates pending refinement",
+      "timestamp": "2025-10-11T13:15:14.833220",
+      "last_updated": "2025-10-11T15:58:50.292837",
+      "zoom_level": 17
+    },
+    "validated": true,
+    "validation_date": null,
+    "validation_method": "manual"
+  },
+  {
+    "course_id": "crs_4966",
+    "course": "Mallow",
+    "country": "IRE",
+    "code": "MAL",
+    "type": "Both",
+    "latitude": 52.12936328263133,
+    "longitude": -8.690099716186525,
+    "coord_source_country": "Ireland",
+    "validation": {
+      "status": "user-updated",
+      "source": "manual_addition",
+      "notes": "Active course - Same as Cork racecourse - coordinates pending refinement",
+      "timestamp": "2025-10-11T13:15:14.833221",
+      "last_updated": "2025-10-11T15:59:52.127683",
+      "zoom_level": 16
+    },
+    "validated": true,
+    "validation_date": null,
+    "validation_method": "manual"
+  },
+  {
+    "course_id": "crs_5044",
+    "course": "Phoenix Park",
+    "country": "IRE",
+    "code": "PHO",
+    "type": "Flat",
+    "latitude": 53.373647012740875,
+    "longitude": -6.339540481567383,
+    "coord_source_country": "Ireland",
+    "validation": {
+      "status": "user-updated",
+      "source": "manual_addition",
+      "notes": "Closed 1990 - Phoenix Park, Dublin - coordinates pending refinement",
+      "timestamp": "2025-10-11T13:15:14.833221",
+      "last_updated": "2025-10-11T16:18:10.308445",
+      "zoom_level": 16
+    },
+    "validated": true,
+    "validation_date": null,
+    "validation_method": "manual"
+  },
+  {
+    "course_id": "crs_5174",
+    "course": "Tralee",
+    "country": "IRE",
+    "code": "TRL",
+    "type": "Both",
+    "latitude": 52.277965456615696,
+    "longitude": -9.673730134963991,
+    "coord_source_country": "Ireland",
+    "validation": {
+      "status": "user-updated",
+      "source": "manual_addition",
+      "notes": "Active course - County Kerry - coordinates pending refinement",
+      "timestamp": "2025-10-11T13:15:14.833222",
+      "last_updated": "2025-10-11T16:16:25.253980",
+      "zoom_level": 17
+    },
+    "validated": true,
+    "validation_date": null,
+    "validation_method": "manual"
+  }
+]

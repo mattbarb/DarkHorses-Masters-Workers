@@ -1,0 +1,1890 @@
+{
+  "ra_horse_pedigree": [
+    {
+      "column": "horse_id",
+      "data_type": "character varying",
+      "data_source": "Racing API - Horse ID",
+      "api_endpoint": "/v1/horses/{id}/pro",
+      "field_path": "response.horse.id",
+      "population_rate": 100.0,
+      "populated": 111594,
+      "total": 111594
+    },
+    {
+      "column": "sire_id",
+      "data_type": "character varying",
+      "data_source": "Racing API - Pedigree",
+      "api_endpoint": "/v1/horses/{id}/pro -> pedigree",
+      "field_path": "response.pedigree.sire.id",
+      "population_rate": 100.0,
+      "populated": 111594,
+      "total": 111594
+    },
+    {
+      "column": "sire",
+      "data_type": "character varying",
+      "data_source": "Racing API - Pedigree",
+      "api_endpoint": "/v1/horses/{id}/pro -> pedigree",
+      "field_path": "response.pedigree.sire.name",
+      "population_rate": 100.0,
+      "populated": 111594,
+      "total": 111594
+    },
+    {
+      "column": "dam_id",
+      "data_type": "character varying",
+      "data_source": "Racing API - Pedigree",
+      "api_endpoint": "/v1/horses/{id}/pro -> pedigree",
+      "field_path": "response.pedigree.dam.id",
+      "population_rate": 100.0,
+      "populated": 111594,
+      "total": 111594
+    },
+    {
+      "column": "dam",
+      "data_type": "character varying",
+      "data_source": "Racing API - Pedigree",
+      "api_endpoint": "/v1/horses/{id}/pro -> pedigree",
+      "field_path": "response.pedigree.dam.name",
+      "population_rate": 100.0,
+      "populated": 111594,
+      "total": 111594
+    },
+    {
+      "column": "damsire_id",
+      "data_type": "character varying",
+      "data_source": "Racing API - Pedigree",
+      "api_endpoint": "/v1/horses/{id}/pro -> pedigree",
+      "field_path": "response.pedigree.damsire.id",
+      "population_rate": 100.0,
+      "populated": 111589,
+      "total": 111594
+    },
+    {
+      "column": "damsire",
+      "data_type": "character varying",
+      "data_source": "Racing API - Pedigree",
+      "api_endpoint": "/v1/horses/{id}/pro -> pedigree",
+      "field_path": "response.pedigree.damsire.name",
+      "population_rate": 100.0,
+      "populated": 111589,
+      "total": 111594
+    },
+    {
+      "column": "breeder",
+      "data_type": "character varying",
+      "data_source": "Racing API - Pedigree",
+      "api_endpoint": "/v1/horses/{id}/pro -> pedigree",
+      "field_path": "response.pedigree.breeder",
+      "population_rate": 99.93,
+      "populated": 111520,
+      "total": 111594
+    },
+    {
+      "column": "region",
+      "data_type": "character varying",
+      "data_source": "Racing API - Pedigree",
+      "api_endpoint": "/v1/horses/{id}/pro -> pedigree",
+      "field_path": "response.pedigree.region",
+      "population_rate": 36.81,
+      "populated": 41080,
+      "total": 111594
+    }
+  ],
+  "ra_mst_bookmakers": [
+    {
+      "column": "id",
+      "data_type": "bigint",
+      "data_source": "Racing API - Reference Data ID",
+      "api_endpoint": "/v1/reference/bookmakers -> bookmakers[]",
+      "field_path": "response.bookmakers[].id",
+      "population_rate": 100.0,
+      "populated": 22,
+      "total": 22
+    },
+    {
+      "column": "name",
+      "data_type": "character varying",
+      "data_source": "Racing API - Reference",
+      "api_endpoint": "/v1/reference/bookmakers",
+      "field_path": "response.bookmakers[].name",
+      "population_rate": 100.0,
+      "populated": 22,
+      "total": 22
+    },
+    {
+      "column": "code",
+      "data_type": "character varying",
+      "data_source": "Racing API - Reference",
+      "api_endpoint": "/v1/reference/bookmakers",
+      "field_path": "response.bookmakers[].code",
+      "population_rate": 100.0,
+      "populated": 22,
+      "total": 22
+    },
+    {
+      "column": "is_active",
+      "data_type": "boolean",
+      "data_source": "Racing API - Reference",
+      "api_endpoint": "/v1/reference/bookmakers",
+      "field_path": "response.bookmakers[].is_active",
+      "population_rate": 100.0,
+      "populated": 22,
+      "total": 22
+    },
+    {
+      "column": "type",
+      "data_type": "character varying",
+      "data_source": "Racing API - Reference",
+      "api_endpoint": "/v1/reference/bookmakers",
+      "field_path": "response.bookmakers[].type",
+      "population_rate": 100.0,
+      "populated": 22,
+      "total": 22
+    }
+  ],
+  "ra_mst_courses": [
+    {
+      "column": "id",
+      "data_type": "character varying",
+      "data_source": "Racing API - Entity ID",
+      "api_endpoint": "/v1/racecards/pro -> races[].runners[].course",
+      "field_path": "response.races[].runners[].course.id",
+      "population_rate": 100.0,
+      "populated": 101,
+      "total": 101
+    },
+    {
+      "column": "name",
+      "data_type": "character varying",
+      "data_source": "Racing API - Reference",
+      "api_endpoint": "/v1/reference/courses",
+      "field_path": "response.courses[].name",
+      "population_rate": 100.0,
+      "populated": 101,
+      "total": 101
+    },
+    {
+      "column": "region_code",
+      "data_type": "character varying",
+      "data_source": "Racing API - Reference",
+      "api_endpoint": "/v1/reference/courses",
+      "field_path": "response.courses[].region_code",
+      "population_rate": 100.0,
+      "populated": 101,
+      "total": 101
+    },
+    {
+      "column": "region",
+      "data_type": "character varying",
+      "data_source": "Racing API - Reference",
+      "api_endpoint": "/v1/reference/courses",
+      "field_path": "response.courses[].region",
+      "population_rate": 100.0,
+      "populated": 101,
+      "total": 101
+    }
+  ],
+  "ra_mst_dams": [
+    {
+      "column": "id",
+      "data_type": "character varying",
+      "data_source": "Racing API - Pedigree ID",
+      "api_endpoint": "/v1/horses/{horse_id}/pro -> pedigree.dam",
+      "field_path": "response.pedigree.dam_id",
+      "population_rate": 100.0,
+      "populated": 48372,
+      "total": 48372
+    }
+  ],
+  "ra_mst_damsires": [
+    {
+      "column": "id",
+      "data_type": "character varying",
+      "data_source": "Racing API - Pedigree ID",
+      "api_endpoint": "/v1/horses/{horse_id}/pro -> pedigree.damsire",
+      "field_path": "response.pedigree.damsire_id",
+      "population_rate": 99.97,
+      "populated": 3040,
+      "total": 3041
+    }
+  ],
+  "ra_mst_horses": [
+    {
+      "column": "id",
+      "data_type": "character varying",
+      "data_source": "Racing API - Entity ID",
+      "api_endpoint": "/v1/racecards/pro -> races[].runners[].horse",
+      "field_path": "response.races[].runners[].horse.id",
+      "population_rate": 100.0,
+      "populated": 111669,
+      "total": 111669
+    },
+    {
+      "column": "name",
+      "data_type": "character varying",
+      "data_source": "Racing API - Runner Data",
+      "api_endpoint": "/v1/racecards/pro -> races[].runners[]",
+      "field_path": "response.races[].runners[].horse.name",
+      "population_rate": 100.0,
+      "populated": 111669,
+      "total": 111669
+    },
+    {
+      "column": "sire_id",
+      "data_type": "character varying",
+      "data_source": "Racing API - Enrichment",
+      "api_endpoint": "/v1/horses/{id}/pro -> pedigree",
+      "field_path": "response.pedigree.sire.id",
+      "population_rate": 99.93,
+      "populated": 111594,
+      "total": 111669
+    },
+    {
+      "column": "dam_id",
+      "data_type": "character varying",
+      "data_source": "Racing API - Enrichment",
+      "api_endpoint": "/v1/horses/{id}/pro -> pedigree",
+      "field_path": "response.pedigree.dam.id",
+      "population_rate": 99.93,
+      "populated": 111594,
+      "total": 111669
+    },
+    {
+      "column": "damsire_id",
+      "data_type": "character varying",
+      "data_source": "Racing API - Enrichment",
+      "api_endpoint": "/v1/horses/{id}/pro -> pedigree",
+      "field_path": "response.pedigree.damsire.id",
+      "population_rate": 99.93,
+      "populated": 111589,
+      "total": 111669
+    },
+    {
+      "column": "dob",
+      "data_type": "date",
+      "data_source": "Racing API - Enrichment",
+      "api_endpoint": "/v1/horses/{id}/pro",
+      "field_path": "response.horse.dob",
+      "population_rate": 99.9,
+      "populated": 111554,
+      "total": 111669
+    },
+    {
+      "column": "sex",
+      "data_type": "character varying",
+      "data_source": "Racing API - Runner Data",
+      "api_endpoint": "/v1/racecards/pro -> races[].runners[]",
+      "field_path": "response.races[].runners[].horse.sex",
+      "population_rate": 100.0,
+      "populated": 111669,
+      "total": 111669
+    },
+    {
+      "column": "sex_code",
+      "data_type": "character varying",
+      "data_source": "Racing API - Enrichment",
+      "api_endpoint": "/v1/horses/{id}/pro",
+      "field_path": "response.horse.sex_code",
+      "population_rate": 99.9,
+      "populated": 111554,
+      "total": 111669
+    },
+    {
+      "column": "colour",
+      "data_type": "character varying",
+      "data_source": "Racing API - Enrichment",
+      "api_endpoint": "/v1/horses/{id}/pro",
+      "field_path": "response.horse.colour",
+      "population_rate": 99.9,
+      "populated": 111554,
+      "total": 111669
+    },
+    {
+      "column": "colour_code",
+      "data_type": "character varying",
+      "data_source": "Racing API - Enrichment",
+      "api_endpoint": "/v1/horses/{id}/pro",
+      "field_path": "response.horse.colour_code",
+      "population_rate": 25.1,
+      "populated": 28026,
+      "total": 111669
+    },
+    {
+      "column": "region",
+      "data_type": "character varying",
+      "data_source": "Racing API - Enrichment",
+      "api_endpoint": "/v1/horses/{id}/pro",
+      "field_path": "response.horse.region",
+      "population_rate": 29.6,
+      "populated": 33050,
+      "total": 111669
+    }
+  ],
+  "ra_mst_jockeys": [
+    {
+      "column": "id",
+      "data_type": "character varying",
+      "data_source": "Racing API - Entity ID",
+      "api_endpoint": "/v1/racecards/pro -> races[].runners[].jockey",
+      "field_path": "response.races[].runners[].jockey.id",
+      "population_rate": 100.0,
+      "populated": 3483,
+      "total": 3483
+    },
+    {
+      "column": "name",
+      "data_type": "character varying",
+      "data_source": "Racing API - Runner Data",
+      "api_endpoint": "/v1/racecards/pro -> races[].runners[].jockey",
+      "field_path": "response.races[].runners[].jockey.name",
+      "population_rate": 100.0,
+      "populated": 3483,
+      "total": 3483
+    }
+  ],
+  "ra_mst_owners": [
+    {
+      "column": "id",
+      "data_type": "character varying",
+      "data_source": "Racing API - Entity ID",
+      "api_endpoint": "/v1/racecards/pro -> races[].runners[].owner",
+      "field_path": "response.races[].runners[].owner.id",
+      "population_rate": 100.0,
+      "populated": 48168,
+      "total": 48168
+    },
+    {
+      "column": "name",
+      "data_type": "character varying",
+      "data_source": "Racing API - Runner Data",
+      "api_endpoint": "/v1/racecards/pro -> races[].runners[].owner",
+      "field_path": "response.races[].runners[].owner.name",
+      "population_rate": 100.0,
+      "populated": 48168,
+      "total": 48168
+    }
+  ],
+  "ra_mst_regions": [
+    {
+      "column": "code",
+      "data_type": "character varying",
+      "data_source": "Racing API - Reference",
+      "api_endpoint": "/v1/reference/regions",
+      "field_path": "response.regions[].code",
+      "population_rate": 100.0,
+      "populated": 14,
+      "total": 14
+    },
+    {
+      "column": "name",
+      "data_type": "character varying",
+      "data_source": "Racing API - Reference",
+      "api_endpoint": "/v1/reference/regions",
+      "field_path": "response.regions[].name",
+      "population_rate": 100.0,
+      "populated": 14,
+      "total": 14
+    }
+  ],
+  "ra_mst_sires": [
+    {
+      "column": "id",
+      "data_type": "character varying",
+      "data_source": "Racing API - Pedigree ID",
+      "api_endpoint": "/v1/horses/{horse_id}/pro -> pedigree.sire",
+      "field_path": "response.pedigree.sire_id",
+      "population_rate": 99.95,
+      "populated": 2142,
+      "total": 2143
+    }
+  ],
+  "ra_mst_trainers": [
+    {
+      "column": "id",
+      "data_type": "character varying",
+      "data_source": "Racing API - Entity ID",
+      "api_endpoint": "/v1/racecards/pro -> races[].runners[].trainer",
+      "field_path": "response.races[].runners[].trainer.id",
+      "population_rate": 100.0,
+      "populated": 2781,
+      "total": 2781
+    },
+    {
+      "column": "name",
+      "data_type": "character varying",
+      "data_source": "Racing API - Runner Data",
+      "api_endpoint": "/v1/racecards/pro -> races[].runners[].trainer",
+      "field_path": "response.races[].runners[].trainer.name",
+      "population_rate": 100.0,
+      "populated": 2781,
+      "total": 2781
+    },
+    {
+      "column": "location",
+      "data_type": "character varying",
+      "data_source": "Racing API - Runner Data",
+      "api_endpoint": "/v1/racecards/pro -> races[].runners[].trainer",
+      "field_path": "response.races[].runners[].trainer.location",
+      "population_rate": 46.57,
+      "populated": 1295,
+      "total": 2781
+    }
+  ],
+  "ra_odds_historical": [
+    {
+      "column": "horse_name",
+      "data_type": "text",
+      "data_source": "Racing API + Odds Worker",
+      "api_endpoint": "/v1/odds/live OR /v1/odds/historical",
+      "field_path": "response.odds[].horse_name",
+      "population_rate": 100.0,
+      "populated": 2434732,
+      "total": 2434732
+    }
+  ],
+  "ra_odds_live": [
+    {
+      "column": "race_id",
+      "data_type": "text",
+      "data_source": "Racing API + Odds Worker",
+      "api_endpoint": "/v1/odds/live OR /v1/odds/historical",
+      "field_path": "response.odds[].race_id",
+      "population_rate": 100.0,
+      "populated": 203434,
+      "total": 203434
+    },
+    {
+      "column": "horse_id",
+      "data_type": "text",
+      "data_source": "Racing API + Odds Worker",
+      "api_endpoint": "/v1/odds/live OR /v1/odds/historical",
+      "field_path": "response.odds[].horse_id",
+      "population_rate": 100.0,
+      "populated": 203434,
+      "total": 203434
+    },
+    {
+      "column": "horse_name",
+      "data_type": "text",
+      "data_source": "Racing API + Odds Worker",
+      "api_endpoint": "/v1/odds/live OR /v1/odds/historical",
+      "field_path": "response.odds[].horse_name",
+      "population_rate": 100.0,
+      "populated": 203434,
+      "total": 203434
+    }
+  ],
+  "ra_odds_live_latest": [
+    {
+      "column": "race_id",
+      "data_type": "text",
+      "data_source": "Racing API + Odds Worker",
+      "api_endpoint": "/v1/odds/live OR /v1/odds/historical",
+      "field_path": "response.odds[].race_id",
+      "population_rate": 100.0,
+      "populated": 203434,
+      "total": 203434
+    },
+    {
+      "column": "horse_name",
+      "data_type": "text",
+      "data_source": "Racing API + Odds Worker",
+      "api_endpoint": "/v1/odds/live OR /v1/odds/historical",
+      "field_path": "response.odds[].horse_name",
+      "population_rate": 100.0,
+      "populated": 203434,
+      "total": 203434
+    }
+  ],
+  "ra_odds_statistics": [
+    {
+      "column": "race_id",
+      "data_type": "text",
+      "data_source": "Racing API + Odds Worker",
+      "api_endpoint": "/v1/odds/live OR /v1/odds/historical",
+      "field_path": "response.odds[].race_id",
+      "population_rate": 0.0,
+      "populated": 0,
+      "total": 7944
+    }
+  ],
+  "ra_race_results": [
+    {
+      "column": "race_id",
+      "data_type": "character varying",
+      "data_source": "Racing API - Results",
+      "api_endpoint": "/v1/results",
+      "field_path": "response.results[]",
+      "population_rate": 0.0,
+      "populated": 0,
+      "total": 0
+    },
+    {
+      "column": "race_date",
+      "data_type": "date",
+      "data_source": "Racing API - Results",
+      "api_endpoint": "/v1/results",
+      "field_path": "response.results[]",
+      "population_rate": 0.0,
+      "populated": 0,
+      "total": 0
+    },
+    {
+      "column": "horse_id",
+      "data_type": "character varying",
+      "data_source": "Racing API - Results",
+      "api_endpoint": "/v1/results",
+      "field_path": "response.results[]",
+      "population_rate": 0.0,
+      "populated": 0,
+      "total": 0
+    },
+    {
+      "column": "horse_name",
+      "data_type": "character varying",
+      "data_source": "Racing API - Results",
+      "api_endpoint": "/v1/results",
+      "field_path": "response.results[]",
+      "population_rate": 0.0,
+      "populated": 0,
+      "total": 0
+    },
+    {
+      "column": "jockey_name",
+      "data_type": "character varying",
+      "data_source": "Racing API - Results",
+      "api_endpoint": "/v1/results",
+      "field_path": "response.results[]",
+      "population_rate": 0.0,
+      "populated": 0,
+      "total": 0
+    },
+    {
+      "column": "trainer_name",
+      "data_type": "character varying",
+      "data_source": "Racing API - Results",
+      "api_endpoint": "/v1/results",
+      "field_path": "response.results[]",
+      "population_rate": 0.0,
+      "populated": 0,
+      "total": 0
+    },
+    {
+      "column": "owner_name",
+      "data_type": "character varying",
+      "data_source": "Racing API - Results",
+      "api_endpoint": "/v1/results",
+      "field_path": "response.results[]",
+      "population_rate": 0.0,
+      "populated": 0,
+      "total": 0
+    },
+    {
+      "column": "position",
+      "data_type": "integer",
+      "data_source": "Racing API - Results",
+      "api_endpoint": "/v1/results",
+      "field_path": "response.results[]",
+      "population_rate": 0.0,
+      "populated": 0,
+      "total": 0
+    },
+    {
+      "column": "position_str",
+      "data_type": "character varying",
+      "data_source": "Racing API - Results",
+      "api_endpoint": "/v1/results",
+      "field_path": "response.results[]",
+      "population_rate": 0.0,
+      "populated": 0,
+      "total": 0
+    },
+    {
+      "column": "number",
+      "data_type": "character varying",
+      "data_source": "Racing API - Results",
+      "api_endpoint": "/v1/results",
+      "field_path": "response.results[]",
+      "population_rate": 0.0,
+      "populated": 0,
+      "total": 0
+    },
+    {
+      "column": "draw",
+      "data_type": "character varying",
+      "data_source": "Racing API - Results",
+      "api_endpoint": "/v1/results",
+      "field_path": "response.results[]",
+      "population_rate": 0.0,
+      "populated": 0,
+      "total": 0
+    },
+    {
+      "column": "jockey_id",
+      "data_type": "character varying",
+      "data_source": "Racing API - Results",
+      "api_endpoint": "/v1/results",
+      "field_path": "response.results[]",
+      "population_rate": 0.0,
+      "populated": 0,
+      "total": 0
+    },
+    {
+      "column": "jockey_claim_lbs",
+      "data_type": "integer",
+      "data_source": "Racing API - Results",
+      "api_endpoint": "/v1/results",
+      "field_path": "response.results[]",
+      "population_rate": 0.0,
+      "populated": 0,
+      "total": 0
+    },
+    {
+      "column": "trainer_id",
+      "data_type": "character varying",
+      "data_source": "Racing API - Results",
+      "api_endpoint": "/v1/results",
+      "field_path": "response.results[]",
+      "population_rate": 0.0,
+      "populated": 0,
+      "total": 0
+    },
+    {
+      "column": "owner_id",
+      "data_type": "character varying",
+      "data_source": "Racing API - Results",
+      "api_endpoint": "/v1/results",
+      "field_path": "response.results[]",
+      "population_rate": 0.0,
+      "populated": 0,
+      "total": 0
+    },
+    {
+      "column": "sire_id",
+      "data_type": "character varying",
+      "data_source": "Racing API - Results",
+      "api_endpoint": "/v1/results",
+      "field_path": "response.results[]",
+      "population_rate": 0.0,
+      "populated": 0,
+      "total": 0
+    },
+    {
+      "column": "dam_id",
+      "data_type": "character varying",
+      "data_source": "Racing API - Results",
+      "api_endpoint": "/v1/results",
+      "field_path": "response.results[]",
+      "population_rate": 0.0,
+      "populated": 0,
+      "total": 0
+    },
+    {
+      "column": "damsire_id",
+      "data_type": "character varying",
+      "data_source": "Racing API - Results",
+      "api_endpoint": "/v1/results",
+      "field_path": "response.results[]",
+      "population_rate": 0.0,
+      "populated": 0,
+      "total": 0
+    },
+    {
+      "column": "age",
+      "data_type": "integer",
+      "data_source": "Racing API - Results",
+      "api_endpoint": "/v1/results",
+      "field_path": "response.results[]",
+      "population_rate": 0.0,
+      "populated": 0,
+      "total": 0
+    },
+    {
+      "column": "sex",
+      "data_type": "character varying",
+      "data_source": "Racing API - Results",
+      "api_endpoint": "/v1/results",
+      "field_path": "response.results[]",
+      "population_rate": 0.0,
+      "populated": 0,
+      "total": 0
+    },
+    {
+      "column": "weight_lbs",
+      "data_type": "integer",
+      "data_source": "Racing API - Results",
+      "api_endpoint": "/v1/results",
+      "field_path": "response.results[]",
+      "population_rate": 0.0,
+      "populated": 0,
+      "total": 0
+    },
+    {
+      "column": "weight_st_lbs",
+      "data_type": "character varying",
+      "data_source": "Racing API - Results",
+      "api_endpoint": "/v1/results",
+      "field_path": "response.results[]",
+      "population_rate": 0.0,
+      "populated": 0,
+      "total": 0
+    },
+    {
+      "column": "headgear",
+      "data_type": "character varying",
+      "data_source": "Racing API - Results",
+      "api_endpoint": "/v1/results",
+      "field_path": "response.results[]",
+      "population_rate": 0.0,
+      "populated": 0,
+      "total": 0
+    },
+    {
+      "column": "sp",
+      "data_type": "character varying",
+      "data_source": "Racing API - Results",
+      "api_endpoint": "/v1/results",
+      "field_path": "response.results[]",
+      "population_rate": 0.0,
+      "populated": 0,
+      "total": 0
+    },
+    {
+      "column": "sp_decimal",
+      "data_type": "numeric",
+      "data_source": "Racing API - Results",
+      "api_endpoint": "/v1/results",
+      "field_path": "response.results[]",
+      "population_rate": 0.0,
+      "populated": 0,
+      "total": 0
+    },
+    {
+      "column": "btn",
+      "data_type": "numeric",
+      "data_source": "Racing API - Results",
+      "api_endpoint": "/v1/results",
+      "field_path": "response.results[]",
+      "population_rate": 0.0,
+      "populated": 0,
+      "total": 0
+    },
+    {
+      "column": "ovr_btn",
+      "data_type": "numeric",
+      "data_source": "Racing API - Results",
+      "api_endpoint": "/v1/results",
+      "field_path": "response.results[]",
+      "population_rate": 0.0,
+      "populated": 0,
+      "total": 0
+    },
+    {
+      "column": "time_seconds",
+      "data_type": "numeric",
+      "data_source": "Racing API - Results",
+      "api_endpoint": "/v1/results",
+      "field_path": "response.results[]",
+      "population_rate": 0.0,
+      "populated": 0,
+      "total": 0
+    },
+    {
+      "column": "time_display",
+      "data_type": "character varying",
+      "data_source": "Racing API - Results",
+      "api_endpoint": "/v1/results",
+      "field_path": "response.results[]",
+      "population_rate": 0.0,
+      "populated": 0,
+      "total": 0
+    },
+    {
+      "column": "official_rating",
+      "data_type": "integer",
+      "data_source": "Racing API - Results",
+      "api_endpoint": "/v1/results",
+      "field_path": "response.results[]",
+      "population_rate": 0.0,
+      "populated": 0,
+      "total": 0
+    },
+    {
+      "column": "rpr",
+      "data_type": "integer",
+      "data_source": "Racing API - Results",
+      "api_endpoint": "/v1/results",
+      "field_path": "response.results[]",
+      "population_rate": 0.0,
+      "populated": 0,
+      "total": 0
+    },
+    {
+      "column": "tsr",
+      "data_type": "integer",
+      "data_source": "Racing API - Results",
+      "api_endpoint": "/v1/results",
+      "field_path": "response.results[]",
+      "population_rate": 0.0,
+      "populated": 0,
+      "total": 0
+    },
+    {
+      "column": "prize_won",
+      "data_type": "numeric",
+      "data_source": "Racing API - Results",
+      "api_endpoint": "/v1/results",
+      "field_path": "response.results[]",
+      "population_rate": 0.0,
+      "populated": 0,
+      "total": 0
+    },
+    {
+      "column": "comment",
+      "data_type": "text",
+      "data_source": "Racing API - Results",
+      "api_endpoint": "/v1/results",
+      "field_path": "response.results[]",
+      "population_rate": 0.0,
+      "populated": 0,
+      "total": 0
+    },
+    {
+      "column": "silk_url",
+      "data_type": "character varying",
+      "data_source": "Racing API - Results",
+      "api_endpoint": "/v1/results",
+      "field_path": "response.results[]",
+      "population_rate": 0.0,
+      "populated": 0,
+      "total": 0
+    },
+    {
+      "column": "margin",
+      "data_type": "character varying",
+      "data_source": "Racing API - Results",
+      "api_endpoint": "/v1/results",
+      "field_path": "response.results[]",
+      "population_rate": 0.0,
+      "populated": 0,
+      "total": 0
+    }
+  ],
+  "ra_races": [
+    {
+      "column": "id",
+      "data_type": "character varying",
+      "data_source": "Racing API - Race ID",
+      "api_endpoint": "/v1/racecards/pro -> races[]",
+      "field_path": "response.races[].race_id",
+      "population_rate": 100.0,
+      "populated": 136960,
+      "total": 136960
+    },
+    {
+      "column": "course_id",
+      "data_type": "character varying",
+      "data_source": "Racing API - Racecard",
+      "api_endpoint": "/v1/racecards/pro -> races[]",
+      "field_path": "response.races[].course.id",
+      "population_rate": 100.0,
+      "populated": 136960,
+      "total": 136960
+    },
+    {
+      "column": "course_name",
+      "data_type": "character varying",
+      "data_source": "Racing API - Racecard",
+      "api_endpoint": "/v1/racecards/pro -> races[]",
+      "field_path": "response.races[].course_name",
+      "population_rate": 100.0,
+      "populated": 136960,
+      "total": 136960
+    },
+    {
+      "column": "date",
+      "data_type": "date",
+      "data_source": "Racing API - Racecard",
+      "api_endpoint": "/v1/racecards/pro -> races[]",
+      "field_path": "response.races[].date",
+      "population_rate": 100.0,
+      "populated": 136960,
+      "total": 136960
+    },
+    {
+      "column": "off_time",
+      "data_type": "time without time zone",
+      "data_source": "Racing API - Racecard",
+      "api_endpoint": "/v1/racecards/pro -> races[]",
+      "field_path": "response.races[].off_time",
+      "population_rate": 100.0,
+      "populated": 136960,
+      "total": 136960
+    },
+    {
+      "column": "off_dt",
+      "data_type": "timestamp without time zone",
+      "data_source": "Racing API - Racecard",
+      "api_endpoint": "/v1/racecards/pro -> races[]",
+      "field_path": "response.races[].off_dt",
+      "population_rate": 99.84,
+      "populated": 136747,
+      "total": 136960
+    },
+    {
+      "column": "race_name",
+      "data_type": "character varying",
+      "data_source": "Racing API - Racecard",
+      "api_endpoint": "/v1/racecards/pro -> races[]",
+      "field_path": "response.races[].race_name",
+      "population_rate": 100.0,
+      "populated": 136960,
+      "total": 136960
+    },
+    {
+      "column": "race_number",
+      "data_type": "integer",
+      "data_source": "Racing API - Racecard",
+      "api_endpoint": "/v1/racecards/pro -> races[]",
+      "field_path": "response.races[].race_number",
+      "population_rate": 0.0,
+      "populated": 0,
+      "total": 136960
+    },
+    {
+      "column": "distance",
+      "data_type": "character varying",
+      "data_source": "Racing API - Racecard",
+      "api_endpoint": "/v1/racecards/pro -> races[]",
+      "field_path": "response.races[].distance",
+      "population_rate": 100.0,
+      "populated": 136960,
+      "total": 136960
+    },
+    {
+      "column": "distance_round",
+      "data_type": "character varying",
+      "data_source": "Racing API - Racecard",
+      "api_endpoint": "/v1/racecards/pro -> races[]",
+      "field_path": "response.races[].distance_round",
+      "population_rate": 9.37,
+      "populated": 12828,
+      "total": 136960
+    },
+    {
+      "column": "distance_f",
+      "data_type": "character varying",
+      "data_source": "Racing API - Racecard",
+      "api_endpoint": "/v1/racecards/pro -> races[]",
+      "field_path": "response.races[].distance_f",
+      "population_rate": 100.0,
+      "populated": 136960,
+      "total": 136960
+    },
+    {
+      "column": "distance_m",
+      "data_type": "integer",
+      "data_source": "Racing API - Racecard",
+      "api_endpoint": "/v1/racecards/pro -> races[]",
+      "field_path": "response.races[].distance_m",
+      "population_rate": 26.42,
+      "populated": 36179,
+      "total": 136960
+    },
+    {
+      "column": "region",
+      "data_type": "character varying",
+      "data_source": "Racing API - Racecard",
+      "api_endpoint": "/v1/racecards/pro -> races[]",
+      "field_path": "response.races[].region",
+      "population_rate": 100.0,
+      "populated": 136960,
+      "total": 136960
+    },
+    {
+      "column": "type",
+      "data_type": "character varying",
+      "data_source": "Racing API - Racecard",
+      "api_endpoint": "/v1/racecards/pro -> races[]",
+      "field_path": "response.races[].type",
+      "population_rate": 100.0,
+      "populated": 136960,
+      "total": 136960
+    },
+    {
+      "column": "surface",
+      "data_type": "character varying",
+      "data_source": "Racing API - Racecard",
+      "api_endpoint": "/v1/racecards/pro -> races[]",
+      "field_path": "response.races[].surface",
+      "population_rate": 99.9,
+      "populated": 136821,
+      "total": 136960
+    },
+    {
+      "column": "going",
+      "data_type": "character varying",
+      "data_source": "Racing API - Racecard",
+      "api_endpoint": "/v1/racecards/pro -> races[]",
+      "field_path": "response.races[].going",
+      "population_rate": 99.99,
+      "populated": 136949,
+      "total": 136960
+    },
+    {
+      "column": "going_detailed",
+      "data_type": "text",
+      "data_source": "Racing API - Racecard",
+      "api_endpoint": "/v1/racecards/pro -> races[]",
+      "field_path": "response.races[].going_detailed",
+      "population_rate": 0.0,
+      "populated": 0,
+      "total": 136960
+    },
+    {
+      "column": "pattern",
+      "data_type": "character varying",
+      "data_source": "Racing API - Racecard",
+      "api_endpoint": "/v1/racecards/pro -> races[]",
+      "field_path": "response.races[].pattern",
+      "population_rate": 0.52,
+      "populated": 711,
+      "total": 136960
+    },
+    {
+      "column": "race_class",
+      "data_type": "character varying",
+      "data_source": "Racing API - Racecard",
+      "api_endpoint": "/v1/racecards/pro -> races[]",
+      "field_path": "response.races[].race_class",
+      "population_rate": 78.57,
+      "populated": 107605,
+      "total": 136960
+    },
+    {
+      "column": "age_band",
+      "data_type": "character varying",
+      "data_source": "Racing API - Racecard",
+      "api_endpoint": "/v1/racecards/pro -> races[]",
+      "field_path": "response.races[].age_band",
+      "population_rate": 27.28,
+      "populated": 37366,
+      "total": 136960
+    },
+    {
+      "column": "sex_restriction",
+      "data_type": "character varying",
+      "data_source": "Racing API - Racecard",
+      "api_endpoint": "/v1/racecards/pro -> races[]",
+      "field_path": "response.races[].sex_restriction",
+      "population_rate": 1.19,
+      "populated": 1635,
+      "total": 136960
+    },
+    {
+      "column": "rating_band",
+      "data_type": "character varying",
+      "data_source": "Racing API - Racecard",
+      "api_endpoint": "/v1/racecards/pro -> races[]",
+      "field_path": "response.races[].rating_band",
+      "population_rate": 5.35,
+      "populated": 7334,
+      "total": 136960
+    },
+    {
+      "column": "prize",
+      "data_type": "numeric",
+      "data_source": "Racing API - Racecard",
+      "api_endpoint": "/v1/racecards/pro -> races[]",
+      "field_path": "response.races[].prize",
+      "population_rate": 5.89,
+      "populated": 8065,
+      "total": 136960
+    },
+    {
+      "column": "field_size",
+      "data_type": "integer",
+      "data_source": "Racing API - Racecard",
+      "api_endpoint": "/v1/racecards/pro -> races[]",
+      "field_path": "response.races[].field_size",
+      "population_rate": 27.28,
+      "populated": 37366,
+      "total": 136960
+    },
+    {
+      "column": "stalls",
+      "data_type": "character varying",
+      "data_source": "Racing API - Racecard",
+      "api_endpoint": "/v1/racecards/pro -> races[]",
+      "field_path": "response.races[].stalls",
+      "population_rate": 0.0,
+      "populated": 0,
+      "total": 136960
+    },
+    {
+      "column": "rail_movements",
+      "data_type": "text",
+      "data_source": "Racing API - Racecard",
+      "api_endpoint": "/v1/racecards/pro -> races[]",
+      "field_path": "response.races[].rail_movements",
+      "population_rate": 0.0,
+      "populated": 0,
+      "total": 136960
+    },
+    {
+      "column": "weather",
+      "data_type": "character varying",
+      "data_source": "Racing API - Racecard",
+      "api_endpoint": "/v1/racecards/pro -> races[]",
+      "field_path": "response.races[].weather",
+      "population_rate": 0.0,
+      "populated": 0,
+      "total": 136960
+    },
+    {
+      "column": "jumps",
+      "data_type": "character varying",
+      "data_source": "Racing API - Racecard",
+      "api_endpoint": "/v1/racecards/pro -> races[]",
+      "field_path": "response.races[].jumps",
+      "population_rate": 3.27,
+      "populated": 4484,
+      "total": 136960
+    },
+    {
+      "column": "is_big_race",
+      "data_type": "boolean",
+      "data_source": "Racing API - Racecard",
+      "api_endpoint": "/v1/racecards/pro -> races[]",
+      "field_path": "response.races[].is_big_race",
+      "population_rate": 100.0,
+      "populated": 136960,
+      "total": 136960
+    },
+    {
+      "column": "is_abandoned",
+      "data_type": "boolean",
+      "data_source": "Racing API - Racecard",
+      "api_endpoint": "/v1/racecards/pro -> races[]",
+      "field_path": "response.races[].is_abandoned",
+      "population_rate": 100.0,
+      "populated": 136960,
+      "total": 136960
+    },
+    {
+      "column": "has_result",
+      "data_type": "boolean",
+      "data_source": "Racing API - Racecard",
+      "api_endpoint": "/v1/racecards/pro -> races[]",
+      "field_path": "response.races[].has_result",
+      "population_rate": 100.0,
+      "populated": 136960,
+      "total": 136960
+    },
+    {
+      "column": "winning_time",
+      "data_type": "character varying",
+      "data_source": "Racing API - Racecard",
+      "api_endpoint": "/v1/racecards/pro -> races[]",
+      "field_path": "response.races[].winning_time",
+      "population_rate": 9.27,
+      "populated": 12701,
+      "total": 136960
+    },
+    {
+      "column": "winning_time_detail",
+      "data_type": "text",
+      "data_source": "Racing API - Racecard",
+      "api_endpoint": "/v1/racecards/pro -> races[]",
+      "field_path": "response.races[].winning_time_detail",
+      "population_rate": 9.27,
+      "populated": 12701,
+      "total": 136960
+    },
+    {
+      "column": "comments",
+      "data_type": "text",
+      "data_source": "Racing API - Racecard",
+      "api_endpoint": "/v1/racecards/pro -> races[]",
+      "field_path": "response.races[].comments",
+      "population_rate": 0.36,
+      "populated": 492,
+      "total": 136960
+    },
+    {
+      "column": "non_runners",
+      "data_type": "text",
+      "data_source": "Racing API - Racecard",
+      "api_endpoint": "/v1/racecards/pro -> races[]",
+      "field_path": "response.races[].non_runners",
+      "population_rate": 4.63,
+      "populated": 6341,
+      "total": 136960
+    },
+    {
+      "column": "tote_win",
+      "data_type": "character varying",
+      "data_source": "Racing API - Racecard",
+      "api_endpoint": "/v1/racecards/pro -> races[]",
+      "field_path": "response.races[].tote_win",
+      "population_rate": 9.26,
+      "populated": 12677,
+      "total": 136960
+    },
+    {
+      "column": "tote_pl",
+      "data_type": "character varying",
+      "data_source": "Racing API - Racecard",
+      "api_endpoint": "/v1/racecards/pro -> races[]",
+      "field_path": "response.races[].tote_pl",
+      "population_rate": 8.73,
+      "populated": 11958,
+      "total": 136960
+    },
+    {
+      "column": "tote_ex",
+      "data_type": "character varying",
+      "data_source": "Racing API - Racecard",
+      "api_endpoint": "/v1/racecards/pro -> races[]",
+      "field_path": "response.races[].tote_ex",
+      "population_rate": 9.23,
+      "populated": 12643,
+      "total": 136960
+    },
+    {
+      "column": "tote_csf",
+      "data_type": "character varying",
+      "data_source": "Racing API - Racecard",
+      "api_endpoint": "/v1/racecards/pro -> races[]",
+      "field_path": "response.races[].tote_csf",
+      "population_rate": 9.23,
+      "populated": 12644,
+      "total": 136960
+    },
+    {
+      "column": "tote_tricast",
+      "data_type": "character varying",
+      "data_source": "Racing API - Racecard",
+      "api_endpoint": "/v1/racecards/pro -> races[]",
+      "field_path": "response.races[].tote_tricast",
+      "population_rate": 4.61,
+      "populated": 6318,
+      "total": 136960
+    },
+    {
+      "column": "tote_trifecta",
+      "data_type": "character varying",
+      "data_source": "Racing API - Racecard",
+      "api_endpoint": "/v1/racecards/pro -> races[]",
+      "field_path": "response.races[].tote_trifecta",
+      "population_rate": 9.09,
+      "populated": 12444,
+      "total": 136960
+    },
+    {
+      "column": "tip",
+      "data_type": "text",
+      "data_source": "Racing API - Racecard",
+      "api_endpoint": "/v1/racecards/pro -> races[]",
+      "field_path": "response.races[].tip",
+      "population_rate": 0.23,
+      "populated": 319,
+      "total": 136960
+    },
+    {
+      "column": "verdict",
+      "data_type": "text",
+      "data_source": "Racing API - Racecard",
+      "api_endpoint": "/v1/racecards/pro -> races[]",
+      "field_path": "response.races[].verdict",
+      "population_rate": 0.24,
+      "populated": 327,
+      "total": 136960
+    },
+    {
+      "column": "betting_forecast",
+      "data_type": "text",
+      "data_source": "Racing API - Racecard",
+      "api_endpoint": "/v1/racecards/pro -> races[]",
+      "field_path": "response.races[].betting_forecast",
+      "population_rate": 0.24,
+      "populated": 327,
+      "total": 136960
+    },
+    {
+      "column": "meet_id",
+      "data_type": "character varying",
+      "data_source": "Racing API - Racecard",
+      "api_endpoint": "/v1/racecards/pro -> races[]",
+      "field_path": "response.races[].meet_id",
+      "population_rate": 0.0,
+      "populated": 0,
+      "total": 136960
+    },
+    {
+      "column": "time",
+      "data_type": "time without time zone",
+      "data_source": "Racing API - Racecard",
+      "api_endpoint": "/v1/racecards/pro -> races[]",
+      "field_path": "response.races[].time",
+      "population_rate": 93.87,
+      "populated": 128563,
+      "total": 136960
+    }
+  ],
+  "ra_runner_odds": [
+    {
+      "column": "race_id",
+      "data_type": "character varying",
+      "data_source": "Racing API + Odds Worker",
+      "api_endpoint": "/v1/odds/live OR /v1/odds/historical",
+      "field_path": "response.odds[].race_id",
+      "population_rate": 0.0,
+      "populated": 0,
+      "total": 0
+    },
+    {
+      "column": "horse_id",
+      "data_type": "character varying",
+      "data_source": "Racing API + Odds Worker",
+      "api_endpoint": "/v1/odds/live OR /v1/odds/historical",
+      "field_path": "response.odds[].horse_id",
+      "population_rate": 0.0,
+      "populated": 0,
+      "total": 0
+    }
+  ],
+  "ra_runners": [
+    {
+      "column": "race_id",
+      "data_type": "character varying",
+      "data_source": "Racing API - Racecard",
+      "api_endpoint": "/v1/racecards/pro -> races[]",
+      "field_path": "response.races[].race_id",
+      "population_rate": 100.0,
+      "populated": 1326595,
+      "total": 1326595
+    },
+    {
+      "column": "horse_id",
+      "data_type": "character varying",
+      "data_source": "Racing API - Racecard",
+      "api_endpoint": "/v1/racecards/pro -> races[].runners[]",
+      "field_path": "response.races[].runners[].horse.id",
+      "population_rate": 100.0,
+      "populated": 1326595,
+      "total": 1326595
+    },
+    {
+      "column": "horse_name",
+      "data_type": "character varying",
+      "data_source": "Racing API - Racecard/Results",
+      "api_endpoint": "/v1/racecards/pro OR /v1/results",
+      "field_path": "response.races[].runners[].horse_name",
+      "population_rate": 100.0,
+      "populated": 1326595,
+      "total": 1326595
+    },
+    {
+      "column": "jockey_name",
+      "data_type": "character varying",
+      "data_source": "Racing API - Racecard/Results",
+      "api_endpoint": "/v1/racecards/pro OR /v1/results",
+      "field_path": "response.races[].runners[].jockey_name",
+      "population_rate": 98.89,
+      "populated": 1311896,
+      "total": 1326595
+    },
+    {
+      "column": "trainer_name",
+      "data_type": "character varying",
+      "data_source": "Racing API - Racecard/Results",
+      "api_endpoint": "/v1/racecards/pro OR /v1/results",
+      "field_path": "response.races[].runners[].trainer_name",
+      "population_rate": 100.0,
+      "populated": 1326594,
+      "total": 1326595
+    },
+    {
+      "column": "owner_name",
+      "data_type": "character varying",
+      "data_source": "Racing API - Racecard/Results",
+      "api_endpoint": "/v1/racecards/pro OR /v1/results",
+      "field_path": "response.races[].runners[].owner_name",
+      "population_rate": 100.0,
+      "populated": 1326595,
+      "total": 1326595
+    },
+    {
+      "column": "number",
+      "data_type": "character varying",
+      "data_source": "Racing API - Racecard/Results",
+      "api_endpoint": "/v1/racecards/pro OR /v1/results",
+      "field_path": "response.races[].runners[].number",
+      "population_rate": 100.0,
+      "populated": 1326595,
+      "total": 1326595
+    },
+    {
+      "column": "draw",
+      "data_type": "character varying",
+      "data_source": "Racing API - Racecard",
+      "api_endpoint": "/v1/racecards/pro -> races[].runners[]",
+      "field_path": "response.races[].runners[].draw",
+      "population_rate": 95.72,
+      "populated": 1269880,
+      "total": 1326595
+    },
+    {
+      "column": "jockey_id",
+      "data_type": "character varying",
+      "data_source": "Racing API - Racecard",
+      "api_endpoint": "/v1/racecards/pro -> races[].runners[]",
+      "field_path": "response.races[].runners[].jockey.id",
+      "population_rate": 98.89,
+      "populated": 1311917,
+      "total": 1326595
+    },
+    {
+      "column": "trainer_id",
+      "data_type": "character varying",
+      "data_source": "Racing API - Racecard",
+      "api_endpoint": "/v1/racecards/pro -> races[].runners[]",
+      "field_path": "response.races[].runners[].trainer.id",
+      "population_rate": 100.0,
+      "populated": 1326594,
+      "total": 1326595
+    },
+    {
+      "column": "owner_id",
+      "data_type": "character varying",
+      "data_source": "Racing API - Racecard",
+      "api_endpoint": "/v1/racecards/pro -> races[].runners[]",
+      "field_path": "response.races[].runners[].owner.id",
+      "population_rate": 100.0,
+      "populated": 1326595,
+      "total": 1326595
+    },
+    {
+      "column": "sire_id",
+      "data_type": "character varying",
+      "data_source": "Racing API - Racecard/Results",
+      "api_endpoint": "/v1/racecards/pro OR /v1/results",
+      "field_path": "response.races[].runners[].sire_id",
+      "population_rate": 100.0,
+      "populated": 1326575,
+      "total": 1326595
+    },
+    {
+      "column": "dam_id",
+      "data_type": "character varying",
+      "data_source": "Racing API - Racecard/Results",
+      "api_endpoint": "/v1/racecards/pro OR /v1/results",
+      "field_path": "response.races[].runners[].dam_id",
+      "population_rate": 100.0,
+      "populated": 1326571,
+      "total": 1326595
+    },
+    {
+      "column": "damsire_id",
+      "data_type": "character varying",
+      "data_source": "Racing API - Racecard/Results",
+      "api_endpoint": "/v1/racecards/pro OR /v1/results",
+      "field_path": "response.races[].runners[].damsire_id",
+      "population_rate": 100.0,
+      "populated": 1326575,
+      "total": 1326595
+    },
+    {
+      "column": "weight_lbs",
+      "data_type": "integer",
+      "data_source": "Racing API - Racecard/Results",
+      "api_endpoint": "/v1/racecards/pro OR /v1/results",
+      "field_path": "response.races[].runners[].weight_lbs",
+      "population_rate": 91.45,
+      "populated": 1213153,
+      "total": 1326595
+    },
+    {
+      "column": "weight_st_lbs",
+      "data_type": "character varying",
+      "data_source": "Racing API - Racecard/Results",
+      "api_endpoint": "/v1/racecards/pro OR /v1/results",
+      "field_path": "response.races[].runners[].weight_st_lbs",
+      "population_rate": 9.11,
+      "populated": 120897,
+      "total": 1326595
+    },
+    {
+      "column": "age",
+      "data_type": "integer",
+      "data_source": "Racing API - Racecard",
+      "api_endpoint": "/v1/racecards/pro -> races[].runners[]",
+      "field_path": "response.races[].runners[].horse.age",
+      "population_rate": 100.0,
+      "populated": 1326592,
+      "total": 1326595
+    },
+    {
+      "column": "sex",
+      "data_type": "character varying",
+      "data_source": "Racing API - Racecard/Results",
+      "api_endpoint": "/v1/racecards/pro OR /v1/results",
+      "field_path": "response.races[].runners[].sex",
+      "population_rate": 100.0,
+      "populated": 1326595,
+      "total": 1326595
+    },
+    {
+      "column": "sex_code",
+      "data_type": "character varying",
+      "data_source": "Racing API - Racecard/Results",
+      "api_endpoint": "/v1/racecards/pro OR /v1/results",
+      "field_path": "response.races[].runners[].sex_code",
+      "population_rate": 91.14,
+      "populated": 1209002,
+      "total": 1326595
+    },
+    {
+      "column": "colour",
+      "data_type": "character varying",
+      "data_source": "Racing API - Racecard/Results",
+      "api_endpoint": "/v1/racecards/pro OR /v1/results",
+      "field_path": "response.races[].runners[].colour",
+      "population_rate": 0.04,
+      "populated": 573,
+      "total": 1326595
+    },
+    {
+      "column": "dob",
+      "data_type": "date",
+      "data_source": "Racing API - Racecard/Results",
+      "api_endpoint": "/v1/racecards/pro OR /v1/results",
+      "field_path": "response.races[].runners[].dob",
+      "population_rate": 0.04,
+      "populated": 573,
+      "total": 1326595
+    },
+    {
+      "column": "headgear",
+      "data_type": "character varying",
+      "data_source": "Racing API - Racecard",
+      "api_endpoint": "/v1/racecards/pro -> races[].runners[]",
+      "field_path": "response.races[].runners[].headgear",
+      "population_rate": 37.05,
+      "populated": 491552,
+      "total": 1326595
+    },
+    {
+      "column": "headgear_run",
+      "data_type": "character varying",
+      "data_source": "Racing API - Racecard/Results",
+      "api_endpoint": "/v1/racecards/pro OR /v1/results",
+      "field_path": "response.races[].runners[].headgear_run",
+      "population_rate": 0.0,
+      "populated": 35,
+      "total": 1326595
+    },
+    {
+      "column": "wind_surgery",
+      "data_type": "character varying",
+      "data_source": "Racing API - Racecard/Results",
+      "api_endpoint": "/v1/racecards/pro OR /v1/results",
+      "field_path": "response.races[].runners[].wind_surgery",
+      "population_rate": 0.0,
+      "populated": 6,
+      "total": 1326595
+    },
+    {
+      "column": "wind_surgery_run",
+      "data_type": "character varying",
+      "data_source": "Racing API - Racecard/Results",
+      "api_endpoint": "/v1/racecards/pro OR /v1/results",
+      "field_path": "response.races[].runners[].wind_surgery_run",
+      "population_rate": 0.0,
+      "populated": 6,
+      "total": 1326595
+    },
+    {
+      "column": "form",
+      "data_type": "character varying",
+      "data_source": "Racing API - Racecard",
+      "api_endpoint": "/v1/racecards/pro -> races[].runners[]",
+      "field_path": "response.races[].runners[].form",
+      "population_rate": 18.67,
+      "populated": 247644,
+      "total": 1326595
+    },
+    {
+      "column": "ofr",
+      "data_type": "integer",
+      "data_source": "Racing API - Racecard",
+      "api_endpoint": "/v1/racecards/pro -> races[].runners[]",
+      "field_path": "response.races[].runners[].ofr",
+      "population_rate": 74.15,
+      "populated": 983712,
+      "total": 1326595
+    },
+    {
+      "column": "rpr",
+      "data_type": "integer",
+      "data_source": "Racing API - Racecard",
+      "api_endpoint": "/v1/racecards/pro -> races[].runners[]",
+      "field_path": "response.races[].runners[].rpr",
+      "population_rate": 91.54,
+      "populated": 1214394,
+      "total": 1326595
+    },
+    {
+      "column": "ts",
+      "data_type": "integer",
+      "data_source": "Racing API - Racecard",
+      "api_endpoint": "/v1/racecards/pro -> races[].runners[]",
+      "field_path": "response.races[].runners[].ts",
+      "population_rate": 79.78,
+      "populated": 1058299,
+      "total": 1326595
+    },
+    {
+      "column": "comment",
+      "data_type": "text",
+      "data_source": "Racing API - Racecard/Results",
+      "api_endpoint": "/v1/racecards/pro OR /v1/results",
+      "field_path": "response.races[].runners[].comment",
+      "population_rate": 8.91,
+      "populated": 118146,
+      "total": 1326595
+    },
+    {
+      "column": "spotlight",
+      "data_type": "text",
+      "data_source": "Racing API - Racecard/Results",
+      "api_endpoint": "/v1/racecards/pro OR /v1/results",
+      "field_path": "response.races[].runners[].spotlight",
+      "population_rate": 0.04,
+      "populated": 573,
+      "total": 1326595
+    },
+    {
+      "column": "trainer_rtf",
+      "data_type": "character varying",
+      "data_source": "Racing API - Racecard/Results",
+      "api_endpoint": "/v1/racecards/pro OR /v1/results",
+      "field_path": "response.races[].runners[].trainer_rtf",
+      "population_rate": 0.04,
+      "populated": 511,
+      "total": 1326595
+    },
+    {
+      "column": "past_results_flags",
+      "data_type": "jsonb",
+      "data_source": "Racing API - Racecard/Results",
+      "api_endpoint": "/v1/racecards/pro OR /v1/results",
+      "field_path": "response.races[].runners[].past_results_flags",
+      "population_rate": 0.04,
+      "populated": 573,
+      "total": 1326595
+    },
+    {
+      "column": "claiming_price_min",
+      "data_type": "integer",
+      "data_source": "Racing API - Racecard/Results",
+      "api_endpoint": "/v1/racecards/pro OR /v1/results",
+      "field_path": "response.races[].runners[].claiming_price_min",
+      "population_rate": 0.0,
+      "populated": 0,
+      "total": 1326595
+    },
+    {
+      "column": "claiming_price_max",
+      "data_type": "integer",
+      "data_source": "Racing API - Racecard/Results",
+      "api_endpoint": "/v1/racecards/pro OR /v1/results",
+      "field_path": "response.races[].runners[].claiming_price_max",
+      "population_rate": 0.0,
+      "populated": 0,
+      "total": 1326595
+    },
+    {
+      "column": "medication",
+      "data_type": "character varying",
+      "data_source": "Racing API - Racecard/Results",
+      "api_endpoint": "/v1/racecards/pro OR /v1/results",
+      "field_path": "response.races[].runners[].medication",
+      "population_rate": 0.0,
+      "populated": 0,
+      "total": 1326595
+    },
+    {
+      "column": "equipment",
+      "data_type": "character varying",
+      "data_source": "Racing API - Racecard/Results",
+      "api_endpoint": "/v1/racecards/pro OR /v1/results",
+      "field_path": "response.races[].runners[].equipment",
+      "population_rate": 0.0,
+      "populated": 0,
+      "total": 1326595
+    },
+    {
+      "column": "morning_line_odds",
+      "data_type": "character varying",
+      "data_source": "Racing API - Racecard/Results",
+      "api_endpoint": "/v1/racecards/pro OR /v1/results",
+      "field_path": "response.races[].runners[].morning_line_odds",
+      "population_rate": 0.0,
+      "populated": 0,
+      "total": 1326595
+    },
+    {
+      "column": "is_scratched",
+      "data_type": "boolean",
+      "data_source": "Racing API - Racecard/Results",
+      "api_endpoint": "/v1/racecards/pro OR /v1/results",
+      "field_path": "response.races[].runners[].is_scratched",
+      "population_rate": 100.0,
+      "populated": 1326595,
+      "total": 1326595
+    },
+    {
+      "column": "silk_url",
+      "data_type": "character varying",
+      "data_source": "Racing API - Racecard/Results",
+      "api_endpoint": "/v1/racecards/pro OR /v1/results",
+      "field_path": "response.races[].runners[].silk_url",
+      "population_rate": 28.85,
+      "populated": 382777,
+      "total": 1326595
+    },
+    {
+      "column": "position",
+      "data_type": "integer",
+      "data_source": "Racing API - Results",
+      "api_endpoint": "/v1/results -> results[].runners[]",
+      "field_path": "response.results[].runners[].position",
+      "population_rate": 8.41,
+      "populated": 111508,
+      "total": 1326595
+    },
+    {
+      "column": "distance_beaten",
+      "data_type": "character varying",
+      "data_source": "Racing API - Results",
+      "api_endpoint": "/v1/results -> results[].runners[]",
+      "field_path": "response.results[].runners[].distance_beaten",
+      "population_rate": 8.9,
+      "populated": 118101,
+      "total": 1326595
+    },
+    {
+      "column": "prize_won",
+      "data_type": "numeric",
+      "data_source": "Racing API - Results",
+      "api_endpoint": "/v1/results -> results[].runners[]",
+      "field_path": "response.results[].runners[].prize_won",
+      "population_rate": 3.62,
+      "populated": 47995,
+      "total": 1326595
+    },
+    {
+      "column": "starting_price",
+      "data_type": "character varying",
+      "data_source": "Racing API - Results",
+      "api_endpoint": "/v1/results -> results[].runners[]",
+      "field_path": "response.results[].runners[].starting_price",
+      "population_rate": 8.9,
+      "populated": 118097,
+      "total": 1326595
+    },
+    {
+      "column": "result_updated_at",
+      "data_type": "timestamp without time zone",
+      "data_source": "Racing API - Racecard/Results",
+      "api_endpoint": "/v1/racecards/pro OR /v1/results",
+      "field_path": "response.races[].runners[].result_updated_at",
+      "population_rate": 8.41,
+      "populated": 111508,
+      "total": 1326595
+    },
+    {
+      "column": "finishing_time",
+      "data_type": "character varying",
+      "data_source": "Racing API - Results",
+      "api_endpoint": "/v1/results -> results[].runners[]",
+      "field_path": "response.results[].runners[].finishing_time",
+      "population_rate": 0.0,
+      "populated": 0,
+      "total": 1326595
+    },
+    {
+      "column": "starting_price_decimal",
+      "data_type": "numeric",
+      "data_source": "Racing API - Results",
+      "api_endpoint": "/v1/results -> results[].runners[]",
+      "field_path": "response.results[].runners[].starting_price_decimal",
+      "population_rate": 0.0,
+      "populated": 0,
+      "total": 1326595
+    },
+    {
+      "column": "race_comment",
+      "data_type": "text",
+      "data_source": "Racing API - Results",
+      "api_endpoint": "/v1/results -> results[].runners[]",
+      "field_path": "response.results[].runners[].race_comment",
+      "population_rate": 0.0,
+      "populated": 0,
+      "total": 1326595
+    },
+    {
+      "column": "jockey_silk_url",
+      "data_type": "text",
+      "data_source": "Racing API - Racecard",
+      "api_endpoint": "/v1/racecards/pro -> races[].runners[]",
+      "field_path": "response.races[].runners[].jockey.silk_url",
+      "population_rate": 0.0,
+      "populated": 0,
+      "total": 1326595
+    },
+    {
+      "column": "overall_beaten_distance",
+      "data_type": "numeric",
+      "data_source": "Racing API - Results",
+      "api_endpoint": "/v1/results -> results[].runners[]",
+      "field_path": "response.results[].runners[].overall_beaten_distance",
+      "population_rate": 0.0,
+      "populated": 0,
+      "total": 1326595
+    },
+    {
+      "column": "jockey_claim_lbs",
+      "data_type": "integer",
+      "data_source": "Racing API - Racecard",
+      "api_endpoint": "/v1/racecards/pro -> races[].runners[]",
+      "field_path": "response.races[].runners[].jockey_claim",
+      "population_rate": 0.0,
+      "populated": 0,
+      "total": 1326595
+    },
+    {
+      "column": "weight_stones_lbs",
+      "data_type": "character varying",
+      "data_source": "Racing API - Racecard",
+      "api_endpoint": "/v1/racecards/pro -> races[].runners[]",
+      "field_path": "response.races[].runners[].weight_stones_lbs",
+      "population_rate": 0.0,
+      "populated": 0,
+      "total": 1326595
+    },
+    {
+      "column": "trainer_location",
+      "data_type": "character varying",
+      "data_source": "Racing API - Racecard/Results",
+      "api_endpoint": "/v1/racecards/pro OR /v1/results",
+      "field_path": "response.races[].runners[].trainer_location",
+      "population_rate": 8.54,
+      "populated": 113272,
+      "total": 1326595
+    }
+  ]
+}

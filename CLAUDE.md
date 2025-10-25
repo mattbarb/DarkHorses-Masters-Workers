@@ -140,16 +140,28 @@ class SomeFetcher:
 
 ### Database Schema (ra_* prefix)
 
-**Reference Tables:**
-- `ra_courses`, `ra_bookmakers`
-- `ra_jockeys`, `ra_trainers`, `ra_owners`
-- `ra_horses` - Basic + enriched metadata (dob, sex_code, colour, region)
-- `ra_horse_pedigree` - Complete lineage (sire, dam, damsire, breeder with IDs)
+**⭐ MASTER REFERENCES:**
+- **Complete Table Guide:** `fetchers/docs/*MASTER_DATABASE_TABLES_AND_DATA_SOURCES.md`
+  - All 18 tables documented with fetchers, data sources, automation status
+  - High-level overview with data flow diagrams
+  - Quick reference for which fetcher populates which table
 
-**Transaction Tables:**
+- **Detailed Transformations:** `fetchers/docs/*_MASTER_TABLES_DATA_SOURCES_AND_TRANSFORMATIONS.md`
+  - Detailed field mappings and transformations
+  - API endpoint specifications
+  - Migration history and schema changes
+
+**Reference Tables (Master Data):**
+- `ra_mst_courses`, `ra_mst_bookmakers` - Venues and bookmakers
+- `ra_mst_jockeys`, `ra_mst_trainers`, `ra_mst_owners` - People (extracted from racecards)
+- `ra_mst_horses` - Horses with hybrid enrichment (discovery + Pro endpoint)
+- `ra_horse_pedigree` - Complete lineage (sire, dam, damsire, breeder with IDs)
+- `ra_mst_sires`, `ra_mst_dams`, `ra_mst_damsires` - Pedigree statistics (calculated from database)
+
+**Transaction Tables (Race Data):**
 - `ra_races` - Race metadata
-- `ra_runners` - Race entries with runner details (includes position data, odds, commentary - see Enhanced Fields below)
-- `ra_results` - Historical results (updates runners with positions)
+- `ra_runners` - Race entries with comprehensive runner details
+- `ra_race_results` - Historical results (updates runners with positions)
 
 **System Tables:**
 - `ra_metadata_tracking` - Data freshness tracking
@@ -356,8 +368,18 @@ except Exception as e:
 
 **Start here:** `docs/README.md` - Master documentation index
 
+**⭐ MASTER REFERENCES (Single Source of Truth):**
+- **Tables & Data Sources:** `fetchers/docs/*_MASTER_TABLES_DATA_SOURCES_AND_TRANSFORMATIONS.md`
+  - Complete mapping of all 13 ra_* tables
+  - Data sources (Racing API, database calculation, external)
+  - Transformations and field mappings
+  - Population scripts and update frequencies
+  - **USE THIS for all questions about table structure and data flow**
+
 **For specific topics:**
 - API details: `docs/api/API_COMPREHENSIVE_TEST_SUMMARY.md`
+- API endpoint availability: `docs/RACING_API_ENDPOINT_FINDINGS.md`
+- API coverage by table: `docs/RACING_API_COVERAGE_SUMMARY.md`
 - Enrichment strategy: `docs/enrichment/HYBRID_ENRICHMENT_IMPLEMENTATION.md`
 - Backfill operations: `docs/backfill/BACKFILL_EXECUTION_SUMMARY.md`
 - Worker system: `docs/workers/WORKER_UPDATE_REPORT.md`
@@ -367,6 +389,7 @@ except Exception as e:
 - 60+ documentation files organized in 8 topic subdirectories
 - Each subdirectory has a specific focus (api, enrichment, backfill, etc.)
 - Canonical references marked with **bold** in docs/README.md
+- Master tables document marked with ⭐ asterisk prefix
 
 ## Debugging and Troubleshooting
 

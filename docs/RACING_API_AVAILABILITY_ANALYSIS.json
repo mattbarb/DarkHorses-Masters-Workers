@@ -1,0 +1,3157 @@
+{
+  "analysis_date": "2025-10-21",
+  "total_tables_analyzed": 11,
+  "total_columns_checked": 344,
+  "tables": {
+    "ra_mst_courses": {
+      "total_columns": 8,
+      "racing_api": {
+        "count": 4,
+        "percentage": 50.0,
+        "columns": [
+          {
+            "column": "id",
+            "type": "character varying",
+            "source": "Racing API - Entity ID",
+            "api_endpoint": "/v1/racecards/pro -> races[].runners[].course",
+            "field_path": "response.races[].runners[].course.id",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "name",
+            "type": "character varying",
+            "source": "Racing API - Reference",
+            "api_endpoint": "/v1/reference/courses",
+            "field_path": "response.courses[].name",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "region_code",
+            "type": "character varying",
+            "source": "Racing API - Reference",
+            "api_endpoint": "/v1/reference/courses",
+            "field_path": "response.courses[].region_code",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "region",
+            "type": "character varying",
+            "source": "Racing API - Reference",
+            "api_endpoint": "/v1/reference/courses",
+            "field_path": "response.courses[].region",
+            "populated_pct": 100.0
+          }
+        ]
+      },
+      "calculated": {
+        "count": 0,
+        "percentage": 0.0,
+        "columns": []
+      },
+      "system": {
+        "count": 2,
+        "percentage": 25.0,
+        "columns": [
+          {
+            "column": "created_at",
+            "type": "timestamp without time zone",
+            "source": "System Timestamp",
+            "api_endpoint": "NOW() at insert time",
+            "field_path": "PostgreSQL CURRENT_TIMESTAMP",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "updated_at",
+            "type": "timestamp without time zone",
+            "source": "System Timestamp",
+            "api_endpoint": "NOW() at update time",
+            "field_path": "PostgreSQL CURRENT_TIMESTAMP on UPDATE",
+            "populated_pct": 100.0
+          }
+        ]
+      },
+      "external": {
+        "count": 2,
+        "percentage": 25.0,
+        "columns": [
+          {
+            "column": "longitude",
+            "type": "numeric",
+            "source": "External Geocoding Service",
+            "api_endpoint": "Geocoding API (hyper-precise validation)",
+            "field_path": "Manual geocoding + validation process",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "latitude",
+            "type": "numeric",
+            "source": "External Geocoding Service",
+            "api_endpoint": "Geocoding API (hyper-precise validation)",
+            "field_path": "Manual geocoding + validation process",
+            "populated_pct": 100.0
+          }
+        ]
+      },
+      "migration": {
+        "count": 0,
+        "percentage": 0.0,
+        "columns": []
+      },
+      "unknown": {
+        "count": 0,
+        "percentage": 0.0,
+        "columns": []
+      }
+    },
+    "ra_mst_bookmakers": {
+      "total_columns": 6,
+      "racing_api": {
+        "count": 5,
+        "percentage": 83.3,
+        "columns": [
+          {
+            "column": "id",
+            "type": "bigint",
+            "source": "Racing API - Reference Data ID",
+            "api_endpoint": "/v1/reference/bookmakers -> bookmakers[]",
+            "field_path": "response.bookmakers[].id",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "name",
+            "type": "character varying",
+            "source": "Racing API - Reference",
+            "api_endpoint": "/v1/reference/bookmakers",
+            "field_path": "response.bookmakers[].name",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "code",
+            "type": "character varying",
+            "source": "Racing API - Reference",
+            "api_endpoint": "/v1/reference/bookmakers",
+            "field_path": "response.bookmakers[].code",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "is_active",
+            "type": "boolean",
+            "source": "Racing API - Reference",
+            "api_endpoint": "/v1/reference/bookmakers",
+            "field_path": "response.bookmakers[].is_active",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "type",
+            "type": "character varying",
+            "source": "Racing API - Reference",
+            "api_endpoint": "/v1/reference/bookmakers",
+            "field_path": "response.bookmakers[].type",
+            "populated_pct": 100.0
+          }
+        ]
+      },
+      "calculated": {
+        "count": 0,
+        "percentage": 0.0,
+        "columns": []
+      },
+      "system": {
+        "count": 1,
+        "percentage": 16.7,
+        "columns": [
+          {
+            "column": "created_at",
+            "type": "timestamp without time zone",
+            "source": "System Timestamp",
+            "api_endpoint": "NOW() at insert time",
+            "field_path": "PostgreSQL CURRENT_TIMESTAMP",
+            "populated_pct": 100.0
+          }
+        ]
+      },
+      "external": {
+        "count": 0,
+        "percentage": 0.0,
+        "columns": []
+      },
+      "migration": {
+        "count": 0,
+        "percentage": 0.0,
+        "columns": []
+      },
+      "unknown": {
+        "count": 0,
+        "percentage": 0.0,
+        "columns": []
+      }
+    },
+    "ra_mst_jockeys": {
+      "total_columns": 22,
+      "racing_api": {
+        "count": 2,
+        "percentage": 9.1,
+        "columns": [
+          {
+            "column": "id",
+            "type": "character varying",
+            "source": "Racing API - Entity ID",
+            "api_endpoint": "/v1/racecards/pro -> races[].runners[].jockey",
+            "field_path": "response.races[].runners[].jockey.id",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "name",
+            "type": "character varying",
+            "source": "Racing API - Runner Data",
+            "api_endpoint": "/v1/racecards/pro -> races[].runners[].jockey",
+            "field_path": "response.races[].runners[].jockey.name",
+            "populated_pct": 100.0
+          }
+        ]
+      },
+      "calculated": {
+        "count": 18,
+        "percentage": 81.8,
+        "columns": [
+          {
+            "column": "total_rides",
+            "type": "integer",
+            "source": "Calculated from Historical Races",
+            "api_endpoint": "Database Query: ra_runners JOIN ra_races",
+            "field_path": "COUNT(*) WHERE jockey_id = X",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "total_wins",
+            "type": "integer",
+            "source": "Calculated from Historical Races",
+            "api_endpoint": "Database Query: ra_runners JOIN ra_races",
+            "field_path": "COUNT(*) WHERE jockey_id = X AND position = 1",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "total_places",
+            "type": "integer",
+            "source": "Calculated from Historical Races",
+            "api_endpoint": "Database Query: ra_runners JOIN ra_races",
+            "field_path": "COUNT(*) WHERE jockey_id = X AND position IN (2,3)",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "total_seconds",
+            "type": "integer",
+            "source": "Calculated from Historical Races",
+            "api_endpoint": "Database Query: ra_runners JOIN ra_races",
+            "field_path": "COUNT(*) WHERE jockey_id = X",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "total_thirds",
+            "type": "integer",
+            "source": "Calculated from Historical Races",
+            "api_endpoint": "Database Query: ra_runners JOIN ra_races",
+            "field_path": "COUNT(*) WHERE jockey_id = X",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "win_rate",
+            "type": "numeric",
+            "source": "Calculated from Historical Races",
+            "api_endpoint": "Database Query: ra_runners JOIN ra_races",
+            "field_path": "COUNT(*) WHERE jockey_id = X AND position = 1",
+            "populated_pct": 99.08
+          },
+          {
+            "column": "place_rate",
+            "type": "numeric",
+            "source": "Calculated from Historical Races",
+            "api_endpoint": "Database Query: ra_runners JOIN ra_races",
+            "field_path": "COUNT(*) WHERE jockey_id = X AND position IN (2,3)",
+            "populated_pct": 97.24
+          },
+          {
+            "column": "stats_updated_at",
+            "type": "timestamp without time zone",
+            "source": "Calculated from Database",
+            "api_endpoint": "Database Query: Aggregation over ra_runners + ra_races",
+            "field_path": "Various aggregation methods depending on statistic",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "last_ride_date",
+            "type": "date",
+            "source": "Calculated from Recent Activity",
+            "api_endpoint": "Database Query: ra_runners WHERE date > NOW() - INTERVAL 'N days'",
+            "field_path": "Date-filtered aggregation over last N days",
+            "populated_pct": 28.6
+          },
+          {
+            "column": "last_win_date",
+            "type": "date",
+            "source": "Calculated from Recent Activity",
+            "api_endpoint": "Database Query: ra_runners WHERE date > NOW() - INTERVAL 'N days'",
+            "field_path": "Date-filtered aggregation over last N days",
+            "populated_pct": 12.46
+          },
+          {
+            "column": "days_since_last_ride",
+            "type": "integer",
+            "source": "Calculated from Recent Activity",
+            "api_endpoint": "Database Query: ra_runners WHERE date > NOW() - INTERVAL 'N days'",
+            "field_path": "Date-filtered aggregation over last N days",
+            "populated_pct": 28.6
+          },
+          {
+            "column": "days_since_last_win",
+            "type": "integer",
+            "source": "Calculated from Recent Activity",
+            "api_endpoint": "Database Query: ra_runners WHERE date > NOW() - INTERVAL 'N days'",
+            "field_path": "Date-filtered aggregation over last N days",
+            "populated_pct": 12.46
+          },
+          {
+            "column": "recent_14d_rides",
+            "type": "integer",
+            "source": "Calculated from Recent Activity",
+            "api_endpoint": "Database Query: ra_runners WHERE date > NOW() - INTERVAL '14 days'",
+            "field_path": "Date-filtered aggregation over last 14 days",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "recent_14d_wins",
+            "type": "integer",
+            "source": "Calculated from Recent Activity",
+            "api_endpoint": "Database Query: ra_runners WHERE date > NOW() - INTERVAL '14 days'",
+            "field_path": "Date-filtered aggregation over last 14 days",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "recent_14d_win_rate",
+            "type": "numeric",
+            "source": "Calculated from Historical Races",
+            "api_endpoint": "Database Query: ra_runners JOIN ra_races",
+            "field_path": "COUNT(*) WHERE jockey_id = X AND position = 1",
+            "populated_pct": 83.63
+          },
+          {
+            "column": "recent_30d_rides",
+            "type": "integer",
+            "source": "Calculated from Recent Activity",
+            "api_endpoint": "Database Query: ra_runners WHERE date > NOW() - INTERVAL '30 days'",
+            "field_path": "Date-filtered aggregation over last 30 days",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "recent_30d_wins",
+            "type": "integer",
+            "source": "Calculated from Recent Activity",
+            "api_endpoint": "Database Query: ra_runners WHERE date > NOW() - INTERVAL '30 days'",
+            "field_path": "Date-filtered aggregation over last 30 days",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "recent_30d_win_rate",
+            "type": "numeric",
+            "source": "Calculated from Historical Races",
+            "api_endpoint": "Database Query: ra_runners JOIN ra_races",
+            "field_path": "COUNT(*) WHERE jockey_id = X AND position = 1",
+            "populated_pct": 84.9
+          }
+        ]
+      },
+      "system": {
+        "count": 2,
+        "percentage": 9.1,
+        "columns": [
+          {
+            "column": "created_at",
+            "type": "timestamp without time zone",
+            "source": "System Timestamp",
+            "api_endpoint": "NOW() at insert time",
+            "field_path": "PostgreSQL CURRENT_TIMESTAMP",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "updated_at",
+            "type": "timestamp without time zone",
+            "source": "System Timestamp",
+            "api_endpoint": "NOW() at update time",
+            "field_path": "PostgreSQL CURRENT_TIMESTAMP on UPDATE",
+            "populated_pct": 100.0
+          }
+        ]
+      },
+      "external": {
+        "count": 0,
+        "percentage": 0.0,
+        "columns": []
+      },
+      "migration": {
+        "count": 0,
+        "percentage": 0.0,
+        "columns": []
+      },
+      "unknown": {
+        "count": 0,
+        "percentage": 0.0,
+        "columns": []
+      }
+    },
+    "ra_mst_trainers": {
+      "total_columns": 23,
+      "racing_api": {
+        "count": 3,
+        "percentage": 13.0,
+        "columns": [
+          {
+            "column": "id",
+            "type": "character varying",
+            "source": "Racing API - Entity ID",
+            "api_endpoint": "/v1/racecards/pro -> races[].runners[].trainer",
+            "field_path": "response.races[].runners[].trainer.id",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "name",
+            "type": "character varying",
+            "source": "Racing API - Runner Data",
+            "api_endpoint": "/v1/racecards/pro -> races[].runners[].trainer",
+            "field_path": "response.races[].runners[].trainer.name",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "location",
+            "type": "character varying",
+            "source": "Racing API - Runner Data",
+            "api_endpoint": "/v1/racecards/pro -> races[].runners[].trainer",
+            "field_path": "response.races[].runners[].trainer.location",
+            "populated_pct": 46.57
+          }
+        ]
+      },
+      "calculated": {
+        "count": 18,
+        "percentage": 78.3,
+        "columns": [
+          {
+            "column": "total_runners",
+            "type": "integer",
+            "source": "Calculated from Historical Races",
+            "api_endpoint": "Database Query: ra_runners JOIN ra_races",
+            "field_path": "COUNT(*) WHERE trainer_id = X",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "total_wins",
+            "type": "integer",
+            "source": "Calculated from Historical Races",
+            "api_endpoint": "Database Query: ra_runners JOIN ra_races",
+            "field_path": "COUNT(*) WHERE trainer_id = X AND position = 1",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "total_places",
+            "type": "integer",
+            "source": "Calculated from Historical Races",
+            "api_endpoint": "Database Query: ra_runners JOIN ra_races",
+            "field_path": "COUNT(*) WHERE trainer_id = X AND position IN (2,3)",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "total_seconds",
+            "type": "integer",
+            "source": "Calculated from Historical Races",
+            "api_endpoint": "Database Query: ra_runners JOIN ra_races",
+            "field_path": "COUNT(*) WHERE trainer_id = X",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "total_thirds",
+            "type": "integer",
+            "source": "Calculated from Historical Races",
+            "api_endpoint": "Database Query: ra_runners JOIN ra_races",
+            "field_path": "COUNT(*) WHERE trainer_id = X",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "win_rate",
+            "type": "numeric",
+            "source": "Calculated from Historical Races",
+            "api_endpoint": "Database Query: ra_runners JOIN ra_races",
+            "field_path": "COUNT(*) WHERE trainer_id = X AND position = 1",
+            "populated_pct": 99.71
+          },
+          {
+            "column": "place_rate",
+            "type": "numeric",
+            "source": "Calculated from Historical Races",
+            "api_endpoint": "Database Query: ra_runners JOIN ra_races",
+            "field_path": "COUNT(*) WHERE trainer_id = X AND position IN (2,3)",
+            "populated_pct": 95.22
+          },
+          {
+            "column": "stats_updated_at",
+            "type": "timestamp without time zone",
+            "source": "Calculated from Database",
+            "api_endpoint": "Database Query: Aggregation over ra_runners + ra_races",
+            "field_path": "Various aggregation methods depending on statistic",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "last_runner_date",
+            "type": "date",
+            "source": "Calculated from Recent Activity",
+            "api_endpoint": "Database Query: ra_runners WHERE date > NOW() - INTERVAL 'N days'",
+            "field_path": "Date-filtered aggregation over last N days",
+            "populated_pct": 35.96
+          },
+          {
+            "column": "last_win_date",
+            "type": "date",
+            "source": "Calculated from Recent Activity",
+            "api_endpoint": "Database Query: ra_runners WHERE date > NOW() - INTERVAL 'N days'",
+            "field_path": "Date-filtered aggregation over last N days",
+            "populated_pct": 18.12
+          },
+          {
+            "column": "days_since_last_runner",
+            "type": "integer",
+            "source": "Calculated from Recent Activity",
+            "api_endpoint": "Database Query: ra_runners WHERE date > NOW() - INTERVAL 'N days'",
+            "field_path": "Date-filtered aggregation over last N days",
+            "populated_pct": 35.96
+          },
+          {
+            "column": "days_since_last_win",
+            "type": "integer",
+            "source": "Calculated from Recent Activity",
+            "api_endpoint": "Database Query: ra_runners WHERE date > NOW() - INTERVAL 'N days'",
+            "field_path": "Date-filtered aggregation over last N days",
+            "populated_pct": 18.12
+          },
+          {
+            "column": "recent_14d_runs",
+            "type": "integer",
+            "source": "Calculated from Recent Activity",
+            "api_endpoint": "Database Query: ra_runners WHERE date > NOW() - INTERVAL '14 days'",
+            "field_path": "Date-filtered aggregation over last 14 days",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "recent_14d_wins",
+            "type": "integer",
+            "source": "Calculated from Recent Activity",
+            "api_endpoint": "Database Query: ra_runners WHERE date > NOW() - INTERVAL '14 days'",
+            "field_path": "Date-filtered aggregation over last 14 days",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "recent_14d_win_rate",
+            "type": "numeric",
+            "source": "Calculated from Historical Races",
+            "api_endpoint": "Database Query: ra_runners JOIN ra_races",
+            "field_path": "COUNT(*) WHERE trainer_id = X AND position = 1",
+            "populated_pct": 83.28
+          },
+          {
+            "column": "recent_30d_runs",
+            "type": "integer",
+            "source": "Calculated from Recent Activity",
+            "api_endpoint": "Database Query: ra_runners WHERE date > NOW() - INTERVAL '30 days'",
+            "field_path": "Date-filtered aggregation over last 30 days",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "recent_30d_wins",
+            "type": "integer",
+            "source": "Calculated from Recent Activity",
+            "api_endpoint": "Database Query: ra_runners WHERE date > NOW() - INTERVAL '30 days'",
+            "field_path": "Date-filtered aggregation over last 30 days",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "recent_30d_win_rate",
+            "type": "numeric",
+            "source": "Calculated from Historical Races",
+            "api_endpoint": "Database Query: ra_runners JOIN ra_races",
+            "field_path": "COUNT(*) WHERE trainer_id = X AND position = 1",
+            "populated_pct": 84.9
+          }
+        ]
+      },
+      "system": {
+        "count": 2,
+        "percentage": 8.7,
+        "columns": [
+          {
+            "column": "created_at",
+            "type": "timestamp without time zone",
+            "source": "System Timestamp",
+            "api_endpoint": "NOW() at insert time",
+            "field_path": "PostgreSQL CURRENT_TIMESTAMP",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "updated_at",
+            "type": "timestamp without time zone",
+            "source": "System Timestamp",
+            "api_endpoint": "NOW() at update time",
+            "field_path": "PostgreSQL CURRENT_TIMESTAMP on UPDATE",
+            "populated_pct": 100.0
+          }
+        ]
+      },
+      "external": {
+        "count": 0,
+        "percentage": 0.0,
+        "columns": []
+      },
+      "migration": {
+        "count": 0,
+        "percentage": 0.0,
+        "columns": []
+      },
+      "unknown": {
+        "count": 0,
+        "percentage": 0.0,
+        "columns": []
+      }
+    },
+    "ra_mst_owners": {
+      "total_columns": 24,
+      "racing_api": {
+        "count": 2,
+        "percentage": 8.3,
+        "columns": [
+          {
+            "column": "id",
+            "type": "character varying",
+            "source": "Racing API - Entity ID",
+            "api_endpoint": "/v1/racecards/pro -> races[].runners[].owner",
+            "field_path": "response.races[].runners[].owner.id",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "name",
+            "type": "character varying",
+            "source": "Racing API - Runner Data",
+            "api_endpoint": "/v1/racecards/pro -> races[].runners[].owner",
+            "field_path": "response.races[].runners[].owner.name",
+            "populated_pct": 100.0
+          }
+        ]
+      },
+      "calculated": {
+        "count": 20,
+        "percentage": 83.3,
+        "columns": [
+          {
+            "column": "total_horses",
+            "type": "integer",
+            "source": "Calculated from Historical Races",
+            "api_endpoint": "Database Query: ra_runners JOIN ra_races",
+            "field_path": "COUNT(*) WHERE owner_id = X",
+            "populated_pct": 99.97
+          },
+          {
+            "column": "total_runners",
+            "type": "integer",
+            "source": "Calculated from Historical Races",
+            "api_endpoint": "Database Query: ra_runners JOIN ra_races",
+            "field_path": "COUNT(*) WHERE owner_id = X",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "total_wins",
+            "type": "integer",
+            "source": "Calculated from Historical Races",
+            "api_endpoint": "Database Query: ra_runners JOIN ra_races",
+            "field_path": "COUNT(*) WHERE owner_id = X AND position = 1",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "total_places",
+            "type": "integer",
+            "source": "Calculated from Historical Races",
+            "api_endpoint": "Database Query: ra_runners JOIN ra_races",
+            "field_path": "COUNT(*) WHERE owner_id = X AND position IN (2,3)",
+            "populated_pct": 99.97
+          },
+          {
+            "column": "total_seconds",
+            "type": "integer",
+            "source": "Calculated from Historical Races",
+            "api_endpoint": "Database Query: ra_runners JOIN ra_races",
+            "field_path": "COUNT(*) WHERE owner_id = X",
+            "populated_pct": 99.97
+          },
+          {
+            "column": "total_thirds",
+            "type": "integer",
+            "source": "Calculated from Historical Races",
+            "api_endpoint": "Database Query: ra_runners JOIN ra_races",
+            "field_path": "COUNT(*) WHERE owner_id = X",
+            "populated_pct": 99.97
+          },
+          {
+            "column": "win_rate",
+            "type": "numeric",
+            "source": "Calculated from Historical Races",
+            "api_endpoint": "Database Query: ra_runners JOIN ra_races",
+            "field_path": "COUNT(*) WHERE owner_id = X AND position = 1",
+            "populated_pct": 99.89
+          },
+          {
+            "column": "place_rate",
+            "type": "numeric",
+            "source": "Calculated from Historical Races",
+            "api_endpoint": "Database Query: ra_runners JOIN ra_races",
+            "field_path": "COUNT(*) WHERE owner_id = X AND position IN (2,3)",
+            "populated_pct": 97.92
+          },
+          {
+            "column": "active_last_30d",
+            "type": "boolean",
+            "source": "Calculated from Recent Activity",
+            "api_endpoint": "Database Query: ra_runners WHERE date > NOW() - INTERVAL '30 days'",
+            "field_path": "Date-filtered aggregation over last 30 days",
+            "populated_pct": 97.92
+          },
+          {
+            "column": "stats_updated_at",
+            "type": "timestamp without time zone",
+            "source": "Calculated from Database",
+            "api_endpoint": "Database Query: Aggregation over ra_runners + ra_races",
+            "field_path": "Various aggregation methods depending on statistic",
+            "populated_pct": 99.97
+          },
+          {
+            "column": "last_runner_date",
+            "type": "date",
+            "source": "Calculated from Recent Activity",
+            "api_endpoint": "Database Query: ra_runners WHERE date > NOW() - INTERVAL 'N days'",
+            "field_path": "Date-filtered aggregation over last N days",
+            "populated_pct": 2.93
+          },
+          {
+            "column": "last_win_date",
+            "type": "date",
+            "source": "Calculated from Recent Activity",
+            "api_endpoint": "Database Query: ra_runners WHERE date > NOW() - INTERVAL 'N days'",
+            "field_path": "Date-filtered aggregation over last N days",
+            "populated_pct": 1.53
+          },
+          {
+            "column": "days_since_last_runner",
+            "type": "integer",
+            "source": "Calculated from Recent Activity",
+            "api_endpoint": "Database Query: ra_runners WHERE date > NOW() - INTERVAL 'N days'",
+            "field_path": "Date-filtered aggregation over last N days",
+            "populated_pct": 2.93
+          },
+          {
+            "column": "days_since_last_win",
+            "type": "integer",
+            "source": "Calculated from Recent Activity",
+            "api_endpoint": "Database Query: ra_runners WHERE date > NOW() - INTERVAL 'N days'",
+            "field_path": "Date-filtered aggregation over last N days",
+            "populated_pct": 1.53
+          },
+          {
+            "column": "recent_14d_runs",
+            "type": "integer",
+            "source": "Calculated from Recent Activity",
+            "api_endpoint": "Database Query: ra_runners WHERE date > NOW() - INTERVAL '14 days'",
+            "field_path": "Date-filtered aggregation over last 14 days",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "recent_14d_wins",
+            "type": "integer",
+            "source": "Calculated from Recent Activity",
+            "api_endpoint": "Database Query: ra_runners WHERE date > NOW() - INTERVAL '14 days'",
+            "field_path": "Date-filtered aggregation over last 14 days",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "recent_14d_win_rate",
+            "type": "numeric",
+            "source": "Calculated from Historical Races",
+            "api_endpoint": "Database Query: ra_runners JOIN ra_races",
+            "field_path": "COUNT(*) WHERE owner_id = X AND position = 1",
+            "populated_pct": 99.24
+          },
+          {
+            "column": "recent_30d_runs",
+            "type": "integer",
+            "source": "Calculated from Recent Activity",
+            "api_endpoint": "Database Query: ra_runners WHERE date > NOW() - INTERVAL '30 days'",
+            "field_path": "Date-filtered aggregation over last 30 days",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "recent_30d_wins",
+            "type": "integer",
+            "source": "Calculated from Recent Activity",
+            "api_endpoint": "Database Query: ra_runners WHERE date > NOW() - INTERVAL '30 days'",
+            "field_path": "Date-filtered aggregation over last 30 days",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "recent_30d_win_rate",
+            "type": "numeric",
+            "source": "Calculated from Historical Races",
+            "api_endpoint": "Database Query: ra_runners JOIN ra_races",
+            "field_path": "COUNT(*) WHERE owner_id = X AND position = 1",
+            "populated_pct": 99.34
+          }
+        ]
+      },
+      "system": {
+        "count": 2,
+        "percentage": 8.3,
+        "columns": [
+          {
+            "column": "created_at",
+            "type": "timestamp without time zone",
+            "source": "System Timestamp",
+            "api_endpoint": "NOW() at insert time",
+            "field_path": "PostgreSQL CURRENT_TIMESTAMP",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "updated_at",
+            "type": "timestamp without time zone",
+            "source": "System Timestamp",
+            "api_endpoint": "NOW() at update time",
+            "field_path": "PostgreSQL CURRENT_TIMESTAMP on UPDATE",
+            "populated_pct": 100.0
+          }
+        ]
+      },
+      "external": {
+        "count": 0,
+        "percentage": 0.0,
+        "columns": []
+      },
+      "migration": {
+        "count": 0,
+        "percentage": 0.0,
+        "columns": []
+      },
+      "unknown": {
+        "count": 0,
+        "percentage": 0.0,
+        "columns": []
+      }
+    },
+    "ra_mst_horses": {
+      "total_columns": 15,
+      "racing_api": {
+        "count": 11,
+        "percentage": 73.3,
+        "columns": [
+          {
+            "column": "id",
+            "type": "character varying",
+            "source": "Racing API - Entity ID",
+            "api_endpoint": "/v1/racecards/pro -> races[].runners[].horse",
+            "field_path": "response.races[].runners[].horse.id",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "name",
+            "type": "character varying",
+            "source": "Racing API - Runner Data",
+            "api_endpoint": "/v1/racecards/pro -> races[].runners[]",
+            "field_path": "response.races[].runners[].horse.name",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "sire_id",
+            "type": "character varying",
+            "source": "Racing API - Enrichment",
+            "api_endpoint": "/v1/horses/{id}/pro -> pedigree",
+            "field_path": "response.pedigree.sire.id",
+            "populated_pct": 99.93
+          },
+          {
+            "column": "dam_id",
+            "type": "character varying",
+            "source": "Racing API - Enrichment",
+            "api_endpoint": "/v1/horses/{id}/pro -> pedigree",
+            "field_path": "response.pedigree.dam.id",
+            "populated_pct": 99.93
+          },
+          {
+            "column": "damsire_id",
+            "type": "character varying",
+            "source": "Racing API - Enrichment",
+            "api_endpoint": "/v1/horses/{id}/pro -> pedigree",
+            "field_path": "response.pedigree.damsire.id",
+            "populated_pct": 99.93
+          },
+          {
+            "column": "dob",
+            "type": "date",
+            "source": "Racing API - Enrichment",
+            "api_endpoint": "/v1/horses/{id}/pro",
+            "field_path": "response.horse.dob",
+            "populated_pct": 99.9
+          },
+          {
+            "column": "sex",
+            "type": "character varying",
+            "source": "Racing API - Runner Data",
+            "api_endpoint": "/v1/racecards/pro -> races[].runners[]",
+            "field_path": "response.races[].runners[].horse.sex",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "sex_code",
+            "type": "character varying",
+            "source": "Racing API - Enrichment",
+            "api_endpoint": "/v1/horses/{id}/pro",
+            "field_path": "response.horse.sex_code",
+            "populated_pct": 99.9
+          },
+          {
+            "column": "colour",
+            "type": "character varying",
+            "source": "Racing API - Enrichment",
+            "api_endpoint": "/v1/horses/{id}/pro",
+            "field_path": "response.horse.colour",
+            "populated_pct": 99.9
+          },
+          {
+            "column": "colour_code",
+            "type": "character varying",
+            "source": "Racing API - Enrichment",
+            "api_endpoint": "/v1/horses/{id}/pro",
+            "field_path": "response.horse.colour_code",
+            "populated_pct": 25.1
+          },
+          {
+            "column": "region",
+            "type": "character varying",
+            "source": "Racing API - Enrichment",
+            "api_endpoint": "/v1/horses/{id}/pro",
+            "field_path": "response.horse.region",
+            "populated_pct": 29.6
+          }
+        ]
+      },
+      "calculated": {
+        "count": 1,
+        "percentage": 6.7,
+        "columns": [
+          {
+            "column": "age",
+            "type": "integer",
+            "source": "Calculated",
+            "api_endpoint": "Database calculation",
+            "field_path": "EXTRACT(YEAR FROM AGE(CURRENT_DATE, dob))",
+            "populated_pct": 0.0
+          }
+        ]
+      },
+      "system": {
+        "count": 2,
+        "percentage": 13.3,
+        "columns": [
+          {
+            "column": "created_at",
+            "type": "timestamp without time zone",
+            "source": "System Timestamp",
+            "api_endpoint": "NOW() at insert time",
+            "field_path": "PostgreSQL CURRENT_TIMESTAMP",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "updated_at",
+            "type": "timestamp without time zone",
+            "source": "System Timestamp",
+            "api_endpoint": "NOW() at update time",
+            "field_path": "PostgreSQL CURRENT_TIMESTAMP on UPDATE",
+            "populated_pct": 100.0
+          }
+        ]
+      },
+      "external": {
+        "count": 0,
+        "percentage": 0.0,
+        "columns": []
+      },
+      "migration": {
+        "count": 1,
+        "percentage": 6.7,
+        "columns": [
+          {
+            "column": "breeder",
+            "type": "character varying",
+            "source": "Database Migration",
+            "api_endpoint": "ra_horse_pedigree.breeder",
+            "field_path": "UPDATE ra_mst_horses h SET breeder = p.breeder FROM ra_horse_pedigree p WHERE h.id = p.horse_id",
+            "populated_pct": 0.0
+          }
+        ]
+      },
+      "unknown": {
+        "count": 0,
+        "percentage": 0.0,
+        "columns": []
+      }
+    },
+    "ra_mst_sires": {
+      "total_columns": 47,
+      "racing_api": {
+        "count": 1,
+        "percentage": 2.1,
+        "columns": [
+          {
+            "column": "id",
+            "type": "character varying",
+            "source": "Racing API - Pedigree ID",
+            "api_endpoint": "/v1/horses/{horse_id}/pro -> pedigree.sire",
+            "field_path": "response.pedigree.sire_id",
+            "populated_pct": 99.95
+          }
+        ]
+      },
+      "calculated": {
+        "count": 42,
+        "percentage": 89.4,
+        "columns": [
+          {
+            "column": "name",
+            "type": "character varying",
+            "source": "Database - Pedigree Extraction",
+            "api_endpoint": "ra_horse_pedigree table",
+            "field_path": "SELECT DISTINCT sire_id, sire FROM ra_horse_pedigree",
+            "populated_pct": 99.95
+          },
+          {
+            "column": "total_runners",
+            "type": "integer",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "COUNT(ra_runners) WHERE horse_id IN (SELECT id FROM ra_mst_horses WHERE sire_id/dam_id/damsire_id = entity.id)",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "total_wins",
+            "type": "integer",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "COUNT(ra_runners) WHERE position = 1 AND horse_id IN progeny",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "total_places_2nd",
+            "type": "integer",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "COUNT(ra_runners) WHERE position = 2 AND horse_id IN progeny",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "total_places_3rd",
+            "type": "integer",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "COUNT(ra_runners) WHERE position = 3 AND horse_id IN progeny",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "overall_win_percent",
+            "type": "numeric",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "(total_wins / total_runners * 100)",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "overall_ae_index",
+            "type": "numeric",
+            "source": "Database Calculation - Pedigree Agent (AE Index)",
+            "api_endpoint": "N/A - Advanced calculation",
+            "field_path": "(actual_wins / expected_wins * 100) based on class distribution",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "best_class",
+            "type": "character varying",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "Class with most wins from progeny",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "best_class_ae",
+            "type": "numeric",
+            "source": "Database Calculation - Pedigree Agent (AE Index)",
+            "api_endpoint": "N/A - Advanced calculation",
+            "field_path": "AE index for best_class",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "best_distance",
+            "type": "character varying",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "Distance (furlongs) with most wins from progeny",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "best_distance_ae",
+            "type": "numeric",
+            "source": "Database Calculation - Pedigree Agent (AE Index)",
+            "api_endpoint": "N/A - Advanced calculation",
+            "field_path": "AE index for best_distance",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "data_quality_score",
+            "type": "numeric",
+            "source": "Database Calculation - Pedigree Agent (Quality Score)",
+            "api_endpoint": "N/A - Calculated score 0.00-1.00",
+            "field_path": "Weighted score based on data completeness: runners(0.20) + class_breakdown(0.30) + distance_breakdown(0.30) + ae_indices(0.20)",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "class_1_name",
+            "type": "character varying",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "Top 1 class by wins (e.g., 'Class 3')",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "class_1_runners",
+            "type": "integer",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "COUNT(ra_runners) WHERE race.class = class_1_name",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "class_1_wins",
+            "type": "integer",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "COUNT(ra_runners) WHERE position = 1 AND race.class = class_1_name",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "class_1_win_percent",
+            "type": "numeric",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "(class_1_wins / class_1_runners * 100)",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "class_1_ae",
+            "type": "numeric",
+            "source": "Database Calculation - Pedigree Agent (AE Index)",
+            "api_endpoint": "N/A - Advanced calculation",
+            "field_path": "(actual_wins / expected_wins * 100) for class_1",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "class_2_name",
+            "type": "character varying",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "Top 2 class by wins (e.g., 'Class 3')",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "class_2_runners",
+            "type": "integer",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "COUNT(ra_runners) WHERE race.class = class_2_name",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "class_2_wins",
+            "type": "integer",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "COUNT(ra_runners) WHERE position = 1 AND race.class = class_2_name",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "class_2_win_percent",
+            "type": "numeric",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "(class_2_wins / class_2_runners * 100)",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "class_2_ae",
+            "type": "numeric",
+            "source": "Database Calculation - Pedigree Agent (AE Index)",
+            "api_endpoint": "N/A - Advanced calculation",
+            "field_path": "(actual_wins / expected_wins * 100) for class_2",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "class_3_name",
+            "type": "character varying",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "Top 3 class by wins (e.g., 'Class 3')",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "class_3_runners",
+            "type": "integer",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "COUNT(ra_runners) WHERE race.class = class_3_name",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "class_3_wins",
+            "type": "integer",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "COUNT(ra_runners) WHERE position = 1 AND race.class = class_3_name",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "class_3_win_percent",
+            "type": "numeric",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "(class_3_wins / class_3_runners * 100)",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "class_3_ae",
+            "type": "numeric",
+            "source": "Database Calculation - Pedigree Agent (AE Index)",
+            "api_endpoint": "N/A - Advanced calculation",
+            "field_path": "(actual_wins / expected_wins * 100) for class_3",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "distance_1_name",
+            "type": "character varying",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "Top 1 distance by wins (e.g., '7.0f')",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "distance_1_runners",
+            "type": "integer",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "COUNT(ra_runners) WHERE race.distance_f = distance_1_name",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "distance_1_wins",
+            "type": "integer",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "COUNT(ra_runners) WHERE position = 1 AND race.distance_f = distance_1_name",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "distance_1_win_percent",
+            "type": "numeric",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "(distance_1_wins / distance_1_runners * 100)",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "distance_1_ae",
+            "type": "numeric",
+            "source": "Database Calculation - Pedigree Agent (AE Index)",
+            "api_endpoint": "N/A - Advanced calculation",
+            "field_path": "(actual_wins / expected_wins * 100) for distance_1",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "distance_2_name",
+            "type": "character varying",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "Top 2 distance by wins (e.g., '7.0f')",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "distance_2_runners",
+            "type": "integer",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "COUNT(ra_runners) WHERE race.distance_f = distance_2_name",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "distance_2_wins",
+            "type": "integer",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "COUNT(ra_runners) WHERE position = 1 AND race.distance_f = distance_2_name",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "distance_2_win_percent",
+            "type": "numeric",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "(distance_2_wins / distance_2_runners * 100)",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "distance_2_ae",
+            "type": "numeric",
+            "source": "Database Calculation - Pedigree Agent (AE Index)",
+            "api_endpoint": "N/A - Advanced calculation",
+            "field_path": "(actual_wins / expected_wins * 100) for distance_2",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "distance_3_name",
+            "type": "character varying",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "Top 3 distance by wins (e.g., '7.0f')",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "distance_3_runners",
+            "type": "integer",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "COUNT(ra_runners) WHERE race.distance_f = distance_3_name",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "distance_3_wins",
+            "type": "integer",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "COUNT(ra_runners) WHERE position = 1 AND race.distance_f = distance_3_name",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "distance_3_win_percent",
+            "type": "numeric",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "(distance_3_wins / distance_3_runners * 100)",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "distance_3_ae",
+            "type": "numeric",
+            "source": "Database Calculation - Pedigree Agent (AE Index)",
+            "api_endpoint": "N/A - Advanced calculation",
+            "field_path": "(actual_wins / expected_wins * 100) for distance_3",
+            "populated_pct": 0.0
+          }
+        ]
+      },
+      "system": {
+        "count": 3,
+        "percentage": 6.4,
+        "columns": [
+          {
+            "column": "created_at",
+            "type": "timestamp without time zone",
+            "source": "System Timestamp",
+            "api_endpoint": "NOW() at insert time",
+            "field_path": "PostgreSQL CURRENT_TIMESTAMP",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "updated_at",
+            "type": "timestamp without time zone",
+            "source": "System Timestamp",
+            "api_endpoint": "NOW() at update time",
+            "field_path": "PostgreSQL CURRENT_TIMESTAMP on UPDATE",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "analysis_last_updated",
+            "type": "timestamp without time zone",
+            "source": "System Timestamp - Pedigree Agent",
+            "api_endpoint": "N/A - Set by script",
+            "field_path": "datetime.now() when calculation runs",
+            "populated_pct": 0.0
+          }
+        ]
+      },
+      "external": {
+        "count": 0,
+        "percentage": 0.0,
+        "columns": []
+      },
+      "migration": {
+        "count": 0,
+        "percentage": 0.0,
+        "columns": []
+      },
+      "unknown": {
+        "count": 1,
+        "percentage": 2.1,
+        "columns": [
+          {
+            "column": "horse_id",
+            "type": "character varying",
+            "source": "Unknown - Needs Investigation",
+            "api_endpoint": "Purpose unclear",
+            "field_path": "Column exists but source/purpose unknown",
+            "populated_pct": 0.0
+          }
+        ]
+      }
+    },
+    "ra_mst_dams": {
+      "total_columns": 47,
+      "racing_api": {
+        "count": 1,
+        "percentage": 2.1,
+        "columns": [
+          {
+            "column": "id",
+            "type": "character varying",
+            "source": "Racing API - Pedigree ID",
+            "api_endpoint": "/v1/horses/{horse_id}/pro -> pedigree.dam",
+            "field_path": "response.pedigree.dam_id",
+            "populated_pct": 100.0
+          }
+        ]
+      },
+      "calculated": {
+        "count": 42,
+        "percentage": 89.4,
+        "columns": [
+          {
+            "column": "name",
+            "type": "character varying",
+            "source": "Database - Pedigree Extraction",
+            "api_endpoint": "ra_horse_pedigree table",
+            "field_path": "SELECT DISTINCT dam_id, dam FROM ra_horse_pedigree",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "total_runners",
+            "type": "integer",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "COUNT(ra_runners) WHERE horse_id IN (SELECT id FROM ra_mst_horses WHERE sire_id/dam_id/damsire_id = entity.id)",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "total_wins",
+            "type": "integer",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "COUNT(ra_runners) WHERE position = 1 AND horse_id IN progeny",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "total_places_2nd",
+            "type": "integer",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "COUNT(ra_runners) WHERE position = 2 AND horse_id IN progeny",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "total_places_3rd",
+            "type": "integer",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "COUNT(ra_runners) WHERE position = 3 AND horse_id IN progeny",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "overall_win_percent",
+            "type": "numeric",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "(total_wins / total_runners * 100)",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "overall_ae_index",
+            "type": "numeric",
+            "source": "Database Calculation - Pedigree Agent (AE Index)",
+            "api_endpoint": "N/A - Advanced calculation",
+            "field_path": "(actual_wins / expected_wins * 100) based on class distribution",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "best_class",
+            "type": "character varying",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "Class with most wins from progeny",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "best_class_ae",
+            "type": "numeric",
+            "source": "Database Calculation - Pedigree Agent (AE Index)",
+            "api_endpoint": "N/A - Advanced calculation",
+            "field_path": "AE index for best_class",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "best_distance",
+            "type": "character varying",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "Distance (furlongs) with most wins from progeny",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "best_distance_ae",
+            "type": "numeric",
+            "source": "Database Calculation - Pedigree Agent (AE Index)",
+            "api_endpoint": "N/A - Advanced calculation",
+            "field_path": "AE index for best_distance",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "data_quality_score",
+            "type": "numeric",
+            "source": "Database Calculation - Pedigree Agent (Quality Score)",
+            "api_endpoint": "N/A - Calculated score 0.00-1.00",
+            "field_path": "Weighted score based on data completeness: runners(0.20) + class_breakdown(0.30) + distance_breakdown(0.30) + ae_indices(0.20)",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "class_1_name",
+            "type": "character varying",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "Top 1 class by wins (e.g., 'Class 3')",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "class_1_runners",
+            "type": "integer",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "COUNT(ra_runners) WHERE race.class = class_1_name",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "class_1_wins",
+            "type": "integer",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "COUNT(ra_runners) WHERE position = 1 AND race.class = class_1_name",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "class_1_win_percent",
+            "type": "numeric",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "(class_1_wins / class_1_runners * 100)",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "class_1_ae",
+            "type": "numeric",
+            "source": "Database Calculation - Pedigree Agent (AE Index)",
+            "api_endpoint": "N/A - Advanced calculation",
+            "field_path": "(actual_wins / expected_wins * 100) for class_1",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "class_2_name",
+            "type": "character varying",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "Top 2 class by wins (e.g., 'Class 3')",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "class_2_runners",
+            "type": "integer",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "COUNT(ra_runners) WHERE race.class = class_2_name",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "class_2_wins",
+            "type": "integer",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "COUNT(ra_runners) WHERE position = 1 AND race.class = class_2_name",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "class_2_win_percent",
+            "type": "numeric",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "(class_2_wins / class_2_runners * 100)",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "class_2_ae",
+            "type": "numeric",
+            "source": "Database Calculation - Pedigree Agent (AE Index)",
+            "api_endpoint": "N/A - Advanced calculation",
+            "field_path": "(actual_wins / expected_wins * 100) for class_2",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "class_3_name",
+            "type": "character varying",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "Top 3 class by wins (e.g., 'Class 3')",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "class_3_runners",
+            "type": "integer",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "COUNT(ra_runners) WHERE race.class = class_3_name",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "class_3_wins",
+            "type": "integer",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "COUNT(ra_runners) WHERE position = 1 AND race.class = class_3_name",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "class_3_win_percent",
+            "type": "numeric",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "(class_3_wins / class_3_runners * 100)",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "class_3_ae",
+            "type": "numeric",
+            "source": "Database Calculation - Pedigree Agent (AE Index)",
+            "api_endpoint": "N/A - Advanced calculation",
+            "field_path": "(actual_wins / expected_wins * 100) for class_3",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "distance_1_name",
+            "type": "character varying",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "Top 1 distance by wins (e.g., '7.0f')",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "distance_1_runners",
+            "type": "integer",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "COUNT(ra_runners) WHERE race.distance_f = distance_1_name",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "distance_1_wins",
+            "type": "integer",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "COUNT(ra_runners) WHERE position = 1 AND race.distance_f = distance_1_name",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "distance_1_win_percent",
+            "type": "numeric",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "(distance_1_wins / distance_1_runners * 100)",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "distance_1_ae",
+            "type": "numeric",
+            "source": "Database Calculation - Pedigree Agent (AE Index)",
+            "api_endpoint": "N/A - Advanced calculation",
+            "field_path": "(actual_wins / expected_wins * 100) for distance_1",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "distance_2_name",
+            "type": "character varying",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "Top 2 distance by wins (e.g., '7.0f')",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "distance_2_runners",
+            "type": "integer",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "COUNT(ra_runners) WHERE race.distance_f = distance_2_name",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "distance_2_wins",
+            "type": "integer",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "COUNT(ra_runners) WHERE position = 1 AND race.distance_f = distance_2_name",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "distance_2_win_percent",
+            "type": "numeric",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "(distance_2_wins / distance_2_runners * 100)",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "distance_2_ae",
+            "type": "numeric",
+            "source": "Database Calculation - Pedigree Agent (AE Index)",
+            "api_endpoint": "N/A - Advanced calculation",
+            "field_path": "(actual_wins / expected_wins * 100) for distance_2",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "distance_3_name",
+            "type": "character varying",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "Top 3 distance by wins (e.g., '7.0f')",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "distance_3_runners",
+            "type": "integer",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "COUNT(ra_runners) WHERE race.distance_f = distance_3_name",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "distance_3_wins",
+            "type": "integer",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "COUNT(ra_runners) WHERE position = 1 AND race.distance_f = distance_3_name",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "distance_3_win_percent",
+            "type": "numeric",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "(distance_3_wins / distance_3_runners * 100)",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "distance_3_ae",
+            "type": "numeric",
+            "source": "Database Calculation - Pedigree Agent (AE Index)",
+            "api_endpoint": "N/A - Advanced calculation",
+            "field_path": "(actual_wins / expected_wins * 100) for distance_3",
+            "populated_pct": 0.0
+          }
+        ]
+      },
+      "system": {
+        "count": 3,
+        "percentage": 6.4,
+        "columns": [
+          {
+            "column": "created_at",
+            "type": "timestamp without time zone",
+            "source": "System Timestamp",
+            "api_endpoint": "NOW() at insert time",
+            "field_path": "PostgreSQL CURRENT_TIMESTAMP",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "updated_at",
+            "type": "timestamp without time zone",
+            "source": "System Timestamp",
+            "api_endpoint": "NOW() at update time",
+            "field_path": "PostgreSQL CURRENT_TIMESTAMP on UPDATE",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "analysis_last_updated",
+            "type": "timestamp without time zone",
+            "source": "System Timestamp - Pedigree Agent",
+            "api_endpoint": "N/A - Set by script",
+            "field_path": "datetime.now() when calculation runs",
+            "populated_pct": 0.0
+          }
+        ]
+      },
+      "external": {
+        "count": 0,
+        "percentage": 0.0,
+        "columns": []
+      },
+      "migration": {
+        "count": 0,
+        "percentage": 0.0,
+        "columns": []
+      },
+      "unknown": {
+        "count": 1,
+        "percentage": 2.1,
+        "columns": [
+          {
+            "column": "horse_id",
+            "type": "character varying",
+            "source": "Unknown - Needs Investigation",
+            "api_endpoint": "Purpose unclear",
+            "field_path": "Column exists but source/purpose unknown",
+            "populated_pct": 0.0
+          }
+        ]
+      }
+    },
+    "ra_mst_damsires": {
+      "total_columns": 47,
+      "racing_api": {
+        "count": 1,
+        "percentage": 2.1,
+        "columns": [
+          {
+            "column": "id",
+            "type": "character varying",
+            "source": "Racing API - Pedigree ID",
+            "api_endpoint": "/v1/horses/{horse_id}/pro -> pedigree.damsire",
+            "field_path": "response.pedigree.damsire_id",
+            "populated_pct": 99.97
+          }
+        ]
+      },
+      "calculated": {
+        "count": 42,
+        "percentage": 89.4,
+        "columns": [
+          {
+            "column": "name",
+            "type": "character varying",
+            "source": "Database - Pedigree Extraction",
+            "api_endpoint": "ra_horse_pedigree table",
+            "field_path": "SELECT DISTINCT damsire_id, damsire FROM ra_horse_pedigree",
+            "populated_pct": 99.97
+          },
+          {
+            "column": "total_runners",
+            "type": "integer",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "COUNT(ra_runners) WHERE horse_id IN (SELECT id FROM ra_mst_horses WHERE sire_id/dam_id/damsire_id = entity.id)",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "total_wins",
+            "type": "integer",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "COUNT(ra_runners) WHERE position = 1 AND horse_id IN progeny",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "total_places_2nd",
+            "type": "integer",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "COUNT(ra_runners) WHERE position = 2 AND horse_id IN progeny",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "total_places_3rd",
+            "type": "integer",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "COUNT(ra_runners) WHERE position = 3 AND horse_id IN progeny",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "overall_win_percent",
+            "type": "numeric",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "(total_wins / total_runners * 100)",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "overall_ae_index",
+            "type": "numeric",
+            "source": "Database Calculation - Pedigree Agent (AE Index)",
+            "api_endpoint": "N/A - Advanced calculation",
+            "field_path": "(actual_wins / expected_wins * 100) based on class distribution",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "best_class",
+            "type": "character varying",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "Class with most wins from progeny",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "best_class_ae",
+            "type": "numeric",
+            "source": "Database Calculation - Pedigree Agent (AE Index)",
+            "api_endpoint": "N/A - Advanced calculation",
+            "field_path": "AE index for best_class",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "best_distance",
+            "type": "character varying",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "Distance (furlongs) with most wins from progeny",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "best_distance_ae",
+            "type": "numeric",
+            "source": "Database Calculation - Pedigree Agent (AE Index)",
+            "api_endpoint": "N/A - Advanced calculation",
+            "field_path": "AE index for best_distance",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "data_quality_score",
+            "type": "numeric",
+            "source": "Database Calculation - Pedigree Agent (Quality Score)",
+            "api_endpoint": "N/A - Calculated score 0.00-1.00",
+            "field_path": "Weighted score based on data completeness: runners(0.20) + class_breakdown(0.30) + distance_breakdown(0.30) + ae_indices(0.20)",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "class_1_name",
+            "type": "character varying",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "Top 1 class by wins (e.g., 'Class 3')",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "class_1_runners",
+            "type": "integer",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "COUNT(ra_runners) WHERE race.class = class_1_name",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "class_1_wins",
+            "type": "integer",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "COUNT(ra_runners) WHERE position = 1 AND race.class = class_1_name",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "class_1_win_percent",
+            "type": "numeric",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "(class_1_wins / class_1_runners * 100)",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "class_1_ae",
+            "type": "numeric",
+            "source": "Database Calculation - Pedigree Agent (AE Index)",
+            "api_endpoint": "N/A - Advanced calculation",
+            "field_path": "(actual_wins / expected_wins * 100) for class_1",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "class_2_name",
+            "type": "character varying",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "Top 2 class by wins (e.g., 'Class 3')",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "class_2_runners",
+            "type": "integer",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "COUNT(ra_runners) WHERE race.class = class_2_name",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "class_2_wins",
+            "type": "integer",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "COUNT(ra_runners) WHERE position = 1 AND race.class = class_2_name",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "class_2_win_percent",
+            "type": "numeric",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "(class_2_wins / class_2_runners * 100)",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "class_2_ae",
+            "type": "numeric",
+            "source": "Database Calculation - Pedigree Agent (AE Index)",
+            "api_endpoint": "N/A - Advanced calculation",
+            "field_path": "(actual_wins / expected_wins * 100) for class_2",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "class_3_name",
+            "type": "character varying",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "Top 3 class by wins (e.g., 'Class 3')",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "class_3_runners",
+            "type": "integer",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "COUNT(ra_runners) WHERE race.class = class_3_name",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "class_3_wins",
+            "type": "integer",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "COUNT(ra_runners) WHERE position = 1 AND race.class = class_3_name",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "class_3_win_percent",
+            "type": "numeric",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "(class_3_wins / class_3_runners * 100)",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "class_3_ae",
+            "type": "numeric",
+            "source": "Database Calculation - Pedigree Agent (AE Index)",
+            "api_endpoint": "N/A - Advanced calculation",
+            "field_path": "(actual_wins / expected_wins * 100) for class_3",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "distance_1_name",
+            "type": "character varying",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "Top 1 distance by wins (e.g., '7.0f')",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "distance_1_runners",
+            "type": "integer",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "COUNT(ra_runners) WHERE race.distance_f = distance_1_name",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "distance_1_wins",
+            "type": "integer",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "COUNT(ra_runners) WHERE position = 1 AND race.distance_f = distance_1_name",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "distance_1_win_percent",
+            "type": "numeric",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "(distance_1_wins / distance_1_runners * 100)",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "distance_1_ae",
+            "type": "numeric",
+            "source": "Database Calculation - Pedigree Agent (AE Index)",
+            "api_endpoint": "N/A - Advanced calculation",
+            "field_path": "(actual_wins / expected_wins * 100) for distance_1",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "distance_2_name",
+            "type": "character varying",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "Top 2 distance by wins (e.g., '7.0f')",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "distance_2_runners",
+            "type": "integer",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "COUNT(ra_runners) WHERE race.distance_f = distance_2_name",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "distance_2_wins",
+            "type": "integer",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "COUNT(ra_runners) WHERE position = 1 AND race.distance_f = distance_2_name",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "distance_2_win_percent",
+            "type": "numeric",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "(distance_2_wins / distance_2_runners * 100)",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "distance_2_ae",
+            "type": "numeric",
+            "source": "Database Calculation - Pedigree Agent (AE Index)",
+            "api_endpoint": "N/A - Advanced calculation",
+            "field_path": "(actual_wins / expected_wins * 100) for distance_2",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "distance_3_name",
+            "type": "character varying",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "Top 3 distance by wins (e.g., '7.0f')",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "distance_3_runners",
+            "type": "integer",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "COUNT(ra_runners) WHERE race.distance_f = distance_3_name",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "distance_3_wins",
+            "type": "integer",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "COUNT(ra_runners) WHERE position = 1 AND race.distance_f = distance_3_name",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "distance_3_win_percent",
+            "type": "numeric",
+            "source": "Database Calculation - Pedigree Agent",
+            "api_endpoint": "N/A - Calculated from database",
+            "field_path": "(distance_3_wins / distance_3_runners * 100)",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "distance_3_ae",
+            "type": "numeric",
+            "source": "Database Calculation - Pedigree Agent (AE Index)",
+            "api_endpoint": "N/A - Advanced calculation",
+            "field_path": "(actual_wins / expected_wins * 100) for distance_3",
+            "populated_pct": 0.0
+          }
+        ]
+      },
+      "system": {
+        "count": 3,
+        "percentage": 6.4,
+        "columns": [
+          {
+            "column": "created_at",
+            "type": "timestamp without time zone",
+            "source": "System Timestamp",
+            "api_endpoint": "NOW() at insert time",
+            "field_path": "PostgreSQL CURRENT_TIMESTAMP",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "updated_at",
+            "type": "timestamp without time zone",
+            "source": "System Timestamp",
+            "api_endpoint": "NOW() at update time",
+            "field_path": "PostgreSQL CURRENT_TIMESTAMP on UPDATE",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "analysis_last_updated",
+            "type": "timestamp without time zone",
+            "source": "System Timestamp - Pedigree Agent",
+            "api_endpoint": "N/A - Set by script",
+            "field_path": "datetime.now() when calculation runs",
+            "populated_pct": 0.0
+          }
+        ]
+      },
+      "external": {
+        "count": 0,
+        "percentage": 0.0,
+        "columns": []
+      },
+      "migration": {
+        "count": 0,
+        "percentage": 0.0,
+        "columns": []
+      },
+      "unknown": {
+        "count": 1,
+        "percentage": 2.1,
+        "columns": [
+          {
+            "column": "horse_id",
+            "type": "character varying",
+            "source": "Unknown - Needs Investigation",
+            "api_endpoint": "Purpose unclear",
+            "field_path": "Column exists but source/purpose unknown",
+            "populated_pct": 0.0
+          }
+        ]
+      }
+    },
+    "ra_races": {
+      "total_columns": 48,
+      "racing_api": {
+        "count": 46,
+        "percentage": 95.8,
+        "columns": [
+          {
+            "column": "id",
+            "type": "character varying",
+            "source": "Racing API - Race ID",
+            "api_endpoint": "/v1/racecards/pro -> races[]",
+            "field_path": "response.races[].race_id",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "course_id",
+            "type": "character varying",
+            "source": "Racing API - Racecard",
+            "api_endpoint": "/v1/racecards/pro -> races[]",
+            "field_path": "response.races[].course.id",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "course_name",
+            "type": "character varying",
+            "source": "Racing API - Racecard",
+            "api_endpoint": "/v1/racecards/pro -> races[]",
+            "field_path": "response.races[].course_name",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "date",
+            "type": "date",
+            "source": "Racing API - Racecard",
+            "api_endpoint": "/v1/racecards/pro -> races[]",
+            "field_path": "response.races[].date",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "off_time",
+            "type": "time without time zone",
+            "source": "Racing API - Racecard",
+            "api_endpoint": "/v1/racecards/pro -> races[]",
+            "field_path": "response.races[].off_time",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "off_dt",
+            "type": "timestamp without time zone",
+            "source": "Racing API - Racecard",
+            "api_endpoint": "/v1/racecards/pro -> races[]",
+            "field_path": "response.races[].off_dt",
+            "populated_pct": 99.84
+          },
+          {
+            "column": "race_name",
+            "type": "character varying",
+            "source": "Racing API - Racecard",
+            "api_endpoint": "/v1/racecards/pro -> races[]",
+            "field_path": "response.races[].race_name",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "race_number",
+            "type": "integer",
+            "source": "Racing API - Racecard",
+            "api_endpoint": "/v1/racecards/pro -> races[]",
+            "field_path": "response.races[].race_number",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "distance",
+            "type": "character varying",
+            "source": "Racing API - Racecard",
+            "api_endpoint": "/v1/racecards/pro -> races[]",
+            "field_path": "response.races[].distance",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "distance_round",
+            "type": "character varying",
+            "source": "Racing API - Racecard",
+            "api_endpoint": "/v1/racecards/pro -> races[]",
+            "field_path": "response.races[].distance_round",
+            "populated_pct": 9.37
+          },
+          {
+            "column": "distance_f",
+            "type": "character varying",
+            "source": "Racing API - Racecard",
+            "api_endpoint": "/v1/racecards/pro -> races[]",
+            "field_path": "response.races[].distance_f",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "distance_m",
+            "type": "integer",
+            "source": "Racing API - Racecard",
+            "api_endpoint": "/v1/racecards/pro -> races[]",
+            "field_path": "response.races[].distance_m",
+            "populated_pct": 26.42
+          },
+          {
+            "column": "region",
+            "type": "character varying",
+            "source": "Racing API - Racecard",
+            "api_endpoint": "/v1/racecards/pro -> races[]",
+            "field_path": "response.races[].region",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "type",
+            "type": "character varying",
+            "source": "Racing API - Racecard",
+            "api_endpoint": "/v1/racecards/pro -> races[]",
+            "field_path": "response.races[].type",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "surface",
+            "type": "character varying",
+            "source": "Racing API - Racecard",
+            "api_endpoint": "/v1/racecards/pro -> races[]",
+            "field_path": "response.races[].surface",
+            "populated_pct": 99.9
+          },
+          {
+            "column": "going",
+            "type": "character varying",
+            "source": "Racing API - Racecard",
+            "api_endpoint": "/v1/racecards/pro -> races[]",
+            "field_path": "response.races[].going",
+            "populated_pct": 99.99
+          },
+          {
+            "column": "going_detailed",
+            "type": "text",
+            "source": "Racing API - Racecard",
+            "api_endpoint": "/v1/racecards/pro -> races[]",
+            "field_path": "response.races[].going_detailed",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "pattern",
+            "type": "character varying",
+            "source": "Racing API - Racecard",
+            "api_endpoint": "/v1/racecards/pro -> races[]",
+            "field_path": "response.races[].pattern",
+            "populated_pct": 0.52
+          },
+          {
+            "column": "race_class",
+            "type": "character varying",
+            "source": "Racing API - Racecard",
+            "api_endpoint": "/v1/racecards/pro -> races[]",
+            "field_path": "response.races[].race_class",
+            "populated_pct": 78.57
+          },
+          {
+            "column": "age_band",
+            "type": "character varying",
+            "source": "Racing API - Racecard",
+            "api_endpoint": "/v1/racecards/pro -> races[]",
+            "field_path": "response.races[].age_band",
+            "populated_pct": 27.28
+          },
+          {
+            "column": "sex_restriction",
+            "type": "character varying",
+            "source": "Racing API - Racecard",
+            "api_endpoint": "/v1/racecards/pro -> races[]",
+            "field_path": "response.races[].sex_restriction",
+            "populated_pct": 1.19
+          },
+          {
+            "column": "rating_band",
+            "type": "character varying",
+            "source": "Racing API - Racecard",
+            "api_endpoint": "/v1/racecards/pro -> races[]",
+            "field_path": "response.races[].rating_band",
+            "populated_pct": 5.35
+          },
+          {
+            "column": "prize",
+            "type": "numeric",
+            "source": "Racing API - Racecard",
+            "api_endpoint": "/v1/racecards/pro -> races[]",
+            "field_path": "response.races[].prize",
+            "populated_pct": 5.89
+          },
+          {
+            "column": "field_size",
+            "type": "integer",
+            "source": "Racing API - Racecard",
+            "api_endpoint": "/v1/racecards/pro -> races[]",
+            "field_path": "response.races[].field_size",
+            "populated_pct": 27.28
+          },
+          {
+            "column": "stalls",
+            "type": "character varying",
+            "source": "Racing API - Racecard",
+            "api_endpoint": "/v1/racecards/pro -> races[]",
+            "field_path": "response.races[].stalls",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "rail_movements",
+            "type": "text",
+            "source": "Racing API - Racecard",
+            "api_endpoint": "/v1/racecards/pro -> races[]",
+            "field_path": "response.races[].rail_movements",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "weather",
+            "type": "character varying",
+            "source": "Racing API - Racecard",
+            "api_endpoint": "/v1/racecards/pro -> races[]",
+            "field_path": "response.races[].weather",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "jumps",
+            "type": "character varying",
+            "source": "Racing API - Racecard",
+            "api_endpoint": "/v1/racecards/pro -> races[]",
+            "field_path": "response.races[].jumps",
+            "populated_pct": 3.27
+          },
+          {
+            "column": "is_big_race",
+            "type": "boolean",
+            "source": "Racing API - Racecard",
+            "api_endpoint": "/v1/racecards/pro -> races[]",
+            "field_path": "response.races[].is_big_race",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "is_abandoned",
+            "type": "boolean",
+            "source": "Racing API - Racecard",
+            "api_endpoint": "/v1/racecards/pro -> races[]",
+            "field_path": "response.races[].is_abandoned",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "has_result",
+            "type": "boolean",
+            "source": "Racing API - Racecard",
+            "api_endpoint": "/v1/racecards/pro -> races[]",
+            "field_path": "response.races[].has_result",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "winning_time",
+            "type": "character varying",
+            "source": "Racing API - Racecard",
+            "api_endpoint": "/v1/racecards/pro -> races[]",
+            "field_path": "response.races[].winning_time",
+            "populated_pct": 9.27
+          },
+          {
+            "column": "winning_time_detail",
+            "type": "text",
+            "source": "Racing API - Racecard",
+            "api_endpoint": "/v1/racecards/pro -> races[]",
+            "field_path": "response.races[].winning_time_detail",
+            "populated_pct": 9.27
+          },
+          {
+            "column": "comments",
+            "type": "text",
+            "source": "Racing API - Racecard",
+            "api_endpoint": "/v1/racecards/pro -> races[]",
+            "field_path": "response.races[].comments",
+            "populated_pct": 0.36
+          },
+          {
+            "column": "non_runners",
+            "type": "text",
+            "source": "Racing API - Racecard",
+            "api_endpoint": "/v1/racecards/pro -> races[]",
+            "field_path": "response.races[].non_runners",
+            "populated_pct": 4.63
+          },
+          {
+            "column": "tote_win",
+            "type": "character varying",
+            "source": "Racing API - Racecard",
+            "api_endpoint": "/v1/racecards/pro -> races[]",
+            "field_path": "response.races[].tote_win",
+            "populated_pct": 9.26
+          },
+          {
+            "column": "tote_pl",
+            "type": "character varying",
+            "source": "Racing API - Racecard",
+            "api_endpoint": "/v1/racecards/pro -> races[]",
+            "field_path": "response.races[].tote_pl",
+            "populated_pct": 8.73
+          },
+          {
+            "column": "tote_ex",
+            "type": "character varying",
+            "source": "Racing API - Racecard",
+            "api_endpoint": "/v1/racecards/pro -> races[]",
+            "field_path": "response.races[].tote_ex",
+            "populated_pct": 9.23
+          },
+          {
+            "column": "tote_csf",
+            "type": "character varying",
+            "source": "Racing API - Racecard",
+            "api_endpoint": "/v1/racecards/pro -> races[]",
+            "field_path": "response.races[].tote_csf",
+            "populated_pct": 9.23
+          },
+          {
+            "column": "tote_tricast",
+            "type": "character varying",
+            "source": "Racing API - Racecard",
+            "api_endpoint": "/v1/racecards/pro -> races[]",
+            "field_path": "response.races[].tote_tricast",
+            "populated_pct": 4.61
+          },
+          {
+            "column": "tote_trifecta",
+            "type": "character varying",
+            "source": "Racing API - Racecard",
+            "api_endpoint": "/v1/racecards/pro -> races[]",
+            "field_path": "response.races[].tote_trifecta",
+            "populated_pct": 9.09
+          },
+          {
+            "column": "tip",
+            "type": "text",
+            "source": "Racing API - Racecard",
+            "api_endpoint": "/v1/racecards/pro -> races[]",
+            "field_path": "response.races[].tip",
+            "populated_pct": 0.23
+          },
+          {
+            "column": "verdict",
+            "type": "text",
+            "source": "Racing API - Racecard",
+            "api_endpoint": "/v1/racecards/pro -> races[]",
+            "field_path": "response.races[].verdict",
+            "populated_pct": 0.24
+          },
+          {
+            "column": "betting_forecast",
+            "type": "text",
+            "source": "Racing API - Racecard",
+            "api_endpoint": "/v1/racecards/pro -> races[]",
+            "field_path": "response.races[].betting_forecast",
+            "populated_pct": 0.24
+          },
+          {
+            "column": "meet_id",
+            "type": "character varying",
+            "source": "Racing API - Racecard",
+            "api_endpoint": "/v1/racecards/pro -> races[]",
+            "field_path": "response.races[].meet_id",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "time",
+            "type": "time without time zone",
+            "source": "Racing API - Racecard",
+            "api_endpoint": "/v1/racecards/pro -> races[]",
+            "field_path": "response.races[].time",
+            "populated_pct": 93.87
+          }
+        ]
+      },
+      "calculated": {
+        "count": 0,
+        "percentage": 0.0,
+        "columns": []
+      },
+      "system": {
+        "count": 2,
+        "percentage": 4.2,
+        "columns": [
+          {
+            "column": "created_at",
+            "type": "timestamp without time zone",
+            "source": "System Timestamp",
+            "api_endpoint": "NOW() at insert time",
+            "field_path": "PostgreSQL CURRENT_TIMESTAMP",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "updated_at",
+            "type": "timestamp without time zone",
+            "source": "System Timestamp",
+            "api_endpoint": "NOW() at update time",
+            "field_path": "PostgreSQL CURRENT_TIMESTAMP on UPDATE",
+            "populated_pct": 100.0
+          }
+        ]
+      },
+      "external": {
+        "count": 0,
+        "percentage": 0.0,
+        "columns": []
+      },
+      "migration": {
+        "count": 0,
+        "percentage": 0.0,
+        "columns": []
+      },
+      "unknown": {
+        "count": 0,
+        "percentage": 0.0,
+        "columns": []
+      }
+    },
+    "ra_runners": {
+      "total_columns": 57,
+      "racing_api": {
+        "count": 53,
+        "percentage": 93.0,
+        "columns": [
+          {
+            "column": "race_id",
+            "type": "character varying",
+            "source": "Racing API - Racecard",
+            "api_endpoint": "/v1/racecards/pro -> races[]",
+            "field_path": "response.races[].race_id",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "horse_id",
+            "type": "character varying",
+            "source": "Racing API - Racecard",
+            "api_endpoint": "/v1/racecards/pro -> races[].runners[]",
+            "field_path": "response.races[].runners[].horse.id",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "horse_name",
+            "type": "character varying",
+            "source": "Racing API - Racecard/Results",
+            "api_endpoint": "/v1/racecards/pro OR /v1/results",
+            "field_path": "response.races[].runners[].horse_name",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "jockey_name",
+            "type": "character varying",
+            "source": "Racing API - Racecard/Results",
+            "api_endpoint": "/v1/racecards/pro OR /v1/results",
+            "field_path": "response.races[].runners[].jockey_name",
+            "populated_pct": 98.89
+          },
+          {
+            "column": "trainer_name",
+            "type": "character varying",
+            "source": "Racing API - Racecard/Results",
+            "api_endpoint": "/v1/racecards/pro OR /v1/results",
+            "field_path": "response.races[].runners[].trainer_name",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "owner_name",
+            "type": "character varying",
+            "source": "Racing API - Racecard/Results",
+            "api_endpoint": "/v1/racecards/pro OR /v1/results",
+            "field_path": "response.races[].runners[].owner_name",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "number",
+            "type": "character varying",
+            "source": "Racing API - Racecard/Results",
+            "api_endpoint": "/v1/racecards/pro OR /v1/results",
+            "field_path": "response.races[].runners[].number",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "draw",
+            "type": "character varying",
+            "source": "Racing API - Racecard",
+            "api_endpoint": "/v1/racecards/pro -> races[].runners[]",
+            "field_path": "response.races[].runners[].draw",
+            "populated_pct": 95.72
+          },
+          {
+            "column": "jockey_id",
+            "type": "character varying",
+            "source": "Racing API - Racecard",
+            "api_endpoint": "/v1/racecards/pro -> races[].runners[]",
+            "field_path": "response.races[].runners[].jockey.id",
+            "populated_pct": 98.89
+          },
+          {
+            "column": "trainer_id",
+            "type": "character varying",
+            "source": "Racing API - Racecard",
+            "api_endpoint": "/v1/racecards/pro -> races[].runners[]",
+            "field_path": "response.races[].runners[].trainer.id",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "owner_id",
+            "type": "character varying",
+            "source": "Racing API - Racecard",
+            "api_endpoint": "/v1/racecards/pro -> races[].runners[]",
+            "field_path": "response.races[].runners[].owner.id",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "sire_id",
+            "type": "character varying",
+            "source": "Racing API - Racecard/Results",
+            "api_endpoint": "/v1/racecards/pro OR /v1/results",
+            "field_path": "response.races[].runners[].sire_id",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "dam_id",
+            "type": "character varying",
+            "source": "Racing API - Racecard/Results",
+            "api_endpoint": "/v1/racecards/pro OR /v1/results",
+            "field_path": "response.races[].runners[].dam_id",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "damsire_id",
+            "type": "character varying",
+            "source": "Racing API - Racecard/Results",
+            "api_endpoint": "/v1/racecards/pro OR /v1/results",
+            "field_path": "response.races[].runners[].damsire_id",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "weight_lbs",
+            "type": "integer",
+            "source": "Racing API - Racecard/Results",
+            "api_endpoint": "/v1/racecards/pro OR /v1/results",
+            "field_path": "response.races[].runners[].weight_lbs",
+            "populated_pct": 91.45
+          },
+          {
+            "column": "weight_st_lbs",
+            "type": "character varying",
+            "source": "Racing API - Racecard/Results",
+            "api_endpoint": "/v1/racecards/pro OR /v1/results",
+            "field_path": "response.races[].runners[].weight_st_lbs",
+            "populated_pct": 9.11
+          },
+          {
+            "column": "age",
+            "type": "integer",
+            "source": "Racing API - Racecard",
+            "api_endpoint": "/v1/racecards/pro -> races[].runners[]",
+            "field_path": "response.races[].runners[].horse.age",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "sex",
+            "type": "character varying",
+            "source": "Racing API - Racecard/Results",
+            "api_endpoint": "/v1/racecards/pro OR /v1/results",
+            "field_path": "response.races[].runners[].sex",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "sex_code",
+            "type": "character varying",
+            "source": "Racing API - Racecard/Results",
+            "api_endpoint": "/v1/racecards/pro OR /v1/results",
+            "field_path": "response.races[].runners[].sex_code",
+            "populated_pct": 91.14
+          },
+          {
+            "column": "colour",
+            "type": "character varying",
+            "source": "Racing API - Racecard/Results",
+            "api_endpoint": "/v1/racecards/pro OR /v1/results",
+            "field_path": "response.races[].runners[].colour",
+            "populated_pct": 0.04
+          },
+          {
+            "column": "dob",
+            "type": "date",
+            "source": "Racing API - Racecard/Results",
+            "api_endpoint": "/v1/racecards/pro OR /v1/results",
+            "field_path": "response.races[].runners[].dob",
+            "populated_pct": 0.04
+          },
+          {
+            "column": "headgear",
+            "type": "character varying",
+            "source": "Racing API - Racecard",
+            "api_endpoint": "/v1/racecards/pro -> races[].runners[]",
+            "field_path": "response.races[].runners[].headgear",
+            "populated_pct": 37.05
+          },
+          {
+            "column": "headgear_run",
+            "type": "character varying",
+            "source": "Racing API - Racecard/Results",
+            "api_endpoint": "/v1/racecards/pro OR /v1/results",
+            "field_path": "response.races[].runners[].headgear_run",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "wind_surgery",
+            "type": "character varying",
+            "source": "Racing API - Racecard/Results",
+            "api_endpoint": "/v1/racecards/pro OR /v1/results",
+            "field_path": "response.races[].runners[].wind_surgery",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "wind_surgery_run",
+            "type": "character varying",
+            "source": "Racing API - Racecard/Results",
+            "api_endpoint": "/v1/racecards/pro OR /v1/results",
+            "field_path": "response.races[].runners[].wind_surgery_run",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "form",
+            "type": "character varying",
+            "source": "Racing API - Racecard",
+            "api_endpoint": "/v1/racecards/pro -> races[].runners[]",
+            "field_path": "response.races[].runners[].form",
+            "populated_pct": 18.67
+          },
+          {
+            "column": "ofr",
+            "type": "integer",
+            "source": "Racing API - Racecard",
+            "api_endpoint": "/v1/racecards/pro -> races[].runners[]",
+            "field_path": "response.races[].runners[].ofr",
+            "populated_pct": 74.15
+          },
+          {
+            "column": "rpr",
+            "type": "integer",
+            "source": "Racing API - Racecard",
+            "api_endpoint": "/v1/racecards/pro -> races[].runners[]",
+            "field_path": "response.races[].runners[].rpr",
+            "populated_pct": 91.54
+          },
+          {
+            "column": "ts",
+            "type": "integer",
+            "source": "Racing API - Racecard",
+            "api_endpoint": "/v1/racecards/pro -> races[].runners[]",
+            "field_path": "response.races[].runners[].ts",
+            "populated_pct": 79.78
+          },
+          {
+            "column": "comment",
+            "type": "text",
+            "source": "Racing API - Racecard/Results",
+            "api_endpoint": "/v1/racecards/pro OR /v1/results",
+            "field_path": "response.races[].runners[].comment",
+            "populated_pct": 8.91
+          },
+          {
+            "column": "spotlight",
+            "type": "text",
+            "source": "Racing API - Racecard/Results",
+            "api_endpoint": "/v1/racecards/pro OR /v1/results",
+            "field_path": "response.races[].runners[].spotlight",
+            "populated_pct": 0.04
+          },
+          {
+            "column": "trainer_rtf",
+            "type": "character varying",
+            "source": "Racing API - Racecard/Results",
+            "api_endpoint": "/v1/racecards/pro OR /v1/results",
+            "field_path": "response.races[].runners[].trainer_rtf",
+            "populated_pct": 0.04
+          },
+          {
+            "column": "past_results_flags",
+            "type": "jsonb",
+            "source": "Racing API - Racecard/Results",
+            "api_endpoint": "/v1/racecards/pro OR /v1/results",
+            "field_path": "response.races[].runners[].past_results_flags",
+            "populated_pct": 0.04
+          },
+          {
+            "column": "claiming_price_min",
+            "type": "integer",
+            "source": "Racing API - Racecard/Results",
+            "api_endpoint": "/v1/racecards/pro OR /v1/results",
+            "field_path": "response.races[].runners[].claiming_price_min",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "claiming_price_max",
+            "type": "integer",
+            "source": "Racing API - Racecard/Results",
+            "api_endpoint": "/v1/racecards/pro OR /v1/results",
+            "field_path": "response.races[].runners[].claiming_price_max",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "medication",
+            "type": "character varying",
+            "source": "Racing API - Racecard/Results",
+            "api_endpoint": "/v1/racecards/pro OR /v1/results",
+            "field_path": "response.races[].runners[].medication",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "equipment",
+            "type": "character varying",
+            "source": "Racing API - Racecard/Results",
+            "api_endpoint": "/v1/racecards/pro OR /v1/results",
+            "field_path": "response.races[].runners[].equipment",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "morning_line_odds",
+            "type": "character varying",
+            "source": "Racing API - Racecard/Results",
+            "api_endpoint": "/v1/racecards/pro OR /v1/results",
+            "field_path": "response.races[].runners[].morning_line_odds",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "is_scratched",
+            "type": "boolean",
+            "source": "Racing API - Racecard/Results",
+            "api_endpoint": "/v1/racecards/pro OR /v1/results",
+            "field_path": "response.races[].runners[].is_scratched",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "silk_url",
+            "type": "character varying",
+            "source": "Racing API - Racecard/Results",
+            "api_endpoint": "/v1/racecards/pro OR /v1/results",
+            "field_path": "response.races[].runners[].silk_url",
+            "populated_pct": 28.85
+          },
+          {
+            "column": "position",
+            "type": "integer",
+            "source": "Racing API - Results",
+            "api_endpoint": "/v1/results -> results[].runners[]",
+            "field_path": "response.results[].runners[].position",
+            "populated_pct": 8.41
+          },
+          {
+            "column": "distance_beaten",
+            "type": "character varying",
+            "source": "Racing API - Results",
+            "api_endpoint": "/v1/results -> results[].runners[]",
+            "field_path": "response.results[].runners[].distance_beaten",
+            "populated_pct": 8.9
+          },
+          {
+            "column": "prize_won",
+            "type": "numeric",
+            "source": "Racing API - Results",
+            "api_endpoint": "/v1/results -> results[].runners[]",
+            "field_path": "response.results[].runners[].prize_won",
+            "populated_pct": 3.62
+          },
+          {
+            "column": "starting_price",
+            "type": "character varying",
+            "source": "Racing API - Results",
+            "api_endpoint": "/v1/results -> results[].runners[]",
+            "field_path": "response.results[].runners[].starting_price",
+            "populated_pct": 8.9
+          },
+          {
+            "column": "result_updated_at",
+            "type": "timestamp without time zone",
+            "source": "Racing API - Racecard/Results",
+            "api_endpoint": "/v1/racecards/pro OR /v1/results",
+            "field_path": "response.races[].runners[].result_updated_at",
+            "populated_pct": 8.41
+          },
+          {
+            "column": "finishing_time",
+            "type": "character varying",
+            "source": "Racing API - Results",
+            "api_endpoint": "/v1/results -> results[].runners[]",
+            "field_path": "response.results[].runners[].finishing_time",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "starting_price_decimal",
+            "type": "numeric",
+            "source": "Racing API - Results",
+            "api_endpoint": "/v1/results -> results[].runners[]",
+            "field_path": "response.results[].runners[].starting_price_decimal",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "race_comment",
+            "type": "text",
+            "source": "Racing API - Results",
+            "api_endpoint": "/v1/results -> results[].runners[]",
+            "field_path": "response.results[].runners[].race_comment",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "jockey_silk_url",
+            "type": "text",
+            "source": "Racing API - Racecard",
+            "api_endpoint": "/v1/racecards/pro -> races[].runners[]",
+            "field_path": "response.races[].runners[].jockey.silk_url",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "overall_beaten_distance",
+            "type": "numeric",
+            "source": "Racing API - Results",
+            "api_endpoint": "/v1/results -> results[].runners[]",
+            "field_path": "response.results[].runners[].overall_beaten_distance",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "jockey_claim_lbs",
+            "type": "integer",
+            "source": "Racing API - Racecard",
+            "api_endpoint": "/v1/racecards/pro -> races[].runners[]",
+            "field_path": "response.races[].runners[].jockey_claim",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "weight_stones_lbs",
+            "type": "character varying",
+            "source": "Racing API - Racecard",
+            "api_endpoint": "/v1/racecards/pro -> races[].runners[]",
+            "field_path": "response.races[].runners[].weight_stones_lbs",
+            "populated_pct": 0.0
+          },
+          {
+            "column": "trainer_location",
+            "type": "character varying",
+            "source": "Racing API - Racecard/Results",
+            "api_endpoint": "/v1/racecards/pro OR /v1/results",
+            "field_path": "response.races[].runners[].trainer_location",
+            "populated_pct": 8.54
+          }
+        ]
+      },
+      "calculated": {
+        "count": 1,
+        "percentage": 1.8,
+        "columns": [
+          {
+            "column": "last_run",
+            "type": "character varying",
+            "source": "Calculated from Recent Activity",
+            "api_endpoint": "Database Query: ra_runners WHERE date > NOW() - INTERVAL 'N days'",
+            "field_path": "Date-filtered aggregation over last N days",
+            "populated_pct": 0.04
+          }
+        ]
+      },
+      "system": {
+        "count": 3,
+        "percentage": 5.3,
+        "columns": [
+          {
+            "column": "id",
+            "type": "bigint",
+            "source": "System Generated - Composite",
+            "api_endpoint": "Internal generation from race_id + horse_id + runner_number",
+            "field_path": "f\"{race_id}_{horse_id}_{runner_number}\"",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "created_at",
+            "type": "timestamp without time zone",
+            "source": "System Timestamp",
+            "api_endpoint": "NOW() at insert time",
+            "field_path": "PostgreSQL CURRENT_TIMESTAMP",
+            "populated_pct": 100.0
+          },
+          {
+            "column": "updated_at",
+            "type": "timestamp without time zone",
+            "source": "System Timestamp",
+            "api_endpoint": "NOW() at update time",
+            "field_path": "PostgreSQL CURRENT_TIMESTAMP on UPDATE",
+            "populated_pct": 100.0
+          }
+        ]
+      },
+      "external": {
+        "count": 0,
+        "percentage": 0.0,
+        "columns": []
+      },
+      "migration": {
+        "count": 0,
+        "percentage": 0.0,
+        "columns": []
+      },
+      "unknown": {
+        "count": 0,
+        "percentage": 0.0,
+        "columns": []
+      }
+    }
+  }
+}

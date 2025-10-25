@@ -1,6 +1,10 @@
 """
 Courses Reference Data Fetcher
 Fetches course/track information from Racing API
+
+IMPORTANT: Coordinates are automatically assigned from the validated JSON file
+(fetchers/ra_courses_final_validated.json) for UK and Ireland courses.
+Coordinates should NOT be overwritten - they are static validated data.
 """
 
 from datetime import datetime
@@ -9,6 +13,7 @@ from config.config import get_config
 from utils.logger import get_logger
 from utils.api_client import RacingAPIClient
 from utils.supabase_client import SupabaseReferenceClient
+from utils.course_coordinates import assign_coordinates_to_course, get_coordinates_stats
 
 logger = get_logger('courses_fetcher')
 
@@ -36,6 +41,8 @@ class CoursesFetcher:
         """
         Fetch courses from API and store in database
 
+        Automatically assigns coordinates from validated JSON file for UK/IRE courses.
+
         Args:
             region_codes: Optional list of region codes to filter (e.g., ['gb', 'ire'])
 
@@ -43,6 +50,11 @@ class CoursesFetcher:
             Statistics dictionary
         """
         logger.info("Starting courses fetch")
+
+        # Default to UK and Ireland only
+        if region_codes is None:
+            region_codes = ['gb', 'ire']
+            logger.info("No region codes specified, defaulting to UK and Ireland")
 
         # Fetch from API
         api_response = self.api_client.get_courses(region_codes=region_codes)
@@ -54,20 +66,40 @@ class CoursesFetcher:
         courses_raw = api_response.get('courses', [])
         logger.info(f"Fetched {len(courses_raw)} courses from API")
 
+        # Log coordinate cache stats
+        coord_stats = get_coordinates_stats()
+        logger.info(f"Coordinate cache: {coord_stats['total_courses']} courses "
+                   f"(GB: {coord_stats['gb_courses']}, IRE: {coord_stats['ire_courses']})")
+
         # Transform data for database
         courses_transformed = []
+        coords_assigned = 0
+        coords_missing = 0
+
         for course in courses_raw:
             course_record = {
                 'id': course.get('id'),  # API: 'id' → DB: 'id'
                 'name': course.get('course'),  # API: 'course' → DB: 'name'
                 'region_code': course.get('region_code'),  # API: 'region_code' → DB: 'region_code'
                 'region': course.get('region'),  # API: 'region' → DB: 'region' (e.g., "Great Britain")
-                'latitude': None,  # Not provided by /courses endpoint
-                'longitude': None,  # Not provided by /courses endpoint
+                'latitude': None,  # Will be assigned from validated file
+                'longitude': None,  # Will be assigned from validated file
                 'created_at': datetime.utcnow().isoformat(),
                 'updated_at': datetime.utcnow().isoformat()
             }
+
+            # Assign coordinates from validated file
+            course_record = assign_coordinates_to_course(course_record)
+
+            # Track coordinate assignment
+            if course_record.get('latitude') is not None:
+                coords_assigned += 1
+            else:
+                coords_missing += 1
+
             courses_transformed.append(course_record)
+
+        logger.info(f"Coordinates: {coords_assigned} assigned, {coords_missing} missing")
 
         # Store in database
         if courses_transformed:
@@ -78,6 +110,8 @@ class CoursesFetcher:
                 'success': True,
                 'fetched': len(courses_raw),
                 'inserted': db_stats.get('inserted', 0),
+                'coordinates_assigned': coords_assigned,
+                'coordinates_missing': coords_missing,
                 'api_stats': self.api_client.get_stats(),
                 'db_stats': db_stats
             }
