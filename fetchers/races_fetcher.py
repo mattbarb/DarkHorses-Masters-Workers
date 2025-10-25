@@ -120,21 +120,29 @@ class RacesFetcher:
         logger.info(f"Days fetched: {days_fetched}, Days with data: {days_with_data}")
 
         # Store in database
+        # IMPORTANT: Entities (horses, jockeys, etc.) MUST be inserted BEFORE runners
+        # because ra_runners has foreign keys to these tables
         results = {}
+
+        # Step 1: Extract and store entities FIRST (horses, jockeys, trainers, owners)
+        if all_runners:
+            logger.info("Extracting entities from runner data...")
+            entity_stats = self.entity_extractor.extract_and_store_from_runners(all_runners)
+            results['entities'] = entity_stats
+
+        # Step 2: Insert races
         if all_races:
             race_stats = self.db_client.insert_races(all_races)
             results['races'] = race_stats
             logger.info(f"Races inserted: {race_stats}")
 
+        # Step 3: Validate pedigree IDs and insert runners (NOW that horses/jockeys/trainers exist)
         if all_runners:
+            # Validate pedigree IDs to prevent foreign key violations
+            all_runners = self._validate_pedigree_ids(all_runners)
             runner_stats = self.db_client.insert_runners(all_runners)
             results['runners'] = runner_stats
             logger.info(f"Runners inserted: {runner_stats}")
-
-            # Extract and store entities (jockeys, trainers, owners, horses) from runners
-            logger.info("Extracting entities from runner data...")
-            entity_stats = self.entity_extractor.extract_and_store_from_runners(all_runners)
-            results['entities'] = entity_stats
 
         return {
             'success': True,
@@ -168,40 +176,40 @@ class RacesFetcher:
 
         # Helper function to convert distance strings to meters
         def parse_distance_meters(dist_str):
-            """Convert distance string like '1m', '6f', '2m4f' to meters (approximate)"""
+            """Convert distance string like '1m', '6f', '2m4f', '7.5f' to meters (approximate)"""
             if not dist_str or not isinstance(dist_str, str):
                 return None
             try:
-                # Try direct integer conversion first
-                return int(dist_str)
+                # Try direct numeric conversion first (handles integers and floats)
+                return int(float(dist_str))
             except (ValueError, TypeError):
-                # Parse string like "1m", "6f", "2m4f", etc.
+                # Parse string like "1m", "6f", "2m4f", "7.5f" etc.
                 # Note: This is approximate. 1 furlong ≈ 201 meters, 1 mile ≈ 1609 meters
                 dist_str = dist_str.lower().strip()
-                meters = 0
+                meters = 0.0
 
-                # Extract miles
+                # Extract miles (handles decimals like "1.5m")
                 if 'm' in dist_str:
                     parts = dist_str.split('m')
                     if parts[0]:
                         try:
-                            miles = int(parts[0])
+                            miles = float(parts[0])
                             meters += miles * 1609  # 1 mile ≈ 1609 meters
                             dist_str = parts[1] if len(parts) > 1 else ''
                         except ValueError:
                             pass
 
-                # Extract furlongs
+                # Extract furlongs (handles decimals like "7.5f")
                 if 'f' in dist_str:
                     parts = dist_str.split('f')
                     if parts[0]:
                         try:
-                            furlongs = int(parts[0])
+                            furlongs = float(parts[0])
                             meters += furlongs * 201  # 1 furlong ≈ 201 meters
                         except ValueError:
                             pass
 
-                return meters if meters > 0 else None
+                return int(meters) if meters > 0 else None
 
         # Helper function to parse prize money
         def parse_prize_money(prize_str):
@@ -233,7 +241,8 @@ class RacesFetcher:
             'race_class': racecard.get('race_class'),
             'distance': racecard.get('distance_f'),  # Numeric furlong value
             'distance_f': racecard.get('distance'),  # String like "1m"
-            'distance_m': racecard.get('dist_m'),  # RENAMED: distance_meters → distance_m
+            # FIXED: Calculate distance_m from distance_f if API doesn't provide dist_m
+            'distance_m': racecard.get('dist_m') or parse_distance_meters(racecard.get('distance')),
             'distance_round': racecard.get('distance_round'),  # Rounded distance
             'age_band': racecard.get('age_band'),
             'surface': racecard.get('surface'),
@@ -242,7 +251,7 @@ class RacesFetcher:
             'weather': racecard.get('weather'),
             'rail_movements': racecard.get('rail_movements'),
             'pattern': racecard.get('pattern'),  # Pattern race designation (Group 1/2/3)
-            'sex_restriction': racecard.get('sex_rest'),  # Sex restrictions (colts/fillies)
+            'sex_restriction': racecard.get('sex_restriction'),  # FIXED: API uses 'sex_restriction' not 'sex_rest'
             'rating_band': racecard.get('rating_band'),  # Rating band (e.g., "0-60")
             'stalls': racecard.get('stalls'),  # Stall information
             'jumps': racecard.get('jumps'),  # Number of jumps (NH racing)
@@ -289,23 +298,32 @@ class RacesFetcher:
             runner_record = {
                 # DO NOT SET 'id' - it's auto-increment bigint primary key
                 'race_id': race_id,
-                'horse_id': runner.get('horse_id'),
+                'horse_id': runner.get('horse_id') or None,  # Convert empty string to None
                 'horse_name': runner.get('horse'),
-                'jockey_id': runner.get('jockey_id'),
+                'jockey_id': runner.get('jockey_id') or None,  # Convert empty string to None
                 'jockey_name': runner.get('jockey'),
-                'trainer_id': runner.get('trainer_id'),
+                'trainer_id': runner.get('trainer_id') or None,  # Convert empty string to None
                 'trainer_name': runner.get('trainer'),
-                'owner_id': runner.get('owner_id'),
+                'trainer_location': runner.get('trainer_location'),  # For entity extraction
+                'owner_id': runner.get('owner_id') or None,  # Convert empty string to None
                 'owner_name': runner.get('owner'),
                 # Number and draw fields (schema: character varying, not integer)
                 'number': str(runner.get('number')) if runner.get('number') is not None else None,
                 'draw': str(runner.get('draw')) if runner.get('draw') is not None else None,
-                # Pedigree fields
-                'sire_id': runner.get('sire_id'),
-                'dam_id': runner.get('dam_id'),
-                'damsire_id': runner.get('damsire_id'),
+                # Pedigree fields - set to None if not in reference tables
+                # NOTE: These reference ra_mst_sires/dams/damsires which may not exist yet
+                # Setting to None if empty to avoid FK errors
+                'sire_id': runner.get('sire_id') or None,
+                'sire_name': runner.get('sire'),  # For entity extraction
+                'sire_region': runner.get('sire_region'),  # For region-aware matching
+                'dam_id': runner.get('dam_id') or None,
+                'dam_name': runner.get('dam'),  # For entity extraction
+                'dam_region': runner.get('dam_region'),  # For region-aware matching
+                'damsire_id': runner.get('damsire_id') or None,
+                'damsire_name': runner.get('damsire'),  # For entity extraction
+                'damsire_region': runner.get('damsire_region'),  # For region-aware matching
                 # Weight fields
-                'weight_lbs': parse_int_field(runner.get('weight_lbs')),  # integer in schema
+                'weight_lbs': parse_int_field(runner.get('lbs')),  # FIXED: API uses 'lbs' not 'weight_lbs'
                 'weight_st_lbs': parse_text_field(runner.get('weight')),  # character varying
                 # Horse metadata - CORRECT field names (age, sex, sex_code, colour, dob)
                 'age': parse_int_field(runner.get('age')),
@@ -349,6 +367,73 @@ class RacesFetcher:
             runner_records.append(runner_record)
 
         return race_record, runner_records
+
+    def _validate_pedigree_ids(self, runner_records: List[Dict]) -> List[Dict]:
+        """
+        Validate pedigree IDs exist in database, set to NULL if not found.
+        This prevents foreign key constraint violations.
+
+        Args:
+            runner_records: List of runner records with pedigree IDs
+
+        Returns:
+            List of runner records with validated pedigree IDs
+        """
+        if not runner_records:
+            return runner_records
+
+        # Get all unique pedigree IDs from runners
+        sire_ids = {r.get('sire_id') for r in runner_records if r.get('sire_id')}
+        dam_ids = {r.get('dam_id') for r in runner_records if r.get('dam_id')}
+        damsire_ids = {r.get('damsire_id') for r in runner_records if r.get('damsire_id')}
+
+        # Query database for existing IDs
+        existing_sires = set()
+        existing_dams = set()
+        existing_damsires = set()
+
+        try:
+            if sire_ids:
+                result = self.db_client.client.table('ra_mst_sires').select('id').in_('id', list(sire_ids)).execute()
+                existing_sires = {row['id'] for row in result.data}
+
+            if dam_ids:
+                result = self.db_client.client.table('ra_mst_dams').select('id').in_('id', list(dam_ids)).execute()
+                existing_dams = {row['id'] for row in result.data}
+
+            if damsire_ids:
+                result = self.db_client.client.table('ra_mst_damsires').select('id').in_('id', list(damsire_ids)).execute()
+                existing_damsires = {row['id'] for row in result.data}
+
+        except Exception as e:
+            logger.warning(f"Error validating pedigree IDs: {e}")
+            # If validation fails, set all to NULL to be safe
+            for record in runner_records:
+                record['sire_id'] = None
+                record['dam_id'] = None
+                record['damsire_id'] = None
+            return runner_records
+
+        # Update records - set to NULL if ID doesn't exist
+        nullified_count = {'sires': 0, 'dams': 0, 'damsires': 0}
+
+        for record in runner_records:
+            if record.get('sire_id') and record['sire_id'] not in existing_sires:
+                record['sire_id'] = None
+                nullified_count['sires'] += 1
+
+            if record.get('dam_id') and record['dam_id'] not in existing_dams:
+                record['dam_id'] = None
+                nullified_count['dams'] += 1
+
+            if record.get('damsire_id') and record['damsire_id'] not in existing_damsires:
+                record['damsire_id'] = None
+                nullified_count['damsires'] += 1
+
+        if sum(nullified_count.values()) > 0:
+            logger.info(f"Nullified pedigree IDs for missing references: {nullified_count}")
+
+        return runner_records
 
 
 def main():

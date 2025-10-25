@@ -104,7 +104,7 @@ def run_daily_fetch():
 
 
 def run_weekly_fetch():
-    """Run weekly fetch: people and horses"""
+    """Run weekly fetch: horses (jockeys/trainers/owners auto-extracted from daily races)"""
     logger.info("=" * 80)
     logger.info(f"WEEKLY FETCH TRIGGERED - {datetime.utcnow().isoformat()}")
     logger.info("=" * 80)
@@ -112,7 +112,7 @@ def run_weekly_fetch():
     try:
         orchestrator = ReferenceDataOrchestrator()
         results = orchestrator.run_fetch(
-            entities=['jockeys', 'trainers', 'owners', 'horses']
+            entities=['horses']  # jockeys, trainers, owners are auto-extracted during daily race fetching
         )
 
         success = all(r.get('success', False) for r in results.values())
@@ -217,7 +217,7 @@ def main():
 
     # Weekly: Sunday 2:00 AM UTC
     schedule.every().sunday.at("02:00").do(run_weekly_fetch)
-    logger.info("  ✓ Weekly fetch: Sunday 02:00 UTC (jockeys, trainers, owners, horses + statistics update)")
+    logger.info("  ✓ Weekly fetch: Sunday 02:00 UTC (horses only - jockeys/trainers/owners auto-extracted daily)")
 
     # Monthly: 1st day at 3:00 AM UTC (approximated with weekly check)
     schedule.every().monday.at("03:00").do(

@@ -15,14 +15,19 @@ from typing import Dict, List, Optional
 
 from config.config import get_config
 from utils.logger import get_logger
+
+# New consolidated fetchers
+from fetchers.masters_fetcher import MastersFetcher
+from fetchers.events_fetcher import EventsFetcher
+
+# Legacy fetchers (deprecated - kept for backward compatibility)
 from fetchers.courses_fetcher import CoursesFetcher
 from fetchers.bookmakers_fetcher import BookmakersFetcher
-from fetchers.jockeys_fetcher import JockeysFetcher
-from fetchers.trainers_fetcher import TrainersFetcher
-from fetchers.owners_fetcher import OwnersFetcher
+# Note: jockeys, trainers, owners are now extracted automatically via EntityExtractor during race/result fetching
 from fetchers.horses_fetcher import HorsesFetcher
 from fetchers.races_fetcher import RacesFetcher
 from fetchers.results_fetcher import ResultsFetcher
+from fetchers.statistics_fetcher import StatisticsFetcher
 
 logger = get_logger('main')
 
@@ -32,6 +37,20 @@ class ReferenceDataOrchestrator:
 
     # Default production configurations for each entity
     PRODUCTION_CONFIGS = {
+        # NEW: Consolidated fetchers
+        'masters': {
+            'entity_type': 'reference',  # or 'people', 'all'
+            'region_codes': ['gb', 'ire'],
+            'description': 'All master/reference data (bookmakers, courses, regions)'
+        },
+        'events': {
+            'event_type': 'racecards',  # or 'results', 'both'
+            'days_back': 1,
+            'region_codes': ['gb', 'ire'],
+            'description': 'Event data (races, runners)'
+        },
+
+        # LEGACY: Individual fetchers (deprecated)
         'courses': {
             'region_codes': ['gb', 'ire'],  # UK & Ireland courses only
             'description': 'UK and Ireland racing courses'
@@ -39,21 +58,7 @@ class ReferenceDataOrchestrator:
         'bookmakers': {
             'description': 'Static UK/Ireland bookmakers list'
         },
-        'jockeys': {
-            'limit_per_page': 500,
-            'filter_uk_ireland': True,
-            'description': 'All jockeys (filtered post-fetch for UK/Ireland)'
-        },
-        'trainers': {
-            'limit_per_page': 500,
-            'filter_uk_ireland': True,
-            'description': 'UK and Ireland trainers'
-        },
-        'owners': {
-            'limit_per_page': 500,
-            'filter_uk_ireland': True,
-            'description': 'All owners (filtered post-fetch for UK/Ireland)'
-        },
+        # Note: jockeys, trainers, owners automatically extracted during races/results fetching
         'horses': {
             'limit_per_page': 500,
             'filter_uk_ireland': True,
@@ -68,19 +73,28 @@ class ReferenceDataOrchestrator:
             'days_back': 365,
             'region_codes': ['gb', 'ire'],
             'description': 'Last 12 months UK/Ireland race results'
+        },
+        'statistics': {
+            'recent_only': True,
+            'entities': ['jockeys', 'trainers', 'owners'],
+            'description': 'Daily statistics update (incremental)'
         }
     }
 
     # Fetcher registry
     FETCHERS = {
+        # NEW: Consolidated fetchers
+        'masters': MastersFetcher,
+        'events': EventsFetcher,
+
+        # LEGACY: Individual fetchers (deprecated)
         'courses': CoursesFetcher,
         'bookmakers': BookmakersFetcher,
-        'jockeys': JockeysFetcher,
-        'trainers': TrainersFetcher,
-        'owners': OwnersFetcher,
+        # jockeys, trainers, owners removed - now extracted automatically via EntityExtractor
         'horses': HorsesFetcher,
         'races': RacesFetcher,
-        'results': ResultsFetcher
+        'results': ResultsFetcher,
+        'statistics': StatisticsFetcher
     }
 
     def __init__(self):
@@ -267,7 +281,7 @@ Examples:
     parser.add_argument(
         '--weekly',
         action='store_true',
-        help='Weekly update: jockeys, trainers, owners, horses'
+        help='Weekly update: horses (jockeys/trainers/owners auto-extracted from races)'
     )
 
     parser.add_argument(
@@ -305,7 +319,7 @@ def main():
     elif args.daily:
         entities = ['races', 'results']
     elif args.weekly:
-        entities = ['jockeys', 'trainers', 'owners', 'horses']
+        entities = ['horses']  # jockeys, trainers, owners auto-extracted from daily races
     elif args.monthly:
         entities = ['courses', 'bookmakers']
     elif args.entities:
@@ -319,9 +333,6 @@ def main():
         logger.warning("TEST MODE: Limiting data fetch for testing")
         custom_configs = {
             'horses': {'max_pages': 5},
-            'owners': {'max_pages': 5},
-            'jockeys': {'max_pages': 5},
-            'trainers': {'max_pages': 5},
             'races': {'days_back': 7},
             'results': {'days_back': 30}
         }

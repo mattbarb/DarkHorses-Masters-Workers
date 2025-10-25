@@ -27,6 +27,8 @@ def parse_position(position_value) -> Optional[int]:
         "U" -> None (unseated)
         "PU" -> None (pulled up)
         "BD" -> None (brought down)
+        "Died as a 5" -> 5 (extract position at death)
+        "DIED" -> None (died, no position given)
         None -> None
     """
     if position_value is None or position_value == '':
@@ -45,12 +47,27 @@ def parse_position(position_value) -> Optional[int]:
         'CO',   # Carried out
         'SU',   # Slipped up
         'UR',   # Unseated rider
+        'DIED', # Died during race
     ]
 
     position_str = str(position_value).upper().strip()
 
+    # Check for exact match of special codes
     if position_str in special_codes:
         return None
+
+    # Check for special codes at start of string (e.g., "DIED AS A 5")
+    for code in special_codes:
+        if position_str.startswith(code):
+            # For death cases like "Died as a 5", extract the number
+            # but only if it contains "AS" indicating position at death
+            if code == 'DIED' and ' AS ' in position_str:
+                # Extract number after "AS" (e.g., "Died as a 5" -> 5)
+                match = re.search(r'AS\s+(?:A\s+)?(\d+)', position_str)
+                if match:
+                    return int(match.group(1))
+            # For other special codes, return None (non-finisher)
+            return None
 
     # Try to extract numeric value
     # Handles: "1", "1st", "2nd", "3rd", "4th", etc.
@@ -342,7 +359,8 @@ def parse_decimal_field(value) -> Optional[float]:
     """
     Safely parse decimal/float field from API, handling empty strings and invalid values.
 
-    Use this for fields like sp_dec, ovr_btn, etc.
+    Use this for fields like sp_dec, ovr_btn, btn (beaten distance), margin, etc.
+    Handles special Racing API formats like "1L" (1 length), "0.5L", "-" (no value).
 
     Args:
         value: Value from API (can be str, float, or None)
@@ -353,6 +371,10 @@ def parse_decimal_field(value) -> Optional[float]:
     Examples:
         "4.50" -> 4.50
         4.50 -> 4.50
+        "1L" -> 1.0 (lengths notation)
+        "0.5L" -> 0.5
+        "14L" -> 14.0
+        "-" -> None (missing value placeholder)
         "" -> None (empty string)
         None -> None
         "abc" -> None (invalid)
@@ -361,8 +383,14 @@ def parse_decimal_field(value) -> Optional[float]:
         return None
 
     value_str = str(value).strip()
-    if not value_str:
+    if not value_str or value_str == '-':  # "-" is used as placeholder for missing values
         return None
+
+    # Handle "L" suffix (lengths notation, e.g., "1L", "0.5L")
+    if value_str.endswith('L'):
+        value_str = value_str[:-1].strip()
+        if not value_str:
+            return None
 
     try:
         return float(value_str)

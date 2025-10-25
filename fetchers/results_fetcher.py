@@ -127,8 +127,9 @@ class ResultsFetcher:
         # Store in database
         results_dict = {}
         if all_results:
-            # Insert race data into ra_races table AND ra_results table
-            logger.info(f"Inserting {len(all_results)} races into ra_races and ra_results...")
+            # Insert race data into ra_races table
+            # Note: Runner results go in ra_race_results (denormalized), full runner data goes in ra_runners
+            logger.info(f"Inserting {len(all_results)} races into ra_races...")
             races_to_insert = []
             results_to_insert = []
             all_runners = []
@@ -193,66 +194,80 @@ class ResultsFetcher:
                 if race_record['id']:
                     races_to_insert.append(race_record)
 
-                # Prepare result record for ra_results table (NEW)
-                # Note: ra_results table uses 'race_id' as column name per Migration 017
-                result_record = {
-                    'race_id': race_data.get('race_id'),  # Primary key in ra_results table
-                    'course_id': race_data.get('course_id'),
-                    'course_name': race_data.get('course'),
-                    'race_name': race_data.get('race_name'),
-                    'race_date': race_data.get('date'),
-                    'off_time': race_data.get('off'),
-                    'off_datetime': race_data.get('off_dt'),
-                    'region': race_data.get('region'),
-                    # Race classification
-                    'type': race_data.get('type'),
-                    'class': race_data.get('class'),
-                    'pattern': race_data.get('pattern'),
-                    'rating_band': race_data.get('rating_band'),
-                    'age_band': race_data.get('age_band'),
-                    'sex_rest': race_data.get('sex_rest'),
-                    # Distance
-                    'dist': race_data.get('dist'),
-                    'dist_y': race_data.get('dist_y'),
-                    'dist_m': race_data.get('dist_m'),
-                    'dist_f': race_data.get('dist_f'),
-                    # Going and surface
-                    'going': race_data.get('going'),
-                    'surface': race_data.get('surface'),
-                    'jumps': race_data.get('jumps'),
-                    # Result-specific data
-                    'winning_time_detail': race_data.get('winning_time_detail'),
-                    'comments': race_data.get('comments'),
-                    'non_runners': race_data.get('non_runners'),
-                    # Tote pools
-                    'tote_win': race_data.get('tote_win'),
-                    'tote_pl': race_data.get('tote_pl'),
-                    'tote_ex': race_data.get('tote_ex'),
-                    'tote_csf': race_data.get('tote_csf'),
-                    'tote_tricast': race_data.get('tote_tricast'),
-                    'tote_trifecta': race_data.get('tote_trifecta')
-                }
-                if result_record.get('race_id'):
-                    results_to_insert.append(result_record)
-
-                # Collect runners for entity extraction
+                # Prepare runner result records for ra_race_results table
+                # This table stores individual runner results with race context
                 runners = race_data.get('runners', [])
                 for runner in runners:
-                    # Transform runner data to match expected format
-                    runner_data = {
+                    position_data = extract_position_data(runner)
+
+                    # Build runner result record matching ra_race_results schema
+                    runner_result = {
+                        'race_id': race_data.get('race_id'),
+                        'race_date': race_data.get('date'),
+                        # Runner identification
                         'horse_id': runner.get('horse_id'),
                         'horse_name': runner.get('horse'),
-                        'sex': runner.get('sex'),
                         'jockey_id': runner.get('jockey_id'),
                         'jockey_name': runner.get('jockey'),
                         'trainer_id': runner.get('trainer_id'),
                         'trainer_name': runner.get('trainer'),
                         'owner_id': runner.get('owner_id'),
-                        'owner_name': runner.get('owner')
+                        'owner_name': runner.get('owner'),
+                        # Runner details
+                        'number': str(runner.get('number')) if runner.get('number') is not None else None,
+                        'draw': str(runner.get('draw')) if runner.get('draw') is not None else None,
+                        'age': parse_int_field(runner.get('age')),
+                        'sex': runner.get('sex'),
+                        'weight_lbs': parse_int_field(runner.get('weight_lbs')),
+                        'weight_st_lbs': parse_text_field(runner.get('weight')),
+                        'headgear': runner.get('headgear'),
+                        'official_rating': parse_rating(runner.get('or')),
+                        'rpr': parse_rating(runner.get('rpr')),
+                        'tsr': parse_rating(runner.get('tsr')),
+                        # Pedigree (with names and regions for entity extraction)
+                        'sire_id': runner.get('sire_id'),
+                        'sire_name': runner.get('sire'),
+                        'sire_region': runner.get('sire_region'),
+                        'dam_id': runner.get('dam_id'),
+                        'dam_name': runner.get('dam'),
+                        'dam_region': runner.get('dam_region'),
+                        'damsire_id': runner.get('damsire_id'),
+                        'damsire_name': runner.get('damsire'),
+                        'damsire_region': runner.get('damsire_region'),
+                        # Result data (from position_data parser)
+                        'position': position_data.get('position'),
+                        'position_str': str(position_data.get('position')) if position_data.get('position') else None,
+                        'btn': parse_decimal_field(position_data.get('distance_beaten')),  # "beaten" distance
+                        'ovr_btn': parse_decimal_field(runner.get('ovr_btn')),  # overall beaten distance
+                        'margin': parse_decimal_field(runner.get('margin')),  # margin can be "1L", "0.5L", etc.
+                        'prize_won': position_data.get('prize_won'),
+                        'sp': position_data.get('starting_price'),  # fractional
+                        'sp_decimal': position_data.get('starting_price_decimal'),  # decimal
+                        'time_seconds': parse_decimal_field(runner.get('time')),
+                        'time_display': runner.get('time'),
+                        'comment': parse_text_field(runner.get('comment')),
+                        'jockey_claim_lbs': parse_int_field(runner.get('jockey_claim')),
+                        'silk_url': runner.get('silk_url')
                     }
-                    # Only add if we have minimum required data
-                    if runner_data.get('horse_id') and runner_data.get('horse_name'):
-                        all_runners.append(runner_data)
+
+                    # Only add if we have required fields
+                    if runner_result.get('race_id') and runner_result.get('horse_id'):
+                        results_to_insert.append(runner_result)
+
+                        # Also collect for entity extraction
+                        runner_data = {
+                            'horse_id': runner.get('horse_id'),
+                            'horse_name': runner.get('horse'),
+                            'sex': runner.get('sex'),
+                            'jockey_id': runner.get('jockey_id'),
+                            'jockey_name': runner.get('jockey'),
+                            'trainer_id': runner.get('trainer_id'),
+                            'trainer_name': runner.get('trainer'),
+                            'owner_id': runner.get('owner_id'),
+                            'owner_name': runner.get('owner')
+                        }
+                        if runner_data.get('horse_id') and runner_data.get('horse_name'):
+                            all_runners.append(runner_data)
 
             # Insert races into ra_races table
             if races_to_insert:
@@ -264,20 +279,22 @@ class ResultsFetcher:
             else:
                 logger.warning(f"No races to insert! all_results count: {len(all_results)}")
 
-            # Insert results into ra_results table (NEW)
+            # Insert runner results into ra_race_results table
+            # This table stores individual runner results (flattened/denormalized view)
+            # It combines runner finishing data with race context for easier querying
             if results_to_insert:
-                logger.info(f"Inserting {len(results_to_insert)} results into ra_results...")
-                result_stats = self.db_client.insert_results(results_to_insert)
-                results_dict['results'] = result_stats
-                logger.info(f"Results inserted: {result_stats}")
-            else:
-                logger.warning(f"No results to insert!")
+                logger.info(f"Inserting {len(results_to_insert)} runner results into ra_race_results...")
+                result_stats = self.db_client.insert_race_results(results_to_insert)
+                results_dict['race_results'] = result_stats
+                logger.info(f"Runner results inserted: {result_stats}")
 
             # Insert runner records with position data into ra_runners
             if all_runners:
                 logger.info(f"Inserting {len(all_runners)} runner records with position data...")
                 runner_records = self._prepare_runner_records(all_results)
                 if runner_records:
+                    # Validate pedigree IDs to prevent foreign key violations
+                    runner_records = self._validate_pedigree_ids(runner_records)
                     runner_stats = self.db_client.insert_runners(runner_records)
                     results_dict['runners'] = runner_stats
                     logger.info(f"Runners inserted: {runner_stats}")
@@ -353,7 +370,77 @@ class ResultsFetcher:
             # You might want to store runner results separately
             # in a ra_runner_results table - that's optional
 
+        # IMPORTANT: Store raw API data so _prepare_runner_records() can access runners
+        result_record['api_data'] = result
+
         return result_record
+
+    def _validate_pedigree_ids(self, runner_records: List[Dict]) -> List[Dict]:
+        """
+        Validate pedigree IDs exist in database, set to NULL if not found.
+        This prevents foreign key constraint violations.
+
+        Args:
+            runner_records: List of runner records with pedigree IDs
+
+        Returns:
+            List of runner records with validated pedigree IDs
+        """
+        if not runner_records:
+            return runner_records
+
+        # Get all unique pedigree IDs from runners
+        sire_ids = {r.get('sire_id') for r in runner_records if r.get('sire_id')}
+        dam_ids = {r.get('dam_id') for r in runner_records if r.get('dam_id')}
+        damsire_ids = {r.get('damsire_id') for r in runner_records if r.get('damsire_id')}
+
+        # Query database for existing IDs
+        existing_sires = set()
+        existing_dams = set()
+        existing_damsires = set()
+
+        try:
+            if sire_ids:
+                result = self.db_client.client.table('ra_mst_sires').select('id').in_('id', list(sire_ids)).execute()
+                existing_sires = {row['id'] for row in result.data}
+
+            if dam_ids:
+                result = self.db_client.client.table('ra_mst_dams').select('id').in_('id', list(dam_ids)).execute()
+                existing_dams = {row['id'] for row in result.data}
+
+            if damsire_ids:
+                result = self.db_client.client.table('ra_mst_damsires').select('id').in_('id', list(damsire_ids)).execute()
+                existing_damsires = {row['id'] for row in result.data}
+
+        except Exception as e:
+            logger.warning(f"Error validating pedigree IDs: {e}")
+            # If validation fails, set all to NULL to be safe
+            for record in runner_records:
+                record['sire_id'] = None
+                record['dam_id'] = None
+                record['damsire_id'] = None
+            return runner_records
+
+        # Update records - set to NULL if ID doesn't exist
+        nullified_count = {'sires': 0, 'dams': 0, 'damsires': 0}
+
+        for record in runner_records:
+            if record.get('sire_id') and record['sire_id'] not in existing_sires:
+                record['sire_id'] = None
+                nullified_count['sires'] += 1
+
+            if record.get('dam_id') and record['dam_id'] not in existing_dams:
+                record['dam_id'] = None
+                nullified_count['dams'] += 1
+
+            if record.get('damsire_id') and record['damsire_id'] not in existing_damsires:
+                record['damsire_id'] = None
+                nullified_count['damsires'] += 1
+
+        if sum(nullified_count.values()) > 0:
+            logger.info(f"Nullified pedigree IDs for missing references: {nullified_count}")
+
+        return runner_records
 
     def _prepare_runner_records(self, results: List[Dict]) -> List[Dict]:
         """
@@ -443,9 +530,15 @@ class ResultsFetcher:
                     'is_scratched': runner.get('is_scratched', False),
                     # Silk URL
                     'silk_url': runner.get('silk_url'),
+                    # Position and result data (extracted above) - from Migration 005
+                    'position': position_data.get('position'),
+                    'distance_beaten': position_data.get('distance_beaten'),
+                    'prize_won': position_data.get('prize_won'),
+                    'starting_price': position_data.get('starting_price'),
                     # Timestamps
                     'created_at': datetime.utcnow().isoformat(),
-                    'updated_at': datetime.utcnow().isoformat()
+                    'updated_at': datetime.utcnow().isoformat(),
+                    'result_updated_at': datetime.utcnow().isoformat() if position_data.get('position') else None
                 }
 
                 runner_records.append(runner_record)
