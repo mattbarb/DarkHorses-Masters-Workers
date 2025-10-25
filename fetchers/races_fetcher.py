@@ -315,13 +315,13 @@ class RacesFetcher:
                 # Setting to None if empty to avoid FK errors
                 'sire_id': runner.get('sire_id') or None,
                 'sire_name': runner.get('sire'),  # For entity extraction
-                'sire_region': runner.get('sire_region'),  # For region-aware matching
+                # 'sire_region': runner.get('sire_region'),  # Column doesn't exist in schema
                 'dam_id': runner.get('dam_id') or None,
                 'dam_name': runner.get('dam'),  # For entity extraction
                 # 'dam_region': runner.get('dam_region'),  # Column doesn't exist in schema
                 'damsire_id': runner.get('damsire_id') or None,
                 'damsire_name': runner.get('damsire'),  # For entity extraction
-                'damsire_region': runner.get('damsire_region'),  # For region-aware matching
+                # 'damsire_region': runner.get('damsire_region'),  # Column doesn't exist in schema
                 # Weight fields
                 'weight_lbs': parse_int_field(runner.get('lbs')),  # FIXED: API uses 'lbs' not 'weight_lbs'
                 'weight_st_lbs': parse_text_field(runner.get('weight')),  # character varying

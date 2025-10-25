@@ -224,16 +224,16 @@ class ResultsFetcher:
                         'official_rating': parse_rating(runner.get('or')),
                         'rpr': parse_rating(runner.get('rpr')),
                         'tsr': parse_rating(runner.get('tsr')),
-                        # Pedigree (with names and regions for entity extraction)
+                        # Pedigree (with names for entity extraction)
                         'sire_id': runner.get('sire_id'),
                         'sire_name': runner.get('sire'),
-                        'sire_region': runner.get('sire_region'),
+                        # 'sire_region': runner.get('sire_region'),  # Column doesn't exist in schema
                         'dam_id': runner.get('dam_id'),
                         'dam_name': runner.get('dam'),
                         # 'dam_region': runner.get('dam_region'),  # Column doesn't exist in schema
                         'damsire_id': runner.get('damsire_id'),
                         'damsire_name': runner.get('damsire'),
-                        'damsire_region': runner.get('damsire_region'),
+                        # 'damsire_region': runner.get('damsire_region'),  # Column doesn't exist in schema
                         # Result data (from position_data parser)
                         'position': position_data.get('position'),
                         'position_str': str(position_data.get('position')) if position_data.get('position') else None,
