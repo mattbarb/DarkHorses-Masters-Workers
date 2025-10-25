@@ -16,11 +16,11 @@ from typing import Dict, List, Optional
 from config.config import get_config
 from utils.logger import get_logger
 
-# New consolidated fetchers
-from fetchers.masters_fetcher import MastersFetcher
-from fetchers.events_fetcher import EventsFetcher
+# New consolidated fetchers (not yet in production - kept for future use)
+# from fetchers.masters_fetcher import MastersFetcher
+# from fetchers.events_fetcher import EventsFetcher
 
-# Legacy fetchers (deprecated - kept for backward compatibility)
+# Legacy fetchers (currently in production)
 from fetchers.courses_fetcher import CoursesFetcher
 from fetchers.bookmakers_fetcher import BookmakersFetcher
 # Note: jockeys, trainers, owners are now extracted automatically via EntityExtractor during race/result fetching
@@ -83,11 +83,11 @@ class ReferenceDataOrchestrator:
 
     # Fetcher registry
     FETCHERS = {
-        # NEW: Consolidated fetchers
-        'masters': MastersFetcher,
-        'events': EventsFetcher,
+        # NEW: Consolidated fetchers (not yet in production)
+        # 'masters': MastersFetcher,
+        # 'events': EventsFetcher,
 
-        # LEGACY: Individual fetchers (deprecated)
+        # LEGACY: Individual fetchers (currently in production)
         'courses': CoursesFetcher,
         'bookmakers': BookmakersFetcher,
         # jockeys, trainers, owners removed - now extracted automatically via EntityExtractor
