@@ -230,7 +230,7 @@ class ResultsFetcher:
                         'sire_region': runner.get('sire_region'),
                         'dam_id': runner.get('dam_id'),
                         'dam_name': runner.get('dam'),
-                        'dam_region': runner.get('dam_region'),
+                        # 'dam_region': runner.get('dam_region'),  # Column doesn't exist in schema
                         'damsire_id': runner.get('damsire_id'),
                         'damsire_name': runner.get('damsire'),
                         'damsire_region': runner.get('damsire_region'),

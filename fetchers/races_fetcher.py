@@ -318,7 +318,7 @@ class RacesFetcher:
                 'sire_region': runner.get('sire_region'),  # For region-aware matching
                 'dam_id': runner.get('dam_id') or None,
                 'dam_name': runner.get('dam'),  # For entity extraction
-                'dam_region': runner.get('dam_region'),  # For region-aware matching
+                # 'dam_region': runner.get('dam_region'),  # Column doesn't exist in schema
                 'damsire_id': runner.get('damsire_id') or None,
                 'damsire_name': runner.get('damsire'),  # For entity extraction
                 'damsire_region': runner.get('damsire_region'),  # For region-aware matching
