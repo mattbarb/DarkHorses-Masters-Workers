@@ -27,7 +27,7 @@ from fetchers.bookmakers_fetcher import BookmakersFetcher
 from fetchers.horses_fetcher import HorsesFetcher
 from fetchers.races_fetcher import RacesFetcher
 from fetchers.results_fetcher import ResultsFetcher
-from fetchers.statistics_fetcher import StatisticsFetcher
+# from fetchers.statistics_fetcher import StatisticsFetcher  # Not yet committed to repo
 
 logger = get_logger('main')
 
@@ -94,7 +94,7 @@ class ReferenceDataOrchestrator:
         'horses': HorsesFetcher,
         'races': RacesFetcher,
         'results': ResultsFetcher,
-        'statistics': StatisticsFetcher
+        # 'statistics': StatisticsFetcher  # Not yet committed to repo
     }
 
     def __init__(self):
