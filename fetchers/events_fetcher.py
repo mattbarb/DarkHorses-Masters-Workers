@@ -146,7 +146,7 @@ class EventsFetcher:
         This method:
         1. Fetches racecards from Racing API
         2. Stores races in ra_races
-        3. Stores runners in ra_runners
+        3. Stores runners in ra_mst_runners
         4. Extracts entities to ra_mst_* tables (horses, jockeys, trainers, owners)
         5. Extracts pedigree to ra_mst_* tables (sires, dams, damsires)
 
@@ -263,7 +263,7 @@ class EventsFetcher:
 
         This method:
         1. Fetches results from Racing API
-        2. Updates ra_runners with position data (finishing position, time, etc.)
+        2. Updates ra_mst_runners with position data (finishing position, time, etc.)
         3. Extracts any new entities to ra_mst_* tables
 
         Args:

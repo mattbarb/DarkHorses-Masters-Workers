@@ -62,7 +62,7 @@ try:
             print(f"    - {col}: {dtype}")
         print()
 
-    # Analyze ra_runners - this is the main results table
+    # Analyze ra_mst_runners - this is the main results table
     print("RA_RUNNERS STRUCTURE:")
     print("-" * 100)
     print()
@@ -98,7 +98,7 @@ try:
             r.race_date,
             COUNT(*) as races_that_day,
             STRING_AGG(r.off_time || ' (' || COALESCE(run.position::text, 'no result') || ')', ', ' ORDER BY r.off_time) as race_times_and_positions
-        FROM ra_runners run
+        FROM ra_mst_runners run
         JOIN race_dates r ON run.race_id = r.race_id
         WHERE r.race_date IS NOT NULL
         GROUP BY run.horse_id, run.horse_name, r.race_date
@@ -135,7 +135,7 @@ try:
             COUNT(prize_won) as with_prize,
             COUNT(starting_price) as with_sp,
             COUNT(finishing_time) as with_time
-        FROM ra_runners;
+        FROM ra_mst_runners;
     """)
 
     stats = cur.fetchone()
@@ -162,7 +162,7 @@ try:
             MIN(updated_at) as earliest_result_update,
             MAX(updated_at) as latest_result_update,
             COUNT(DISTINCT DATE(updated_at)) as days_with_updates
-        FROM ra_runners
+        FROM ra_mst_runners
         WHERE position IS NOT NULL;
     """)
 
@@ -191,7 +191,7 @@ try:
             MIN(run.created_at) as first_runner_added,
             MAX(run.updated_at) as last_runner_updated
         FROM ra_races r
-        LEFT JOIN ra_runners run ON r.race_id = run.race_id
+        LEFT JOIN ra_mst_runners run ON r.race_id = run.race_id
         WHERE r.race_date >= CURRENT_DATE - INTERVAL '7 days'
         GROUP BY r.race_id, r.race_date, r.off_time
         ORDER BY r.race_date DESC, r.off_time DESC

@@ -118,7 +118,7 @@ For each of distance_1, distance_2, distance_3:
 - `distance_N_ae` - Actual vs Expected index
 
 **Calculation:**
-- Query `ra_race_results` table for all races where sire/dam/damsire appears
+- Query `ra_mst_race_results` table for all races where sire/dam/damsire appears
 - Group by class and distance
 - Calculate win rates and AE indices
 - Identify top 3 classes and distances by performance
@@ -155,7 +155,7 @@ For each of distance_1, distance_2, distance_3:
    - Updates `ra_mst_owners` table
 
 4. **`scripts/statistics_workers/populate_pedigree_statistics.py`**
-   - Queries `ra_race_results` table
+   - Queries `ra_mst_race_results` table
    - Groups by class/distance for each sire/dam/damsire
    - Calculates performance breakdowns
    - Updates `ra_mst_sires`, `ra_mst_dams`, `ra_mst_damsires` tables
@@ -173,7 +173,7 @@ For each of distance_1, distance_2, distance_3:
 - ❌ Database might not have ALL historical races
 
 **Workers:**
-- Same as Option 1, but query `ra_race_results` instead of API
+- Same as Option 1, but query `ra_mst_race_results` instead of API
 
 ---
 
@@ -295,8 +295,8 @@ def calculate_sire_statistics(sire_id: str, db_client) -> dict:
         r.distance_m,
         rr.position,
         rr.sp_decimal
-    FROM ra_race_results rr
-    JOIN ra_races r ON rr.race_id = r.id
+    FROM ra_mst_race_results rr
+    JOIN ra_mst_races r ON rr.race_id = r.id
     WHERE rr.sire_id = %s
     """
 
@@ -342,7 +342,7 @@ def calculate_sire_statistics(sire_id: str, db_client) -> dict:
 
 **Remaining 31 columns:**
 - Statistics analytics tables (ra_entity_combinations, ra_performance_by_distance, ra_performance_by_venue, ra_runner_statistics)
-- These are calculated from `ra_race_results` data
+- These are calculated from `ra_mst_race_results` data
 - Simpler aggregations
 
 ---

@@ -11,7 +11,7 @@ Fully automated end-to-end validation system that:
 6. Provides comprehensive pass/fail status
 
 This agent validates:
-- All transaction tables (ra_races, ra_runners, ra_race_results)
+- All transaction tables (ra_races, ra_mst_runners, ra_mst_race_results)
 - All master tables (ra_mst_*)
 - Enrichment tables (ra_horse_pedigree)
 - EVERY single column in EVERY table
@@ -56,8 +56,8 @@ class ComprehensiveAutonomousValidator:
         self.tables_to_verify = [
             # Transaction tables (highest priority)
             'ra_races',
-            'ra_runners',
-            'ra_race_results',
+            'ra_mst_runners',
+            'ra_mst_race_results',
 
             # Master tables - People
             'ra_mst_jockeys',

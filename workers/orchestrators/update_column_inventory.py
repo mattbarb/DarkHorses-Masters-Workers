@@ -34,28 +34,28 @@ PEDIGREE_COLUMNS = {
     "total_runners": {
         "data_source": "Database Calculation - Pedigree Agent",
         "api_endpoint": "N/A - Calculated from database",
-        "field_path": "COUNT(ra_runners) WHERE horse_id IN (SELECT id FROM ra_mst_horses WHERE sire_id/dam_id/damsire_id = entity.id)",
+        "field_path": "COUNT(ra_mst_runners) WHERE horse_id IN (SELECT id FROM ra_mst_horses WHERE sire_id/dam_id/damsire_id = entity.id)",
         "implementation_notes": "Calculated by pedigree_statistics_agent.py - Total number of race starts by all progeny",
         "script": "scripts/population_workers/pedigree_statistics_agent.py"
     },
     "total_wins": {
         "data_source": "Database Calculation - Pedigree Agent",
         "api_endpoint": "N/A - Calculated from database",
-        "field_path": "COUNT(ra_runners) WHERE position = 1 AND horse_id IN progeny",
+        "field_path": "COUNT(ra_mst_runners) WHERE position = 1 AND horse_id IN progeny",
         "implementation_notes": "Calculated by pedigree_statistics_agent.py - Total wins by all progeny",
         "script": "scripts/population_workers/pedigree_statistics_agent.py"
     },
     "total_places_2nd": {
         "data_source": "Database Calculation - Pedigree Agent",
         "api_endpoint": "N/A - Calculated from database",
-        "field_path": "COUNT(ra_runners) WHERE position = 2 AND horse_id IN progeny",
+        "field_path": "COUNT(ra_mst_runners) WHERE position = 2 AND horse_id IN progeny",
         "implementation_notes": "Calculated by pedigree_statistics_agent.py - Total 2nd place finishes by all progeny",
         "script": "scripts/population_workers/pedigree_statistics_agent.py"
     },
     "total_places_3rd": {
         "data_source": "Database Calculation - Pedigree Agent",
         "api_endpoint": "N/A - Calculated from database",
-        "field_path": "COUNT(ra_runners) WHERE position = 3 AND horse_id IN progeny",
+        "field_path": "COUNT(ra_mst_runners) WHERE position = 3 AND horse_id IN progeny",
         "implementation_notes": "Calculated by pedigree_statistics_agent.py - Total 3rd place finishes by all progeny",
         "script": "scripts/population_workers/pedigree_statistics_agent.py"
     },
@@ -129,14 +129,14 @@ for i in range(1, 4):
     PEDIGREE_COLUMNS[f"class_{i}_runners"] = {
         "data_source": "Database Calculation - Pedigree Agent",
         "api_endpoint": "N/A - Calculated from database",
-        "field_path": f"COUNT(ra_runners) WHERE race.class = class_{i}_name",
+        "field_path": f"COUNT(ra_mst_runners) WHERE race.class = class_{i}_name",
         "implementation_notes": f"Calculated by pedigree_statistics_agent.py - Total runners in class_{i}",
         "script": "scripts/population_workers/pedigree_statistics_agent.py"
     }
     PEDIGREE_COLUMNS[f"class_{i}_wins"] = {
         "data_source": "Database Calculation - Pedigree Agent",
         "api_endpoint": "N/A - Calculated from database",
-        "field_path": f"COUNT(ra_runners) WHERE position = 1 AND race.class = class_{i}_name",
+        "field_path": f"COUNT(ra_mst_runners) WHERE position = 1 AND race.class = class_{i}_name",
         "implementation_notes": f"Calculated by pedigree_statistics_agent.py - Total wins in class_{i}",
         "script": "scripts/population_workers/pedigree_statistics_agent.py"
     }
@@ -167,14 +167,14 @@ for i in range(1, 4):
     PEDIGREE_COLUMNS[f"distance_{i}_runners"] = {
         "data_source": "Database Calculation - Pedigree Agent",
         "api_endpoint": "N/A - Calculated from database",
-        "field_path": f"COUNT(ra_runners) WHERE race.distance_f = distance_{i}_name",
+        "field_path": f"COUNT(ra_mst_runners) WHERE race.distance_f = distance_{i}_name",
         "implementation_notes": f"Calculated by pedigree_statistics_agent.py - Total runners at distance_{i}",
         "script": "scripts/population_workers/pedigree_statistics_agent.py"
     }
     PEDIGREE_COLUMNS[f"distance_{i}_wins"] = {
         "data_source": "Database Calculation - Pedigree Agent",
         "api_endpoint": "N/A - Calculated from database",
-        "field_path": f"COUNT(ra_runners) WHERE position = 1 AND race.distance_f = distance_{i}_name",
+        "field_path": f"COUNT(ra_mst_runners) WHERE position = 1 AND race.distance_f = distance_{i}_name",
         "implementation_notes": f"Calculated by pedigree_statistics_agent.py - Total wins at distance_{i}",
         "script": "scripts/population_workers/pedigree_statistics_agent.py"
     }

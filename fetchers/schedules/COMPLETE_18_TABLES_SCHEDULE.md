@@ -21,8 +21,8 @@
 
 ### Transaction Tables (4)
 11. ✅ `ra_races` - Race metadata and details
-12. ✅ `ra_runners` - Runner entries in races
-13. ✅ `ra_race_results` - Historical race results
+12. ✅ `ra_mst_runners` - Runner entries in races
+13. ✅ `ra_mst_race_results` - Historical race results
 14. ✅ `ra_horse_pedigree` - Complete horse pedigree (enrichment)
 
 ### Statistics/Analytics Tables (4)
@@ -67,13 +67,13 @@
 
 ```bash
 # Cron: Every 4 hours starting at 6:00 AM UK time
-0 6,10,14,18,22 * * * cd /path/to/project && python3 fetchers/master_fetcher_controller.py --mode daily --tables ra_races ra_runners ra_race_results ra_horse_pedigree >> logs/cron_transactions.log 2>&1
+0 6,10,14,18,22 * * * cd /path/to/project && python3 fetchers/master_fetcher_controller.py --mode daily --tables ra_races ra_mst_runners ra_mst_race_results ra_horse_pedigree >> logs/cron_transactions.log 2>&1
 ```
 
 **What syncs:**
 1. `ra_races` - Racecards for upcoming races
-2. `ra_runners` - Runner entries for races
-3. `ra_race_results` - Results as races complete
+2. `ra_mst_runners` - Runner entries for races
+3. `ra_mst_race_results` - Results as races complete
 4. `ra_horse_pedigree` - Pedigree for new horses (enrichment)
 
 **Schedule breakdown:**
@@ -134,8 +134,8 @@
 | **ra_mst_dams** | Automatic | - | entity_extractor | From runners |
 | **ra_mst_damsires** | Automatic | - | entity_extractor | From runners |
 | **ra_races** | Every 4h | 6,10,14,18,22 | races_fetcher | Racecards |
-| **ra_runners** | Every 4h | 6,10,14,18,22 | races_fetcher | Runner entries |
-| **ra_race_results** | Every 4h | 6,10,14,18,22 | results_fetcher | Race results |
+| **ra_mst_runners** | Every 4h | 6,10,14,18,22 | races_fetcher | Runner entries |
+| **ra_mst_race_results** | Every 4h | 6,10,14,18,22 | results_fetcher | Race results |
 | **ra_horse_pedigree** | Every 4h | 6,10,14,18,22 | entity_extractor | Enrichment |
 | **ra_entity_combinations** | Daily | 02:30 | calculated_tables | Statistics |
 | **ra_performance_by_distance** | Daily | 02:30 | calculated_tables | Statistics |
@@ -165,7 +165,7 @@
 
 ```bash
 # 1. Transaction tables (races, runners, results) - Every 4 hours
-0 6,10,14,18,22 * * * cd /path/to/project && python3 fetchers/master_fetcher_controller.py --mode daily --tables ra_races ra_runners ra_race_results ra_horse_pedigree >> logs/cron_transactions.log 2>&1
+0 6,10,14,18,22 * * * cd /path/to/project && python3 fetchers/master_fetcher_controller.py --mode daily --tables ra_races ra_mst_runners ra_mst_race_results ra_horse_pedigree >> logs/cron_transactions.log 2>&1
 
 # 2. Static master tables (courses, bookmakers) - Monthly 1st at 1pm
 0 13 1 * * cd /path/to/project && python3 fetchers/master_fetcher_controller.py --mode daily --tables ra_mst_courses ra_mst_bookmakers ra_mst_regions >> logs/cron_static.log 2>&1
@@ -247,7 +247,7 @@ When new horses are discovered in races, the enrichment happens automatically vi
 - `ra_performance_by_venue`
 - `ra_runner_statistics`
 
-These are NEVER fetched from API - they're calculated daily from `ra_race_results`.
+These are NEVER fetched from API - they're calculated daily from `ra_mst_race_results`.
 
 ### 4. Regions are Static
 **Table rarely changes:**

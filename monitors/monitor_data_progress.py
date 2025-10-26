@@ -68,7 +68,7 @@ def get_year_breakdown(db) -> Dict[int, Dict]:
 
         # Get races count (primary source)
         try:
-            races_result = db.client.table('ra_races') \
+            races_result = db.client.table('ra_mst_races') \
                 .select('*', count='exact') \
                 .gte('race_date', start_date) \
                 .lte('race_date', end_date) \
@@ -81,7 +81,7 @@ def get_year_breakdown(db) -> Dict[int, Dict]:
 
         # Get runners count (shows how many horses/runners we have)
         try:
-            runners_result = db.client.table('ra_runners') \
+            runners_result = db.client.table('ra_mst_runners') \
                 .select('*', count='exact') \
                 .gte('race_date', start_date) \
                 .lte('race_date', end_date) \
@@ -147,7 +147,7 @@ def get_data_quality_indicators(db) -> Dict[str, any]:
 
     # Check races and runners data
     races_count = get_table_count(db, 'ra_races')
-    runners_count = get_table_count(db, 'ra_runners')
+    runners_count = get_table_count(db, 'ra_mst_runners')
 
     quality['races_loaded'] = races_count > 0
     quality['races_runners_ratio'] = runners_count / races_count if races_count > 0 else 0
@@ -223,7 +223,7 @@ class DataProgressMonitor:
             ],
             'Racing Data': [
                 ('ra_races', 'Races'),
-                ('ra_runners', 'Runners'),
+                ('ra_mst_runners', 'Runners'),
             ]
         }
 

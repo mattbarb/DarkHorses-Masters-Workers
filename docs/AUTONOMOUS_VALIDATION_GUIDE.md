@@ -94,14 +94,14 @@ Adding **TEST** markers to fetched data...
 PHASE 2: VERIFYING ALL TABLES AND COLUMNS
 ================================================================================
 
-Verifying ra_races...
-  ✅ ra_races: All 45 columns have **TEST**
+Verifying ra_mst_races...
+  ✅ ra_mst_races: All 45 columns have **TEST**
 
-Verifying ra_runners...
-  ✅ ra_runners: All 57 columns have **TEST**
+Verifying ra_mst_runners...
+  ✅ ra_mst_runners: All 57 columns have **TEST**
 
-Verifying ra_race_results...
-  ⚠️  ra_race_results: No test data found
+Verifying ra_mst_race_results...
+  ⚠️  ra_mst_race_results: No test data found
 
 Verifying ra_mst_jockeys...
   ✅ ra_mst_jockeys: All 12 columns have **TEST**
@@ -125,10 +125,10 @@ Overall coverage: 95.68%
 PHASE 3: CLEANING UP TEST DATA
 ================================================================================
 
-Cleaning ra_runners...
-  ✅ Deleted 67 rows from ra_runners
-Cleaning ra_races...
-  ✅ Deleted 5 rows from ra_races
+Cleaning ra_mst_runners...
+  ✅ Deleted 67 rows from ra_mst_runners
+Cleaning ra_mst_races...
+  ✅ Deleted 5 rows from ra_mst_races
 ...
 
 ✅ Phase 3 complete: 144 rows deleted
@@ -211,9 +211,9 @@ AUTONOMOUS VALIDATION COMPLETE
 
 ### Per-Table Results
 
-✅ **ra_races** - 100.0% (45/45 columns)
-✅ **ra_runners** - 100.0% (57/57 columns)
-❌ **ra_race_results** - No test data found
+✅ **ra_mst_races** - 100.0% (45/45 columns)
+✅ **ra_mst_runners** - 100.0% (57/57 columns)
+❌ **ra_mst_race_results** - No test data found
 ✅ **ra_mst_jockeys** - 100.0% (12/12 columns)
 ⚠️ **ra_mst_horses** - 87.5% (21/24 columns)
 
@@ -242,9 +242,9 @@ AUTONOMOUS VALIDATION COMPLETE
 ### Tables Verified (14 tables)
 
 **Transaction Tables:**
-- `ra_races` - 45 columns
-- `ra_runners` - 57 columns
-- `ra_race_results` - 38 columns
+- `ra_mst_races` - 45 columns
+- `ra_mst_runners` - 57 columns
+- `ra_mst_race_results` - 38 columns
 
 **Master Tables - People:**
 - `ra_mst_jockeys` - 12 columns
@@ -278,7 +278,7 @@ For each table, the agent checks:
 
 **Pass criteria:**
 - Overall coverage > 50%
-- Critical tables (ra_races, ra_runners) have 100%
+- Critical tables (ra_mst_races, ra_mst_runners) have 100%
 - Cleanup successful
 
 ---
@@ -288,10 +288,10 @@ For each table, the agent checks:
 ### ✅ 100% Coverage
 
 ```
-✅ ra_races - 100.0% (45/45 columns)
+✅ ra_mst_races - 100.0% (45/45 columns)
 ```
 
-**Meaning:** ALL columns in ra_races have `**TEST**` markers
+**Meaning:** ALL columns in ra_mst_races have `**TEST**` markers
 **Action:** None - perfect!
 
 ### ⚠️ Partial Coverage
@@ -316,7 +316,7 @@ For each table, the agent checks:
 ### ❌ No Test Data
 
 ```
-❌ ra_race_results - No test data found
+❌ ra_mst_race_results - No test data found
 ```
 
 **Meaning:** Table has no rows with `**TEST**` markers
@@ -449,8 +449,8 @@ Modify the agent to verify specific tables:
 ```python
 # In autonomous_validation_agent.py, modify:
 self.tables_to_verify = [
-    'ra_races',
-    'ra_runners',
+    'ra_mst_races',
+    'ra_mst_runners',
     'your_custom_table',
 ]
 ```

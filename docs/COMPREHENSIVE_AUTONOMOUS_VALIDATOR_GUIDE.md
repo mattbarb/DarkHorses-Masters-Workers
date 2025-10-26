@@ -116,14 +116,14 @@ Marking pedigree enrichment data...
 PHASE 2: VERIFYING ALL TABLES AND CELLS
 ================================================================================
 
-Verifying ra_races...
-  ✅ ra_races: 100.0% (45/45 columns)
+Verifying ra_mst_races...
+  ✅ ra_mst_races: 100.0% (45/45 columns)
 
-Verifying ra_runners...
-  ✅ ra_runners: 100.0% (57/57 columns)
+Verifying ra_mst_runners...
+  ✅ ra_mst_runners: 100.0% (57/57 columns)
 
-Verifying ra_race_results...
-  ⚠️  ra_race_results: No test data found
+Verifying ra_mst_race_results...
+  ⚠️  ra_mst_race_results: No test data found
 
 Verifying ra_mst_jockeys...
   ✅ ra_mst_jockeys: 100.0% (5/5 columns)
@@ -183,10 +183,10 @@ Enrichment field coverage:
 PHASE 4: CLEANING UP TEST DATA
 ================================================================================
 
-Cleaning ra_runners...
-  ✅ Deleted 67 rows from ra_runners
-Cleaning ra_races...
-  ✅ Deleted 5 rows from ra_races
+Cleaning ra_mst_runners...
+  ✅ Deleted 67 rows from ra_mst_runners
+Cleaning ra_mst_races...
+  ✅ Deleted 5 rows from ra_mst_races
 Cleaning ra_horse_pedigree...
   ✅ Deleted 12 rows from ra_horse_pedigree
 Cleaning ra_mst_horses...
@@ -237,13 +237,13 @@ COMPREHENSIVE AUTONOMOUS VALIDATION COMPLETE
   "phase_2_table_verification": {
     "tables_checked": 14,
     "tables_with_test_data": 12,
-    "tables_missing_test_data": ["ra_race_results", "ra_mst_bookmakers"],
+    "tables_missing_test_data": ["ra_mst_race_results", "ra_mst_bookmakers"],
     "total_columns_checked": 625,
     "total_columns_with_test": 598,
     "overall_coverage_percent": 95.68,
     "table_details": [
       {
-        "table": "ra_races",
+        "table": "ra_mst_races",
         "has_test_data": true,
         "total_columns": 45,
         "columns_with_test_count": 45,
@@ -306,9 +306,9 @@ COMPREHENSIVE AUTONOMOUS VALIDATION COMPLETE
 
 ### Per-Table Results
 
-✅ **ra_races** - 100.0% (45/45 columns)
-✅ **ra_runners** - 100.0% (57/57 columns)
-⚠️ **ra_race_results** - No test data found
+✅ **ra_mst_races** - 100.0% (45/45 columns)
+✅ **ra_mst_runners** - 100.0% (57/57 columns)
+⚠️ **ra_mst_race_results** - No test data found
 ✅ **ra_mst_jockeys** - 100.0% (5/5 columns)
 ...
 
@@ -354,9 +354,9 @@ All phases completed successfully. The data pipeline is working correctly.
 ### Tables Verified (14 total)
 
 **Transaction Tables (3):**
-- `ra_races` - 45 columns
-- `ra_runners` - 57 columns
-- `ra_race_results` - 38 columns
+- `ra_mst_races` - 45 columns
+- `ra_mst_runners` - 57 columns
+- `ra_mst_race_results` - 38 columns
 
 **Master Tables - People (3):**
 - `ra_mst_jockeys` - 5 columns

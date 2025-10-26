@@ -11,7 +11,7 @@
 
 **Problem:**
 ```
-Error: insert or update on table "ra_runners" violates foreign key constraint
+Error: insert or update on table "ra_mst_runners" violates foreign key constraint
 Key (horse_id)=(hrs_56494746) is not present in table "ra_mst_horses"
 ```
 
@@ -54,7 +54,7 @@ if all_runners:
 
 **Problem:**
 ```
-Error: column ra_races.race_date does not exist
+Error: column ra_mst_races.race_date does not exist
 ```
 
 **Root Cause:** Test script used `race_date` but actual column is `date`
@@ -63,12 +63,12 @@ Error: column ra_races.race_date does not exist
 
 **Before:**
 ```python
-races_query = self.db_client.client.table('ra_races').select('*').gte('race_date', target_date).limit(5).execute()
+races_query = self.db_client.client.table('ra_mst_races').select('*').gte('race_date', target_date).limit(5).execute()
 ```
 
 **After:**
 ```python
-races_query = self.db_client.client.table('ra_races').select('*').gte('date', target_date).limit(5).execute()
+races_query = self.db_client.client.table('ra_mst_races').select('*').gte('date', target_date).limit(5).execute()
 ```
 
 **Impact:**

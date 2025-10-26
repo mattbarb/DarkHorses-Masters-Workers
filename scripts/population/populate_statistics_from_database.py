@@ -8,7 +8,7 @@ Populate Entity Statistics from Database (Optimized)
 Before running this script, you must:
 1. Run migration 005_add_position_fields_to_runners.sql (if not already run)
 2. Populate results data using: python3 main.py --entities results
-3. Verify position data exists in ra_race_results OR ra_runners
+3. Verify position data exists in ra_mst_race_results OR ra_mst_runners
 
 This script calculates statistics DIRECTLY from database tables instead of making API calls.
 
@@ -19,8 +19,8 @@ Performance Expectations (once data is available):
 - Total: ~6 minutes vs ~4.5 days (1000x faster!)
 
 Data Source Options:
-1. ra_race_results table (preferred if populated)
-2. ra_runners table (if position fields added via migration 005)
+1. ra_mst_race_results table (preferred if populated)
+2. ra_mst_runners table (if position fields added via migration 005)
 
 Usage:
     # Check database status first
@@ -87,24 +87,24 @@ class DatabaseStatisticsCalculator:
         """
         logger.info("Checking database for position data...")
 
-        # Check ra_race_results first (preferred source)
+        # Check ra_mst_race_results first (preferred source)
         try:
-            result = self.db_client.client.table('ra_race_results')\
+            result = self.db_client.client.table('ra_mst_race_results')\
                 .select('position', count='exact')\
                 .limit(1)\
                 .execute()
 
             if result.count and result.count > 0:
-                logger.info(f"✓ Found {result.count:,} records in ra_race_results")
-                self.data_source = 'ra_race_results'
-                return True, 'ra_race_results'
+                logger.info(f"✓ Found {result.count:,} records in ra_mst_race_results")
+                self.data_source = 'ra_mst_race_results'
+                return True, 'ra_mst_race_results'
         except Exception as e:
-            logger.warning(f"Could not query ra_race_results: {e}")
+            logger.warning(f"Could not query ra_mst_race_results: {e}")
 
-        # Check ra_runners for position column
+        # Check ra_mst_runners for position column
         try:
             # Try to select position column
-            result = self.db_client.client.table('ra_runners')\
+            result = self.db_client.client.table('ra_mst_runners')\
                 .select('id, position')\
                 .not_.is_('position', 'null')\
                 .limit(1)\
@@ -112,20 +112,20 @@ class DatabaseStatisticsCalculator:
 
             if result.data and len(result.data) > 0:
                 # Count how many runners have position data
-                count_result = self.db_client.client.table('ra_runners')\
+                count_result = self.db_client.client.table('ra_mst_runners')\
                     .select('*', count='exact')\
                     .not_.is_('position', 'null')\
                     .limit(1)\
                     .execute()
 
-                logger.info(f"✓ Found {count_result.count:,} runners with position data in ra_runners")
-                self.data_source = 'ra_runners'
-                return True, 'ra_runners'
+                logger.info(f"✓ Found {count_result.count:,} runners with position data in ra_mst_runners")
+                self.data_source = 'ra_mst_runners'
+                return True, 'ra_mst_runners'
             else:
-                logger.warning("ra_runners.position column exists but has no data")
+                logger.warning("ra_mst_runners.position column exists but has no data")
 
         except Exception as e:
-            logger.error(f"✗ ra_runners.position column does not exist: {e}")
+            logger.error(f"✗ ra_mst_runners.position column does not exist: {e}")
 
         # No data found
         logger.error("\n" + "=" * 80)
@@ -182,9 +182,9 @@ class DatabaseStatisticsCalculator:
 
     def fetch_jockey_race_data(self, jockey_ids: List[str]) -> Dict:
         """Fetch all race data for jockeys from appropriate source"""
-        if self.data_source == 'ra_race_results':
-            # Use ra_race_results table
-            results = self.db_client.client.table('ra_race_results')\
+        if self.data_source == 'ra_mst_race_results':
+            # Use ra_mst_race_results table
+            results = self.db_client.client.table('ra_mst_race_results')\
                 .select('jockey_id, position, race_date')\
                 .in_('jockey_id', jockey_ids)\
                 .not_.is_('position', 'null')\
@@ -206,9 +206,9 @@ class DatabaseStatisticsCalculator:
 
             return jockey_data
 
-        else:  # ra_runners
+        else:  # ra_mst_runners
             # Get runners with position data
-            runners = self.db_client.client.table('ra_runners')\
+            runners = self.db_client.client.table('ra_mst_runners')\
                 .select('jockey_id, position, race_id')\
                 .in_('jockey_id', jockey_ids)\
                 .not_.is_('position', 'null')\
@@ -219,7 +219,7 @@ class DatabaseStatisticsCalculator:
             if not race_ids:
                 return {}
 
-            races = self.db_client.client.table('ra_races')\
+            races = self.db_client.client.table('ra_mst_races')\
                 .select('id, date')\
                 .in_('id', race_ids)\
                 .execute()
@@ -375,8 +375,8 @@ class DatabaseStatisticsCalculator:
 
     def fetch_trainer_race_data(self, trainer_ids: List[str]) -> Dict:
         """Fetch all race data for trainers from appropriate source"""
-        if self.data_source == 'ra_race_results':
-            results = self.db_client.client.table('ra_race_results')\
+        if self.data_source == 'ra_mst_race_results':
+            results = self.db_client.client.table('ra_mst_race_results')\
                 .select('trainer_id, position, race_date')\
                 .in_('trainer_id', trainer_ids)\
                 .not_.is_('position', 'null')\
@@ -398,8 +398,8 @@ class DatabaseStatisticsCalculator:
 
             return trainer_data
 
-        else:  # ra_runners
-            runners = self.db_client.client.table('ra_runners')\
+        else:  # ra_mst_runners
+            runners = self.db_client.client.table('ra_mst_runners')\
                 .select('trainer_id, position, race_id')\
                 .in_('trainer_id', trainer_ids)\
                 .not_.is_('position', 'null')\
@@ -409,7 +409,7 @@ class DatabaseStatisticsCalculator:
             if not race_ids:
                 return {}
 
-            races = self.db_client.client.table('ra_races')\
+            races = self.db_client.client.table('ra_mst_races')\
                 .select('id, date')\
                 .in_('id', race_ids)\
                 .execute()
@@ -539,8 +539,8 @@ class DatabaseStatisticsCalculator:
 
     def fetch_owner_race_data(self, owner_ids: List[str]) -> Tuple[Dict, Dict]:
         """Fetch all race data for owners from appropriate source"""
-        if self.data_source == 'ra_race_results':
-            results = self.db_client.client.table('ra_race_results')\
+        if self.data_source == 'ra_mst_race_results':
+            results = self.db_client.client.table('ra_mst_race_results')\
                 .select('owner_id, position, race_date, horse_id')\
                 .in_('owner_id', owner_ids)\
                 .not_.is_('position', 'null')\
@@ -567,8 +567,8 @@ class DatabaseStatisticsCalculator:
 
             return owner_data, owner_horses
 
-        else:  # ra_runners
-            runners = self.db_client.client.table('ra_runners')\
+        else:  # ra_mst_runners
+            runners = self.db_client.client.table('ra_mst_runners')\
                 .select('owner_id, position, race_id, horse_id')\
                 .in_('owner_id', owner_ids)\
                 .not_.is_('position', 'null')\
@@ -578,7 +578,7 @@ class DatabaseStatisticsCalculator:
             if not race_ids:
                 return {}, {}
 
-            races = self.db_client.client.table('ra_races')\
+            races = self.db_client.client.table('ra_mst_races')\
                 .select('id, date')\
                 .in_('id', race_ids)\
                 .execute()

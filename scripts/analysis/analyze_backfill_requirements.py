@@ -129,7 +129,7 @@ class BackfillAnalyzer:
 
         try:
             # Get all races
-            races_result = self.db_client.client.table('ra_races')\
+            races_result = self.db_client.client.table('ra_mst_races')\
                 .select('race_id, race_date')\
                 .execute()
 
@@ -137,7 +137,7 @@ class BackfillAnalyzer:
             race_ids = set([row['race_id'] for row in races_result.data])
 
             # Get races with runners
-            runners_result = self.db_client.client.table('ra_runners')\
+            runners_result = self.db_client.client.table('ra_mst_runners')\
                 .select('race_id')\
                 .execute()
 
@@ -274,7 +274,7 @@ class BackfillAnalyzer:
         # Define tables to analyze
         tables = [
             ('ra_races', 'race_id', 'race_date'),
-            ('ra_runners', 'runner_id', 'fetched_at'),
+            ('ra_mst_runners', 'runner_id', 'fetched_at'),
             ('ra_horses', 'horse_id', 'created_at'),
             ('ra_jockeys', 'jockey_id', 'created_at'),
             ('ra_trainers', 'trainer_id', 'created_at'),
@@ -353,7 +353,7 @@ class BackfillAnalyzer:
 
         if runner_coverage.get('coverage_percentage', 100) < 50:
             logger.info("\n🚨 CRITICAL: Runner coverage is extremely low!")
-            logger.info("   Priority: Backfill ra_runners table immediately")
+            logger.info("   Priority: Backfill ra_mst_runners table immediately")
             logger.info("   This is blocking downstream analysis and AI model training")
 
         logger.info("\n📋 EXECUTION STRATEGY:")

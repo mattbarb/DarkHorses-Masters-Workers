@@ -74,7 +74,7 @@ def calculate_statistics():
                     COUNT(CASE WHEN r.position = 3 THEN 1 END) as thirds,
                     ROUND(100.0 * COUNT(CASE WHEN r.position = 1 THEN 1 END) / NULLIF(COUNT(r.runner_id), 0), 2) as win_rate,
                     ROUND(100.0 * COUNT(CASE WHEN r.position <= 3 THEN 1 END) / NULLIF(COUNT(r.runner_id), 0), 2) as place_rate
-                FROM ra_runners r
+                FROM ra_mst_runners r
                 WHERE r.position IS NOT NULL
                 GROUP BY r.jockey_id
             ) stats
@@ -113,7 +113,7 @@ def calculate_statistics():
                     COUNT(CASE WHEN rc.race_date >= CURRENT_DATE - INTERVAL '14 days' AND r.position = 1 THEN 1 END) as recent_wins,
                     ROUND(100.0 * COUNT(CASE WHEN rc.race_date >= CURRENT_DATE - INTERVAL '14 days' AND r.position = 1 THEN 1 END) /
                           NULLIF(COUNT(CASE WHEN rc.race_date >= CURRENT_DATE - INTERVAL '14 days' THEN r.runner_id END), 0), 2) as recent_win_rate
-                FROM ra_runners r
+                FROM ra_mst_runners r
                 LEFT JOIN ra_races rc ON rc.race_id = r.race_id
                 WHERE r.position IS NOT NULL
                 GROUP BY r.trainer_id
@@ -150,7 +150,7 @@ def calculate_statistics():
                     ROUND(100.0 * COUNT(CASE WHEN r.position = 1 THEN 1 END) / NULLIF(COUNT(r.runner_id), 0), 2) as win_rate,
                     ROUND(100.0 * COUNT(CASE WHEN r.position <= 3 THEN 1 END) / NULLIF(COUNT(r.runner_id), 0), 2) as place_rate,
                     MAX(rc.race_date >= CURRENT_DATE - INTERVAL '30 days') as active
-                FROM ra_runners r
+                FROM ra_mst_runners r
                 LEFT JOIN ra_races rc ON rc.race_id = r.race_id
                 WHERE r.position IS NOT NULL
                 GROUP BY r.owner_id

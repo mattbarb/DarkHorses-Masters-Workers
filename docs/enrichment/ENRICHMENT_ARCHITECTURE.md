@@ -67,7 +67,7 @@
         │  └──────────────┘  └──────────────┘            │
         │                                                  │
         │  ┌──────────────┐  ┌──────────────┐            │
-        │  │  ra_races    │  │ ra_runners   │            │
+        │  │  ra_mst_races    │  │ ra_mst_runners   │            │
         │  │              │  │              │            │
         │  │ • race_id    │  │ • runner_id  │            │
         │  │ • course_id  │  │ • horse_id   │            │
@@ -95,7 +95,7 @@
 
 Legend:
   ✨ = Pro endpoint only fields
-  📊 = Calculated from ra_runners (NOT from API)
+  📊 = Calculated from ra_mst_runners (NOT from API)
 ```
 
 ---
@@ -146,8 +146,8 @@ STEP 4: DATABASE UPSERT
 │   • ra_jockeys (basic name+id)                             │
 │   • ra_trainers (basic name+id)                            │
 │   • ra_owners (basic name+id)                              │
-│   • ra_races (full race details)                           │
-│   • ra_runners (links everything together)                 │
+│   • ra_mst_races (full race details)                           │
+│   • ra_mst_runners (links everything together)                 │
 └────────────────────────────────────────────────────────────┘
                         │
                         ▼
@@ -155,7 +155,7 @@ STEP 5: STATISTICS CALCULATION (Daily/Weekly)
 ┌────────────────────────────────────────────────────────────┐
 │  SELECT * FROM update_entity_statistics();                 │
 │                                                             │
-│  Calculates from ra_runners:                               │
+│  Calculates from ra_mst_runners:                               │
 │   • Jockey win rates, total rides                          │
 │   • Trainer win rates, recent form                         │
 │   • Owner win rates, active status                         │
@@ -223,7 +223,7 @@ STEP 5: STATISTICS CALCULATION (Daily/Weekly)
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                      ra_runners                              │
+│                      ra_mst_runners                              │
 │  (Source of Truth for All Performance Data)                 │
 │                                                              │
 │  Every race result with:                                    │
@@ -321,8 +321,8 @@ RESULTS ENDPOINTS (Not Used)
 │ /v1/trainers/{id}/results                               │
 │ /v1/owners/{id}/results                                 │
 │ ├─ Status: ⏸️ NOT USED                                 │
-│ ├─ Reason: Redundant with ra_runners                    │
-│ ├─ Alternative: Query ra_runners directly               │
+│ ├─ Reason: Redundant with ra_mst_runners                    │
+│ ├─ Alternative: Query ra_mst_runners directly               │
 │ └─ Savings: 1000s of API calls                          │
 └─────────────────────────────────────────────────────────┘
 
@@ -333,7 +333,7 @@ ANALYSIS ENDPOINTS (Not Stored)
 │ /v1/owners/{id}/analysis/*                              │
 │ /v1/horses/{id}/analysis/*                              │
 │ ├─ Status: ⏸️ NOT STORED                               │
-│ ├─ Reason: Can calculate locally from ra_runners        │
+│ ├─ Reason: Can calculate locally from ra_mst_runners        │
 │ ├─ Use case: On-demand queries only                     │
 │ └─ Savings: 10,000s of API calls                        │
 └─────────────────────────────────────────────────────────┘
@@ -369,8 +369,8 @@ SUMMARY:
 │ ra_trainers      │ 2,780        │ +2-10/day                   │
 │ ra_owners        │ 48,092       │ +20-50/day                  │
 │ ra_courses       │ 101          │ Stable (complete)           │
-│ ra_races         │ Variable     │ +500-700/day                │
-│ ra_runners       │ Large        │ +5,000-8,000/day            │
+│ ra_mst_races         │ Variable     │ +500-700/day                │
+│ ra_mst_runners       │ Large        │ +5,000-8,000/day            │
 └──────────────────┴──────────────┴─────────────────────────────┘
 ```
 
@@ -510,7 +510,7 @@ DarkHorses-Masters-Workers/
 
 **Rationale:**
 - API analysis endpoints return calculated stats
-- We can calculate same stats from ra_runners
+- We can calculate same stats from ra_mst_runners
 - Avoids 10,000s of redundant API calls
 - Gives us full control and customization
 - Real-time updates possible
@@ -521,7 +521,7 @@ DarkHorses-Masters-Workers/
 
 **Rationale:**
 - Results endpoints return race history
-- We already have this in ra_runners table
+- We already have this in ra_mst_runners table
 - Completely redundant data
 - Would waste API quota
 

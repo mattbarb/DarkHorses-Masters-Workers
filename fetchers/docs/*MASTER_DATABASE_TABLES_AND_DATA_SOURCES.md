@@ -293,7 +293,7 @@ These tables store reference data about entities (horses, people, venues) that r
 
 These tables store race events and runner entries (transactional data).
 
-### ⭐ 10. ra_races
+### ⭐ 10. ra_mst_races
 
 **Purpose**: Race metadata and conditions
 
@@ -327,7 +327,7 @@ These tables store race events and runner entries (transactional data).
 
 ---
 
-### ⭐ 11. ra_runners
+### ⭐ 11. ra_mst_runners
 
 **Purpose**: Individual horse entries in races with results
 
@@ -345,7 +345,7 @@ These tables store race events and runner entries (transactional data).
 **Key Fields**:
 
 *Entity Links:*
-- `race_id` (FK) - Link to ra_races
+- `race_id` (FK) - Link to ra_mst_races
 - `horse_id` (FK) - Link to ra_mst_horses
 - `jockey_id` (FK) - Link to ra_mst_jockeys
 - `trainer_id` (FK) - Link to ra_mst_trainers
@@ -386,7 +386,7 @@ These tables store race events and runner entries (transactional data).
 
 ---
 
-### ⭐ 12. ra_race_results
+### ⭐ 12. ra_mst_race_results
 
 **Purpose**: Denormalized view of race results (flattened for easier querying)
 
@@ -404,7 +404,7 @@ These tables store race events and runner entries (transactional data).
 **Automation**: ✅ Fully automated
 
 **Notes**:
-- Redundant with ra_races + ra_runners but optimized for queries
+- Redundant with ra_mst_races + ra_mst_runners but optimized for queries
 - Useful for reporting and analytics
 
 ---
@@ -450,7 +450,7 @@ These tables are calculated from existing data (not fetched from API).
 
 **Purpose**: Career statistics for breeding horses
 
-**Data Source**: Calculated from ra_runners + ra_race_results
+**Data Source**: Calculated from ra_mst_runners + ra_mst_race_results
 
 **Script**: `scripts/backfill/backfill_ancestor_stats.py`
 
@@ -515,21 +515,21 @@ These tables are calculated from existing data (not fetched from API).
 
 ```
 1. Fetch Racecards (races_fetcher.py)
-   ├─ Insert/Update: ra_races
+   ├─ Insert/Update: ra_mst_races
    ├─ Extract & Insert: ra_mst_jockeys, ra_mst_trainers, ra_mst_owners
    ├─ Extract & Enrich: ra_mst_horses (NEW horses only)
    ├─ Extract Pedigree: ra_mst_sires, ra_mst_dams, ra_mst_damsires
    ├─ Capture Lineage: ra_horse_pedigree (NEW horses only)
-   └─ Insert Runners: ra_runners (with pedigree validation)
+   └─ Insert Runners: ra_mst_runners (with pedigree validation)
 
 2. Fetch Results (results_fetcher.py)
-   ├─ Update: ra_races (with actual conditions)
+   ├─ Update: ra_mst_races (with actual conditions)
    ├─ Extract & Insert: ra_mst_jockeys, ra_mst_trainers, ra_mst_owners
    ├─ Extract & Enrich: ra_mst_horses (NEW horses only)
    ├─ Extract Pedigree: ra_mst_sires, ra_mst_dams, ra_mst_damsires
    ├─ Capture Lineage: ra_horse_pedigree (NEW horses only)
-   ├─ Update Runners: ra_runners (with positions/prizes)
-   └─ Insert Results: ra_race_results (denormalized view)
+   ├─ Update Runners: ra_mst_runners (with positions/prizes)
+   └─ Insert Results: ra_mst_race_results (denormalized view)
 ```
 
 ### Weekly Operations (`python3 main.py --weekly`)
@@ -589,9 +589,9 @@ python3 scripts/backfill/backfill_ancestor_stats.py
 | ra_mst_sires | ✅ Full | entity_extractor.py | Daily (auto) |
 | ra_mst_dams | ✅ Full | entity_extractor.py | Daily (auto) |
 | ra_mst_damsires | ✅ Full | entity_extractor.py | Daily (auto) |
-| ra_races | ✅ Full | races/results_fetcher.py | Daily |
-| ra_runners | ✅ Full | races/results_fetcher.py | Daily |
-| ra_race_results | ✅ Full | results_fetcher.py | Daily |
+| ra_mst_races | ✅ Full | races/results_fetcher.py | Daily |
+| ra_mst_runners | ✅ Full | races/results_fetcher.py | Daily |
+| ra_mst_race_results | ✅ Full | results_fetcher.py | Daily |
 | ra_horse_pedigree | ✅ Full | entity_extractor.py | Daily (auto) |
 | *_statistics (3) | ⚠️ Manual | backfill_ancestor_stats.py | Should be monthly |
 | ra_lineage | ⚠️ Manual | backfill_ra_lineage.py | Unclear |
@@ -612,7 +612,7 @@ python3 scripts/backfill/backfill_ancestor_stats.py
 - **Implementation**: `utils/entity_extractor.py` lines 116-248
 
 ### ✅ Pedigree ID Validation
-- **Tables Affected**: ra_runners
+- **Tables Affected**: ra_mst_runners
 - **Purpose**: Prevent foreign key violations
 - **Automation**: Automatic before insertion
 - **Implementation**:

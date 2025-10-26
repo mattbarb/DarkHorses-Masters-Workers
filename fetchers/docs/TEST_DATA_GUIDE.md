@@ -27,7 +27,7 @@ The Test Data system allows you to insert one test row into each of the 23 ra_ t
 python3 fetchers/master_fetcher_controller.py --mode test-insert --interactive
 
 # Insert into specific tables
-python3 fetchers/master_fetcher_controller.py --mode test-insert --tables ra_races ra_runners --interactive
+python3 fetchers/master_fetcher_controller.py --mode test-insert --tables ra_mst_races ra_mst_runners --interactive
 
 # Standalone (all tables)
 python3 fetchers/insert_test_data.py
@@ -43,7 +43,7 @@ python3 fetchers/insert_test_data.py --tables ra_mst_horses ra_horse_pedigree
 python3 fetchers/master_fetcher_controller.py --mode test-cleanup --interactive
 
 # Clean up specific tables
-python3 fetchers/master_fetcher_controller.py --mode test-cleanup --tables ra_races ra_runners --interactive
+python3 fetchers/master_fetcher_controller.py --mode test-cleanup --tables ra_mst_races ra_mst_runners --interactive
 
 # Standalone
 python3 fetchers/insert_test_data.py --cleanup
@@ -102,9 +102,9 @@ python3 fetchers/insert_test_data.py --cleanup
 11. ra_horse_pedigree
 
 **Transaction Tables (3):**
-12. ra_races
-13. ra_runners
-14. ra_race_results
+12. ra_mst_races
+13. ra_mst_runners
+14. ra_mst_race_results
 
 **Future/Partial Tables (9):**
 15. ra_entity_combinations
@@ -147,13 +147,13 @@ python3 fetchers/master_fetcher_controller.py --mode test-cleanup --interactive
 **Workflow:**
 ```bash
 # 1. Insert test data into affected table
-python3 fetchers/insert_test_data.py --tables ra_runners
+python3 fetchers/insert_test_data.py --tables ra_mst_runners
 
 # 2. Query to verify new columns
 # Check database directly or use analysis
 
 # 3. Clean up
-python3 fetchers/insert_test_data.py --cleanup --tables ra_runners
+python3 fetchers/insert_test_data.py --cleanup --tables ra_mst_runners
 ```
 
 ### 3. Integration Testing
@@ -479,7 +479,7 @@ python3 fetchers/master_fetcher_controller.py --mode test-cleanup --interactive
 
 ```bash
 # Insert test data
-python3 fetchers/insert_test_data.py --tables ra_runners
+python3 fetchers/insert_test_data.py --tables ra_mst_runners
 
 # Query specific columns
 psql -h ... -c "
@@ -488,12 +488,12 @@ SELECT
   starting_price_decimal,
   jockey_silk_url,
   weight_stones_lbs
-FROM ra_runners
+FROM ra_mst_runners
 WHERE horse_name LIKE '%**TEST**%';
 "
 
 # Clean up
-python3 fetchers/insert_test_data.py --cleanup --tables ra_runners
+python3 fetchers/insert_test_data.py --cleanup --tables ra_mst_runners
 ```
 
 ---

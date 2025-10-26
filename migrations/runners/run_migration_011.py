@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Run Migration 011: Add Missing Runner Fields
-Executes the database migration to add 6 new fields to ra_runners
+Executes the database migration to add 6 new fields to ra_mst_runners
 """
 
 import sys
@@ -61,7 +61,7 @@ def run_migration():
         if result.status_code == 200:
             logger.info("✓ Migration executed successfully!")
             logger.info("=" * 80)
-            logger.info("Migration 011 Complete - 6 new fields added to ra_runners:")
+            logger.info("Migration 011 Complete - 6 new fields added to ra_mst_runners:")
             logger.info("  1. starting_price_decimal (DECIMAL)")
             logger.info("  2. race_comment (TEXT)")
             logger.info("  3. jockey_silk_url (TEXT)")

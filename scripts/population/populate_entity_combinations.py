@@ -2,7 +2,7 @@
 """
 Populate ra_entity_combinations Table
 
-Analyzes ra_runners to identify frequent jockey/trainer/owner/horse combinations
+Analyzes ra_mst_runners to identify frequent jockey/trainer/owner/horse combinations
 and calculates their performance statistics.
 
 Phase 1 - Quick Win (Database analysis only, no external API calls)
@@ -44,7 +44,7 @@ def analyze_combinations(db_client: SupabaseReferenceClient, min_races: int = 2)
     logger.info("Fetching runners data for combination analysis...")
 
     # Fetch all runners with position data
-    response = db_client.client.table('ra_runners')\
+    response = db_client.client.table('ra_mst_runners')\
         .select('jockey_id, trainer_id, owner_id, horse_id, position, race_id')\
         .not_.is_('jockey_id', 'null')\
         .not_.is_('trainer_id', 'null')\

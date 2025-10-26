@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-Backfill ra_lineage table from existing ra_runners data
+Backfill ra_lineage table from existing ra_mst_runners data
 
-This script populates ra_lineage by extracting pedigree data from ra_runners.
+This script populates ra_lineage by extracting pedigree data from ra_mst_runners.
 For each runner, it creates lineage records for:
 - Generation 1: sire, dam
 - Generation 2: damsire (maternal grandsire)
@@ -34,9 +34,9 @@ try:
     print("📊 Current state:")
     print("-" * 100)
 
-    cur.execute("SELECT COUNT(*) FROM ra_runners;")
+    cur.execute("SELECT COUNT(*) FROM ra_mst_runners;")
     total_runners = cur.fetchone()[0]
-    print(f"  Runners in ra_runners: {total_runners:,}")
+    print(f"  Runners in ra_mst_runners: {total_runners:,}")
 
     cur.execute("SELECT COUNT(*) FROM ra_lineage;")
     current_lineage = cur.fetchone()[0]
@@ -47,7 +47,7 @@ try:
             COUNT(*) FILTER (WHERE sire_id IS NOT NULL) as with_sire,
             COUNT(*) FILTER (WHERE dam_id IS NOT NULL) as with_dam,
             COUNT(*) FILTER (WHERE damsire_id IS NOT NULL) as with_damsire
-        FROM ra_runners;
+        FROM ra_mst_runners;
     """)
     sire_count, dam_count, damsire_count = cur.fetchone()
 
@@ -84,7 +84,7 @@ try:
             run.sire_id as ancestor_horse_id,
             run.sire_name as ancestor_name,
             run.sire_region as ancestor_region
-        FROM ra_runners run
+        FROM ra_mst_runners run
         WHERE run.sire_id IS NOT NULL
         ON CONFLICT (runner_id, lineage_path) DO NOTHING;
     """)
@@ -122,7 +122,7 @@ try:
             run.dam_id as ancestor_horse_id,
             run.dam_name as ancestor_name,
             run.dam_region as ancestor_region
-        FROM ra_runners run
+        FROM ra_mst_runners run
         WHERE run.dam_id IS NOT NULL
         ON CONFLICT (runner_id, lineage_path) DO NOTHING;
     """)
@@ -160,7 +160,7 @@ try:
             run.damsire_id as ancestor_horse_id,
             run.damsire_name as ancestor_name,
             run.damsire_region as ancestor_region
-        FROM ra_runners run
+        FROM ra_mst_runners run
         WHERE run.damsire_id IS NOT NULL
         ON CONFLICT (runner_id, lineage_path) DO NOTHING;
     """)

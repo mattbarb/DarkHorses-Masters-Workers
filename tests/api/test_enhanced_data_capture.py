@@ -61,7 +61,7 @@ def test_enhanced_data_capture():
 
     try:
         # Query recent runners to check new fields
-        runners_result = db_client.client.table('ra_runners')\
+        runners_result = db_client.client.table('ra_mst_runners')\
             .select('*')\
             .order('created_at', desc=True)\
             .limit(100)\

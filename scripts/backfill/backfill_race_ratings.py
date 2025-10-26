@@ -1,6 +1,6 @@
 """
 Backfill Race Ratings Script
-Re-fetches race results to update missing or incomplete ratings data in ra_runners table
+Re-fetches race results to update missing or incomplete ratings data in ra_mst_runners table
 """
 
 import sys
@@ -57,7 +57,7 @@ class RaceRatingsBackfill:
         # in the date range and then check their runners
         try:
             # Get all races in date range
-            result = self.db_client.client.table('ra_races').select('race_id, race_date').gte('race_date', cutoff_date.isoformat()).execute()
+            result = self.db_client.client.table('ra_mst_races').select('race_id, race_date').gte('race_date', cutoff_date.isoformat()).execute()
 
             all_race_ids = [row['race_id'] for row in result.data]
             logger.info(f"Found {len(all_race_ids)} total races in date range")
@@ -71,7 +71,7 @@ class RaceRatingsBackfill:
                     logger.info(f"Checked {i}/{len(all_race_ids)} races...")
 
                 # Get runners for this race with NULL ratings
-                runners_result = self.db_client.client.table('ra_runners').select('runner_id').eq('race_id', race_id).is_('official_rating', 'null').is_('rpr', 'null').is_('tsr', 'null').limit(1).execute()
+                runners_result = self.db_client.client.table('ra_mst_runners').select('runner_id').eq('race_id', race_id).is_('official_rating', 'null').is_('rpr', 'null').is_('tsr', 'null').limit(1).execute()
 
                 # If this race has any runners with ALL ratings NULL, add to list
                 if runners_result.data:
@@ -102,7 +102,7 @@ class RaceRatingsBackfill:
             # We'll fetch by race_id directly if the API supports it
 
             # First, get the race date from database
-            race_result = self.db_client.client.table('ra_races').select('race_date').eq('race_id', race_id).limit(1).execute()
+            race_result = self.db_client.client.table('ra_mst_races').select('race_date').eq('race_id', race_id).limit(1).execute()
 
             if not race_result.data:
                 logger.warning(f"Race {race_id} not found in database")
@@ -160,7 +160,7 @@ class RaceRatingsBackfill:
                     }
 
                     try:
-                        self.db_client.client.table('ra_runners').update(update_data).eq('runner_id', runner_id).execute()
+                        self.db_client.client.table('ra_mst_runners').update(update_data).eq('runner_id', runner_id).execute()
                         updated_count += 1
                     except Exception as e:
                         logger.warning(f"Error updating runner {runner_id}: {e}")

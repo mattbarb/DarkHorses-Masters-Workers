@@ -43,7 +43,7 @@ def calculate_performance_by_venue(
 
     try:
         # Fetch all runners with results
-        runners_response = db_client.client.table('ra_runners')\
+        runners_response = db_client.client.table('ra_mst_runners')\
             .select('race_id, horse_id, jockey_id, trainer_id, sire_id, position, starting_price_decimal')\
             .not_.is_('position', 'null')\
             .execute()
@@ -63,7 +63,7 @@ def calculate_performance_by_venue(
         batch_size = 1000
         for i in range(0, len(race_ids), batch_size):
             batch_ids = race_ids[i:i + batch_size]
-            race_batch = db_client.client.table('ra_races')\
+            race_batch = db_client.client.table('ra_mst_races')\
                 .select('id, course_id, course_name')\
                 .in_('id', batch_ids)\
                 .execute()

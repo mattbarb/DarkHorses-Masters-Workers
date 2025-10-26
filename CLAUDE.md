@@ -103,9 +103,9 @@ EntityExtractor (utils/entity_extractor.py)
 Supabase PostgreSQL
     ├─ ra_horses (with complete metadata)
     ├─ ra_horse_pedigree (complete lineage)
-    ├─ ra_runners (race entries)
+    ├─ ra_mst_runners (race entries)
     ├─ ra_jockeys, ra_trainers, ra_owners
-    └─ ra_races, ra_results
+    └─ ra_mst_races, ra_results
 ```
 
 ### Fetcher Architecture Pattern
@@ -159,16 +159,16 @@ class SomeFetcher:
 - `ra_mst_sires`, `ra_mst_dams`, `ra_mst_damsires` - Pedigree statistics (calculated from database)
 
 **Transaction Tables (Race Data):**
-- `ra_races` - Race metadata
-- `ra_runners` - Race entries with comprehensive runner details
-- `ra_race_results` - Historical results (updates runners with positions)
+- `ra_mst_races` - Race metadata
+- `ra_mst_runners` - Race entries with comprehensive runner details
+- `ra_mst_race_results` - Historical results (updates runners with positions)
 
 **System Tables:**
 - `ra_metadata_tracking` - Data freshness tracking
 
 ### Enhanced Runner Fields (Migration 011 - 2025-10-17)
 
-The `ra_runners` table captures comprehensive race result data including 6 **newly added fields** that provide critical ML features and UI enhancements:
+The `ra_mst_runners` table captures comprehensive race result data including 6 **newly added fields** that provide critical ML features and UI enhancements:
 
 **Result/Position Fields (Existing):**
 - `position` - Finishing position (1, 2, 3, etc.)

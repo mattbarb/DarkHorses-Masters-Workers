@@ -5,12 +5,12 @@
     "tables_without_fetchers": 4
   },
   "table_to_fetcher_mapping": {
-    "ra_races": [
+    "ra_mst_races": [
       "races_fetcher.py",
       "events_fetcher.py",
       "results_fetcher.py"
     ],
-    "ra_runners": [
+    "ra_mst_runners": [
       "races_fetcher.py",
       "events_fetcher.py",
       "results_fetcher.py"
@@ -22,7 +22,7 @@
       "courses_fetcher.py",
       "masters_fetcher.py"
     ],
-    "ra_race_results": [
+    "ra_mst_race_results": [
       "results_fetcher.py"
     ],
     "ra_mst_jockeys": [
@@ -49,12 +49,12 @@
     "ra_horse_pedigree"
   ],
   "tables_with_multiple_fetchers": {
-    "ra_races": [
+    "ra_mst_races": [
       "races_fetcher.py",
       "events_fetcher.py",
       "results_fetcher.py"
     ],
-    "ra_runners": [
+    "ra_mst_runners": [
       "races_fetcher.py",
       "events_fetcher.py",
       "results_fetcher.py"

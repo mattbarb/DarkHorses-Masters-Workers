@@ -18,8 +18,8 @@ Created an optimized statistics population script that calculates entity statist
 **IMPORTANT:** The position data required for statistics calculations is **not yet populated** in the database.
 
 ### Current State
-- ✗ `ra_runners.position` column does not exist
-- ✗ `ra_race_results` table is empty (0 records)
+- ✗ `ra_mst_runners.position` column does not exist
+- ✗ `ra_mst_race_results` table is empty (0 records)
 - ✓ `ra_races` table exists with race data
 - ✓ Statistics columns exist in ra_jockeys, ra_trainers, ra_owners
 
@@ -50,8 +50,8 @@ Before this script can be used, the following must be completed:
 
 The script automatically detects which table has position data:
 
-1. **Preferred:** `ra_race_results` (dedicated results table)
-2. **Fallback:** `ra_runners` (if position column added via migration)
+1. **Preferred:** `ra_mst_race_results` (dedicated results table)
+2. **Fallback:** `ra_mst_runners` (if position column added via migration)
 
 ### Statistics Calculated
 
@@ -116,8 +116,8 @@ Output:
 DATABASE POSITION DATA CHECK
 ================================================================================
 Checking database for position data...
-✓ Found 150,000 records in ra_race_results
-✓ Position data available in: ra_race_results
+✓ Found 150,000 records in ra_mst_race_results
+✓ Position data available in: ra_mst_race_results
 You can now run statistics population.
 ```
 
@@ -152,7 +152,7 @@ python3 scripts/populate_statistics_from_database.py --entities jockeys --limit 
 ```python
 class DatabaseStatisticsCalculator:
     def check_data_availability() -> (bool, str)
-        # Checks ra_race_results first, then ra_runners
+        # Checks ra_mst_race_results first, then ra_mst_runners
         # Returns (has_data, source_table)
 
     def fetch_jockey_race_data(jockey_ids) -> Dict
@@ -235,7 +235,7 @@ $ python3 scripts/populate_statistics_from_database.py --check
 DATABASE POSITION DATA CHECK
 ================================================================================
 Checking database for position data...
-✗ ra_runners.position column does not exist
+✗ ra_mst_runners.position column does not exist
 ================================================================================
 ERROR: No position data found in database!
 ================================================================================
@@ -264,8 +264,8 @@ Or use the API-based calculation method:
 
 **Reads from:**
 - `ra_jockeys`, `ra_trainers`, `ra_owners` (entity IDs)
-- `ra_race_results` OR `ra_runners` (position data)
-- `ra_races` (race dates if using ra_runners)
+- `ra_mst_race_results` OR `ra_mst_runners` (position data)
+- `ra_races` (race dates if using ra_mst_runners)
 
 **Writes to:**
 - `ra_jockeys` (statistics columns)
@@ -274,7 +274,7 @@ Or use the API-based calculation method:
 
 ### Required Migrations
 
-1. **Migration 005:** Add position fields to ra_runners
+1. **Migration 005:** Add position fields to ra_mst_runners
    - `position`, `distance_beaten`, `prize_won`, `starting_price`
 
 2. **Migration (Enhanced Statistics):** Add statistics columns
@@ -339,7 +339,7 @@ Key metrics to monitor:
 
 | Feature | New (Database) | Old (API) |
 |---------|---------------|-----------|
-| Data source | Database (ra_race_results) | Racing API endpoints |
+| Data source | Database (ra_mst_race_results) | Racing API endpoints |
 | Speed | ~6 minutes | ~8 hours |
 | Rate limits | None | 2 req/sec |
 | Network dependency | None | Required |

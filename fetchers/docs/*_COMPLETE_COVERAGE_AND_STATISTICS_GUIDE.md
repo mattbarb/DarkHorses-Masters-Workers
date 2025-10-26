@@ -39,7 +39,7 @@ This document provides the complete picture of database coverage, NULL column ca
 ### High Coverage (80-96%) - 8 Tables
 - ✅ `ra_runner_statistics` - 58/60 (96.7%)
 - ✅ `ra_mst_horses` - 14/15 (93.3%)
-- ✅ `ra_race_results` - 33/38 (86.8%)
+- ✅ `ra_mst_race_results` - 33/38 (86.8%)
 - ✅ `ra_mst_owners` - 20/24 (83.3%)
 - ✅ `ra_mst_trainers` - 19/23 (82.6%)
 - ✅ `ra_mst_jockeys` - 18/22 (81.8%)
@@ -48,8 +48,8 @@ This document provides the complete picture of database coverage, NULL column ca
 
 ### Moderate Coverage (60-79%) - 3 Tables
 - ⚠️ `ra_performance_by_distance` - 14/20 (70.0%)
-- ⚠️ `ra_races` - 32/48 (66.7%)
-- ⚠️ `ra_runners` - 37/57 (64.9%)
+- ⚠️ `ra_mst_races` - 32/48 (66.7%)
+- ⚠️ `ra_mst_runners` - 37/57 (64.9%)
 
 ### Low Coverage (Awaiting Statistics) - 3 Tables
 - ⏳ `ra_mst_sires` - 19/47 (40.4%) - 117 statistics columns pending
@@ -67,21 +67,21 @@ This document provides the complete picture of database coverage, NULL column ca
 These are NOT data quality issues:
 
 #### 1. Post-Race Only Columns (19 columns)
-**From `ra_races`:**
+**From `ra_mst_races`:**
 - `winning_time`, `winning_time_detail`, `comments`, `non_runners`
 - Tote dividends: `tote_win`, `tote_pl`, `tote_ex`, `tote_csf`, `tote_tricast`, `tote_trifecta`
 
-**From `ra_runners`:**
+**From `ra_mst_runners`:**
 - `position`, `distance_beaten`, `prize_won`, `starting_price`, `starting_price_decimal`
 - `result_updated_at`, `finishing_time`, `race_comment`, `overall_beaten_distance`
 
 **Why NULL:** These columns are only populated after races complete.
 
 #### 2. Optional/Conditional Columns (17 columns)
-**From `ra_races`:**
+**From `ra_mst_races`:**
 - `race_number`, `distance_m`, `sex_restriction`, `prize`, `meet_id`, `time`
 
-**From `ra_runners`:**
+**From `ra_mst_runners`:**
 - `rpr`, `ts` - Ratings (may be "-" for non-rated)
 - `weight_st_lbs`, `claiming_price_min`, `claiming_price_max`
 - `medication`, `equipment`, `morning_line_odds`
@@ -104,7 +104,7 @@ These are NOT data quality issues:
 - Class breakdowns: `class_1/2/3_name/runners/wins/win_percent`
 - Distance breakdowns: `distance_1/2/3_name/runners/wins/win_percent`
 
-**Why NULL:** ✅ **Can be calculated from `ra_race_results` table!**
+**Why NULL:** ✅ **Can be calculated from `ra_mst_race_results` table!**
 
 #### 5. Advanced Metrics (36 columns)
 **AE Indices (24 columns):**
@@ -178,7 +178,7 @@ scripts/statistics_workers/
 └── populate_pedigree_statistics.py
 ```
 
-**Data Source:** `ra_race_results` table (database query)
+**Data Source:** `ra_mst_race_results` table (database query)
 
 **What They Calculate:**
 - Best class/distance by win percentage
@@ -190,8 +190,8 @@ scripts/statistics_workers/
 # Query all results for sire
 query = """
 SELECT r.class, r.distance_f, rr.position
-FROM ra_race_results rr
-JOIN ra_races r ON rr.race_id = r.id
+FROM ra_mst_race_results rr
+JOIN ra_mst_races r ON rr.race_id = r.id
 WHERE rr.sire_id = %s
 """
 

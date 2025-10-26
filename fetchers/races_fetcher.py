@@ -121,7 +121,7 @@ class RacesFetcher:
 
         # Store in database
         # IMPORTANT: Entities (horses, jockeys, etc.) MUST be inserted BEFORE runners
-        # because ra_runners has foreign keys to these tables
+        # because ra_mst_runners has foreign keys to these tables
         results = {}
 
         # Step 1: Extract and store entities FIRST (horses, jockeys, trainers, owners)

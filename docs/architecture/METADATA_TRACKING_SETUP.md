@@ -206,8 +206,8 @@ python3 view_update_history.py
 
 # View detailed table statistics
 python3 view_update_history.py --table ra_results
-python3 view_update_history.py --table ra_races
-python3 view_update_history.py --table ra_runners
+python3 view_update_history.py --table ra_mst_races
+python3 view_update_history.py --table ra_mst_runners
 
 # Customize time period
 python3 view_update_history.py --table ra_results --days 7

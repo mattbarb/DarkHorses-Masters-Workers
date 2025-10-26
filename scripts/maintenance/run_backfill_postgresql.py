@@ -22,7 +22,7 @@ print("=" * 80)
 print("POSTGRESQL DIRECT BACKFILL - Server Mode")
 print("=" * 80)
 print(f"Starting backfill at {datetime.now()}")
-print("This will process all NULL fields in ra_runners table")
+print("This will process all NULL fields in ra_mst_runners table")
 print("=" * 80)
 
 # Connect to database
@@ -91,20 +91,20 @@ for db_field, api_field, sql_cast, pattern in FIELDS:
                 # Build UPDATE query
                 if sql_cast == 'TEXT':
                     update_sql = f"""
-                        UPDATE ra_runners
+                        UPDATE ra_mst_runners
                         SET {db_field} = api_data->>'{api_field}', updated_at = NOW()
                         WHERE runner_id IN (
-                            SELECT runner_id FROM ra_runners
+                            SELECT runner_id FROM ra_mst_runners
                             WHERE {where_clause}
                             LIMIT {batch_size}
                         )
                     """
                 else:
                     update_sql = f"""
-                        UPDATE ra_runners
+                        UPDATE ra_mst_runners
                         SET {db_field} = (api_data->>'{api_field}')::{sql_cast}, updated_at = NOW()
                         WHERE runner_id IN (
-                            SELECT runner_id FROM ra_runners
+                            SELECT runner_id FROM ra_mst_runners
                             WHERE {where_clause}
                             LIMIT {batch_size}
                         )

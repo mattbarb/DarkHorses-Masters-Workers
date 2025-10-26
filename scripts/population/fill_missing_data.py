@@ -327,7 +327,7 @@ class DataGapFiller:
         - 169 trainers (6.08% missing)
         - 1,018 owners (2.11% missing)
 
-        Uses SQL queries on ra_runners + ra_races tables.
+        Uses SQL queries on ra_mst_runners + ra_races tables.
         Much faster than API calls.
 
         Returns:
@@ -378,20 +378,20 @@ class DataGapFiller:
         updated = 0
         for jockey in jockeys:
             try:
-                # Calculate from ra_runners
+                # Calculate from ra_mst_runners
                 stats_query = f"""
                     SELECT
                         COUNT(*) as total_rides,
                         COUNT(*) FILTER (WHERE position = 1) as total_wins,
                         COUNT(*) FILTER (WHERE position <= 3) as total_places
-                    FROM ra_runners
+                    FROM ra_mst_runners
                     WHERE jockey_id = '{jockey['id']}'
                 """
 
                 # Note: This requires a custom RPC function or direct SQL execution
                 # For now, we'll use a simpler approach with Supabase queries
 
-                rides_result = self.db_client.client.table('ra_runners').select(
+                rides_result = self.db_client.client.table('ra_mst_runners').select(
                     'position', count='exact'
                 ).eq('jockey_id', jockey['id']).execute()
 
@@ -399,7 +399,7 @@ class DataGapFiller:
 
                 if total_rides > 0:
                     # Get wins
-                    wins_result = self.db_client.client.table('ra_runners').select(
+                    wins_result = self.db_client.client.table('ra_mst_runners').select(
                         'position', count='exact'
                     ).eq('jockey_id', jockey['id']).eq('position', 1).execute()
 
@@ -437,8 +437,8 @@ class DataGapFiller:
         updated = 0
         for trainer in trainers:
             try:
-                # Calculate from ra_runners
-                runners_result = self.db_client.client.table('ra_runners').select(
+                # Calculate from ra_mst_runners
+                runners_result = self.db_client.client.table('ra_mst_runners').select(
                     'position', count='exact'
                 ).eq('trainer_id', trainer['id']).execute()
 
@@ -446,7 +446,7 @@ class DataGapFiller:
 
                 if total_runners > 0:
                     # Get wins
-                    wins_result = self.db_client.client.table('ra_runners').select(
+                    wins_result = self.db_client.client.table('ra_mst_runners').select(
                         'position', count='exact'
                     ).eq('trainer_id', trainer['id']).eq('position', 1).execute()
 
@@ -484,8 +484,8 @@ class DataGapFiller:
         updated = 0
         for owner in owners:
             try:
-                # Calculate from ra_runners
-                runners_result = self.db_client.client.table('ra_runners').select(
+                # Calculate from ra_mst_runners
+                runners_result = self.db_client.client.table('ra_mst_runners').select(
                     'position', count='exact'
                 ).eq('owner_id', owner['id']).execute()
 
@@ -493,7 +493,7 @@ class DataGapFiller:
 
                 if total_runners > 0:
                     # Get wins
-                    wins_result = self.db_client.client.table('ra_runners').select(
+                    wins_result = self.db_client.client.table('ra_mst_runners').select(
                         'position', count='exact'
                     ).eq('owner_id', owner['id']).eq('position', 1).execute()
 

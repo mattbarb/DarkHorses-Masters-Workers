@@ -27,7 +27,7 @@ The Table Analyzer performs deep analysis of all 23 ra_ tables to understand:
 python3 fetchers/master_fetcher_controller.py --mode analyze --interactive
 
 # Analyze specific tables
-python3 fetchers/master_fetcher_controller.py --mode analyze --tables ra_races ra_runners --interactive
+python3 fetchers/master_fetcher_controller.py --mode analyze --tables ra_mst_races ra_mst_runners --interactive
 
 # Automated run (JSON output only)
 python3 fetchers/master_fetcher_controller.py --mode analyze
@@ -40,7 +40,7 @@ python3 fetchers/master_fetcher_controller.py --mode analyze
 python3 fetchers/analyze_tables.py
 
 # Analyze specific tables
-python3 fetchers/analyze_tables.py --tables ra_races ra_runners ra_mst_horses
+python3 fetchers/analyze_tables.py --tables ra_mst_races ra_mst_runners ra_mst_horses
 
 # Export to JSON only
 python3 fetchers/analyze_tables.py --output json
@@ -105,9 +105,9 @@ python3 fetchers/analyze_tables.py --output-file my_analysis.json
 ### 3. Temporal Coverage (Date-Based Tables)
 
 **Analyzed for Tables with Date Fields:**
-- `ra_races` (using `off_dt`)
-- `ra_runners` (using `created_at`)
-- `ra_race_results` (using `created_at`)
+- `ra_mst_races` (using `off_dt`)
+- `ra_mst_runners` (using `created_at`)
+- `ra_mst_race_results` (using `created_at`)
 - `ra_mst_horses` (using `created_at`)
 - `ra_horse_pedigree` (using `created_at`)
 
@@ -234,7 +234,7 @@ python3 fetchers/master_fetcher_controller.py --mode analyze --interactive
 
 **Command:**
 ```bash
-python3 fetchers/analyze_tables.py --tables ra_races ra_runners
+python3 fetchers/analyze_tables.py --tables ra_mst_races ra_mst_runners
 ```
 
 **Review:** Check `temporal_coverage.coverage_years` in JSON output
@@ -267,7 +267,7 @@ python3 fetchers/analyze_tables.py --tables ra_mst_horses ra_horse_pedigree
 
 **Command:**
 ```bash
-python3 fetchers/analyze_tables.py --tables ra_races --output json
+python3 fetchers/analyze_tables.py --tables ra_mst_races --output json
 ```
 
 **Review:** `temporal_coverage.yearly_counts` - look for years with 0 or low counts
@@ -400,7 +400,7 @@ python3 fetchers/analyze_tables.py --tables ra_races --output json
 1. **Analyze specific tables:**
    ```bash
    # Only analyze tables you need
-   python3 fetchers/analyze_tables.py --tables ra_races ra_runners
+   python3 fetchers/analyze_tables.py --tables ra_mst_races ra_mst_runners
    ```
 
 2. **Skip temporal analysis for non-temporal tables:**

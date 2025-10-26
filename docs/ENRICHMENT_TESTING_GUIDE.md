@@ -196,7 +196,7 @@ python3 tests/test_live_data_with_markers.py
    - Stores to ra_mst_horses (basic) + ra_horse_pedigree (enrichment)
 
 2. **Add **TEST** Markers** (to all inserted data)
-   - Queries ra_races, ra_runners, ra_mst_horses, ra_horse_pedigree
+   - Queries ra_mst_races, ra_mst_runners, ra_mst_horses, ra_horse_pedigree
    - Adds `**TEST**` prefix to ALL fields in these records
    - Updates database with marked records
 

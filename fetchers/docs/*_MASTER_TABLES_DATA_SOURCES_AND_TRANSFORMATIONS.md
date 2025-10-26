@@ -53,9 +53,9 @@
 | 5 | `ra_mst_owners` | Racing API (from racecards) | `master_fetcher_controller.py` → `races_fetcher.py` + `results_fetcher.py` | Daily | Extraction from runners | ~80K | 24 |
 | 6 | `ra_mst_horses` | Racing API (hybrid) | `master_fetcher_controller.py` → `races_fetcher.py` | Daily | Hybrid enrichment for NEW horses | ~112K | 15 |
 | 7 | `ra_horse_pedigree` | Racing API `/v1/horses/{id}/pro` | `master_fetcher_controller.py` → `races_fetcher.py` | Daily | Enrichment (NEW horses only) | ~90K | 11 |
-| 8 | `ra_races` | Racing API `/v1/racecards/pro` | `master_fetcher_controller.py` → `races_fetcher.py` | Daily | Direct mapping | ~180K | 48 |
-| 9 | `ra_runners` | Racing API `/v1/racecards/pro` | `master_fetcher_controller.py` → `races_fetcher.py` | Daily | Field mapping + pedigree denormalization | ~2.4M | 57 |
-| 10 | `ra_race_results` | Racing API `/v1/results` | `master_fetcher_controller.py` → `results_fetcher.py` | Daily | Updates runners with positions | ~0 | 38 |
+| 8 | `ra_mst_races` | Racing API `/v1/racecards/pro` | `master_fetcher_controller.py` → `races_fetcher.py` | Daily | Direct mapping | ~180K | 48 |
+| 9 | `ra_mst_runners` | Racing API `/v1/racecards/pro` | `master_fetcher_controller.py` → `races_fetcher.py` | Daily | Field mapping + pedigree denormalization | ~2.4M | 57 |
+| 10 | `ra_mst_race_results` | Racing API `/v1/results` | `master_fetcher_controller.py` → `results_fetcher.py` | Daily | Updates runners with positions | ~0 | 38 |
 | 11 | `ra_mst_sires` | Database calculation | `scripts/populate_pedigree_statistics.py` | Weekly | Aggregate 41+ statistics from progeny | ~16K | 47 |
 | 12 | `ra_mst_dams` | Database calculation | `scripts/populate_pedigree_statistics.py` | Weekly | Aggregate 41+ statistics from progeny | ~80K | 47 |
 | 13 | `ra_mst_damsires` | Database calculation | `scripts/populate_pedigree_statistics.py` | Weekly | Aggregate 41+ statistics from grandprogeny | ~12K | 47 |
@@ -128,7 +128,7 @@
 **Tables:** sires, dams, damsires
 **Method:** Aggregate statistics from race results
 **Transformation:** Complex calculations (41+ fields)
-**Data Sources:** ra_runners + ra_races + ra_mst_horses
+**Data Sources:** ra_mst_runners + ra_mst_races + ra_mst_horses
 
 ---
 
@@ -235,7 +235,7 @@ python3 fetchers/master_fetcher_controller.py --mode backfill --tables ra_mst_bo
 | Source | Columns | Method |
 |--------|---------|--------|
 | Racing API (from racecards) | id, name | Extracted from race runners |
-| Database calculation | 18 statistics columns | Calculated from ra_runners |
+| Database calculation | 18 statistics columns | Calculated from ra_mst_runners |
 | System | created_at, updated_at | Database defaults |
 
 #### Population Script
@@ -297,9 +297,9 @@ for runner in runners:
 
 | Column | Calculation Source |
 |--------|-------------------|
-| total_rides | COUNT(*) FROM ra_runners WHERE jockey_id = X |
-| total_wins | COUNT(*) FROM ra_runners WHERE jockey_id = X AND position = 1 |
-| total_places | COUNT(*) FROM ra_runners WHERE jockey_id = X AND position <= 3 |
+| total_rides | COUNT(*) FROM ra_mst_runners WHERE jockey_id = X |
+| total_wins | COUNT(*) FROM ra_mst_runners WHERE jockey_id = X AND position = 1 |
+| total_places | COUNT(*) FROM ra_mst_runners WHERE jockey_id = X AND position <= 3 |
 | win_rate | (total_wins / total_rides) * 100 |
 | place_rate | (total_places / total_rides) * 100 |
 | recent_14d_rides | COUNT(*) WHERE date >= NOW() - 14 days |
@@ -308,7 +308,7 @@ for runner in runners:
 | recent_30d_rides | COUNT(*) WHERE date >= NOW() - 30 days |
 | recent_30d_wins | COUNT(*) WHERE position = 1 AND date >= NOW() - 30 days |
 | recent_30d_win_rate | (recent_30d_wins / recent_30d_rides) * 100 |
-| last_ride_date | MAX(date) FROM ra_runners |
+| last_ride_date | MAX(date) FROM ra_mst_runners |
 | last_win_date | MAX(date) WHERE position = 1 |
 | days_since_last_ride | NOW() - last_ride_date |
 | days_since_last_win | NOW() - last_win_date |
@@ -336,7 +336,7 @@ for runner in runners:
 | Source | Columns | Method |
 |--------|---------|--------|
 | Racing API (from racecards) | id, name, location | Extracted from race runners |
-| Database calculation | 18 statistics columns | Calculated from ra_runners |
+| Database calculation | 18 statistics columns | Calculated from ra_mst_runners |
 | System | created_at, updated_at | Database defaults |
 
 #### Population Script
@@ -387,7 +387,7 @@ Same pattern as jockeys:
 - Recent 14d/30d stats
 - Last runner/win dates and courses
 
-**Calculation Source:** ra_runners + ra_races (WHERE trainer_id = X)
+**Calculation Source:** ra_mst_runners + ra_mst_races (WHERE trainer_id = X)
 
 #### Update Frequency
 
@@ -406,7 +406,7 @@ Same pattern as jockeys:
 | Source | Columns | Method |
 |--------|---------|--------|
 | Racing API (from racecards) | id, name | Extracted from race runners |
-| Database calculation | 20 statistics columns | Calculated from ra_runners |
+| Database calculation | 20 statistics columns | Calculated from ra_mst_runners |
 | System | created_at, updated_at | Database defaults |
 
 #### Population Script
@@ -451,7 +451,7 @@ Similar to jockeys/trainers plus:
 - last_horse_name (most recent runner)
 - active_last_30d (boolean flag)
 
-**Calculation Source:** ra_runners + ra_races + ra_mst_horses (WHERE owner_id = X)
+**Calculation Source:** ra_mst_runners + ra_mst_races + ra_mst_horses (WHERE owner_id = X)
 
 #### Update Frequency
 
@@ -618,7 +618,7 @@ if any([pro_data.get('sire_id'), pro_data.get('dam_id'), pro_data.get('damsire_i
 
 ---
 
-### 8. ra_races (Races)
+### 8. ra_mst_races (Races)
 
 **Total Columns:** 48
 **API Coverage:** 95.8% (46/48 columns)
@@ -690,7 +690,7 @@ python3 fetchers/master_fetcher_controller.py --mode daily
 }
 
 # Updates existing race record:
-UPDATE ra_races
+UPDATE ra_mst_races
 SET
   has_result = true,
   winning_time = "1:48.55",
@@ -709,7 +709,7 @@ WHERE id = "rac_11756329"
 
 ---
 
-### 9. ra_runners (Race Entries/Runners)
+### 9. ra_mst_runners (Race Entries/Runners)
 
 **Total Columns:** 57
 **API Coverage:** 93.0% (53/57 columns)
@@ -806,7 +806,7 @@ runner_record = {
 }
 
 # Updates existing runner record:
-UPDATE ra_runners
+UPDATE ra_mst_runners
 SET
   position = 1,
   distance_beaten = 0.00,
@@ -846,7 +846,7 @@ if horse_last_race_date:
 
 ---
 
-### 10. ra_race_results (Historical Results)
+### 10. ra_mst_race_results (Historical Results)
 
 **Total Columns:** ~40
 **API Coverage:** 100% (from results endpoint)
@@ -866,7 +866,7 @@ if horse_last_race_date:
 
 **Updates Runners Table (not separate inserts):**
 
-Results data UPDATES the `ra_runners` table with finishing positions and post-race data. The `ra_race_results` table may be deprecated in favor of position data in `ra_runners`.
+Results data UPDATES the `ra_mst_runners` table with finishing positions and post-race data. The `ra_mst_race_results` table may be deprecated in favor of position data in `ra_mst_runners`.
 
 #### Update Frequency
 
@@ -922,8 +922,8 @@ progeny_races = """
         ra.race_class,
         ra.distance,
         ra.course_id
-    FROM ra_runners r
-    JOIN ra_races ra ON r.race_id = ra.id
+    FROM ra_mst_runners r
+    JOIN ra_mst_races ra ON r.race_id = ra.id
     WHERE r.horse_id IN ({progeny_ids})
     AND r.position IS NOT NULL
 """
@@ -1177,8 +1177,8 @@ def calculate_pedigree_statistics(entity_id: str, entity_type: str) -> Dict:
             r.prize_won,
             ra.race_class,
             ra.distance
-        FROM ra_runners r
-        JOIN ra_races ra ON r.race_id = ra.id
+        FROM ra_mst_runners r
+        JOIN ra_mst_races ra ON r.race_id = ra.id
         WHERE r.horse_id IN %(progeny_ids)s
         AND r.position IS NOT NULL
     """
@@ -1223,7 +1223,7 @@ python3 fetchers/master_fetcher_controller.py --mode backfill --interactive
 python3 fetchers/master_fetcher_controller.py --mode daily
 
 # Manual run specific tables
-python3 fetchers/master_fetcher_controller.py --mode manual --tables ra_races ra_runners
+python3 fetchers/master_fetcher_controller.py --mode manual --tables ra_mst_races ra_mst_runners
 
 # Show schedule
 python3 fetchers/master_fetcher_controller.py --show-schedule
@@ -1240,9 +1240,9 @@ python3 fetchers/master_fetcher_controller.py --mode daily --test
 - ra_mst_owners
 - ra_mst_horses
 - ra_horse_pedigree
-- ra_races
-- ra_runners
-- ra_race_results
+- ra_mst_races
+- ra_mst_runners
+- ra_mst_race_results
 
 ### Pedigree Statistics Population
 
@@ -1275,7 +1275,7 @@ python3 scripts/populate_pedigree_statistics.py --table dams
 
 | Frequency | Tables | Time (UK) | Trigger |
 |-----------|--------|-----------|---------|
-| **Daily** | ra_races, ra_runners, ra_race_results, entities | 1:00 AM | New races/results |
+| **Daily** | ra_mst_races, ra_mst_runners, ra_mst_race_results, entities | 1:00 AM | New races/results |
 | **Weekly** | ra_mst_jockeys, ra_mst_trainers, ra_mst_owners | Sunday 2:00 AM | Entity refresh |
 | **Monthly** | ra_mst_courses, ra_mst_bookmakers | 1st of month 3:00 AM | Reference data refresh |
 | **Weekly** | ra_mst_sires, ra_mst_dams, ra_mst_damsires | Manual/Scheduled | Statistics recalculation |
@@ -1319,9 +1319,9 @@ crontab -e
 | ra_mst_owners | 2 | 24 | 8.3% |
 | ra_mst_horses | 11 | 15 | 73.3% |
 | ra_horse_pedigree | 14 | 14 | 100.0% |
-| ra_races | 46 | 48 | 95.8% |
-| ra_runners | 53 | 57 | 93.0% |
-| ra_race_results | ~40 | ~40 | 100.0% |
+| ra_mst_races | 46 | 48 | 95.8% |
+| ra_mst_runners | 53 | 57 | 93.0% |
+| ra_mst_race_results | ~40 | ~40 | 100.0% |
 | ra_mst_sires | 1 | 47 | 2.1% |
 | ra_mst_dams | 1 | 47 | 2.1% |
 | ra_mst_damsires | 1 | 47 | 2.1% |
@@ -1368,10 +1368,10 @@ Track combinations of jockey/trainer/owner/horse that frequently race together
 #### Intended Data Sources
 | Source | Columns | Method |
 |--------|---------|--------|
-| Database patterns | jockey_id, trainer_id, owner_id, horse_id, combination_count, win_rate, last_seen | Pattern analysis from ra_runners |
+| Database patterns | jockey_id, trainer_id, owner_id, horse_id, combination_count, win_rate, last_seen | Pattern analysis from ra_mst_runners |
 
 #### Implementation Plan
-- Analyze ra_runners for frequent combinations
+- Analyze ra_mst_runners for frequent combinations
 - Calculate success rates for each combination
 - Update weekly or monthly
 
@@ -1387,10 +1387,10 @@ Track combinations of jockey/trainer/owner/horse that frequently race together
 - No populate script exists
 - Requirements never defined
 - Purpose unclear after multiple planning iterations
-- ra_runners table (57 columns) already captures comprehensive runner data
+- ra_mst_runners table (57 columns) already captures comprehensive runner data
 
 **Better Alternatives:**
-- Add columns directly to ra_runners if needed
+- Add columns directly to ra_mst_runners if needed
 - Create specific analytical tables (ra_runner_statistics, etc.)
 - Define clear requirements before creating tables
 
@@ -1408,7 +1408,7 @@ Individual runner (horse in specific race) performance statistics
 #### Intended Data Sources
 | Source | Columns | Method |
 |--------|---------|--------|
-| Database calculation | Historical performance metrics for each horse | Aggregate from ra_runners + ra_races |
+| Database calculation | Historical performance metrics for each horse | Aggregate from ra_mst_runners + ra_mst_races |
 
 #### Implementation Plan
 - Calculate per-horse statistics
@@ -1429,7 +1429,7 @@ Aggregate performance statistics grouped by distance ranges
 #### Intended Data Sources
 | Source | Columns | Method |
 |--------|---------|--------|
-| Database calculation | Distance ranges, win rates, average times | Aggregate from ra_runners + ra_races |
+| Database calculation | Distance ranges, win rates, average times | Aggregate from ra_mst_runners + ra_mst_races |
 
 #### Implementation Plan
 - Group races by distance ranges (e.g., sprint, mile, middle distance, staying)
@@ -1450,7 +1450,7 @@ Aggregate performance statistics grouped by venue/course
 #### Intended Data Sources
 | Source | Columns | Method |
 |--------|---------|--------|
-| Database calculation | Course-specific performance metrics | Aggregate from ra_runners + ra_races |
+| Database calculation | Course-specific performance metrics | Aggregate from ra_mst_runners + ra_mst_races |
 
 #### Implementation Plan
 - Calculate per-course statistics for horses, jockeys, trainers

@@ -62,8 +62,8 @@ Runners marked with **TEST**: 67
 Total marked: 72
 
 Now open Supabase and verify:
-1. Check ra_races table - look for **TEST** in all columns
-2. Check ra_runners table - look for **TEST** in all columns
+1. Check ra_mst_races table - look for **TEST** in all columns
+2. Check ra_mst_runners table - look for **TEST** in all columns
 3. Every column should show **TEST** marker
 ================================================================================
 ```
@@ -71,7 +71,7 @@ Now open Supabase and verify:
 ### 2. Visual Verification in Supabase
 
 **Open Supabase Table Editor:**
-1. Navigate to `ra_races` table
+1. Navigate to `ra_mst_races` table
 2. Find rows with `**TEST**` in race_title
 3. Click to view details
 4. **Verify EVERY column shows `**TEST**` marker**
@@ -93,7 +93,7 @@ age_band:             "**TEST** 4yo+"
 
 ### 3. Check Runners Table
 
-**Navigate to `ra_runners` table:**
+**Navigate to `ra_mst_runners` table:**
 ```
 horse_name:             "**TEST** Dancing King"
 jockey_name:            "**TEST** A P McCoy"
@@ -118,12 +118,12 @@ python3 tests/test_live_data_with_markers.py --cleanup
 CLEANING UP **TEST** DATA
 ================================================================================
 
-Cleaning ra_runners...
-  ✅ Deleted 67 rows from ra_runners
-Cleaning ra_race_results...
-  ℹ️  No test data found in ra_race_results
-Cleaning ra_races...
-  ✅ Deleted 5 rows from ra_races
+Cleaning ra_mst_runners...
+  ✅ Deleted 67 rows from ra_mst_runners
+Cleaning ra_mst_race_results...
+  ℹ️  No test data found in ra_mst_race_results
+Cleaning ra_mst_races...
+  ✅ Deleted 5 rows from ra_mst_races
 Cleaning ra_mst_horses...
   ✅ Deleted 67 rows from ra_mst_horses
 ...
@@ -185,7 +185,7 @@ def add_test_markers_to_value(value, field_name):
 marked_race = add_test_markers_to_record(race)
 
 # Update in database
-db.table('ra_races').update(marked_race).eq('race_id', race_id).execute()
+db.table('ra_mst_races').update(marked_race).eq('race_id', race_id).execute()
 
 # Same for runners, entities, etc.
 ```
@@ -255,17 +255,17 @@ The script can be extended to test other entities:
 ```sql
 -- Check which tables have test data
 SELECT
-    'ra_races' as table_name,
+    'ra_mst_races' as table_name,
     COUNT(*) as test_rows
-FROM ra_races
+FROM ra_mst_races
 WHERE race_title LIKE '%**TEST**%'
 
 UNION ALL
 
 SELECT
-    'ra_runners',
+    'ra_mst_runners',
     COUNT(*)
-FROM ra_runners
+FROM ra_mst_runners
 WHERE horse_name LIKE '%**TEST**%'
 
 UNION ALL
@@ -352,8 +352,8 @@ WHERE horse_name LIKE '%**TEST**%';
 Add table to `tables_to_clean` in cleanup method:
 ```python
 tables_to_clean = [
-    ('ra_runners', 'horse_name'),
-    ('ra_races', 'race_title'),
+    ('ra_mst_runners', 'horse_name'),
+    ('ra_mst_races', 'race_title'),
     ('your_new_table', 'some_text_column'),  # Add here
 ]
 ```
@@ -392,11 +392,11 @@ python3 tests/test_live_data_with_markers.py
 # ✅ Runners marked with **TEST**: 67
 
 # 2. Open Supabase
-# - Check ra_races table
+# - Check ra_mst_races table
 # - Find rows with **TEST** in race_title
 # - Verify ALL 45 columns show **TEST**
 
-# 3. Check ra_runners table
+# 3. Check ra_mst_runners table
 # - Find rows with **TEST** in horse_name
 # - Verify ALL 57 columns show **TEST**
 
@@ -427,7 +427,7 @@ python3 tests/test_live_data_with_markers.py --cleanup
 
 ## What You'll See in Supabase
 
-### ra_races Table (45 columns)
+### ra_mst_races Table (45 columns)
 
 ```
 ✅ race_id:              "**TEST** 67890"
@@ -446,7 +446,7 @@ python3 tests/test_live_data_with_markers.py --cleanup
 ... (all 45 columns)
 ```
 
-### ra_runners Table (57 columns)
+### ra_mst_runners Table (57 columns)
 
 ```
 ✅ race_id:              "**TEST** 67890"

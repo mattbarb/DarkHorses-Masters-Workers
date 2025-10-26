@@ -147,8 +147,8 @@ class MetadataTracker:
             Dictionary mapping table names to their last update info
         """
         tables = [
-            'ra_courses', 'ra_bookmakers', 'ra_races',
-            'ra_runners', 'ra_horses', 'ra_jockeys', 'ra_trainers', 'ra_owners'
+            'ra_courses', 'ra_bookmakers', 'ra_mst_races',
+            'ra_mst_runners', 'ra_horses', 'ra_jockeys', 'ra_trainers', 'ra_owners'
         ]
 
         summary = {}

@@ -119,8 +119,8 @@ All tables use the `ra_` prefix:
 ra_courses         ~150 records     ✅ Reference data
 ra_bookmakers       ~50 records     ✅ Reference data
 ra_results       ~55,000 records    📊 2015-2025 results
-ra_races         ~15,000 records    📊 2023-2025 racecards
-ra_runners      ~600,000 records    📊 2023-2025 runners
+ra_mst_races         ~15,000 records    📊 2023-2025 racecards
+ra_mst_runners      ~600,000 records    📊 2023-2025 runners
 ra_horses        ~80,000 records    👤 Extracted entities
 ra_jockeys        ~3,000 records    👤 Extracted entities
 ra_trainers       ~2,500 records    👤 Extracted entities
@@ -308,7 +308,7 @@ python3 scripts/initialize_data.py --test              # Test mode (last 7 days 
 ```bash
 python3 management/cleanup_and_reset.py                   # Dry run (preview)
 python3 management/cleanup_and_reset.py --confirm         # Actually delete data
-python3 management/cleanup_and_reset.py --confirm --tables ra_races ra_results  # Specific tables only
+python3 management/cleanup_and_reset.py --confirm --tables ra_mst_races ra_results  # Specific tables only
 ```
 
 **monitor_data_progress.py:**
@@ -345,8 +345,8 @@ python3 monitors/monitor_data_progress.py --year 2023   # Focus on specific year
 ✅ ra_courses         ~150 records
 ✅ ra_bookmakers       ~50 records
 ✅ ra_results       ~55,000 records    (2015-2025)
-✅ ra_races         ~15,000 records    (2023-2025)
-✅ ra_runners      ~600,000 records    (2023-2025)
+✅ ra_mst_races         ~15,000 records    (2023-2025)
+✅ ra_mst_runners      ~600,000 records    (2023-2025)
 ✅ ra_horses        ~80,000 records    (2015-2025)
 ✅ ra_jockeys        ~3,000 records    (2015-2025)
 ✅ ra_trainers       ~2,500 records    (2015-2025)

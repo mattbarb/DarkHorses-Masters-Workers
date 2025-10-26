@@ -60,7 +60,7 @@ def preview_test_values():
         print(f"  {col_name:30s} ({col_type:30s}): {test_value}")
 
     print("\n" + "=" * 80)
-    print("\nExample ra_runners Row in Supabase:")
+    print("\nExample ra_mst_runners Row in Supabase:")
     print("=" * 80 + "\n")
 
     # Show a realistic example of what a row will look like

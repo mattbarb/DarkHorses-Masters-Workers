@@ -2,7 +2,7 @@
 """
 Populate ra_runner_statistics Table
 
-Calculates individual runner-level statistics from ra_runners table.
+Calculates individual runner-level statistics from ra_mst_runners table.
 This includes performance metrics for each race entry (runner) rather than
 aggregated horse statistics.
 
@@ -59,7 +59,7 @@ def calculate_runner_statistics(
     # Join with races to get course, distance, going, surface
     try:
         # Get all runners with race context
-        runners_response = db_client.client.table('ra_runners')\
+        runners_response = db_client.client.table('ra_mst_runners')\
             .select('id, race_id, horse_id, horse_name, jockey_id, position, prize_won, created_at')\
             .not_.is_('position', 'null')\
             .execute()
@@ -79,7 +79,7 @@ def calculate_runner_statistics(
         batch_size = 1000
         for i in range(0, len(race_ids), batch_size):
             batch_ids = race_ids[i:i + batch_size]
-            race_batch = db_client.client.table('ra_races')\
+            race_batch = db_client.client.table('ra_mst_races')\
                 .select('id, course_id, distance_f, going, surface, off_time')\
                 .in_('id', batch_ids)\
                 .execute()

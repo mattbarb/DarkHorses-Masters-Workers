@@ -41,7 +41,7 @@ Successfully updated the DarkHorses Masters Workers project to capture and store
 
 **Previous State**: Position data was NOT being extracted from results API, causing all win rates to show 0%
 
-**Current State**: Position data is now fully captured and stored in ra_runners table with these fields:
+**Current State**: Position data is now fully captured and stored in ra_mst_runners table with these fields:
 - `position` (INTEGER) - Finishing position (1-20+)
 - `distance_beaten` (VARCHAR) - Distance behind winner (e.g., "1.25L")
 - `prize_won` (DECIMAL) - Prize money for this race
@@ -91,7 +91,7 @@ python3 scripts/validate_api_data.py
 
 **File**: `/Users/matthewbarber/Documents/GitHub/DarkHorses-Masters-Workers/migrations/006_add_finishing_time_field.sql`
 
-**Purpose**: Ensure all result fields exist in ra_runners table
+**Purpose**: Ensure all result fields exist in ra_mst_runners table
 
 **Changes**:
 - Verified `finishing_time` field exists (added in migration 005)
@@ -116,7 +116,7 @@ python3 scripts/validate_api_data.py
 - ✅ Extracts race results including finishing positions
 - ✅ Uses `extract_position_data()` for position parsing
 - ✅ Captures position, distance_beaten, prize_won, starting_price
-- ✅ Updates ra_runners with result data via UPSERT
+- ✅ Updates ra_mst_runners with result data via UPSERT
 - ✅ Links results to existing racecard entries
 
 #### position_parser.py (Utility)
@@ -151,7 +151,7 @@ python3 scripts/validate_api_data.py
 
 #### Section 3: Table-by-Table Field Mapping (COMPREHENSIVE)
 
-**ra_races** (35+ fields):
+**ra_mst_races** (35+ fields):
 - Every field documented with:
   - Data type
   - API source endpoint
@@ -159,7 +159,7 @@ python3 scripts/validate_api_data.py
   - Availability percentage
   - Usage notes
 
-**ra_runners** (60+ fields):
+**ra_mst_runners** (60+ fields):
 - Organized by category:
   - Core identification (8 fields)
   - Horse details (5 fields)
@@ -253,8 +253,8 @@ python3 -c "from fetchers.results_fetcher import ResultsFetcher; ..."
 - ✅ All API calls successful (2 req/sec rate limit respected)
 
 **Database Insertion**:
-- ✅ Inserted 50 races into ra_races
-- ✅ Inserted 502 runners into ra_runners with position data
+- ✅ Inserted 50 races into ra_mst_races
+- ✅ Inserted 502 runners into ra_mst_runners with position data
 - ✅ Extracted and stored 244 jockeys
 - ✅ Extracted and stored 261 trainers
 - ✅ Extracted and stored 457 owners
@@ -317,7 +317,7 @@ The previous work (migrations 003, 004, 005 and fetcher updates) had already imp
 
 ## Database Schema Status
 
-### ra_races Table (Race Reference)
+### ra_mst_races Table (Race Reference)
 
 **Total Fields**: 35+
 
@@ -330,7 +330,7 @@ The previous work (migrations 003, 004, 005 and fetcher updates) had already imp
 - Details: age_band, field_size, big_race
 - Metadata: api_data (full JSONB), created_at, updated_at
 
-### ra_runners Table (Runner & Results)
+### ra_mst_runners Table (Runner & Results)
 
 **Total Fields**: 60+
 
@@ -561,7 +561,7 @@ SELECT
     distance_beaten,
     prize_won,
     starting_price
-FROM ra_runners
+FROM ra_mst_runners
 WHERE position IS NOT NULL
 ORDER BY result_updated_at DESC
 LIMIT 20;
@@ -583,7 +583,7 @@ SELECT
         2
     ) AS win_rate
 FROM ra_horses h
-LEFT JOIN ra_runners r ON h.horse_id = r.horse_id
+LEFT JOIN ra_mst_runners r ON h.horse_id = r.horse_id
 WHERE r.position IS NOT NULL
 GROUP BY h.horse_id, h.name
 HAVING COUNT(*) >= 5
@@ -602,10 +602,10 @@ SELECT
     races.course_name,
     r.position,
     r.starting_price
-FROM ra_runners r
-JOIN ra_races races ON r.race_id = races.race_id
+FROM ra_mst_runners r
+JOIN ra_mst_races races ON r.race_id = races.race_id
 WHERE r.horse_id = (
-    SELECT horse_id FROM ra_runners WHERE position IS NOT NULL LIMIT 1
+    SELECT horse_id FROM ra_mst_runners WHERE position IS NOT NULL LIMIT 1
 )
 AND r.position IS NOT NULL
 ORDER BY races.race_date DESC
@@ -622,8 +622,8 @@ SELECT
     MAX(race_date) AS most_recent_race,
     MAX(result_updated_at) AS most_recent_result_update,
     COUNT(*) FILTER (WHERE race_date >= CURRENT_DATE - INTERVAL '7 days') AS races_last_7_days
-FROM ra_races
-LEFT JOIN ra_runners ON ra_races.race_id = ra_runners.race_id;
+FROM ra_mst_races
+LEFT JOIN ra_mst_runners ON ra_mst_races.race_id = ra_mst_runners.race_id;
 ```
 
 **Expected**: Recent dates and non-zero race count

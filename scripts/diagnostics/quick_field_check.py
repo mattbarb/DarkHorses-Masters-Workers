@@ -11,7 +11,7 @@ supabase = create_client(config.supabase.url, config.supabase.service_key)
 
 # Get 3 recent runners from a specific race to avoid timeout
 # First get a recent race
-race_result = supabase.table('ra_races') \
+race_result = supabase.table('ra_mst_races') \
     .select('race_id') \
     .order('created_at', desc=True) \
     .limit(1) \
@@ -25,7 +25,7 @@ race_id = race_result.data[0]['race_id']
 print(f"Checking runners from race: {race_id}\n")
 
 # Get runners from that race
-result = supabase.table('ra_runners') \
+result = supabase.table('ra_mst_runners') \
     .select('*') \
     .eq('race_id', race_id) \
     .limit(5) \

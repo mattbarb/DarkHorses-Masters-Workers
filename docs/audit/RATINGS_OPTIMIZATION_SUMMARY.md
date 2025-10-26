@@ -139,7 +139,7 @@ python3 scripts/validate_data_completeness.py
 
 **Expected results:**
 ```
-ra_runners (379,422 total):
+ra_mst_runners (379,422 total):
   ✅ Official Rating:  285,000 ( 75-76%)
   ✅ RPR:              333,000 ( 88-89%)
   ✅ TSR:              295,000 ( 78-80%)

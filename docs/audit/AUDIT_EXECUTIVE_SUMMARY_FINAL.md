@@ -70,7 +70,7 @@ if runner_records:
 **Issue:** 0 records in ra_horse_pedigree table
 
 **Reality:** Pedigree data IS being captured!
-- sire_id, dam_id, damsire_id stored in ra_runners (100% populated)
+- sire_id, dam_id, damsire_id stored in ra_mst_runners (100% populated)
 - ra_horse_pedigree table not needed
 - Architecture uses denormalized approach
 
@@ -116,8 +116,8 @@ if runner_records:
 
 | Table | Records | NULL Columns | Status |
 |-------|---------|--------------|--------|
-| ra_races | 136,648 | 16 entirely NULL (36%) | Needs fixes |
-| ra_runners | 379,422 | 23 entirely NULL (33%) | CRITICAL - position data |
+| ra_mst_races | 136,648 | 16 entirely NULL (36%) | Needs fixes |
+| ra_mst_runners | 379,422 | 23 entirely NULL (33%) | CRITICAL - position data |
 | ra_horses | 111,430 | 4 entirely NULL (44%) | Missing fields |
 | ra_jockeys | 3,480 | 0 entirely NULL | Missing stats |
 | ra_trainers | 2,780 | 1 entirely NULL | Missing location + stats |
@@ -223,7 +223,7 @@ Day 5: Testing
 
 1. **Position data is the #1 blocker** - affects 43% of ML model
 2. **Most missing data is actually available** - just not being extracted
-3. **ra_horse_pedigree not needed** - data already in ra_runners (good architecture)
+3. **ra_horse_pedigree not needed** - data already in ra_mst_runners (good architecture)
 4. **Entity tables need statistics** - but data exists to calculate them
 5. **Low runner count is suspicious** - needs investigation
 6. **API provides everything we need** - no new endpoints required

@@ -128,7 +128,7 @@ class ResultsFetcher:
         results_dict = {}
         if all_results:
             # Insert race data into ra_races table
-            # Note: Runner results go in ra_race_results (denormalized), full runner data goes in ra_runners
+            # Note: Runner results go in ra_mst_race_results (denormalized), full runner data goes in ra_mst_runners
             logger.info(f"Inserting {len(all_results)} races into ra_races...")
             races_to_insert = []
             results_to_insert = []
@@ -194,13 +194,13 @@ class ResultsFetcher:
                 if race_record['id']:
                     races_to_insert.append(race_record)
 
-                # Prepare runner result records for ra_race_results table
+                # Prepare runner result records for ra_mst_race_results table
                 # This table stores individual runner results with race context
                 runners = race_data.get('runners', [])
                 for runner in runners:
                     position_data = extract_position_data(runner)
 
-                    # Build runner result record matching ra_race_results schema
+                    # Build runner result record matching ra_mst_race_results schema
                     runner_result = {
                         'race_id': race_data.get('race_id'),
                         'race_date': race_data.get('date'),
@@ -273,16 +273,16 @@ class ResultsFetcher:
             else:
                 logger.warning(f"No races to insert! all_results count: {len(all_results)}")
 
-            # Insert runner results into ra_race_results table
+            # Insert runner results into ra_mst_race_results table
             # This table stores individual runner results (flattened/denormalized view)
             # It combines runner finishing data with race context for easier querying
             if results_to_insert:
-                logger.info(f"Inserting {len(results_to_insert)} runner results into ra_race_results...")
+                logger.info(f"Inserting {len(results_to_insert)} runner results into ra_mst_race_results...")
                 result_stats = self.db_client.insert_race_results(results_to_insert)
                 results_dict['race_results'] = result_stats
                 logger.info(f"Runner results inserted: {result_stats}")
 
-            # Insert runner records with position data into ra_runners
+            # Insert runner records with position data into ra_mst_runners
             if all_runners:
                 logger.info(f"Inserting {len(all_runners)} runner records with position data...")
                 runner_records = self._prepare_runner_records(all_results)
@@ -333,7 +333,7 @@ class ResultsFetcher:
             return None
 
         # Build result record for ra_races table
-        # Note: Results data (positions) is stored in ra_runners table
+        # Note: Results data (positions) is stored in ra_mst_runners table
         result_record = {
             'id': race_id,  # RENAMED: race_id → id
             'course_id': result.get('course_id'),
@@ -438,7 +438,7 @@ class ResultsFetcher:
 
     def _prepare_runner_records(self, results: List[Dict]) -> List[Dict]:
         """
-        Prepare runner records with position data for insertion into ra_runners
+        Prepare runner records with position data for insertion into ra_mst_runners
 
         Args:
             results: List of result dictionaries (raw API responses)

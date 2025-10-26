@@ -71,7 +71,7 @@ class DailyStatisticsUpdater:
     def _check_position_data_available(self) -> bool:
         """Check if position data is available"""
         try:
-            result = self.db_client.client.table('ra_runners')\
+            result = self.db_client.client.table('ra_mst_runners')\
                 .select('id, position')\
                 .not_.is_('position', 'null')\
                 .limit(1)\
@@ -104,7 +104,7 @@ class DailyStatisticsUpdater:
             cutoff_date = (datetime.utcnow() - timedelta(days=days)).strftime('%Y-%m-%d')
 
             # Get recent race IDs
-            races = self.db_client.client.table('ra_races')\
+            races = self.db_client.client.table('ra_mst_races')\
                 .select('id')\
                 .gte('date', cutoff_date)\
                 .execute()
@@ -126,7 +126,7 @@ class DailyStatisticsUpdater:
             entity_ids = set()
             for i in range(0, len(race_ids), 1000):
                 batch_ids = race_ids[i:i+1000]
-                runners = self.db_client.client.table('ra_runners')\
+                runners = self.db_client.client.table('ra_mst_runners')\
                     .select(entity_field)\
                     .in_('race_id', batch_ids)\
                     .not_.is_(entity_field, 'null')\
@@ -235,7 +235,7 @@ class DailyStatisticsUpdater:
             batch_ids = entity_ids[i:i+100]
 
             # Get all runners for this batch
-            runners = self.db_client.client.table('ra_runners')\
+            runners = self.db_client.client.table('ra_mst_runners')\
                 .select(f'{entity_field}, race_id, position')\
                 .in_(entity_field, batch_ids)\
                 .execute()
@@ -245,7 +245,7 @@ class DailyStatisticsUpdater:
 
             # Get race dates
             race_ids = list(set([r['race_id'] for r in runners.data]))
-            races = self.db_client.client.table('ra_races')\
+            races = self.db_client.client.table('ra_mst_races')\
                 .select('id, date')\
                 .in_('id', race_ids)\
                 .execute()
@@ -353,7 +353,7 @@ class DailyStatisticsUpdater:
             batch_ids = entity_ids[i:i+100]
 
             # Get all runners for this batch
-            runners = self.db_client.client.table('ra_runners')\
+            runners = self.db_client.client.table('ra_mst_runners')\
                 .select(f'{entity_field}, position')\
                 .in_(entity_field, batch_ids)\
                 .execute()

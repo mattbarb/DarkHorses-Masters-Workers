@@ -13,9 +13,9 @@ from config.config import get_config
 from utils.supabase_client import SupabaseReferenceClient
 config = get_config()
 db = SupabaseReferenceClient(config.supabase.url, config.supabase.service_key)
-result = db.client.from_('ra_races').select('id', count='exact').is_('distance_m', 'null').execute()
+result = db.client.from_('ra_mst_races').select('id', count='exact').is_('distance_m', 'null').execute()
 missing = result.count
-total_result = db.client.from_('ra_races').select('id', count='exact').execute()
+total_result = db.client.from_('ra_mst_races').select('id', count='exact').execute()
 total = total_result.count
 pct = ((total - missing) / total * 100) if total > 0 else 0
 print(f'Total races: {total:,}')

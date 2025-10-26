@@ -235,7 +235,7 @@
         "race_id"
       ]
     },
-    "ra_race_results": {
+    "ra_mst_race_results": {
       "fetcher": "NOT IMPLEMENTED (table exists but not populated)",
       "total_columns": 36,
       "fully_populated": 0,
@@ -282,7 +282,7 @@
         "margin"
       ]
     },
-    "ra_races": {
+    "ra_mst_races": {
       "fetcher": "fetchers/races_fetcher.py + fetchers/results_fetcher.py",
       "total_columns": 46,
       "fully_populated": 16,
@@ -426,7 +426,7 @@
         "horse_id"
       ]
     },
-    "ra_runners": {
+    "ra_mst_runners": {
       "fetcher": "fetchers/races_fetcher.py + fetchers/results_fetcher.py",
       "total_columns": 53,
       "fully_populated": 17,
@@ -558,98 +558,98 @@
   },
   "issues_found": [
     {
-      "table": "ra_races",
+      "table": "ra_mst_races",
       "column": "race_number",
       "population_rate": 0.0,
       "api_endpoint": "/v1/racecards/pro -> races[]",
       "field_path": "response.races[].race_number"
     },
     {
-      "table": "ra_races",
+      "table": "ra_mst_races",
       "column": "going_detailed",
       "population_rate": 0.0,
       "api_endpoint": "/v1/racecards/pro -> races[]",
       "field_path": "response.races[].going_detailed"
     },
     {
-      "table": "ra_races",
+      "table": "ra_mst_races",
       "column": "stalls",
       "population_rate": 0.0,
       "api_endpoint": "/v1/racecards/pro -> races[]",
       "field_path": "response.races[].stalls"
     },
     {
-      "table": "ra_races",
+      "table": "ra_mst_races",
       "column": "rail_movements",
       "population_rate": 0.0,
       "api_endpoint": "/v1/racecards/pro -> races[]",
       "field_path": "response.races[].rail_movements"
     },
     {
-      "table": "ra_races",
+      "table": "ra_mst_races",
       "column": "weather",
       "population_rate": 0.0,
       "api_endpoint": "/v1/racecards/pro -> races[]",
       "field_path": "response.races[].weather"
     },
     {
-      "table": "ra_races",
+      "table": "ra_mst_races",
       "column": "meet_id",
       "population_rate": 0.0,
       "api_endpoint": "/v1/racecards/pro -> races[]",
       "field_path": "response.races[].meet_id"
     },
     {
-      "table": "ra_runners",
+      "table": "ra_mst_runners",
       "column": "headgear_run",
       "population_rate": 0.0,
       "api_endpoint": "/v1/racecards/pro OR /v1/results",
       "field_path": "response.races[].runners[].headgear_run"
     },
     {
-      "table": "ra_runners",
+      "table": "ra_mst_runners",
       "column": "wind_surgery",
       "population_rate": 0.0,
       "api_endpoint": "/v1/racecards/pro OR /v1/results",
       "field_path": "response.races[].runners[].wind_surgery"
     },
     {
-      "table": "ra_runners",
+      "table": "ra_mst_runners",
       "column": "wind_surgery_run",
       "population_rate": 0.0,
       "api_endpoint": "/v1/racecards/pro OR /v1/results",
       "field_path": "response.races[].runners[].wind_surgery_run"
     },
     {
-      "table": "ra_runners",
+      "table": "ra_mst_runners",
       "column": "claiming_price_min",
       "population_rate": 0.0,
       "api_endpoint": "/v1/racecards/pro OR /v1/results",
       "field_path": "response.races[].runners[].claiming_price_min"
     },
     {
-      "table": "ra_runners",
+      "table": "ra_mst_runners",
       "column": "claiming_price_max",
       "population_rate": 0.0,
       "api_endpoint": "/v1/racecards/pro OR /v1/results",
       "field_path": "response.races[].runners[].claiming_price_max"
     },
     {
-      "table": "ra_runners",
+      "table": "ra_mst_runners",
       "column": "medication",
       "population_rate": 0.0,
       "api_endpoint": "/v1/racecards/pro OR /v1/results",
       "field_path": "response.races[].runners[].medication"
     },
     {
-      "table": "ra_runners",
+      "table": "ra_mst_runners",
       "column": "equipment",
       "population_rate": 0.0,
       "api_endpoint": "/v1/racecards/pro OR /v1/results",
       "field_path": "response.races[].runners[].equipment"
     },
     {
-      "table": "ra_runners",
+      "table": "ra_mst_runners",
       "column": "morning_line_odds",
       "population_rate": 0.0,
       "api_endpoint": "/v1/racecards/pro OR /v1/results",

@@ -2,11 +2,11 @@
 Comprehensive Historical Backfill for All RA Tables (2015-2025)
 
 This script performs a complete backfill of all RA tables with historical data from
-January 1, 2015 onwards, prioritizing the CRITICAL gap in ra_runners coverage.
+January 1, 2015 onwards, prioritizing the CRITICAL gap in ra_mst_runners coverage.
 
 CURRENT DATABASE STATE:
 - ra_races: 136,648 races (2015-2025) ✅ COMPLETE
-- ra_runners: Only 87 races worth of data (0.06% coverage) ❌ CRITICAL GAP
+- ra_mst_runners: Only 87 races worth of data (0.06% coverage) ❌ CRITICAL GAP
 - ra_horses: 111,430 records
 - ra_jockeys: 3,482 records
 - ra_trainers: 2,780 records
@@ -16,12 +16,12 @@ CURRENT DATABASE STATE:
 - ra_bookmakers: 19 records ✅ COMPLETE
 
 CRITICAL ISSUE:
-The ra_runners table only has data for 87 races, not the full 136,648 races.
+The ra_mst_runners table only has data for 87 races, not the full 136,648 races.
 This means we're missing runner data for 99.94% of races.
 
 STRATEGY:
 1. Fetch racecards for all historical dates from 2015-01-01 onwards
-2. Extract runner data and store in ra_runners
+2. Extract runner data and store in ra_mst_runners
 3. Extract and enrich entities (horses, jockeys, trainers, owners)
 4. Capture pedigree data for new horses
 5. Respect Racing API rate limits (2 requests/second)
@@ -108,7 +108,7 @@ class HistoricalBackfiller:
         # Define tables to analyze
         tables = [
             ('ra_races', 'race_date', 'race_id'),
-            ('ra_runners', 'fetched_at', 'runner_id'),  # Using fetched_at as date column
+            ('ra_mst_runners', 'fetched_at', 'runner_id'),  # Using fetched_at as date column
             ('ra_horses', 'created_at', 'horse_id'),
             ('ra_jockeys', 'created_at', 'jockey_id'),
             ('ra_trainers', 'created_at', 'trainer_id'),
@@ -177,7 +177,7 @@ class HistoricalBackfiller:
 
         try:
             # Get dates that already have runner data
-            result = self.db_client.client.table('ra_races')\
+            result = self.db_client.client.table('ra_mst_races')\
                 .select('race_date')\
                 .gte('race_date', start_date)\
                 .lte('race_date', end_date)\
@@ -186,7 +186,7 @@ class HistoricalBackfiller:
             dates_with_races = set([row['race_date'] for row in result.data if row.get('race_date')])
 
             # Check which races have runners
-            races_with_runners_result = self.db_client.client.table('ra_runners')\
+            races_with_runners_result = self.db_client.client.table('ra_mst_runners')\
                 .select('race_id')\
                 .execute()
 

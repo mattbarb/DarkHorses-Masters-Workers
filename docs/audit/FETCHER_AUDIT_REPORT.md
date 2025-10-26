@@ -53,7 +53,7 @@
 3. **ra_results TABLE DOES NOT EXIST**
    - **Status:** ✅ CORRECT
    - **Finding:** `results_fetcher.py` references `ra_results` table but it doesn't exist in schema
-   - **Actual Implementation:** Race-level results go in `ra_races`, runner-level results go in `ra_race_results`
+   - **Actual Implementation:** Race-level results go in `ra_mst_races`, runner-level results go in `ra_mst_race_results`
    - **Action Required:** None - architecture is correct, but fetcher variable naming could be clearer
 
 #### MEDIUM PRIORITY ISSUES
@@ -61,8 +61,8 @@
 4. **MULTIPLE FETCHERS FOR SAME TABLES**
    - **Status:** ⚠️ BY DESIGN BUT NEEDS DOCUMENTATION
    - **Affected Tables:**
-     - `ra_races` (races_fetcher.py, events_fetcher.py, results_fetcher.py)
-     - `ra_runners` (races_fetcher.py, events_fetcher.py, results_fetcher.py)
+     - `ra_mst_races` (races_fetcher.py, events_fetcher.py, results_fetcher.py)
+     - `ra_mst_runners` (races_fetcher.py, events_fetcher.py, results_fetcher.py)
      - `ra_mst_courses` (courses_fetcher.py, masters_fetcher.py)
      - `ra_mst_bookmakers` (bookmakers_fetcher.py, masters_fetcher.py)
    - **Explanation:** Intentional redundancy:
@@ -83,7 +83,7 @@
 
 ### Transaction Tables (From Racing API)
 
-#### 1. ra_races
+#### 1. ra_mst_races
 - **Status:** ✅ COMPLETE
 - **Fetchers:**
   - Primary: `races_fetcher.py` (racecards)
@@ -102,7 +102,7 @@
   - Clarify which fetcher is "primary" for each use case
   - Document that `results_fetcher.py` is the authoritative source for post-race data
 
-#### 2. ra_runners
+#### 2. ra_mst_runners
 - **Status:** ✅ COMPLETE
 - **Fetchers:**
   - Primary: `races_fetcher.py` (pre-race runners)
@@ -125,7 +125,7 @@
 - **Issues Found:** None
 - **Recommendations:** Excellent implementation of comprehensive runner data
 
-#### 3. ra_race_results
+#### 3. ra_mst_race_results
 - **Status:** ✅ COMPLETE
 - **Fetcher:** `results_fetcher.py`
 - **Total Columns:** 38
@@ -136,8 +136,8 @@
 - **Purpose:** Denormalized view for easier runner result queries
 - **Issues Found:** None
 - **Recommendations:**
-  - Consider if this table is still needed given `ra_runners` has position data
-  - Document relationship between `ra_runners` and `ra_race_results`
+  - Consider if this table is still needed given `ra_mst_runners` has position data
+  - Document relationship between `ra_mst_runners` and `ra_mst_race_results`
 
 ### Master Reference Tables (From Racing API)
 
@@ -265,7 +265,7 @@
 - **Total Columns:** 47
 - **Populated Columns:** 47 (calculated from progeny performance)
 - **Row Count:** 2,143
-- **Data Source:** Calculated from `ra_runners` WHERE `sire_id = <sire.id>`
+- **Data Source:** Calculated from `ra_mst_runners` WHERE `sire_id = <sire.id>`
 - **Code Quality:** N/A (calculation script, not fetcher)
 - **Statistics Categories:**
   - Overall statistics (runners, wins, places, win%, AE index)
@@ -284,7 +284,7 @@
 - **Total Columns:** 47
 - **Populated Columns:** 47 (calculated from progeny performance)
 - **Row Count:** 48,372
-- **Data Source:** Calculated from `ra_runners` WHERE `dam_id = <dam.id>`
+- **Data Source:** Calculated from `ra_mst_runners` WHERE `dam_id = <dam.id>`
 - **Code Quality:** N/A (calculation script, not fetcher)
 - **Issues Found:** NONE - This is BY DESIGN
 - **Recommendations:** Same as sires
@@ -296,7 +296,7 @@
 - **Total Columns:** 47
 - **Populated Columns:** 47 (calculated from grandprogeny performance)
 - **Row Count:** 3,041
-- **Data Source:** Calculated from `ra_runners` WHERE `damsire_id = <damsire.id>`
+- **Data Source:** Calculated from `ra_mst_runners` WHERE `damsire_id = <damsire.id>`
 - **Code Quality:** N/A (calculation script, not fetcher)
 - **Issues Found:** NONE - This is BY DESIGN
 - **Recommendations:** Same as sires/dams
@@ -535,8 +535,8 @@ mv fetchers/owners_fetcher.py _deprecated/fetchers/
 #### Issue 3: Multiple Fetchers for Same Tables - Need Documentation ⚠️
 
 **Affected Tables:**
-- `ra_races`: races_fetcher.py, events_fetcher.py, results_fetcher.py
-- `ra_runners`: races_fetcher.py, events_fetcher.py, results_fetcher.py
+- `ra_mst_races`: races_fetcher.py, events_fetcher.py, results_fetcher.py
+- `ra_mst_runners`: races_fetcher.py, events_fetcher.py, results_fetcher.py
 - `ra_mst_courses`: courses_fetcher.py, masters_fetcher.py
 - `ra_mst_bookmakers`: bookmakers_fetcher.py, masters_fetcher.py
 
@@ -713,7 +713,7 @@ All fetchers have **100% field mapping coverage** for their target tables. This 
 
 ### Detailed Mapping Review
 
-#### ra_races (48 columns) - ✅ 100%
+#### ra_mst_races (48 columns) - ✅ 100%
 **Racecards Mapping (races_fetcher.py):**
 - Race identification: id, course_id, course_name, date, off_time, off_dt
 - Race metadata: race_name, race_number, type, race_class, distance fields (3)
@@ -733,7 +733,7 @@ All fetchers have **100% field mapping coverage** for their target tables. This 
 
 **Coverage:** 48/48 (100%)
 
-#### ra_runners (57 columns) - ✅ 100%
+#### ra_mst_runners (57 columns) - ✅ 100%
 **Pre-race fields (races_fetcher.py):**
 - Runner ID: id (auto), race_id, horse_id
 - Names: horse_name, jockey_name, trainer_name, owner_name
@@ -763,7 +763,7 @@ All fetchers have **100% field mapping coverage** for their target tables. This 
 
 **Coverage:** 57/57 (100%)
 
-#### ra_race_results (38 columns) - ✅ 100%
+#### ra_mst_race_results (38 columns) - ✅ 100%
 All columns populated from results API
 
 **Coverage:** 38/38 (100%)
@@ -858,8 +858,8 @@ The audit confirms the system follows the documented architecture:
 **Phase 1: Racing API Fetch (PRIMARY)**
 ```
 Racing API
-  ├── /v1/racecards/pro → ra_races, ra_runners (pre-race)
-  ├── /v1/results → ra_races (update), ra_race_results
+  ├── /v1/racecards/pro → ra_mst_races, ra_mst_runners (pre-race)
+  ├── /v1/results → ra_mst_races (update), ra_mst_race_results
   ├── /v1/courses → ra_mst_courses
   ├── /v1/regions → ra_mst_regions
   ├── /v1/horses/{id}/pro → ra_mst_horses (enrichment), ra_horse_pedigree
@@ -889,7 +889,7 @@ NEW horses detected
 
 **Phase 4: Statistics Calculation (SECONDARY)**
 ```
-Database (ra_races, ra_runners, ra_race_results)
+Database (ra_mst_races, ra_mst_runners, ra_mst_race_results)
   └── populate_pedigree_statistics.py
         ├── ra_mst_sires (47 statistics columns)
         ├── ra_mst_dams (47 statistics columns)
@@ -916,9 +916,9 @@ All components work as documented:
 
 | Table | Rows | Fetcher | Update Frequency |
 |-------|------|---------|------------------|
-| ra_races | 137,035 | races/results | Daily |
-| ra_runners | 1,327,279 | races/results | Daily |
-| ra_race_results | 100 | results | Daily |
+| ra_mst_races | 137,035 | races/results | Daily |
+| ra_mst_runners | 1,327,279 | races/results | Daily |
+| ra_mst_race_results | 100 | results | Daily |
 | ra_mst_horses | 111,692 | entity extraction | Daily (incremental) |
 | ra_horse_pedigree | 111,624 | enrichment | Daily (incremental) |
 | ra_mst_owners | 48,182 | entity extraction | Daily (incremental) |
@@ -1016,9 +1016,9 @@ All components work as documented:
 
 | Table | Primary Fetcher | Alternative Fetchers | Method |
 |-------|----------------|---------------------|--------|
-| ra_races | events_fetcher | races_fetcher, results_fetcher | API |
-| ra_runners | events_fetcher | races_fetcher, results_fetcher | API |
-| ra_race_results | results_fetcher | - | API |
+| ra_mst_races | events_fetcher | races_fetcher, results_fetcher | API |
+| ra_mst_runners | events_fetcher | races_fetcher, results_fetcher | API |
+| ra_mst_race_results | results_fetcher | - | API |
 | ra_mst_courses | masters_fetcher | courses_fetcher | API |
 | ra_mst_bookmakers | masters_fetcher | bookmakers_fetcher | Static |
 | ra_mst_regions | masters_fetcher | - | API |
@@ -1035,9 +1035,9 @@ All components work as documented:
 
 | Fetcher | Status | Target Tables | Recommendation |
 |---------|--------|--------------|----------------|
-| events_fetcher.py | ✅ Active | ra_races, ra_runners | Primary |
-| results_fetcher.py | ✅ Active | ra_races, ra_runners, ra_race_results | Primary |
-| races_fetcher.py | ✅ Active | ra_races, ra_runners | Legacy/Standalone |
+| events_fetcher.py | ✅ Active | ra_mst_races, ra_mst_runners | Primary |
+| results_fetcher.py | ✅ Active | ra_mst_races, ra_mst_runners, ra_mst_race_results | Primary |
+| races_fetcher.py | ✅ Active | ra_mst_races, ra_mst_runners | Legacy/Standalone |
 | masters_fetcher.py | ✅ Active | ra_mst_courses, ra_mst_bookmakers, ra_mst_regions | Primary |
 | courses_fetcher.py | ✅ Active | ra_mst_courses | Legacy/Standalone |
 | bookmakers_fetcher.py | ✅ Active | ra_mst_bookmakers | Legacy/Standalone |

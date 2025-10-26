@@ -2,7 +2,7 @@
 Update Recent Form Statistics
 
 Fast database-based calculation of 14-day and 30-day form statistics for
-jockeys, trainers, and owners using ra_runners and ra_races tables.
+jockeys, trainers, and owners using ra_mst_runners and ra_races tables.
 
 This script updates ONLY the recent form fields:
 - recent_14d_rides/runs, recent_14d_wins, recent_14d_win_rate
@@ -30,7 +30,7 @@ Performance:
     - 2,700x faster than API-based approach
 
 Requirements:
-    - Migration 005 must be applied (position fields in ra_runners)
+    - Migration 005 must be applied (position fields in ra_mst_runners)
     - Position data must be populated (run results fetcher first)
 """
 
@@ -118,7 +118,7 @@ class RecentFormStatisticsUpdater:
                 CASE WHEN rn.position = 1 THEN 1 ELSE 0 END as is_win,
                 CASE WHEN r.date >= CURRENT_DATE - INTERVAL '14 days' THEN 1 ELSE 0 END as is_14d,
                 CASE WHEN r.date >= CURRENT_DATE - INTERVAL '30 days' THEN 1 ELSE 0 END as is_30d
-            FROM ra_runners rn
+            FROM ra_mst_runners rn
             JOIN ra_races r ON rn.race_id = r.id
             WHERE rn.jockey_id IS NOT NULL
                 AND rn.position IS NOT NULL
@@ -181,7 +181,7 @@ class RecentFormStatisticsUpdater:
                 CASE WHEN rn.position = 1 THEN 1 ELSE 0 END as is_win,
                 CASE WHEN r.date >= CURRENT_DATE - INTERVAL '14 days' THEN 1 ELSE 0 END as is_14d,
                 CASE WHEN r.date >= CURRENT_DATE - INTERVAL '30 days' THEN 1 ELSE 0 END as is_30d
-            FROM ra_runners rn
+            FROM ra_mst_runners rn
             JOIN ra_races r ON rn.race_id = r.id
             WHERE rn.trainer_id IS NOT NULL
                 AND rn.position IS NOT NULL
@@ -244,7 +244,7 @@ class RecentFormStatisticsUpdater:
                 CASE WHEN rn.position = 1 THEN 1 ELSE 0 END as is_win,
                 CASE WHEN r.date >= CURRENT_DATE - INTERVAL '14 days' THEN 1 ELSE 0 END as is_14d,
                 CASE WHEN r.date >= CURRENT_DATE - INTERVAL '30 days' THEN 1 ELSE 0 END as is_30d
-            FROM ra_runners rn
+            FROM ra_mst_runners rn
             JOIN ra_races r ON rn.race_id = r.id
             WHERE rn.owner_id IS NOT NULL
                 AND rn.position IS NOT NULL
@@ -426,14 +426,14 @@ def check_prerequisites(pg_conn_string: str) -> bool:
         query = """
         SELECT column_name
         FROM information_schema.columns
-        WHERE table_name = 'ra_runners'
+        WHERE table_name = 'ra_mst_runners'
           AND column_name = 'position';
         """
         cursor.execute(query)
         result = cursor.fetchone()
 
         if not result:
-            logger.error("❌ Position column does not exist in ra_runners")
+            logger.error("❌ Position column does not exist in ra_mst_runners")
             logger.error("   Run migration 005 first: migrations/005_add_position_fields_to_runners.sql")
             cursor.close()
             return False
@@ -446,7 +446,7 @@ def check_prerequisites(pg_conn_string: str) -> bool:
             COUNT(*) as total_runners,
             COUNT(position) as with_position,
             ROUND(COUNT(position)::numeric / COUNT(*)::numeric * 100, 2) as pct_complete
-        FROM ra_runners
+        FROM ra_mst_runners
         WHERE race_id IN (
             SELECT id FROM ra_races
             WHERE date >= CURRENT_DATE - INTERVAL '30 days'

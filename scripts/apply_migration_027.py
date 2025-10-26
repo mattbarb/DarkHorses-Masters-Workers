@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Apply migration 027 to make horse_name nullable in ra_runners"""
+"""Apply migration 027 to make horse_name nullable in ra_mst_runners"""
 
 import sys
 from pathlib import Path

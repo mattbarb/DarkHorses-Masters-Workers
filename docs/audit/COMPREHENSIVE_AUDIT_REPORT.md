@@ -28,7 +28,7 @@
 
 ## SECTION 1: NULL COLUMN ANALYSIS
 
-### 1.1 ra_races (136,448 total races)
+### 1.1 ra_mst_races (136,448 total races)
 
 **Entirely NULL columns (16):**
 ```
@@ -66,7 +66,7 @@
 - Some fields (api_race_id, app_race_id) are internal fields not from API
 - 77% NULL suggests mixing racecards (future) with results (historical)
 
-### 1.2 ra_runners (377,713 total runners)
+### 1.2 ra_mst_runners (377,713 total runners)
 
 **Entirely NULL columns (17):**
 ```
@@ -597,8 +597,8 @@ for horse in detailed_horses:
        race_id,
        field_size,
        COUNT(*) as actual_runners
-   FROM ra_races
-   JOIN ra_runners USING (race_id)
+   FROM ra_mst_races
+   JOIN ra_mst_runners USING (race_id)
    GROUP BY race_id, field_size
    HAVING field_size != COUNT(*)
    LIMIT 100;
@@ -640,7 +640,7 @@ runner_record = {
 
 **Schema Changes Required:**
 ```sql
-ALTER TABLE ra_runners
+ALTER TABLE ra_mst_runners
 ADD COLUMN IF NOT EXISTS dob DATE,
 ADD COLUMN IF NOT EXISTS colour VARCHAR(50),
 ADD COLUMN IF NOT EXISTS breeder VARCHAR(255),
@@ -683,7 +683,7 @@ race_record = {
 
 **Schema Changes:**
 ```sql
-ALTER TABLE ra_races
+ALTER TABLE ra_mst_races
 ADD COLUMN IF NOT EXISTS pattern VARCHAR(50),
 ADD COLUMN IF NOT EXISTS sex_restriction VARCHAR(100),
 ADD COLUMN IF NOT EXISTS rating_band VARCHAR(50),
@@ -752,7 +752,7 @@ result_record = {
 ```sql
 CREATE TABLE ra_runner_quotes (
     id SERIAL PRIMARY KEY,
-    runner_id VARCHAR(100) REFERENCES ra_runners(runner_id),
+    runner_id VARCHAR(100) REFERENCES ra_mst_runners(runner_id),
     quote_text TEXT,
     quote_source VARCHAR(100),
     quote_date DATE,
@@ -761,7 +761,7 @@ CREATE TABLE ra_runner_quotes (
 
 CREATE TABLE ra_runner_medical (
     id SERIAL PRIMARY KEY,
-    runner_id VARCHAR(100) REFERENCES ra_runners(runner_id),
+    runner_id VARCHAR(100) REFERENCES ra_mst_runners(runner_id),
     medical_date DATE,
     medical_type VARCHAR(100),
     description TEXT,
@@ -770,7 +770,7 @@ CREATE TABLE ra_runner_medical (
 
 CREATE TABLE ra_runner_ownership_history (
     id SERIAL PRIMARY KEY,
-    runner_id VARCHAR(100) REFERENCES ra_runners(runner_id),
+    runner_id VARCHAR(100) REFERENCES ra_mst_runners(runner_id),
     owner_id VARCHAR(100),
     owner_name VARCHAR(255),
     from_date DATE,
@@ -780,7 +780,7 @@ CREATE TABLE ra_runner_ownership_history (
 
 CREATE TABLE ra_runner_training_history (
     id SERIAL PRIMARY KEY,
-    runner_id VARCHAR(100) REFERENCES ra_runners(runner_id),
+    runner_id VARCHAR(100) REFERENCES ra_mst_runners(runner_id),
     trainer_id VARCHAR(100),
     trainer_name VARCHAR(255),
     from_date DATE,
@@ -790,7 +790,7 @@ CREATE TABLE ra_runner_training_history (
 
 CREATE TABLE ra_odds_history (
     id SERIAL PRIMARY KEY,
-    race_id VARCHAR(100) REFERENCES ra_races(race_id),
+    race_id VARCHAR(100) REFERENCES ra_mst_races(race_id),
     horse_id VARCHAR(100),
     timestamp TIMESTAMPTZ,
     bookmaker_id VARCHAR(50),
@@ -838,8 +838,8 @@ for med in medical:
 
 **SQL to clean up database:**
 ```sql
--- ra_races
-ALTER TABLE ra_races
+-- ra_mst_races
+ALTER TABLE ra_mst_races
 DROP COLUMN api_race_id,
 DROP COLUMN app_race_id,
 DROP COLUMN start_time,
@@ -859,8 +859,8 @@ DROP COLUMN user_notes;
 -- live_stream_url (in API)
 -- replay_url (in API)
 
--- ra_runners
-ALTER TABLE ra_runners
+-- ra_mst_runners
+ALTER TABLE ra_mst_runners
 DROP COLUMN entry_id,
 DROP COLUMN api_entry_id,
 DROP COLUMN app_entry_id,
@@ -1189,8 +1189,8 @@ runner_record = {
 
 **Database Migration:**
 ```sql
--- Add new columns to ra_runners
-ALTER TABLE ra_runners
+-- Add new columns to ra_mst_runners
+ALTER TABLE ra_mst_runners
 ADD COLUMN IF NOT EXISTS dob DATE,
 ADD COLUMN IF NOT EXISTS colour VARCHAR(100),
 ADD COLUMN IF NOT EXISTS breeder VARCHAR(255),
@@ -1206,9 +1206,9 @@ ADD COLUMN IF NOT EXISTS trainer_14_days_data JSONB,
 ADD COLUMN IF NOT EXISTS past_results_flags TEXT[];
 
 -- Index for faster queries
-CREATE INDEX IF NOT EXISTS idx_runners_dob ON ra_runners(dob);
-CREATE INDEX IF NOT EXISTS idx_runners_colour ON ra_runners(colour);
-CREATE INDEX IF NOT EXISTS idx_runners_trainer_location ON ra_runners(trainer_location);
+CREATE INDEX IF NOT EXISTS idx_runners_dob ON ra_mst_runners(dob);
+CREATE INDEX IF NOT EXISTS idx_runners_colour ON ra_mst_runners(colour);
+CREATE INDEX IF NOT EXISTS idx_runners_trainer_location ON ra_mst_runners(trainer_location);
 ```
 
 ### Fix 3: Add Missing Race Fields
@@ -1251,8 +1251,8 @@ race_record = {
 
 **Database Migration:**
 ```sql
--- Add new columns to ra_races
-ALTER TABLE ra_races
+-- Add new columns to ra_mst_races
+ALTER TABLE ra_mst_races
 ADD COLUMN IF NOT EXISTS pattern VARCHAR(100),
 ADD COLUMN IF NOT EXISTS sex_restriction VARCHAR(200),
 ADD COLUMN IF NOT EXISTS rating_band VARCHAR(100),
@@ -1263,9 +1263,9 @@ ADD COLUMN IF NOT EXISTS verdict TEXT,
 ADD COLUMN IF NOT EXISTS betting_forecast TEXT;
 
 -- Indexes for filtering
-CREATE INDEX IF NOT EXISTS idx_races_pattern ON ra_races(pattern);
-CREATE INDEX IF NOT EXISTS idx_races_sex_restriction ON ra_races(sex_restriction);
-CREATE INDEX IF NOT EXISTS idx_races_rating_band ON ra_races(rating_band);
+CREATE INDEX IF NOT EXISTS idx_races_pattern ON ra_mst_races(pattern);
+CREATE INDEX IF NOT EXISTS idx_races_sex_restriction ON ra_mst_races(sex_restriction);
+CREATE INDEX IF NOT EXISTS idx_races_rating_band ON ra_mst_races(rating_band);
 ```
 
 ---
@@ -1307,7 +1307,7 @@ SELECT
     COUNT(colour) as colour_populated,
     COUNT(breeder) as breeder_populated,
     COUNT(trainer_location) as trainer_loc_populated
-FROM ra_runners
+FROM ra_mst_runners
 WHERE fetched_at > NOW() - INTERVAL '1 day';
 
 -- Calculate population percentages:
@@ -1315,7 +1315,7 @@ SELECT
     (COUNT(dob)::FLOAT / COUNT(*) * 100) as dob_pct,
     (COUNT(colour)::FLOAT / COUNT(*) * 100) as colour_pct,
     (COUNT(breeder)::FLOAT / COUNT(*) * 100) as breeder_pct
-FROM ra_runners
+FROM ra_mst_runners
 WHERE fetched_at > NOW() - INTERVAL '1 day';
 -- Expected: 70-90% for most fields
 ```
@@ -1328,12 +1328,12 @@ SELECT
     COUNT(pattern) as pattern_populated,
     COUNT(rating_band) as rating_band_populated,
     COUNT(verdict) as verdict_populated
-FROM ra_races
+FROM ra_mst_races
 WHERE fetched_at > NOW() - INTERVAL '1 day';
 
 -- Sample records:
 SELECT race_id, race_name, pattern, rating_band, sex_restriction
-FROM ra_races
+FROM ra_mst_races
 WHERE pattern IS NOT NULL
 LIMIT 20;
 ```
@@ -1362,7 +1362,7 @@ if response and 'racecards' in response:
         api_runners = len(race.get('runners', []))
 
         # Check database
-        db_result = db_client.client.table('ra_runners')\
+        db_result = db_client.client.table('ra_mst_runners')\
             .select('runner_id', count='exact')\
             .eq('race_id', race_id)\
             .execute()
@@ -1473,7 +1473,7 @@ SELECT
     AVG(runner_count)::DECIMAL(10,2)
 FROM (
     SELECT race_id, COUNT(*) as runner_count
-    FROM ra_runners
+    FROM ra_mst_runners
     GROUP BY race_id
 ) sub
 UNION ALL
@@ -1615,8 +1615,8 @@ WHERE dob IS NOT NULL;
 ```
 Table                    Records     NULL Columns    Status
 ------------------------------------------------------------
-ra_races                 136,448     16 (100%)       ⚠️  Needs fixes
-ra_runners               377,713     17 (100%)       ⚠️  Needs fixes
+ra_mst_races                 136,448     16 (100%)       ⚠️  Needs fixes
+ra_mst_runners               377,713     17 (100%)       ⚠️  Needs fixes
 ra_horses                111,325      4 (100%)       ⚠️  Needs fixes
 ra_horse_pedigree              0      N/A            ❌ EMPTY!
 ra_jockeys                 3,478      0 (0%)         ✅ OK

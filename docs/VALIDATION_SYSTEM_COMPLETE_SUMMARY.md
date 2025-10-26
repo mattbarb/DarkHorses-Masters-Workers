@@ -25,8 +25,8 @@ We've built a **comprehensive, autonomous validation system** that proves the Da
 
 | Table | Total Columns | Populated | Raw Coverage | **Actual Coverage** |
 |-------|---------------|-----------|--------------|-------------------|
-| **ra_races** | 48 | 32 | 66.7% | **100.0%** ✅ |
-| **ra_runners** | 57 | 39 | 68.4% | **100.0%** ✅ |
+| **ra_mst_races** | 48 | 32 | 66.7% | **100.0%** ✅ |
+| **ra_mst_runners** | 57 | 39 | 68.4% | **100.0%** ✅ |
 | **ra_mst_horses** | 15 | 14 | 93.3% | **100.0%** ✅ |
 | **ra_horse_pedigree** | 11 | 11 | 100.0% | **100.0%** ✅ |
 | **OVERALL** | **131** | **96** | **73.3%** | **100.0%** ✅ |
@@ -35,8 +35,8 @@ We've built a **comprehensive, autonomous validation system** that proves the Da
 
 | Table | Total Columns | Populated | Raw Coverage | **Actual Coverage** |
 |-------|---------------|-----------|--------------|-------------------|
-| **ra_races** | 48 | 32 | 66.7% | **100.0%** ✅ |
-| **ra_runners** | 57 | 39 | 68.4% | **100.0%** ✅ |
+| **ra_mst_races** | 48 | 32 | 66.7% | **100.0%** ✅ |
+| **ra_mst_runners** | 57 | 39 | 68.4% | **100.0%** ✅ |
 | **ra_mst_horses** | 15 | 14 | 93.3% | **100.0%** ✅ |
 | **ra_horse_pedigree** | 11 | 11 | 100.0% | **100.0%** ✅ |
 | **OVERALL** | **131** | **96** | **73.3%** | **100.0%** ✅ |
@@ -234,7 +234,7 @@ python3 tests/check_field_mappings.py
 **Raw Coverage:** 96/131 columns (73.3%)
 **Actual Coverage (excl. expected NULLs):** 96/96 columns (100.0%)
 
-## ra_races
+## ra_mst_races
 
 **Raw Coverage:** 32/48 (66.7%)
 **Actual Coverage:** 100.0%
@@ -294,8 +294,8 @@ Manual validation doesn't scale:
 
 ### Priority 2: Add More Tables to Validation
 Currently validates:
-- ✅ ra_races
-- ✅ ra_runners
+- ✅ ra_mst_races
+- ✅ ra_mst_runners
 - ✅ ra_mst_horses
 - ✅ ra_horse_pedigree
 

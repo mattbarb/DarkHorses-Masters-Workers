@@ -28,8 +28,8 @@ python3 fetchers/master_fetcher_controller.py --mode daily
 | `trainers_fetcher.py` | ra_mst_trainers | /v1/trainers | Bulk |
 | `owners_fetcher.py` | ra_mst_owners | /v1/owners | Bulk |
 | `horses_fetcher.py` | ra_mst_horses | /v1/horses | Bulk |
-| `races_fetcher.py` | ra_races, ra_runners, ra_mst_horses*, ra_horse_pedigree* | /v1/racecards/pro | Date Range |
-| `results_fetcher.py` | ra_race_results (updates ra_runners) | /v1/results | Date Range |
+| `races_fetcher.py` | ra_mst_races, ra_mst_runners, ra_mst_horses*, ra_horse_pedigree* | /v1/racecards/pro | Date Range |
+| `results_fetcher.py` | ra_mst_race_results (updates ra_mst_runners) | /v1/results | Date Range |
 | `events_fetcher.py` | (Future use) | /v1/events | - |
 | `masters_fetcher.py` | (Legacy - use master_fetcher_controller.py) | - | - |
 | `statistics_fetcher.py` | (Deprecated - use population_workers) | - | - |
@@ -81,11 +81,11 @@ python3 fetchers/master_fetcher_controller.py --mode backfill --tables ra_mst_co
 ```bash
 # Fetch specific date range
 python3 fetchers/master_fetcher_controller.py --mode manual \
-    --table ra_races --start-date 2024-01-01 --end-date 2024-01-31
+    --table ra_mst_races --start-date 2024-01-01 --end-date 2024-01-31
 
 # Fetch last 7 days
 python3 fetchers/master_fetcher_controller.py --mode manual \
-    --table ra_races --days-back 7
+    --table ra_mst_races --days-back 7
 ```
 
 ---
@@ -100,11 +100,11 @@ python3 fetchers/master_fetcher_controller.py --mode manual \
 5. **ra_mst_owners** - Active owners
 
 ### Transaction Tables (5)
-6. **ra_races** - Race metadata
-7. **ra_runners** - Race entries/runners
+6. **ra_mst_races** - Race metadata
+7. **ra_mst_runners** - Race entries/runners
 8. **ra_mst_horses** - Horses (with pedigree enrichment)
 9. **ra_horse_pedigree** - Horse pedigree data
-10. **ra_race_results** - Historical results
+10. **ra_mst_race_results** - Historical results
 
 **Total Columns:** 300+ from Racing API
 
@@ -136,7 +136,7 @@ python3 fetchers/master_fetcher_controller.py --mode daily
 **Data:** User-specified
 
 ```bash
-python3 fetchers/master_fetcher_controller.py --mode manual --table ra_races --days-back 7
+python3 fetchers/master_fetcher_controller.py --mode manual --table ra_mst_races --days-back 7
 ```
 
 ---
@@ -272,7 +272,7 @@ python3 fetchers/master_fetcher_controller.py --mode daily --test
 ### Fetch Specific Date Range
 ```bash
 python3 fetchers/master_fetcher_controller.py --mode manual \
-    --table ra_races --start-date 2024-01-01 --end-date 2024-01-31
+    --table ra_mst_races --start-date 2024-01-01 --end-date 2024-01-31
 ```
 
 ---
@@ -304,20 +304,20 @@ Individual Fetchers (8 fetcher scripts)
     │   └── ra_mst_owners (48,168 active owners)
     │
     ├── races_fetcher.py (also extracts from racecards)
-    │   ├── ra_races (~850,000 races)
-    │   ├── ra_runners (~12M race entries)
+    │   ├── ra_mst_races (~850,000 races)
+    │   ├── ra_mst_runners (~12M race entries)
     │   ├── ra_mst_horses (111,669 horses with hybrid enrichment)
     │   ├── ra_horse_pedigree (~90,000 pedigree records)
     │   └── ra_mst_regions (2 regions: GB, IRE - extracted from courses)
     │
     └── results_fetcher.py
-        └── ra_race_results (~850,000 results - updates ra_runners)
+        └── ra_mst_race_results (~850,000 results - updates ra_mst_runners)
 ```
 
 **Tables Populated from Racing API: 10**
 - Master/Reference: `ra_mst_courses`, `ra_mst_bookmakers`, `ra_mst_regions`, `ra_mst_jockeys`, `ra_mst_trainers`, `ra_mst_owners`
 - Horses/Pedigree: `ra_mst_horses`, `ra_horse_pedigree`
-- Transaction: `ra_races`, `ra_runners`, `ra_race_results`
+- Transaction: `ra_mst_races`, `ra_mst_runners`, `ra_mst_race_results`
 
 ---
 
@@ -326,8 +326,8 @@ Individual Fetchers (8 fetcher scripts)
 ```
 Database (10 tables with Racing API data)
     ├── ra_mst_horses (with sire_id, dam_id, damsire_id)
-    ├── ra_runners (with race results)
-    └── ra_races (with race metadata)
+    ├── ra_mst_runners (with race results)
+    └── ra_mst_races (with race metadata)
     ↓
 Population Workers
     └── scripts/populate_pedigree_statistics.py
@@ -383,8 +383,8 @@ Additional Tables (planned/partial)
 6. `ra_mst_owners` - Active owners (48,168)
 7. `ra_mst_horses` - Horses with pedigree (111,669)
 8. `ra_horse_pedigree` - Horse lineage (~90,000)
-9. `ra_races` - Race metadata (~850,000)
-10. `ra_runners` - Race entries (~12M)
+9. `ra_mst_races` - Race metadata (~850,000)
+10. `ra_mst_runners` - Race entries (~12M)
 
 **Calculated from Database (3 tables):**
 11. `ra_mst_sires` - Sire statistics (2,143)
@@ -407,7 +407,7 @@ Additional Tables (planned/partial)
 
 **Tracking/Analysis (2 tables):**
 22. `ra_entity_combinations` - Entity combination patterns
-23. `ra_race_results` - Historical results table (~850,000)
+23. `ra_mst_race_results` - Historical results table (~850,000)
 
 **Note:** Racing API does NOT provide odds data - requires separate odds provider.
 

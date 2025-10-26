@@ -4,7 +4,7 @@ Calculate Trainer Statistics from Database
 ===========================================
 
 Populates ra_mst_trainers table with comprehensive statistics calculated from
-historical race data in ra_runners + ra_races tables.
+historical race data in ra_mst_runners + ra_races tables.
 
 Statistics Calculated:
 ----------------------
@@ -26,7 +26,7 @@ Statistics Calculated:
 Data Sources:
 -------------
 - ra_mst_trainers: List of all trainers
-- ra_runners: Race performance data (JOIN on trainer_id)
+- ra_mst_runners: Race performance data (JOIN on trainer_id)
 - ra_races: Race dates
 
 Usage:
@@ -84,7 +84,7 @@ class TrainerStatisticsCalculator:
         """Calculate all statistics for a single trainer"""
         try:
             # Get all runners for this trainer
-            runners = self.db_client.client.table('ra_runners')\
+            runners = self.db_client.client.table('ra_mst_runners')\
                 .select('position, race_id')\
                 .eq('trainer_id', trainer_id)\
                 .execute()
@@ -115,7 +115,7 @@ class TrainerStatisticsCalculator:
             # Get race dates
             race_ids = list(set([r['race_id'] for r in runners.data if r.get('race_id')]))
             if race_ids:
-                races = self.db_client.client.table('ra_races')\
+                races = self.db_client.client.table('ra_mst_races')\
                     .select('id, date')\
                     .in_('id', race_ids)\
                     .execute()

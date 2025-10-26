@@ -237,7 +237,7 @@
       "type": "integer",
       "data_source": "Database Calculation - Pedigree Agent",
       "api_endpoint": "N/A - Calculated from database",
-      "field_path": "COUNT(ra_runners) WHERE horse_id IN (SELECT id FROM ra_mst_horses WHERE sire_id/dam_id/damsire_id = entity.id)",
+      "field_path": "COUNT(ra_mst_runners) WHERE horse_id IN (SELECT id FROM ra_mst_horses WHERE sire_id/dam_id/damsire_id = entity.id)",
       "implementation_notes": "Calculated by pedigree_statistics_agent.py - Total number of race starts by all progeny",
       "populated": 48372,
       "total": 48372,
@@ -250,7 +250,7 @@
       "type": "integer",
       "data_source": "Database Calculation - Pedigree Agent",
       "api_endpoint": "N/A - Calculated from database",
-      "field_path": "COUNT(ra_runners) WHERE position = 1 AND horse_id IN progeny",
+      "field_path": "COUNT(ra_mst_runners) WHERE position = 1 AND horse_id IN progeny",
       "implementation_notes": "Calculated by pedigree_statistics_agent.py - Total wins by all progeny",
       "populated": 48372,
       "total": 48372,
@@ -263,7 +263,7 @@
       "type": "integer",
       "data_source": "Database Calculation - Pedigree Agent",
       "api_endpoint": "N/A - Calculated from database",
-      "field_path": "COUNT(ra_runners) WHERE position = 2 AND horse_id IN progeny",
+      "field_path": "COUNT(ra_mst_runners) WHERE position = 2 AND horse_id IN progeny",
       "implementation_notes": "Calculated by pedigree_statistics_agent.py - Total 2nd place finishes by all progeny",
       "populated": 48372,
       "total": 48372,
@@ -276,7 +276,7 @@
       "type": "integer",
       "data_source": "Database Calculation - Pedigree Agent",
       "api_endpoint": "N/A - Calculated from database",
-      "field_path": "COUNT(ra_runners) WHERE position = 3 AND horse_id IN progeny",
+      "field_path": "COUNT(ra_mst_runners) WHERE position = 3 AND horse_id IN progeny",
       "implementation_notes": "Calculated by pedigree_statistics_agent.py - Total 3rd place finishes by all progeny",
       "populated": 48372,
       "total": 48372,
@@ -406,7 +406,7 @@
       "type": "integer",
       "data_source": "Database Calculation - Pedigree Agent",
       "api_endpoint": "N/A - Calculated from database",
-      "field_path": "COUNT(ra_runners) WHERE race.class = class_1_name",
+      "field_path": "COUNT(ra_mst_runners) WHERE race.class = class_1_name",
       "implementation_notes": "Calculated by pedigree_statistics_agent.py - Total runners in class_1",
       "populated": 0,
       "total": 48372,
@@ -419,7 +419,7 @@
       "type": "integer",
       "data_source": "Database Calculation - Pedigree Agent",
       "api_endpoint": "N/A - Calculated from database",
-      "field_path": "COUNT(ra_runners) WHERE position = 1 AND race.class = class_1_name",
+      "field_path": "COUNT(ra_mst_runners) WHERE position = 1 AND race.class = class_1_name",
       "implementation_notes": "Calculated by pedigree_statistics_agent.py - Total wins in class_1",
       "populated": 0,
       "total": 48372,
@@ -471,7 +471,7 @@
       "type": "integer",
       "data_source": "Database Calculation - Pedigree Agent",
       "api_endpoint": "N/A - Calculated from database",
-      "field_path": "COUNT(ra_runners) WHERE race.class = class_2_name",
+      "field_path": "COUNT(ra_mst_runners) WHERE race.class = class_2_name",
       "implementation_notes": "Calculated by pedigree_statistics_agent.py - Total runners in class_2",
       "populated": 0,
       "total": 48372,
@@ -484,7 +484,7 @@
       "type": "integer",
       "data_source": "Database Calculation - Pedigree Agent",
       "api_endpoint": "N/A - Calculated from database",
-      "field_path": "COUNT(ra_runners) WHERE position = 1 AND race.class = class_2_name",
+      "field_path": "COUNT(ra_mst_runners) WHERE position = 1 AND race.class = class_2_name",
       "implementation_notes": "Calculated by pedigree_statistics_agent.py - Total wins in class_2",
       "populated": 0,
       "total": 48372,
@@ -536,7 +536,7 @@
       "type": "integer",
       "data_source": "Database Calculation - Pedigree Agent",
       "api_endpoint": "N/A - Calculated from database",
-      "field_path": "COUNT(ra_runners) WHERE race.class = class_3_name",
+      "field_path": "COUNT(ra_mst_runners) WHERE race.class = class_3_name",
       "implementation_notes": "Calculated by pedigree_statistics_agent.py - Total runners in class_3",
       "populated": 0,
       "total": 48372,
@@ -549,7 +549,7 @@
       "type": "integer",
       "data_source": "Database Calculation - Pedigree Agent",
       "api_endpoint": "N/A - Calculated from database",
-      "field_path": "COUNT(ra_runners) WHERE position = 1 AND race.class = class_3_name",
+      "field_path": "COUNT(ra_mst_runners) WHERE position = 1 AND race.class = class_3_name",
       "implementation_notes": "Calculated by pedigree_statistics_agent.py - Total wins in class_3",
       "populated": 0,
       "total": 48372,
@@ -601,7 +601,7 @@
       "type": "integer",
       "data_source": "Database Calculation - Pedigree Agent",
       "api_endpoint": "N/A - Calculated from database",
-      "field_path": "COUNT(ra_runners) WHERE race.distance_f = distance_1_name",
+      "field_path": "COUNT(ra_mst_runners) WHERE race.distance_f = distance_1_name",
       "implementation_notes": "Calculated by pedigree_statistics_agent.py - Total runners at distance_1",
       "populated": 0,
       "total": 48372,
@@ -614,7 +614,7 @@
       "type": "integer",
       "data_source": "Database Calculation - Pedigree Agent",
       "api_endpoint": "N/A - Calculated from database",
-      "field_path": "COUNT(ra_runners) WHERE position = 1 AND race.distance_f = distance_1_name",
+      "field_path": "COUNT(ra_mst_runners) WHERE position = 1 AND race.distance_f = distance_1_name",
       "implementation_notes": "Calculated by pedigree_statistics_agent.py - Total wins at distance_1",
       "populated": 0,
       "total": 48372,
@@ -666,7 +666,7 @@
       "type": "integer",
       "data_source": "Database Calculation - Pedigree Agent",
       "api_endpoint": "N/A - Calculated from database",
-      "field_path": "COUNT(ra_runners) WHERE race.distance_f = distance_2_name",
+      "field_path": "COUNT(ra_mst_runners) WHERE race.distance_f = distance_2_name",
       "implementation_notes": "Calculated by pedigree_statistics_agent.py - Total runners at distance_2",
       "populated": 0,
       "total": 48372,
@@ -679,7 +679,7 @@
       "type": "integer",
       "data_source": "Database Calculation - Pedigree Agent",
       "api_endpoint": "N/A - Calculated from database",
-      "field_path": "COUNT(ra_runners) WHERE position = 1 AND race.distance_f = distance_2_name",
+      "field_path": "COUNT(ra_mst_runners) WHERE position = 1 AND race.distance_f = distance_2_name",
       "implementation_notes": "Calculated by pedigree_statistics_agent.py - Total wins at distance_2",
       "populated": 0,
       "total": 48372,
@@ -731,7 +731,7 @@
       "type": "integer",
       "data_source": "Database Calculation - Pedigree Agent",
       "api_endpoint": "N/A - Calculated from database",
-      "field_path": "COUNT(ra_runners) WHERE race.distance_f = distance_3_name",
+      "field_path": "COUNT(ra_mst_runners) WHERE race.distance_f = distance_3_name",
       "implementation_notes": "Calculated by pedigree_statistics_agent.py - Total runners at distance_3",
       "populated": 0,
       "total": 48372,
@@ -744,7 +744,7 @@
       "type": "integer",
       "data_source": "Database Calculation - Pedigree Agent",
       "api_endpoint": "N/A - Calculated from database",
-      "field_path": "COUNT(ra_runners) WHERE position = 1 AND race.distance_f = distance_3_name",
+      "field_path": "COUNT(ra_mst_runners) WHERE position = 1 AND race.distance_f = distance_3_name",
       "implementation_notes": "Calculated by pedigree_statistics_agent.py - Total wins at distance_3",
       "populated": 0,
       "total": 48372,
@@ -843,7 +843,7 @@
       "type": "integer",
       "data_source": "Database Calculation - Pedigree Agent",
       "api_endpoint": "N/A - Calculated from database",
-      "field_path": "COUNT(ra_runners) WHERE horse_id IN (SELECT id FROM ra_mst_horses WHERE sire_id/dam_id/damsire_id = entity.id)",
+      "field_path": "COUNT(ra_mst_runners) WHERE horse_id IN (SELECT id FROM ra_mst_horses WHERE sire_id/dam_id/damsire_id = entity.id)",
       "implementation_notes": "Calculated by pedigree_statistics_agent.py - Total number of race starts by all progeny",
       "populated": 3041,
       "total": 3041,
@@ -856,7 +856,7 @@
       "type": "integer",
       "data_source": "Database Calculation - Pedigree Agent",
       "api_endpoint": "N/A - Calculated from database",
-      "field_path": "COUNT(ra_runners) WHERE position = 1 AND horse_id IN progeny",
+      "field_path": "COUNT(ra_mst_runners) WHERE position = 1 AND horse_id IN progeny",
       "implementation_notes": "Calculated by pedigree_statistics_agent.py - Total wins by all progeny",
       "populated": 3041,
       "total": 3041,
@@ -869,7 +869,7 @@
       "type": "integer",
       "data_source": "Database Calculation - Pedigree Agent",
       "api_endpoint": "N/A - Calculated from database",
-      "field_path": "COUNT(ra_runners) WHERE position = 2 AND horse_id IN progeny",
+      "field_path": "COUNT(ra_mst_runners) WHERE position = 2 AND horse_id IN progeny",
       "implementation_notes": "Calculated by pedigree_statistics_agent.py - Total 2nd place finishes by all progeny",
       "populated": 3041,
       "total": 3041,
@@ -882,7 +882,7 @@
       "type": "integer",
       "data_source": "Database Calculation - Pedigree Agent",
       "api_endpoint": "N/A - Calculated from database",
-      "field_path": "COUNT(ra_runners) WHERE position = 3 AND horse_id IN progeny",
+      "field_path": "COUNT(ra_mst_runners) WHERE position = 3 AND horse_id IN progeny",
       "implementation_notes": "Calculated by pedigree_statistics_agent.py - Total 3rd place finishes by all progeny",
       "populated": 3041,
       "total": 3041,
@@ -1012,7 +1012,7 @@
       "type": "integer",
       "data_source": "Database Calculation - Pedigree Agent",
       "api_endpoint": "N/A - Calculated from database",
-      "field_path": "COUNT(ra_runners) WHERE race.class = class_1_name",
+      "field_path": "COUNT(ra_mst_runners) WHERE race.class = class_1_name",
       "implementation_notes": "Calculated by pedigree_statistics_agent.py - Total runners in class_1",
       "populated": 0,
       "total": 3041,
@@ -1025,7 +1025,7 @@
       "type": "integer",
       "data_source": "Database Calculation - Pedigree Agent",
       "api_endpoint": "N/A - Calculated from database",
-      "field_path": "COUNT(ra_runners) WHERE position = 1 AND race.class = class_1_name",
+      "field_path": "COUNT(ra_mst_runners) WHERE position = 1 AND race.class = class_1_name",
       "implementation_notes": "Calculated by pedigree_statistics_agent.py - Total wins in class_1",
       "populated": 0,
       "total": 3041,
@@ -1077,7 +1077,7 @@
       "type": "integer",
       "data_source": "Database Calculation - Pedigree Agent",
       "api_endpoint": "N/A - Calculated from database",
-      "field_path": "COUNT(ra_runners) WHERE race.class = class_2_name",
+      "field_path": "COUNT(ra_mst_runners) WHERE race.class = class_2_name",
       "implementation_notes": "Calculated by pedigree_statistics_agent.py - Total runners in class_2",
       "populated": 0,
       "total": 3041,
@@ -1090,7 +1090,7 @@
       "type": "integer",
       "data_source": "Database Calculation - Pedigree Agent",
       "api_endpoint": "N/A - Calculated from database",
-      "field_path": "COUNT(ra_runners) WHERE position = 1 AND race.class = class_2_name",
+      "field_path": "COUNT(ra_mst_runners) WHERE position = 1 AND race.class = class_2_name",
       "implementation_notes": "Calculated by pedigree_statistics_agent.py - Total wins in class_2",
       "populated": 0,
       "total": 3041,
@@ -1142,7 +1142,7 @@
       "type": "integer",
       "data_source": "Database Calculation - Pedigree Agent",
       "api_endpoint": "N/A - Calculated from database",
-      "field_path": "COUNT(ra_runners) WHERE race.class = class_3_name",
+      "field_path": "COUNT(ra_mst_runners) WHERE race.class = class_3_name",
       "implementation_notes": "Calculated by pedigree_statistics_agent.py - Total runners in class_3",
       "populated": 0,
       "total": 3041,
@@ -1155,7 +1155,7 @@
       "type": "integer",
       "data_source": "Database Calculation - Pedigree Agent",
       "api_endpoint": "N/A - Calculated from database",
-      "field_path": "COUNT(ra_runners) WHERE position = 1 AND race.class = class_3_name",
+      "field_path": "COUNT(ra_mst_runners) WHERE position = 1 AND race.class = class_3_name",
       "implementation_notes": "Calculated by pedigree_statistics_agent.py - Total wins in class_3",
       "populated": 0,
       "total": 3041,
@@ -1207,7 +1207,7 @@
       "type": "integer",
       "data_source": "Database Calculation - Pedigree Agent",
       "api_endpoint": "N/A - Calculated from database",
-      "field_path": "COUNT(ra_runners) WHERE race.distance_f = distance_1_name",
+      "field_path": "COUNT(ra_mst_runners) WHERE race.distance_f = distance_1_name",
       "implementation_notes": "Calculated by pedigree_statistics_agent.py - Total runners at distance_1",
       "populated": 0,
       "total": 3041,
@@ -1220,7 +1220,7 @@
       "type": "integer",
       "data_source": "Database Calculation - Pedigree Agent",
       "api_endpoint": "N/A - Calculated from database",
-      "field_path": "COUNT(ra_runners) WHERE position = 1 AND race.distance_f = distance_1_name",
+      "field_path": "COUNT(ra_mst_runners) WHERE position = 1 AND race.distance_f = distance_1_name",
       "implementation_notes": "Calculated by pedigree_statistics_agent.py - Total wins at distance_1",
       "populated": 0,
       "total": 3041,
@@ -1272,7 +1272,7 @@
       "type": "integer",
       "data_source": "Database Calculation - Pedigree Agent",
       "api_endpoint": "N/A - Calculated from database",
-      "field_path": "COUNT(ra_runners) WHERE race.distance_f = distance_2_name",
+      "field_path": "COUNT(ra_mst_runners) WHERE race.distance_f = distance_2_name",
       "implementation_notes": "Calculated by pedigree_statistics_agent.py - Total runners at distance_2",
       "populated": 0,
       "total": 3041,
@@ -1285,7 +1285,7 @@
       "type": "integer",
       "data_source": "Database Calculation - Pedigree Agent",
       "api_endpoint": "N/A - Calculated from database",
-      "field_path": "COUNT(ra_runners) WHERE position = 1 AND race.distance_f = distance_2_name",
+      "field_path": "COUNT(ra_mst_runners) WHERE position = 1 AND race.distance_f = distance_2_name",
       "implementation_notes": "Calculated by pedigree_statistics_agent.py - Total wins at distance_2",
       "populated": 0,
       "total": 3041,
@@ -1337,7 +1337,7 @@
       "type": "integer",
       "data_source": "Database Calculation - Pedigree Agent",
       "api_endpoint": "N/A - Calculated from database",
-      "field_path": "COUNT(ra_runners) WHERE race.distance_f = distance_3_name",
+      "field_path": "COUNT(ra_mst_runners) WHERE race.distance_f = distance_3_name",
       "implementation_notes": "Calculated by pedigree_statistics_agent.py - Total runners at distance_3",
       "populated": 0,
       "total": 3041,
@@ -1350,7 +1350,7 @@
       "type": "integer",
       "data_source": "Database Calculation - Pedigree Agent",
       "api_endpoint": "N/A - Calculated from database",
-      "field_path": "COUNT(ra_runners) WHERE position = 1 AND race.distance_f = distance_3_name",
+      "field_path": "COUNT(ra_mst_runners) WHERE position = 1 AND race.distance_f = distance_3_name",
       "implementation_notes": "Calculated by pedigree_statistics_agent.py - Total wins at distance_3",
       "populated": 0,
       "total": 3041,
@@ -1616,7 +1616,7 @@
       "column": "total_rides",
       "type": "integer",
       "data_source": "Calculated from Historical Races",
-      "api_endpoint": "Database Query: ra_runners JOIN ra_races",
+      "api_endpoint": "Database Query: ra_mst_runners JOIN ra_mst_races",
       "field_path": "COUNT(*) WHERE jockey_id = X",
       "implementation_notes": "Aggregated from all historical race data. Script: scripts/statistics_workers/calculate_jockey_statistics.py",
       "populated": 3483,
@@ -1628,7 +1628,7 @@
       "column": "total_wins",
       "type": "integer",
       "data_source": "Calculated from Historical Races",
-      "api_endpoint": "Database Query: ra_runners JOIN ra_races",
+      "api_endpoint": "Database Query: ra_mst_runners JOIN ra_mst_races",
       "field_path": "COUNT(*) WHERE jockey_id = X AND position = 1",
       "implementation_notes": "Aggregated from all historical race data. Script: scripts/statistics_workers/calculate_jockey_statistics.py",
       "populated": 3483,
@@ -1640,7 +1640,7 @@
       "column": "total_places",
       "type": "integer",
       "data_source": "Calculated from Historical Races",
-      "api_endpoint": "Database Query: ra_runners JOIN ra_races",
+      "api_endpoint": "Database Query: ra_mst_runners JOIN ra_mst_races",
       "field_path": "COUNT(*) WHERE jockey_id = X AND position IN (2,3)",
       "implementation_notes": "Aggregated from all historical race data. Script: scripts/statistics_workers/calculate_jockey_statistics.py",
       "populated": 3483,
@@ -1652,7 +1652,7 @@
       "column": "total_seconds",
       "type": "integer",
       "data_source": "Calculated from Historical Races",
-      "api_endpoint": "Database Query: ra_runners JOIN ra_races",
+      "api_endpoint": "Database Query: ra_mst_runners JOIN ra_mst_races",
       "field_path": "COUNT(*) WHERE jockey_id = X",
       "implementation_notes": "Aggregated from all historical race data. Script: scripts/statistics_workers/calculate_jockey_statistics.py",
       "populated": 3483,
@@ -1664,7 +1664,7 @@
       "column": "total_thirds",
       "type": "integer",
       "data_source": "Calculated from Historical Races",
-      "api_endpoint": "Database Query: ra_runners JOIN ra_races",
+      "api_endpoint": "Database Query: ra_mst_runners JOIN ra_mst_races",
       "field_path": "COUNT(*) WHERE jockey_id = X",
       "implementation_notes": "Aggregated from all historical race data. Script: scripts/statistics_workers/calculate_jockey_statistics.py",
       "populated": 3483,
@@ -1676,7 +1676,7 @@
       "column": "win_rate",
       "type": "numeric",
       "data_source": "Calculated from Historical Races",
-      "api_endpoint": "Database Query: ra_runners JOIN ra_races",
+      "api_endpoint": "Database Query: ra_mst_runners JOIN ra_mst_races",
       "field_path": "COUNT(*) WHERE jockey_id = X AND position = 1",
       "implementation_notes": "Aggregated from all historical race data. Script: scripts/statistics_workers/calculate_jockey_statistics.py",
       "populated": 3451,
@@ -1688,7 +1688,7 @@
       "column": "place_rate",
       "type": "numeric",
       "data_source": "Calculated from Historical Races",
-      "api_endpoint": "Database Query: ra_runners JOIN ra_races",
+      "api_endpoint": "Database Query: ra_mst_runners JOIN ra_mst_races",
       "field_path": "COUNT(*) WHERE jockey_id = X AND position IN (2,3)",
       "implementation_notes": "Aggregated from all historical race data. Script: scripts/statistics_workers/calculate_jockey_statistics.py",
       "populated": 3387,
@@ -1700,7 +1700,7 @@
       "column": "stats_updated_at",
       "type": "timestamp without time zone",
       "data_source": "Calculated from Database",
-      "api_endpoint": "Database Query: Aggregation over ra_runners + ra_races",
+      "api_endpoint": "Database Query: Aggregation over ra_mst_runners + ra_mst_races",
       "field_path": "Various aggregation methods depending on statistic",
       "implementation_notes": "Calculated by scripts/statistics_workers/* scripts",
       "populated": 3483,
@@ -1712,7 +1712,7 @@
       "column": "last_ride_date",
       "type": "date",
       "data_source": "Calculated from Recent Activity",
-      "api_endpoint": "Database Query: ra_runners WHERE date > NOW() - INTERVAL 'N days'",
+      "api_endpoint": "Database Query: ra_mst_runners WHERE date > NOW() - INTERVAL 'N days'",
       "field_path": "Date-filtered aggregation over last N days",
       "implementation_notes": "Rolling window calculation updated by statistics workers",
       "populated": 996,
@@ -1724,7 +1724,7 @@
       "column": "last_win_date",
       "type": "date",
       "data_source": "Calculated from Recent Activity",
-      "api_endpoint": "Database Query: ra_runners WHERE date > NOW() - INTERVAL 'N days'",
+      "api_endpoint": "Database Query: ra_mst_runners WHERE date > NOW() - INTERVAL 'N days'",
       "field_path": "Date-filtered aggregation over last N days",
       "implementation_notes": "Rolling window calculation updated by statistics workers",
       "populated": 434,
@@ -1736,7 +1736,7 @@
       "column": "days_since_last_ride",
       "type": "integer",
       "data_source": "Calculated from Recent Activity",
-      "api_endpoint": "Database Query: ra_runners WHERE date > NOW() - INTERVAL 'N days'",
+      "api_endpoint": "Database Query: ra_mst_runners WHERE date > NOW() - INTERVAL 'N days'",
       "field_path": "Date-filtered aggregation over last N days",
       "implementation_notes": "Rolling window calculation updated by statistics workers",
       "populated": 996,
@@ -1748,7 +1748,7 @@
       "column": "days_since_last_win",
       "type": "integer",
       "data_source": "Calculated from Recent Activity",
-      "api_endpoint": "Database Query: ra_runners WHERE date > NOW() - INTERVAL 'N days'",
+      "api_endpoint": "Database Query: ra_mst_runners WHERE date > NOW() - INTERVAL 'N days'",
       "field_path": "Date-filtered aggregation over last N days",
       "implementation_notes": "Rolling window calculation updated by statistics workers",
       "populated": 434,
@@ -1760,7 +1760,7 @@
       "column": "recent_14d_rides",
       "type": "integer",
       "data_source": "Calculated from Recent Activity",
-      "api_endpoint": "Database Query: ra_runners WHERE date > NOW() - INTERVAL '14 days'",
+      "api_endpoint": "Database Query: ra_mst_runners WHERE date > NOW() - INTERVAL '14 days'",
       "field_path": "Date-filtered aggregation over last 14 days",
       "implementation_notes": "Rolling window calculation updated by statistics workers",
       "populated": 3483,
@@ -1772,7 +1772,7 @@
       "column": "recent_14d_wins",
       "type": "integer",
       "data_source": "Calculated from Recent Activity",
-      "api_endpoint": "Database Query: ra_runners WHERE date > NOW() - INTERVAL '14 days'",
+      "api_endpoint": "Database Query: ra_mst_runners WHERE date > NOW() - INTERVAL '14 days'",
       "field_path": "Date-filtered aggregation over last 14 days",
       "implementation_notes": "Rolling window calculation updated by statistics workers",
       "populated": 3483,
@@ -1784,7 +1784,7 @@
       "column": "recent_14d_win_rate",
       "type": "numeric",
       "data_source": "Calculated from Historical Races",
-      "api_endpoint": "Database Query: ra_runners JOIN ra_races",
+      "api_endpoint": "Database Query: ra_mst_runners JOIN ra_mst_races",
       "field_path": "COUNT(*) WHERE jockey_id = X AND position = 1",
       "implementation_notes": "Aggregated from all historical race data. Script: scripts/statistics_workers/calculate_jockey_statistics.py",
       "populated": 2913,
@@ -1796,7 +1796,7 @@
       "column": "recent_30d_rides",
       "type": "integer",
       "data_source": "Calculated from Recent Activity",
-      "api_endpoint": "Database Query: ra_runners WHERE date > NOW() - INTERVAL '30 days'",
+      "api_endpoint": "Database Query: ra_mst_runners WHERE date > NOW() - INTERVAL '30 days'",
       "field_path": "Date-filtered aggregation over last 30 days",
       "implementation_notes": "Rolling window calculation updated by statistics workers",
       "populated": 3483,
@@ -1808,7 +1808,7 @@
       "column": "recent_30d_wins",
       "type": "integer",
       "data_source": "Calculated from Recent Activity",
-      "api_endpoint": "Database Query: ra_runners WHERE date > NOW() - INTERVAL '30 days'",
+      "api_endpoint": "Database Query: ra_mst_runners WHERE date > NOW() - INTERVAL '30 days'",
       "field_path": "Date-filtered aggregation over last 30 days",
       "implementation_notes": "Rolling window calculation updated by statistics workers",
       "populated": 3483,
@@ -1820,7 +1820,7 @@
       "column": "recent_30d_win_rate",
       "type": "numeric",
       "data_source": "Calculated from Historical Races",
-      "api_endpoint": "Database Query: ra_runners JOIN ra_races",
+      "api_endpoint": "Database Query: ra_mst_runners JOIN ra_mst_races",
       "field_path": "COUNT(*) WHERE jockey_id = X AND position = 1",
       "implementation_notes": "Aggregated from all historical race data. Script: scripts/statistics_workers/calculate_jockey_statistics.py",
       "populated": 2957,
@@ -1880,7 +1880,7 @@
       "column": "total_horses",
       "type": "integer",
       "data_source": "Calculated from Historical Races",
-      "api_endpoint": "Database Query: ra_runners JOIN ra_races",
+      "api_endpoint": "Database Query: ra_mst_runners JOIN ra_mst_races",
       "field_path": "COUNT(*) WHERE owner_id = X",
       "implementation_notes": "Aggregated from all historical race data. Script: scripts/statistics_workers/calculate_owner_statistics.py",
       "populated": 48155,
@@ -1892,7 +1892,7 @@
       "column": "total_runners",
       "type": "integer",
       "data_source": "Calculated from Historical Races",
-      "api_endpoint": "Database Query: ra_runners JOIN ra_races",
+      "api_endpoint": "Database Query: ra_mst_runners JOIN ra_mst_races",
       "field_path": "COUNT(*) WHERE owner_id = X",
       "implementation_notes": "Aggregated from all historical race data. Script: scripts/statistics_workers/calculate_owner_statistics.py",
       "populated": 48168,
@@ -1904,7 +1904,7 @@
       "column": "total_wins",
       "type": "integer",
       "data_source": "Calculated from Historical Races",
-      "api_endpoint": "Database Query: ra_runners JOIN ra_races",
+      "api_endpoint": "Database Query: ra_mst_runners JOIN ra_mst_races",
       "field_path": "COUNT(*) WHERE owner_id = X AND position = 1",
       "implementation_notes": "Aggregated from all historical race data. Script: scripts/statistics_workers/calculate_owner_statistics.py",
       "populated": 48168,
@@ -1916,7 +1916,7 @@
       "column": "total_places",
       "type": "integer",
       "data_source": "Calculated from Historical Races",
-      "api_endpoint": "Database Query: ra_runners JOIN ra_races",
+      "api_endpoint": "Database Query: ra_mst_runners JOIN ra_mst_races",
       "field_path": "COUNT(*) WHERE owner_id = X AND position IN (2,3)",
       "implementation_notes": "Aggregated from all historical race data. Script: scripts/statistics_workers/calculate_owner_statistics.py",
       "populated": 48155,
@@ -1928,7 +1928,7 @@
       "column": "total_seconds",
       "type": "integer",
       "data_source": "Calculated from Historical Races",
-      "api_endpoint": "Database Query: ra_runners JOIN ra_races",
+      "api_endpoint": "Database Query: ra_mst_runners JOIN ra_mst_races",
       "field_path": "COUNT(*) WHERE owner_id = X",
       "implementation_notes": "Aggregated from all historical race data. Script: scripts/statistics_workers/calculate_owner_statistics.py",
       "populated": 48155,
@@ -1940,7 +1940,7 @@
       "column": "total_thirds",
       "type": "integer",
       "data_source": "Calculated from Historical Races",
-      "api_endpoint": "Database Query: ra_runners JOIN ra_races",
+      "api_endpoint": "Database Query: ra_mst_runners JOIN ra_mst_races",
       "field_path": "COUNT(*) WHERE owner_id = X",
       "implementation_notes": "Aggregated from all historical race data. Script: scripts/statistics_workers/calculate_owner_statistics.py",
       "populated": 48155,
@@ -1952,7 +1952,7 @@
       "column": "win_rate",
       "type": "numeric",
       "data_source": "Calculated from Historical Races",
-      "api_endpoint": "Database Query: ra_runners JOIN ra_races",
+      "api_endpoint": "Database Query: ra_mst_runners JOIN ra_mst_races",
       "field_path": "COUNT(*) WHERE owner_id = X AND position = 1",
       "implementation_notes": "Aggregated from all historical race data. Script: scripts/statistics_workers/calculate_owner_statistics.py",
       "populated": 48115,
@@ -1964,7 +1964,7 @@
       "column": "place_rate",
       "type": "numeric",
       "data_source": "Calculated from Historical Races",
-      "api_endpoint": "Database Query: ra_runners JOIN ra_races",
+      "api_endpoint": "Database Query: ra_mst_runners JOIN ra_mst_races",
       "field_path": "COUNT(*) WHERE owner_id = X AND position IN (2,3)",
       "implementation_notes": "Aggregated from all historical race data. Script: scripts/statistics_workers/calculate_owner_statistics.py",
       "populated": 47166,
@@ -1976,7 +1976,7 @@
       "column": "active_last_30d",
       "type": "boolean",
       "data_source": "Calculated from Recent Activity",
-      "api_endpoint": "Database Query: ra_runners WHERE date > NOW() - INTERVAL '30 days'",
+      "api_endpoint": "Database Query: ra_mst_runners WHERE date > NOW() - INTERVAL '30 days'",
       "field_path": "Date-filtered aggregation over last 30 days",
       "implementation_notes": "Rolling window calculation updated by statistics workers",
       "populated": 47165,
@@ -1988,7 +1988,7 @@
       "column": "stats_updated_at",
       "type": "timestamp without time zone",
       "data_source": "Calculated from Database",
-      "api_endpoint": "Database Query: Aggregation over ra_runners + ra_races",
+      "api_endpoint": "Database Query: Aggregation over ra_mst_runners + ra_mst_races",
       "field_path": "Various aggregation methods depending on statistic",
       "implementation_notes": "Calculated by scripts/statistics_workers/* scripts",
       "populated": 48153,
@@ -2000,7 +2000,7 @@
       "column": "last_runner_date",
       "type": "date",
       "data_source": "Calculated from Recent Activity",
-      "api_endpoint": "Database Query: ra_runners WHERE date > NOW() - INTERVAL 'N days'",
+      "api_endpoint": "Database Query: ra_mst_runners WHERE date > NOW() - INTERVAL 'N days'",
       "field_path": "Date-filtered aggregation over last N days",
       "implementation_notes": "Rolling window calculation updated by statistics workers",
       "populated": 1411,
@@ -2012,7 +2012,7 @@
       "column": "last_win_date",
       "type": "date",
       "data_source": "Calculated from Recent Activity",
-      "api_endpoint": "Database Query: ra_runners WHERE date > NOW() - INTERVAL 'N days'",
+      "api_endpoint": "Database Query: ra_mst_runners WHERE date > NOW() - INTERVAL 'N days'",
       "field_path": "Date-filtered aggregation over last N days",
       "implementation_notes": "Rolling window calculation updated by statistics workers",
       "populated": 738,
@@ -2024,7 +2024,7 @@
       "column": "days_since_last_runner",
       "type": "integer",
       "data_source": "Calculated from Recent Activity",
-      "api_endpoint": "Database Query: ra_runners WHERE date > NOW() - INTERVAL 'N days'",
+      "api_endpoint": "Database Query: ra_mst_runners WHERE date > NOW() - INTERVAL 'N days'",
       "field_path": "Date-filtered aggregation over last N days",
       "implementation_notes": "Rolling window calculation updated by statistics workers",
       "populated": 1411,
@@ -2036,7 +2036,7 @@
       "column": "days_since_last_win",
       "type": "integer",
       "data_source": "Calculated from Recent Activity",
-      "api_endpoint": "Database Query: ra_runners WHERE date > NOW() - INTERVAL 'N days'",
+      "api_endpoint": "Database Query: ra_mst_runners WHERE date > NOW() - INTERVAL 'N days'",
       "field_path": "Date-filtered aggregation over last N days",
       "implementation_notes": "Rolling window calculation updated by statistics workers",
       "populated": 738,
@@ -2048,7 +2048,7 @@
       "column": "recent_14d_runs",
       "type": "integer",
       "data_source": "Calculated from Recent Activity",
-      "api_endpoint": "Database Query: ra_runners WHERE date > NOW() - INTERVAL '14 days'",
+      "api_endpoint": "Database Query: ra_mst_runners WHERE date > NOW() - INTERVAL '14 days'",
       "field_path": "Date-filtered aggregation over last 14 days",
       "implementation_notes": "Rolling window calculation updated by statistics workers",
       "populated": 48168,
@@ -2060,7 +2060,7 @@
       "column": "recent_14d_wins",
       "type": "integer",
       "data_source": "Calculated from Recent Activity",
-      "api_endpoint": "Database Query: ra_runners WHERE date > NOW() - INTERVAL '14 days'",
+      "api_endpoint": "Database Query: ra_mst_runners WHERE date > NOW() - INTERVAL '14 days'",
       "field_path": "Date-filtered aggregation over last 14 days",
       "implementation_notes": "Rolling window calculation updated by statistics workers",
       "populated": 48168,
@@ -2072,7 +2072,7 @@
       "column": "recent_14d_win_rate",
       "type": "numeric",
       "data_source": "Calculated from Historical Races",
-      "api_endpoint": "Database Query: ra_runners JOIN ra_races",
+      "api_endpoint": "Database Query: ra_mst_runners JOIN ra_mst_races",
       "field_path": "COUNT(*) WHERE owner_id = X AND position = 1",
       "implementation_notes": "Aggregated from all historical race data. Script: scripts/statistics_workers/calculate_owner_statistics.py",
       "populated": 47802,
@@ -2084,7 +2084,7 @@
       "column": "recent_30d_runs",
       "type": "integer",
       "data_source": "Calculated from Recent Activity",
-      "api_endpoint": "Database Query: ra_runners WHERE date > NOW() - INTERVAL '30 days'",
+      "api_endpoint": "Database Query: ra_mst_runners WHERE date > NOW() - INTERVAL '30 days'",
       "field_path": "Date-filtered aggregation over last 30 days",
       "implementation_notes": "Rolling window calculation updated by statistics workers",
       "populated": 48168,
@@ -2096,7 +2096,7 @@
       "column": "recent_30d_wins",
       "type": "integer",
       "data_source": "Calculated from Recent Activity",
-      "api_endpoint": "Database Query: ra_runners WHERE date > NOW() - INTERVAL '30 days'",
+      "api_endpoint": "Database Query: ra_mst_runners WHERE date > NOW() - INTERVAL '30 days'",
       "field_path": "Date-filtered aggregation over last 30 days",
       "implementation_notes": "Rolling window calculation updated by statistics workers",
       "populated": 48168,
@@ -2108,7 +2108,7 @@
       "column": "recent_30d_win_rate",
       "type": "numeric",
       "data_source": "Calculated from Historical Races",
-      "api_endpoint": "Database Query: ra_runners JOIN ra_races",
+      "api_endpoint": "Database Query: ra_mst_runners JOIN ra_mst_races",
       "field_path": "COUNT(*) WHERE owner_id = X AND position = 1",
       "implementation_notes": "Aggregated from all historical race data. Script: scripts/statistics_workers/calculate_owner_statistics.py",
       "populated": 47849,
@@ -2181,7 +2181,7 @@
       "type": "integer",
       "data_source": "Database Calculation - Pedigree Agent",
       "api_endpoint": "N/A - Calculated from database",
-      "field_path": "COUNT(ra_runners) WHERE horse_id IN (SELECT id FROM ra_mst_horses WHERE sire_id/dam_id/damsire_id = entity.id)",
+      "field_path": "COUNT(ra_mst_runners) WHERE horse_id IN (SELECT id FROM ra_mst_horses WHERE sire_id/dam_id/damsire_id = entity.id)",
       "implementation_notes": "Calculated by pedigree_statistics_agent.py - Total number of race starts by all progeny",
       "populated": 2143,
       "total": 2143,
@@ -2194,7 +2194,7 @@
       "type": "integer",
       "data_source": "Database Calculation - Pedigree Agent",
       "api_endpoint": "N/A - Calculated from database",
-      "field_path": "COUNT(ra_runners) WHERE position = 1 AND horse_id IN progeny",
+      "field_path": "COUNT(ra_mst_runners) WHERE position = 1 AND horse_id IN progeny",
       "implementation_notes": "Calculated by pedigree_statistics_agent.py - Total wins by all progeny",
       "populated": 2143,
       "total": 2143,
@@ -2207,7 +2207,7 @@
       "type": "integer",
       "data_source": "Database Calculation - Pedigree Agent",
       "api_endpoint": "N/A - Calculated from database",
-      "field_path": "COUNT(ra_runners) WHERE position = 2 AND horse_id IN progeny",
+      "field_path": "COUNT(ra_mst_runners) WHERE position = 2 AND horse_id IN progeny",
       "implementation_notes": "Calculated by pedigree_statistics_agent.py - Total 2nd place finishes by all progeny",
       "populated": 2143,
       "total": 2143,
@@ -2220,7 +2220,7 @@
       "type": "integer",
       "data_source": "Database Calculation - Pedigree Agent",
       "api_endpoint": "N/A - Calculated from database",
-      "field_path": "COUNT(ra_runners) WHERE position = 3 AND horse_id IN progeny",
+      "field_path": "COUNT(ra_mst_runners) WHERE position = 3 AND horse_id IN progeny",
       "implementation_notes": "Calculated by pedigree_statistics_agent.py - Total 3rd place finishes by all progeny",
       "populated": 2143,
       "total": 2143,
@@ -2350,7 +2350,7 @@
       "type": "integer",
       "data_source": "Database Calculation - Pedigree Agent",
       "api_endpoint": "N/A - Calculated from database",
-      "field_path": "COUNT(ra_runners) WHERE race.class = class_1_name",
+      "field_path": "COUNT(ra_mst_runners) WHERE race.class = class_1_name",
       "implementation_notes": "Calculated by pedigree_statistics_agent.py - Total runners in class_1",
       "populated": 0,
       "total": 2143,
@@ -2363,7 +2363,7 @@
       "type": "integer",
       "data_source": "Database Calculation - Pedigree Agent",
       "api_endpoint": "N/A - Calculated from database",
-      "field_path": "COUNT(ra_runners) WHERE position = 1 AND race.class = class_1_name",
+      "field_path": "COUNT(ra_mst_runners) WHERE position = 1 AND race.class = class_1_name",
       "implementation_notes": "Calculated by pedigree_statistics_agent.py - Total wins in class_1",
       "populated": 0,
       "total": 2143,
@@ -2415,7 +2415,7 @@
       "type": "integer",
       "data_source": "Database Calculation - Pedigree Agent",
       "api_endpoint": "N/A - Calculated from database",
-      "field_path": "COUNT(ra_runners) WHERE race.class = class_2_name",
+      "field_path": "COUNT(ra_mst_runners) WHERE race.class = class_2_name",
       "implementation_notes": "Calculated by pedigree_statistics_agent.py - Total runners in class_2",
       "populated": 0,
       "total": 2143,
@@ -2428,7 +2428,7 @@
       "type": "integer",
       "data_source": "Database Calculation - Pedigree Agent",
       "api_endpoint": "N/A - Calculated from database",
-      "field_path": "COUNT(ra_runners) WHERE position = 1 AND race.class = class_2_name",
+      "field_path": "COUNT(ra_mst_runners) WHERE position = 1 AND race.class = class_2_name",
       "implementation_notes": "Calculated by pedigree_statistics_agent.py - Total wins in class_2",
       "populated": 0,
       "total": 2143,
@@ -2480,7 +2480,7 @@
       "type": "integer",
       "data_source": "Database Calculation - Pedigree Agent",
       "api_endpoint": "N/A - Calculated from database",
-      "field_path": "COUNT(ra_runners) WHERE race.class = class_3_name",
+      "field_path": "COUNT(ra_mst_runners) WHERE race.class = class_3_name",
       "implementation_notes": "Calculated by pedigree_statistics_agent.py - Total runners in class_3",
       "populated": 0,
       "total": 2143,
@@ -2493,7 +2493,7 @@
       "type": "integer",
       "data_source": "Database Calculation - Pedigree Agent",
       "api_endpoint": "N/A - Calculated from database",
-      "field_path": "COUNT(ra_runners) WHERE position = 1 AND race.class = class_3_name",
+      "field_path": "COUNT(ra_mst_runners) WHERE position = 1 AND race.class = class_3_name",
       "implementation_notes": "Calculated by pedigree_statistics_agent.py - Total wins in class_3",
       "populated": 0,
       "total": 2143,
@@ -2545,7 +2545,7 @@
       "type": "integer",
       "data_source": "Database Calculation - Pedigree Agent",
       "api_endpoint": "N/A - Calculated from database",
-      "field_path": "COUNT(ra_runners) WHERE race.distance_f = distance_1_name",
+      "field_path": "COUNT(ra_mst_runners) WHERE race.distance_f = distance_1_name",
       "implementation_notes": "Calculated by pedigree_statistics_agent.py - Total runners at distance_1",
       "populated": 0,
       "total": 2143,
@@ -2558,7 +2558,7 @@
       "type": "integer",
       "data_source": "Database Calculation - Pedigree Agent",
       "api_endpoint": "N/A - Calculated from database",
-      "field_path": "COUNT(ra_runners) WHERE position = 1 AND race.distance_f = distance_1_name",
+      "field_path": "COUNT(ra_mst_runners) WHERE position = 1 AND race.distance_f = distance_1_name",
       "implementation_notes": "Calculated by pedigree_statistics_agent.py - Total wins at distance_1",
       "populated": 0,
       "total": 2143,
@@ -2610,7 +2610,7 @@
       "type": "integer",
       "data_source": "Database Calculation - Pedigree Agent",
       "api_endpoint": "N/A - Calculated from database",
-      "field_path": "COUNT(ra_runners) WHERE race.distance_f = distance_2_name",
+      "field_path": "COUNT(ra_mst_runners) WHERE race.distance_f = distance_2_name",
       "implementation_notes": "Calculated by pedigree_statistics_agent.py - Total runners at distance_2",
       "populated": 0,
       "total": 2143,
@@ -2623,7 +2623,7 @@
       "type": "integer",
       "data_source": "Database Calculation - Pedigree Agent",
       "api_endpoint": "N/A - Calculated from database",
-      "field_path": "COUNT(ra_runners) WHERE position = 1 AND race.distance_f = distance_2_name",
+      "field_path": "COUNT(ra_mst_runners) WHERE position = 1 AND race.distance_f = distance_2_name",
       "implementation_notes": "Calculated by pedigree_statistics_agent.py - Total wins at distance_2",
       "populated": 0,
       "total": 2143,
@@ -2675,7 +2675,7 @@
       "type": "integer",
       "data_source": "Database Calculation - Pedigree Agent",
       "api_endpoint": "N/A - Calculated from database",
-      "field_path": "COUNT(ra_runners) WHERE race.distance_f = distance_3_name",
+      "field_path": "COUNT(ra_mst_runners) WHERE race.distance_f = distance_3_name",
       "implementation_notes": "Calculated by pedigree_statistics_agent.py - Total runners at distance_3",
       "populated": 0,
       "total": 2143,
@@ -2688,7 +2688,7 @@
       "type": "integer",
       "data_source": "Database Calculation - Pedigree Agent",
       "api_endpoint": "N/A - Calculated from database",
-      "field_path": "COUNT(ra_runners) WHERE position = 1 AND race.distance_f = distance_3_name",
+      "field_path": "COUNT(ra_mst_runners) WHERE position = 1 AND race.distance_f = distance_3_name",
       "implementation_notes": "Calculated by pedigree_statistics_agent.py - Total wins at distance_3",
       "populated": 0,
       "total": 2143,
@@ -2786,7 +2786,7 @@
       "column": "total_runners",
       "type": "integer",
       "data_source": "Calculated from Historical Races",
-      "api_endpoint": "Database Query: ra_runners JOIN ra_races",
+      "api_endpoint": "Database Query: ra_mst_runners JOIN ra_mst_races",
       "field_path": "COUNT(*) WHERE trainer_id = X",
       "implementation_notes": "Aggregated from all historical race data. Script: scripts/statistics_workers/calculate_trainer_statistics.py",
       "populated": 2781,
@@ -2798,7 +2798,7 @@
       "column": "total_wins",
       "type": "integer",
       "data_source": "Calculated from Historical Races",
-      "api_endpoint": "Database Query: ra_runners JOIN ra_races",
+      "api_endpoint": "Database Query: ra_mst_runners JOIN ra_mst_races",
       "field_path": "COUNT(*) WHERE trainer_id = X AND position = 1",
       "implementation_notes": "Aggregated from all historical race data. Script: scripts/statistics_workers/calculate_trainer_statistics.py",
       "populated": 2781,
@@ -2810,7 +2810,7 @@
       "column": "total_places",
       "type": "integer",
       "data_source": "Calculated from Historical Races",
-      "api_endpoint": "Database Query: ra_runners JOIN ra_races",
+      "api_endpoint": "Database Query: ra_mst_runners JOIN ra_mst_races",
       "field_path": "COUNT(*) WHERE trainer_id = X AND position IN (2,3)",
       "implementation_notes": "Aggregated from all historical race data. Script: scripts/statistics_workers/calculate_trainer_statistics.py",
       "populated": 2781,
@@ -2822,7 +2822,7 @@
       "column": "total_seconds",
       "type": "integer",
       "data_source": "Calculated from Historical Races",
-      "api_endpoint": "Database Query: ra_runners JOIN ra_races",
+      "api_endpoint": "Database Query: ra_mst_runners JOIN ra_mst_races",
       "field_path": "COUNT(*) WHERE trainer_id = X",
       "implementation_notes": "Aggregated from all historical race data. Script: scripts/statistics_workers/calculate_trainer_statistics.py",
       "populated": 2781,
@@ -2834,7 +2834,7 @@
       "column": "total_thirds",
       "type": "integer",
       "data_source": "Calculated from Historical Races",
-      "api_endpoint": "Database Query: ra_runners JOIN ra_races",
+      "api_endpoint": "Database Query: ra_mst_runners JOIN ra_mst_races",
       "field_path": "COUNT(*) WHERE trainer_id = X",
       "implementation_notes": "Aggregated from all historical race data. Script: scripts/statistics_workers/calculate_trainer_statistics.py",
       "populated": 2781,
@@ -2846,7 +2846,7 @@
       "column": "win_rate",
       "type": "numeric",
       "data_source": "Calculated from Historical Races",
-      "api_endpoint": "Database Query: ra_runners JOIN ra_races",
+      "api_endpoint": "Database Query: ra_mst_runners JOIN ra_mst_races",
       "field_path": "COUNT(*) WHERE trainer_id = X AND position = 1",
       "implementation_notes": "Aggregated from all historical race data. Script: scripts/statistics_workers/calculate_trainer_statistics.py",
       "populated": 2773,
@@ -2858,7 +2858,7 @@
       "column": "place_rate",
       "type": "numeric",
       "data_source": "Calculated from Historical Races",
-      "api_endpoint": "Database Query: ra_runners JOIN ra_races",
+      "api_endpoint": "Database Query: ra_mst_runners JOIN ra_mst_races",
       "field_path": "COUNT(*) WHERE trainer_id = X AND position IN (2,3)",
       "implementation_notes": "Aggregated from all historical race data. Script: scripts/statistics_workers/calculate_trainer_statistics.py",
       "populated": 2648,
@@ -2870,7 +2870,7 @@
       "column": "stats_updated_at",
       "type": "timestamp without time zone",
       "data_source": "Calculated from Database",
-      "api_endpoint": "Database Query: Aggregation over ra_runners + ra_races",
+      "api_endpoint": "Database Query: Aggregation over ra_mst_runners + ra_mst_races",
       "field_path": "Various aggregation methods depending on statistic",
       "implementation_notes": "Calculated by scripts/statistics_workers/* scripts",
       "populated": 2781,
@@ -2882,7 +2882,7 @@
       "column": "last_runner_date",
       "type": "date",
       "data_source": "Calculated from Recent Activity",
-      "api_endpoint": "Database Query: ra_runners WHERE date > NOW() - INTERVAL 'N days'",
+      "api_endpoint": "Database Query: ra_mst_runners WHERE date > NOW() - INTERVAL 'N days'",
       "field_path": "Date-filtered aggregation over last N days",
       "implementation_notes": "Rolling window calculation updated by statistics workers",
       "populated": 1000,
@@ -2894,7 +2894,7 @@
       "column": "last_win_date",
       "type": "date",
       "data_source": "Calculated from Recent Activity",
-      "api_endpoint": "Database Query: ra_runners WHERE date > NOW() - INTERVAL 'N days'",
+      "api_endpoint": "Database Query: ra_mst_runners WHERE date > NOW() - INTERVAL 'N days'",
       "field_path": "Date-filtered aggregation over last N days",
       "implementation_notes": "Rolling window calculation updated by statistics workers",
       "populated": 504,
@@ -2906,7 +2906,7 @@
       "column": "days_since_last_runner",
       "type": "integer",
       "data_source": "Calculated from Recent Activity",
-      "api_endpoint": "Database Query: ra_runners WHERE date > NOW() - INTERVAL 'N days'",
+      "api_endpoint": "Database Query: ra_mst_runners WHERE date > NOW() - INTERVAL 'N days'",
       "field_path": "Date-filtered aggregation over last N days",
       "implementation_notes": "Rolling window calculation updated by statistics workers",
       "populated": 1000,
@@ -2918,7 +2918,7 @@
       "column": "days_since_last_win",
       "type": "integer",
       "data_source": "Calculated from Recent Activity",
-      "api_endpoint": "Database Query: ra_runners WHERE date > NOW() - INTERVAL 'N days'",
+      "api_endpoint": "Database Query: ra_mst_runners WHERE date > NOW() - INTERVAL 'N days'",
       "field_path": "Date-filtered aggregation over last N days",
       "implementation_notes": "Rolling window calculation updated by statistics workers",
       "populated": 504,
@@ -2930,7 +2930,7 @@
       "column": "recent_14d_runs",
       "type": "integer",
       "data_source": "Calculated from Recent Activity",
-      "api_endpoint": "Database Query: ra_runners WHERE date > NOW() - INTERVAL '14 days'",
+      "api_endpoint": "Database Query: ra_mst_runners WHERE date > NOW() - INTERVAL '14 days'",
       "field_path": "Date-filtered aggregation over last 14 days",
       "implementation_notes": "Rolling window calculation updated by statistics workers",
       "populated": 2781,
@@ -2942,7 +2942,7 @@
       "column": "recent_14d_wins",
       "type": "integer",
       "data_source": "Calculated from Recent Activity",
-      "api_endpoint": "Database Query: ra_runners WHERE date > NOW() - INTERVAL '14 days'",
+      "api_endpoint": "Database Query: ra_mst_runners WHERE date > NOW() - INTERVAL '14 days'",
       "field_path": "Date-filtered aggregation over last 14 days",
       "implementation_notes": "Rolling window calculation updated by statistics workers",
       "populated": 2781,
@@ -2954,7 +2954,7 @@
       "column": "recent_14d_win_rate",
       "type": "numeric",
       "data_source": "Calculated from Historical Races",
-      "api_endpoint": "Database Query: ra_runners JOIN ra_races",
+      "api_endpoint": "Database Query: ra_mst_runners JOIN ra_mst_races",
       "field_path": "COUNT(*) WHERE trainer_id = X AND position = 1",
       "implementation_notes": "Aggregated from all historical race data. Script: scripts/statistics_workers/calculate_trainer_statistics.py",
       "populated": 2316,
@@ -2966,7 +2966,7 @@
       "column": "recent_30d_runs",
       "type": "integer",
       "data_source": "Calculated from Recent Activity",
-      "api_endpoint": "Database Query: ra_runners WHERE date > NOW() - INTERVAL '30 days'",
+      "api_endpoint": "Database Query: ra_mst_runners WHERE date > NOW() - INTERVAL '30 days'",
       "field_path": "Date-filtered aggregation over last 30 days",
       "implementation_notes": "Rolling window calculation updated by statistics workers",
       "populated": 2781,
@@ -2978,7 +2978,7 @@
       "column": "recent_30d_wins",
       "type": "integer",
       "data_source": "Calculated from Recent Activity",
-      "api_endpoint": "Database Query: ra_runners WHERE date > NOW() - INTERVAL '30 days'",
+      "api_endpoint": "Database Query: ra_mst_runners WHERE date > NOW() - INTERVAL '30 days'",
       "field_path": "Date-filtered aggregation over last 30 days",
       "implementation_notes": "Rolling window calculation updated by statistics workers",
       "populated": 2781,
@@ -2990,7 +2990,7 @@
       "column": "recent_30d_win_rate",
       "type": "numeric",
       "data_source": "Calculated from Historical Races",
-      "api_endpoint": "Database Query: ra_runners JOIN ra_races",
+      "api_endpoint": "Database Query: ra_mst_runners JOIN ra_mst_races",
       "field_path": "COUNT(*) WHERE trainer_id = X AND position = 1",
       "implementation_notes": "Aggregated from all historical race data. Script: scripts/statistics_workers/calculate_trainer_statistics.py",
       "populated": 2361,
@@ -2998,7 +2998,7 @@
       "pct_populated": 84.9
     },
     {
-      "table": "ra_races",
+      "table": "ra_mst_races",
       "column": "id",
       "type": "character varying",
       "data_source": "Racing API - Race ID",
@@ -3010,7 +3010,7 @@
       "pct_populated": 100.0
     },
     {
-      "table": "ra_races",
+      "table": "ra_mst_races",
       "column": "course_id",
       "type": "character varying",
       "data_source": "Racing API - Racecard",
@@ -3022,7 +3022,7 @@
       "pct_populated": 100.0
     },
     {
-      "table": "ra_races",
+      "table": "ra_mst_races",
       "column": "course_name",
       "type": "character varying",
       "data_source": "Racing API - Racecard",
@@ -3034,7 +3034,7 @@
       "pct_populated": 100.0
     },
     {
-      "table": "ra_races",
+      "table": "ra_mst_races",
       "column": "date",
       "type": "date",
       "data_source": "Racing API - Racecard",
@@ -3046,7 +3046,7 @@
       "pct_populated": 100.0
     },
     {
-      "table": "ra_races",
+      "table": "ra_mst_races",
       "column": "off_time",
       "type": "time without time zone",
       "data_source": "Racing API - Racecard",
@@ -3058,7 +3058,7 @@
       "pct_populated": 100.0
     },
     {
-      "table": "ra_races",
+      "table": "ra_mst_races",
       "column": "off_dt",
       "type": "timestamp without time zone",
       "data_source": "Racing API - Racecard",
@@ -3070,7 +3070,7 @@
       "pct_populated": 99.84
     },
     {
-      "table": "ra_races",
+      "table": "ra_mst_races",
       "column": "race_name",
       "type": "character varying",
       "data_source": "Racing API - Racecard",
@@ -3082,7 +3082,7 @@
       "pct_populated": 100.0
     },
     {
-      "table": "ra_races",
+      "table": "ra_mst_races",
       "column": "race_number",
       "type": "integer",
       "data_source": "Racing API - Racecard",
@@ -3094,7 +3094,7 @@
       "pct_populated": 0.0
     },
     {
-      "table": "ra_races",
+      "table": "ra_mst_races",
       "column": "distance",
       "type": "character varying",
       "data_source": "Racing API - Racecard",
@@ -3106,7 +3106,7 @@
       "pct_populated": 100.0
     },
     {
-      "table": "ra_races",
+      "table": "ra_mst_races",
       "column": "distance_round",
       "type": "character varying",
       "data_source": "Racing API - Racecard",
@@ -3118,7 +3118,7 @@
       "pct_populated": 9.37
     },
     {
-      "table": "ra_races",
+      "table": "ra_mst_races",
       "column": "distance_f",
       "type": "character varying",
       "data_source": "Racing API - Racecard",
@@ -3130,7 +3130,7 @@
       "pct_populated": 100.0
     },
     {
-      "table": "ra_races",
+      "table": "ra_mst_races",
       "column": "distance_m",
       "type": "integer",
       "data_source": "Racing API - Racecard",
@@ -3142,7 +3142,7 @@
       "pct_populated": 26.42
     },
     {
-      "table": "ra_races",
+      "table": "ra_mst_races",
       "column": "region",
       "type": "character varying",
       "data_source": "Racing API - Racecard",
@@ -3154,7 +3154,7 @@
       "pct_populated": 100.0
     },
     {
-      "table": "ra_races",
+      "table": "ra_mst_races",
       "column": "type",
       "type": "character varying",
       "data_source": "Racing API - Racecard",
@@ -3166,7 +3166,7 @@
       "pct_populated": 100.0
     },
     {
-      "table": "ra_races",
+      "table": "ra_mst_races",
       "column": "surface",
       "type": "character varying",
       "data_source": "Racing API - Racecard",
@@ -3178,7 +3178,7 @@
       "pct_populated": 99.9
     },
     {
-      "table": "ra_races",
+      "table": "ra_mst_races",
       "column": "going",
       "type": "character varying",
       "data_source": "Racing API - Racecard",
@@ -3190,7 +3190,7 @@
       "pct_populated": 99.99
     },
     {
-      "table": "ra_races",
+      "table": "ra_mst_races",
       "column": "going_detailed",
       "type": "text",
       "data_source": "Racing API - Racecard",
@@ -3202,7 +3202,7 @@
       "pct_populated": 0.0
     },
     {
-      "table": "ra_races",
+      "table": "ra_mst_races",
       "column": "pattern",
       "type": "character varying",
       "data_source": "Racing API - Racecard",
@@ -3214,7 +3214,7 @@
       "pct_populated": 0.52
     },
     {
-      "table": "ra_races",
+      "table": "ra_mst_races",
       "column": "race_class",
       "type": "character varying",
       "data_source": "Racing API - Racecard",
@@ -3226,7 +3226,7 @@
       "pct_populated": 78.57
     },
     {
-      "table": "ra_races",
+      "table": "ra_mst_races",
       "column": "age_band",
       "type": "character varying",
       "data_source": "Racing API - Racecard",
@@ -3238,7 +3238,7 @@
       "pct_populated": 27.28
     },
     {
-      "table": "ra_races",
+      "table": "ra_mst_races",
       "column": "sex_restriction",
       "type": "character varying",
       "data_source": "Racing API - Racecard",
@@ -3250,7 +3250,7 @@
       "pct_populated": 1.19
     },
     {
-      "table": "ra_races",
+      "table": "ra_mst_races",
       "column": "rating_band",
       "type": "character varying",
       "data_source": "Racing API - Racecard",
@@ -3262,7 +3262,7 @@
       "pct_populated": 5.35
     },
     {
-      "table": "ra_races",
+      "table": "ra_mst_races",
       "column": "prize",
       "type": "numeric",
       "data_source": "Racing API - Racecard",
@@ -3274,7 +3274,7 @@
       "pct_populated": 5.89
     },
     {
-      "table": "ra_races",
+      "table": "ra_mst_races",
       "column": "field_size",
       "type": "integer",
       "data_source": "Racing API - Racecard",
@@ -3286,7 +3286,7 @@
       "pct_populated": 27.28
     },
     {
-      "table": "ra_races",
+      "table": "ra_mst_races",
       "column": "stalls",
       "type": "character varying",
       "data_source": "Racing API - Racecard",
@@ -3298,7 +3298,7 @@
       "pct_populated": 0.0
     },
     {
-      "table": "ra_races",
+      "table": "ra_mst_races",
       "column": "rail_movements",
       "type": "text",
       "data_source": "Racing API - Racecard",
@@ -3310,7 +3310,7 @@
       "pct_populated": 0.0
     },
     {
-      "table": "ra_races",
+      "table": "ra_mst_races",
       "column": "weather",
       "type": "character varying",
       "data_source": "Racing API - Racecard",
@@ -3322,7 +3322,7 @@
       "pct_populated": 0.0
     },
     {
-      "table": "ra_races",
+      "table": "ra_mst_races",
       "column": "jumps",
       "type": "character varying",
       "data_source": "Racing API - Racecard",
@@ -3334,7 +3334,7 @@
       "pct_populated": 3.27
     },
     {
-      "table": "ra_races",
+      "table": "ra_mst_races",
       "column": "is_big_race",
       "type": "boolean",
       "data_source": "Racing API - Racecard",
@@ -3346,7 +3346,7 @@
       "pct_populated": 100.0
     },
     {
-      "table": "ra_races",
+      "table": "ra_mst_races",
       "column": "is_abandoned",
       "type": "boolean",
       "data_source": "Racing API - Racecard",
@@ -3358,7 +3358,7 @@
       "pct_populated": 100.0
     },
     {
-      "table": "ra_races",
+      "table": "ra_mst_races",
       "column": "has_result",
       "type": "boolean",
       "data_source": "Racing API - Racecard",
@@ -3370,7 +3370,7 @@
       "pct_populated": 100.0
     },
     {
-      "table": "ra_races",
+      "table": "ra_mst_races",
       "column": "winning_time",
       "type": "character varying",
       "data_source": "Racing API - Racecard",
@@ -3382,7 +3382,7 @@
       "pct_populated": 9.27
     },
     {
-      "table": "ra_races",
+      "table": "ra_mst_races",
       "column": "winning_time_detail",
       "type": "text",
       "data_source": "Racing API - Racecard",
@@ -3394,7 +3394,7 @@
       "pct_populated": 9.27
     },
     {
-      "table": "ra_races",
+      "table": "ra_mst_races",
       "column": "comments",
       "type": "text",
       "data_source": "Racing API - Racecard",
@@ -3406,7 +3406,7 @@
       "pct_populated": 0.36
     },
     {
-      "table": "ra_races",
+      "table": "ra_mst_races",
       "column": "non_runners",
       "type": "text",
       "data_source": "Racing API - Racecard",
@@ -3418,7 +3418,7 @@
       "pct_populated": 4.63
     },
     {
-      "table": "ra_races",
+      "table": "ra_mst_races",
       "column": "tote_win",
       "type": "character varying",
       "data_source": "Racing API - Racecard",
@@ -3430,7 +3430,7 @@
       "pct_populated": 9.26
     },
     {
-      "table": "ra_races",
+      "table": "ra_mst_races",
       "column": "tote_pl",
       "type": "character varying",
       "data_source": "Racing API - Racecard",
@@ -3442,7 +3442,7 @@
       "pct_populated": 8.73
     },
     {
-      "table": "ra_races",
+      "table": "ra_mst_races",
       "column": "tote_ex",
       "type": "character varying",
       "data_source": "Racing API - Racecard",
@@ -3454,7 +3454,7 @@
       "pct_populated": 9.23
     },
     {
-      "table": "ra_races",
+      "table": "ra_mst_races",
       "column": "tote_csf",
       "type": "character varying",
       "data_source": "Racing API - Racecard",
@@ -3466,7 +3466,7 @@
       "pct_populated": 9.23
     },
     {
-      "table": "ra_races",
+      "table": "ra_mst_races",
       "column": "tote_tricast",
       "type": "character varying",
       "data_source": "Racing API - Racecard",
@@ -3478,7 +3478,7 @@
       "pct_populated": 4.61
     },
     {
-      "table": "ra_races",
+      "table": "ra_mst_races",
       "column": "tote_trifecta",
       "type": "character varying",
       "data_source": "Racing API - Racecard",
@@ -3490,7 +3490,7 @@
       "pct_populated": 9.09
     },
     {
-      "table": "ra_races",
+      "table": "ra_mst_races",
       "column": "tip",
       "type": "text",
       "data_source": "Racing API - Racecard",
@@ -3502,7 +3502,7 @@
       "pct_populated": 0.23
     },
     {
-      "table": "ra_races",
+      "table": "ra_mst_races",
       "column": "verdict",
       "type": "text",
       "data_source": "Racing API - Racecard",
@@ -3514,7 +3514,7 @@
       "pct_populated": 0.24
     },
     {
-      "table": "ra_races",
+      "table": "ra_mst_races",
       "column": "betting_forecast",
       "type": "text",
       "data_source": "Racing API - Racecard",
@@ -3526,7 +3526,7 @@
       "pct_populated": 0.24
     },
     {
-      "table": "ra_races",
+      "table": "ra_mst_races",
       "column": "meet_id",
       "type": "character varying",
       "data_source": "Racing API - Racecard",
@@ -3538,7 +3538,7 @@
       "pct_populated": 0.0
     },
     {
-      "table": "ra_races",
+      "table": "ra_mst_races",
       "column": "created_at",
       "type": "timestamp without time zone",
       "data_source": "System Timestamp",
@@ -3550,7 +3550,7 @@
       "pct_populated": 100.0
     },
     {
-      "table": "ra_races",
+      "table": "ra_mst_races",
       "column": "updated_at",
       "type": "timestamp without time zone",
       "data_source": "System Timestamp",
@@ -3562,7 +3562,7 @@
       "pct_populated": 100.0
     },
     {
-      "table": "ra_races",
+      "table": "ra_mst_races",
       "column": "time",
       "type": "time without time zone",
       "data_source": "Racing API - Racecard",
@@ -3574,7 +3574,7 @@
       "pct_populated": 93.87
     },
     {
-      "table": "ra_runners",
+      "table": "ra_mst_runners",
       "column": "id",
       "type": "bigint",
       "data_source": "System Generated - Composite",
@@ -3586,19 +3586,19 @@
       "pct_populated": 100.0
     },
     {
-      "table": "ra_runners",
+      "table": "ra_mst_runners",
       "column": "race_id",
       "type": "character varying",
       "data_source": "Racing API - Racecard",
       "api_endpoint": "/v1/racecards/pro -> races[]",
       "field_path": "response.races[].race_id",
-      "implementation_notes": "Foreign key to ra_races",
+      "implementation_notes": "Foreign key to ra_mst_races",
       "populated": 1326595,
       "total": 1326595,
       "pct_populated": 100.0
     },
     {
-      "table": "ra_runners",
+      "table": "ra_mst_runners",
       "column": "horse_id",
       "type": "character varying",
       "data_source": "Racing API - Racecard",
@@ -3610,7 +3610,7 @@
       "pct_populated": 100.0
     },
     {
-      "table": "ra_runners",
+      "table": "ra_mst_runners",
       "column": "horse_name",
       "type": "character varying",
       "data_source": "Racing API - Racecard/Results",
@@ -3622,7 +3622,7 @@
       "pct_populated": 100.0
     },
     {
-      "table": "ra_runners",
+      "table": "ra_mst_runners",
       "column": "jockey_name",
       "type": "character varying",
       "data_source": "Racing API - Racecard/Results",
@@ -3634,7 +3634,7 @@
       "pct_populated": 98.89
     },
     {
-      "table": "ra_runners",
+      "table": "ra_mst_runners",
       "column": "trainer_name",
       "type": "character varying",
       "data_source": "Racing API - Racecard/Results",
@@ -3646,7 +3646,7 @@
       "pct_populated": 100.0
     },
     {
-      "table": "ra_runners",
+      "table": "ra_mst_runners",
       "column": "owner_name",
       "type": "character varying",
       "data_source": "Racing API - Racecard/Results",
@@ -3658,7 +3658,7 @@
       "pct_populated": 100.0
     },
     {
-      "table": "ra_runners",
+      "table": "ra_mst_runners",
       "column": "number",
       "type": "character varying",
       "data_source": "Racing API - Racecard/Results",
@@ -3670,7 +3670,7 @@
       "pct_populated": 100.0
     },
     {
-      "table": "ra_runners",
+      "table": "ra_mst_runners",
       "column": "draw",
       "type": "character varying",
       "data_source": "Racing API - Racecard",
@@ -3682,7 +3682,7 @@
       "pct_populated": 95.72
     },
     {
-      "table": "ra_runners",
+      "table": "ra_mst_runners",
       "column": "jockey_id",
       "type": "character varying",
       "data_source": "Racing API - Racecard",
@@ -3694,7 +3694,7 @@
       "pct_populated": 98.89
     },
     {
-      "table": "ra_runners",
+      "table": "ra_mst_runners",
       "column": "trainer_id",
       "type": "character varying",
       "data_source": "Racing API - Racecard",
@@ -3706,7 +3706,7 @@
       "pct_populated": 100.0
     },
     {
-      "table": "ra_runners",
+      "table": "ra_mst_runners",
       "column": "owner_id",
       "type": "character varying",
       "data_source": "Racing API - Racecard",
@@ -3718,7 +3718,7 @@
       "pct_populated": 100.0
     },
     {
-      "table": "ra_runners",
+      "table": "ra_mst_runners",
       "column": "sire_id",
       "type": "character varying",
       "data_source": "Racing API - Racecard/Results",
@@ -3730,7 +3730,7 @@
       "pct_populated": 100.0
     },
     {
-      "table": "ra_runners",
+      "table": "ra_mst_runners",
       "column": "dam_id",
       "type": "character varying",
       "data_source": "Racing API - Racecard/Results",
@@ -3742,7 +3742,7 @@
       "pct_populated": 100.0
     },
     {
-      "table": "ra_runners",
+      "table": "ra_mst_runners",
       "column": "damsire_id",
       "type": "character varying",
       "data_source": "Racing API - Racecard/Results",
@@ -3754,7 +3754,7 @@
       "pct_populated": 100.0
     },
     {
-      "table": "ra_runners",
+      "table": "ra_mst_runners",
       "column": "weight_lbs",
       "type": "integer",
       "data_source": "Racing API - Racecard/Results",
@@ -3766,7 +3766,7 @@
       "pct_populated": 91.45
     },
     {
-      "table": "ra_runners",
+      "table": "ra_mst_runners",
       "column": "weight_st_lbs",
       "type": "character varying",
       "data_source": "Racing API - Racecard/Results",
@@ -3778,7 +3778,7 @@
       "pct_populated": 9.11
     },
     {
-      "table": "ra_runners",
+      "table": "ra_mst_runners",
       "column": "age",
       "type": "integer",
       "data_source": "Racing API - Racecard",
@@ -3790,7 +3790,7 @@
       "pct_populated": 100.0
     },
     {
-      "table": "ra_runners",
+      "table": "ra_mst_runners",
       "column": "sex",
       "type": "character varying",
       "data_source": "Racing API - Racecard/Results",
@@ -3802,7 +3802,7 @@
       "pct_populated": 100.0
     },
     {
-      "table": "ra_runners",
+      "table": "ra_mst_runners",
       "column": "sex_code",
       "type": "character varying",
       "data_source": "Racing API - Racecard/Results",
@@ -3814,7 +3814,7 @@
       "pct_populated": 91.14
     },
     {
-      "table": "ra_runners",
+      "table": "ra_mst_runners",
       "column": "colour",
       "type": "character varying",
       "data_source": "Racing API - Racecard/Results",
@@ -3826,7 +3826,7 @@
       "pct_populated": 0.04
     },
     {
-      "table": "ra_runners",
+      "table": "ra_mst_runners",
       "column": "dob",
       "type": "date",
       "data_source": "Racing API - Racecard/Results",
@@ -3838,7 +3838,7 @@
       "pct_populated": 0.04
     },
     {
-      "table": "ra_runners",
+      "table": "ra_mst_runners",
       "column": "headgear",
       "type": "character varying",
       "data_source": "Racing API - Racecard",
@@ -3850,7 +3850,7 @@
       "pct_populated": 37.05
     },
     {
-      "table": "ra_runners",
+      "table": "ra_mst_runners",
       "column": "headgear_run",
       "type": "character varying",
       "data_source": "Racing API - Racecard/Results",
@@ -3862,7 +3862,7 @@
       "pct_populated": 0.0
     },
     {
-      "table": "ra_runners",
+      "table": "ra_mst_runners",
       "column": "wind_surgery",
       "type": "character varying",
       "data_source": "Racing API - Racecard/Results",
@@ -3874,7 +3874,7 @@
       "pct_populated": 0.0
     },
     {
-      "table": "ra_runners",
+      "table": "ra_mst_runners",
       "column": "wind_surgery_run",
       "type": "character varying",
       "data_source": "Racing API - Racecard/Results",
@@ -3886,7 +3886,7 @@
       "pct_populated": 0.0
     },
     {
-      "table": "ra_runners",
+      "table": "ra_mst_runners",
       "column": "form",
       "type": "character varying",
       "data_source": "Racing API - Racecard",
@@ -3898,11 +3898,11 @@
       "pct_populated": 18.67
     },
     {
-      "table": "ra_runners",
+      "table": "ra_mst_runners",
       "column": "last_run",
       "type": "character varying",
       "data_source": "Calculated from Recent Activity",
-      "api_endpoint": "Database Query: ra_runners WHERE date > NOW() - INTERVAL 'N days'",
+      "api_endpoint": "Database Query: ra_mst_runners WHERE date > NOW() - INTERVAL 'N days'",
       "field_path": "Date-filtered aggregation over last N days",
       "implementation_notes": "Rolling window calculation updated by statistics workers",
       "populated": 539,
@@ -3910,7 +3910,7 @@
       "pct_populated": 0.04
     },
     {
-      "table": "ra_runners",
+      "table": "ra_mst_runners",
       "column": "ofr",
       "type": "integer",
       "data_source": "Racing API - Racecard",
@@ -3922,7 +3922,7 @@
       "pct_populated": 74.15
     },
     {
-      "table": "ra_runners",
+      "table": "ra_mst_runners",
       "column": "rpr",
       "type": "integer",
       "data_source": "Racing API - Racecard",
@@ -3934,7 +3934,7 @@
       "pct_populated": 91.54
     },
     {
-      "table": "ra_runners",
+      "table": "ra_mst_runners",
       "column": "ts",
       "type": "integer",
       "data_source": "Racing API - Racecard",
@@ -3946,7 +3946,7 @@
       "pct_populated": 79.78
     },
     {
-      "table": "ra_runners",
+      "table": "ra_mst_runners",
       "column": "comment",
       "type": "text",
       "data_source": "Racing API - Racecard/Results",
@@ -3958,7 +3958,7 @@
       "pct_populated": 8.91
     },
     {
-      "table": "ra_runners",
+      "table": "ra_mst_runners",
       "column": "spotlight",
       "type": "text",
       "data_source": "Racing API - Racecard/Results",
@@ -3970,7 +3970,7 @@
       "pct_populated": 0.04
     },
     {
-      "table": "ra_runners",
+      "table": "ra_mst_runners",
       "column": "trainer_rtf",
       "type": "character varying",
       "data_source": "Racing API - Racecard/Results",
@@ -3982,7 +3982,7 @@
       "pct_populated": 0.04
     },
     {
-      "table": "ra_runners",
+      "table": "ra_mst_runners",
       "column": "past_results_flags",
       "type": "jsonb",
       "data_source": "Racing API - Racecard/Results",
@@ -3994,7 +3994,7 @@
       "pct_populated": 0.04
     },
     {
-      "table": "ra_runners",
+      "table": "ra_mst_runners",
       "column": "claiming_price_min",
       "type": "integer",
       "data_source": "Racing API - Racecard/Results",
@@ -4006,7 +4006,7 @@
       "pct_populated": 0.0
     },
     {
-      "table": "ra_runners",
+      "table": "ra_mst_runners",
       "column": "claiming_price_max",
       "type": "integer",
       "data_source": "Racing API - Racecard/Results",
@@ -4018,7 +4018,7 @@
       "pct_populated": 0.0
     },
     {
-      "table": "ra_runners",
+      "table": "ra_mst_runners",
       "column": "medication",
       "type": "character varying",
       "data_source": "Racing API - Racecard/Results",
@@ -4030,7 +4030,7 @@
       "pct_populated": 0.0
     },
     {
-      "table": "ra_runners",
+      "table": "ra_mst_runners",
       "column": "equipment",
       "type": "character varying",
       "data_source": "Racing API - Racecard/Results",
@@ -4042,7 +4042,7 @@
       "pct_populated": 0.0
     },
     {
-      "table": "ra_runners",
+      "table": "ra_mst_runners",
       "column": "morning_line_odds",
       "type": "character varying",
       "data_source": "Racing API - Racecard/Results",
@@ -4054,7 +4054,7 @@
       "pct_populated": 0.0
     },
     {
-      "table": "ra_runners",
+      "table": "ra_mst_runners",
       "column": "is_scratched",
       "type": "boolean",
       "data_source": "Racing API - Racecard/Results",
@@ -4066,7 +4066,7 @@
       "pct_populated": 100.0
     },
     {
-      "table": "ra_runners",
+      "table": "ra_mst_runners",
       "column": "silk_url",
       "type": "character varying",
       "data_source": "Racing API - Racecard/Results",
@@ -4078,7 +4078,7 @@
       "pct_populated": 28.85
     },
     {
-      "table": "ra_runners",
+      "table": "ra_mst_runners",
       "column": "created_at",
       "type": "timestamp without time zone",
       "data_source": "System Timestamp",
@@ -4090,7 +4090,7 @@
       "pct_populated": 100.0
     },
     {
-      "table": "ra_runners",
+      "table": "ra_mst_runners",
       "column": "updated_at",
       "type": "timestamp without time zone",
       "data_source": "System Timestamp",
@@ -4102,7 +4102,7 @@
       "pct_populated": 100.0
     },
     {
-      "table": "ra_runners",
+      "table": "ra_mst_runners",
       "column": "position",
       "type": "integer",
       "data_source": "Racing API - Results",
@@ -4114,7 +4114,7 @@
       "pct_populated": 8.41
     },
     {
-      "table": "ra_runners",
+      "table": "ra_mst_runners",
       "column": "distance_beaten",
       "type": "character varying",
       "data_source": "Racing API - Results",
@@ -4126,7 +4126,7 @@
       "pct_populated": 8.9
     },
     {
-      "table": "ra_runners",
+      "table": "ra_mst_runners",
       "column": "prize_won",
       "type": "numeric",
       "data_source": "Racing API - Results",
@@ -4138,7 +4138,7 @@
       "pct_populated": 3.62
     },
     {
-      "table": "ra_runners",
+      "table": "ra_mst_runners",
       "column": "starting_price",
       "type": "character varying",
       "data_source": "Racing API - Results",
@@ -4150,7 +4150,7 @@
       "pct_populated": 8.9
     },
     {
-      "table": "ra_runners",
+      "table": "ra_mst_runners",
       "column": "result_updated_at",
       "type": "timestamp without time zone",
       "data_source": "Racing API - Racecard/Results",
@@ -4162,7 +4162,7 @@
       "pct_populated": 8.41
     },
     {
-      "table": "ra_runners",
+      "table": "ra_mst_runners",
       "column": "finishing_time",
       "type": "character varying",
       "data_source": "Racing API - Results",
@@ -4174,7 +4174,7 @@
       "pct_populated": 0.0
     },
     {
-      "table": "ra_runners",
+      "table": "ra_mst_runners",
       "column": "starting_price_decimal",
       "type": "numeric",
       "data_source": "Racing API - Results",
@@ -4186,7 +4186,7 @@
       "pct_populated": 0.0
     },
     {
-      "table": "ra_runners",
+      "table": "ra_mst_runners",
       "column": "race_comment",
       "type": "text",
       "data_source": "Racing API - Results",
@@ -4198,7 +4198,7 @@
       "pct_populated": 0.0
     },
     {
-      "table": "ra_runners",
+      "table": "ra_mst_runners",
       "column": "jockey_silk_url",
       "type": "text",
       "data_source": "Racing API - Racecard",
@@ -4210,7 +4210,7 @@
       "pct_populated": 0.0
     },
     {
-      "table": "ra_runners",
+      "table": "ra_mst_runners",
       "column": "overall_beaten_distance",
       "type": "numeric",
       "data_source": "Racing API - Results",
@@ -4222,7 +4222,7 @@
       "pct_populated": 0.0
     },
     {
-      "table": "ra_runners",
+      "table": "ra_mst_runners",
       "column": "jockey_claim_lbs",
       "type": "integer",
       "data_source": "Racing API - Racecard",
@@ -4234,7 +4234,7 @@
       "pct_populated": 0.0
     },
     {
-      "table": "ra_runners",
+      "table": "ra_mst_runners",
       "column": "weight_stones_lbs",
       "type": "character varying",
       "data_source": "Racing API - Racecard",
@@ -4246,7 +4246,7 @@
       "pct_populated": 0.0
     },
     {
-      "table": "ra_runners",
+      "table": "ra_mst_runners",
       "column": "trainer_location",
       "type": "character varying",
       "data_source": "Racing API - Racecard/Results",

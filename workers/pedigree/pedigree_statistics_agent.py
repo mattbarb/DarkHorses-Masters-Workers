@@ -262,7 +262,7 @@ class PedigreeStatisticsAgent:
             return None
 
         # Get all runners for these horses
-        runners_query = self.db.client.table('ra_runners').select(
+        runners_query = self.db.client.table('ra_mst_runners').select(
             'position, race_id'
         ).in_('horse_id', offspring_ids).execute()
         runners = runners_query.data
@@ -277,7 +277,7 @@ class PedigreeStatisticsAgent:
         batch_size = 1000
         for i in range(0, len(race_ids), batch_size):
             batch_ids = race_ids[i:i+batch_size]
-            races_response = self.db.client.table('ra_races').select(
+            races_response = self.db.client.table('ra_mst_races').select(
                 'id, race_class, distance, distance_f'
             ).in_('id', batch_ids).execute()
             races_dict.update({r['id']: r for r in races_response.data})

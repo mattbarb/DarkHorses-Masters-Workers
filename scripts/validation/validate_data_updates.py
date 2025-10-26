@@ -141,7 +141,7 @@ def validate_runner_count():
     # For now, let's sample and calculate
 
     # Get sample races
-    races_result = db_client.client.table('ra_races')\
+    races_result = db_client.client.table('ra_mst_races')\
         .select('race_id')\
         .limit(1000)\
         .execute()
@@ -157,7 +157,7 @@ def validate_runner_count():
 
     for race in races:
         race_id = race.get('race_id')
-        runners_result = db_client.client.table('ra_runners')\
+        runners_result = db_client.client.table('ra_mst_runners')\
             .select('runner_id', count='exact')\
             .eq('race_id', race_id)\
             .execute()
@@ -208,7 +208,7 @@ def validate_new_runner_fields():
     cutoff_date = (datetime.now() - timedelta(days=7)).date().isoformat()
 
     # First get recent races
-    races_result = db_client.client.table('ra_races')\
+    races_result = db_client.client.table('ra_mst_races')\
         .select('race_id')\
         .gte('race_date', cutoff_date)\
         .limit(10)\
@@ -221,7 +221,7 @@ def validate_new_runner_fields():
     race_ids = [r['race_id'] for r in races_result.data]
 
     # Get runners from these races
-    runners_result = db_client.client.table('ra_runners')\
+    runners_result = db_client.client.table('ra_mst_runners')\
         .select('runner_id, dob, colour, trainer_location, spotlight, breeder')\
         .in_('race_id', race_ids)\
         .limit(100)\
@@ -289,7 +289,7 @@ def validate_new_race_fields():
     from datetime import timedelta
     cutoff_date = (datetime.now() - timedelta(days=7)).date().isoformat()
 
-    races_result = db_client.client.table('ra_races')\
+    races_result = db_client.client.table('ra_mst_races')\
         .select('race_id, pattern, sex_restriction, rating_band, verdict, tip')\
         .gte('race_date', cutoff_date)\
         .limit(100)\

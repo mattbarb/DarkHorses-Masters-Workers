@@ -59,9 +59,9 @@ def analyze_jockey_results_fields():
 
 
 def get_currently_captured_fields():
-    """Get fields we're currently capturing in ra_runners table"""
+    """Get fields we're currently capturing in ra_mst_runners table"""
 
-    # These are the fields we currently capture in ra_runners based on the code review
+    # These are the fields we currently capture in ra_mst_runners based on the code review
     # Source: fetchers/results_fetcher.py and fetchers/races_fetcher.py
 
     current_runner_fields = {

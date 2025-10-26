@@ -13,10 +13,9 @@ It orchestrates:
 4. Derived data calculators (relationships, supplementary)
 
 Tables Populated (23 tables):
-- ra_mst_* (10 master tables): bookmakers, courses, dams, damsires, horses, jockeys, owners, regions, sires, trainers
-- ra_races (race metadata)
-- ra_runners (race entries)
-- ra_race_results (historical results)
+- ra_mst_* (11 master tables): bookmakers, courses, dams, damsires, horses, jockeys, owners, races, regions, sires, trainers
+- ra_mst_runners (race entries)
+- ra_mst_race_results (historical results)
 - ra_horse_pedigree (lineage)
 - ra_runner_statistics (runner-level stats)
 - ra_runner_supplementary (additional runner data)
@@ -103,19 +102,19 @@ POPULATION_SCRIPTS = {
             "source": "/v1/racecards/pro + /v1/horses/{id}/pro",
             "estimated_time": "5m"
         },
-        "ra_races": {
+        "ra_mst_races": {
             "script": "main.py --entities races",
             "description": "Fetch race metadata",
             "source": "/v1/racecards/pro",
             "estimated_time": "5m"
         },
-        "ra_runners": {
+        "ra_mst_runners": {
             "script": "main.py --entities races",
             "description": "Fetch race runners/entries",
             "source": "/v1/racecards/pro",
             "estimated_time": "5m"
         },
-        "ra_race_results": {
+        "ra_mst_race_results": {
             "script": "main.py --entities results",
             "description": "Fetch race results",
             "source": "/v1/results",
@@ -136,19 +135,19 @@ POPULATION_SCRIPTS = {
         "ra_mst_sires": {
             "script": "agents/pedigree_statistics_agent.py --table sires",
             "description": "Calculate sire statistics from progeny performance",
-            "source": "Database: ra_mst_horses + ra_runners + ra_races",
+            "source": "Database: ra_mst_horses + ra_mst_runners + ra_races",
             "estimated_time": "10m"
         },
         "ra_mst_dams": {
             "script": "agents/pedigree_statistics_agent.py --table dams",
             "description": "Calculate dam statistics from progeny performance",
-            "source": "Database: ra_mst_horses + ra_runners + ra_races",
+            "source": "Database: ra_mst_horses + ra_mst_runners + ra_races",
             "estimated_time": "2-3h"
         },
         "ra_mst_damsires": {
             "script": "agents/pedigree_statistics_agent.py --table damsires",
             "description": "Calculate damsire statistics from progeny performance",
-            "source": "Database: ra_mst_horses + ra_runners + ra_races",
+            "source": "Database: ra_mst_horses + ra_mst_runners + ra_races",
             "estimated_time": "10m"
         }
     },
@@ -160,19 +159,19 @@ POPULATION_SCRIPTS = {
         "ra_mst_jockeys_stats": {
             "script": "scripts/statistics_workers/calculate_jockey_statistics.py",
             "description": "Calculate jockey statistics",
-            "source": "Database: ra_runners + ra_races",
+            "source": "Database: ra_mst_runners + ra_races",
             "estimated_time": "5m"
         },
         "ra_mst_trainers_stats": {
             "script": "scripts/statistics_workers/calculate_trainer_statistics.py",
             "description": "Calculate trainer statistics",
-            "source": "Database: ra_runners + ra_races",
+            "source": "Database: ra_mst_runners + ra_races",
             "estimated_time": "5m"
         },
         "ra_mst_owners_stats": {
             "script": "scripts/statistics_workers/calculate_owner_statistics.py",
             "description": "Calculate owner statistics",
-            "source": "Database: ra_runners + ra_races",
+            "source": "Database: ra_mst_runners + ra_races",
             "estimated_time": "5m"
         }
     },
@@ -184,31 +183,31 @@ POPULATION_SCRIPTS = {
         "ra_runner_statistics": {
             "script": "scripts/population_workers/calculate_runner_statistics.py",
             "description": "Calculate per-runner statistics",
-            "source": "Database: ra_runners + ra_races",
+            "source": "Database: ra_mst_runners + ra_races",
             "estimated_time": "10m"
         },
         "ra_runner_supplementary": {
             "script": "scripts/population_workers/populate_runner_supplementary.py",
             "description": "Populate supplementary runner data",
-            "source": "Database: ra_runners + ra_races + entities",
+            "source": "Database: ra_mst_runners + ra_races + entities",
             "estimated_time": "5m"
         },
         "ra_performance_by_distance": {
             "script": "scripts/population_workers/calculate_distance_performance.py",
             "description": "Calculate distance-based performance",
-            "source": "Database: ra_runners + ra_races",
+            "source": "Database: ra_mst_runners + ra_races",
             "estimated_time": "5m"
         },
         "ra_performance_by_venue": {
             "script": "scripts/population_workers/calculate_venue_performance.py",
             "description": "Calculate venue-based performance",
-            "source": "Database: ra_runners + ra_races",
+            "source": "Database: ra_mst_runners + ra_races",
             "estimated_time": "5m"
         },
         "ra_entity_combinations": {
             "script": "scripts/population_workers/calculate_entity_combinations.py",
             "description": "Calculate entity pair statistics",
-            "source": "Database: ra_runners + ra_races",
+            "source": "Database: ra_mst_runners + ra_races",
             "estimated_time": "10m"
         }
     },

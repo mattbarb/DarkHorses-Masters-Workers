@@ -110,9 +110,9 @@ All tables use `ra_*` prefix (22 active tables):
 - `ra_mst_sires`, `ra_mst_dams`, `ra_mst_damsires` (calculated statistics)
 
 **Transaction Tables (3):**
-- `ra_races` - Race metadata
-- `ra_runners` - Race entries with results (57 columns)
-- `ra_race_results` - Historical results archive
+- `ra_mst_races` - Race metadata
+- `ra_mst_runners` - Race entries with results (57 columns)
+- `ra_mst_race_results` - Historical results archive
 
 **Pedigree & Analytics (10):**
 - `ra_horse_pedigree` - Complete lineage (sire, dam, damsire)
@@ -197,7 +197,7 @@ Racing API
     ↓
 Fetchers (races, results, courses, etc.)
     ↓
-Primary Tables (ra_races, ra_runners, ra_mst_*)
+Primary Tables (ra_mst_races, ra_mst_runners, ra_mst_*)
     ↓
 Entity Extraction (AUTOMATIC)
     ├─ ra_mst_jockeys, trainers, owners
@@ -222,7 +222,7 @@ Statistics Calculation (SECONDARY)
 ## Performance
 
 - **Database Size:** 1.67M records
-- **Largest Tables:** ra_runners (1.3M), ra_races (137K), ra_mst_horses (112K)
+- **Largest Tables:** ra_mst_runners (1.3M), ra_mst_races (137K), ra_mst_horses (112K)
 - **Enrichment:** ~50-100 new horses/day, 0.5s per horse
 - **API Rate Limit:** 2 req/sec (automatic throttling)
 - **Batch Processing:** 100 records per batch (configurable)
@@ -235,7 +235,7 @@ Statistics Calculation (SECONDARY)
 - ✅ Updated package exports for consolidated fetchers
 
 **2025-10-22:**
-- ✅ Fixed ra_race_results population
+- ✅ Fixed ra_mst_race_results population
 - ✅ Removed redundant tables (ra_runner_odds, ra_runner_supplementary)
 - ✅ Comprehensive system audit (92/100 score)
 - ✅ Database schema cleanup (24 → 22 tables)

@@ -242,7 +242,7 @@ class DeploymentVerificationTest:
                 'ra_owners',
                 'ra_horses',
                 'ra_races',
-                'ra_runners'
+                'ra_mst_runners'
             ]
 
             existing_tables = []

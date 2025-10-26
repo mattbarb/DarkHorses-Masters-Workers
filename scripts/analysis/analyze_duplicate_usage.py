@@ -36,7 +36,7 @@ try:
             -- Sample identifying info
             runner_id,
             horse_name
-        FROM ra_runners
+        FROM ra_mst_runners
         WHERE updated_at > NOW() - INTERVAL '1 day'
         LIMIT 20;
     """)
@@ -92,7 +92,7 @@ try:
             -- Sex
             COUNT(horse_sex) as horse_sex_populated,
             COUNT(horse_sex_code) as horse_sex_code_populated
-        FROM ra_runners;
+        FROM ra_mst_runners;
     """)
 
     stats = cur.fetchone()
@@ -125,7 +125,7 @@ try:
     # Weight comparison
     cur.execute("""
         SELECT COUNT(*)
-        FROM ra_runners
+        FROM ra_mst_runners
         WHERE weight_lbs IS NOT NULL
           AND weight_stones_lbs IS NOT NULL
           AND weight_lbs::text != weight_stones_lbs::text
@@ -136,7 +136,7 @@ try:
     if weight_diff > 0:
         cur.execute("""
             SELECT weight_lbs, weight_stones_lbs, horse_name
-            FROM ra_runners
+            FROM ra_mst_runners
             WHERE weight_lbs IS NOT NULL
               AND weight_stones_lbs IS NOT NULL
               AND weight_lbs::text != weight_stones_lbs::text
@@ -150,7 +150,7 @@ try:
     # Starting price comparison
     cur.execute("""
         SELECT COUNT(*)
-        FROM ra_runners
+        FROM ra_mst_runners
         WHERE starting_price IS NOT NULL
           AND starting_price_decimal IS NOT NULL
         LIMIT 1;
@@ -159,7 +159,7 @@ try:
     if sp_both > 0:
         cur.execute("""
             SELECT starting_price, starting_price_decimal, horse_name
-            FROM ra_runners
+            FROM ra_mst_runners
             WHERE starting_price IS NOT NULL
               AND starting_price_decimal IS NOT NULL
             LIMIT 5;
@@ -172,7 +172,7 @@ try:
     # Sex comparison
     cur.execute("""
         SELECT COUNT(*)
-        FROM ra_runners
+        FROM ra_mst_runners
         WHERE horse_sex IS NOT NULL
           AND horse_sex_code IS NOT NULL
           AND horse_sex != horse_sex_code
@@ -183,7 +183,7 @@ try:
     if sex_diff > 0:
         cur.execute("""
             SELECT horse_sex, horse_sex_code, horse_name
-            FROM ra_runners
+            FROM ra_mst_runners
             WHERE horse_sex IS NOT NULL
               AND horse_sex_code IS NOT NULL
               AND horse_sex != horse_sex_code

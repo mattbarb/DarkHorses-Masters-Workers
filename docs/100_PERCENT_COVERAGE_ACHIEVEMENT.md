@@ -40,7 +40,7 @@ Created comprehensive NULL categorization system that distinguishes:
 |-------|--------------|-----------------|--------|
 | ra_runner_statistics | 58/60 (96.7%) | **100%** | ✅ Complete |
 | ra_mst_horses | 14/15 (93.3%) | **100%** | ✅ Complete |
-| ra_race_results | 33/38 (86.8%) | **100%** | ✅ Complete |
+| ra_mst_race_results | 33/38 (86.8%) | **100%** | ✅ Complete |
 | ra_mst_owners | 20/24 (83.3%) | **100%** | ✅ Complete |
 | ra_mst_trainers | 19/23 (82.6%) | **100%** | ✅ Complete |
 | ra_mst_jockeys | 18/22 (81.8%) | **100%** | ✅ Complete |
@@ -52,8 +52,8 @@ Created comprehensive NULL categorization system that distinguishes:
 | Table | Raw Coverage | Actual Coverage | Status |
 |-------|--------------|-----------------|--------|
 | ra_performance_by_distance | 14/20 (70.0%) | **100%** | ✅ Complete |
-| ra_races | 32/48 (66.7%) | **100%** | ✅ Complete |
-| ra_runners | 37/57 (64.9%) | **100%** | ✅ Complete |
+| ra_mst_races | 32/48 (66.7%) | **100%** | ✅ Complete |
+| ra_mst_runners | 37/57 (64.9%) | **100%** | ✅ Complete |
 
 ### Low Raw Coverage (Statistics Tables) - 3 Tables
 
@@ -110,17 +110,17 @@ All at **100% coverage** ✅
 
 ### Transaction Tables
 
-#### ra_races (32/48 = 66.7% raw → 100% actual)
+#### ra_mst_races (32/48 = 66.7% raw → 100% actual)
 **16 Expected NULL columns:**
 - **Post-race only (10):** winning_time, winning_time_detail, comments, non_runners, tote_win, tote_pl, tote_ex, tote_csf, tote_tricast, tote_trifecta
 - **Optional (6):** race_number, distance_m, sex_restriction, prize, meet_id, time
 
-#### ra_runners (37/57 = 64.9% raw → 100% actual)
+#### ra_mst_runners (37/57 = 64.9% raw → 100% actual)
 **20 Expected NULL columns:**
 - **Post-race only (9):** position, distance_beaten, prize_won, starting_price, starting_price_decimal, result_updated_at, finishing_time, race_comment, overall_beaten_distance
 - **Optional (11):** rpr, ts, weight_st_lbs, claiming_price_min, claiming_price_max, medication, equipment, morning_line_odds, jockey_silk_url, jockey_claim_lbs, weight_stones_lbs
 
-#### ra_race_results (33/38 = 86.8% raw → 100% actual)
+#### ra_mst_race_results (33/38 = 86.8% raw → 100% actual)
 **5 Expected NULL columns:**
 - jockey_claim_lbs, sp_decimal, time_seconds, rpr, margin
 

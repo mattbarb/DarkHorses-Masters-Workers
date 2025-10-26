@@ -138,7 +138,7 @@
 
 ---
 
-## ra_races (Races) - 95.8% API Coverage
+## ra_mst_races (Races) - 95.8% API Coverage
 
 **FROM API - Racecards `/v1/racecards/pro` (32 fields):**
 - ✅ id, course_id, course_name, race_name, date, off_time, off_dt
@@ -162,7 +162,7 @@
 
 ---
 
-## ra_runners (Runners) - 93.0% API Coverage
+## ra_mst_runners (Runners) - 93.0% API Coverage
 
 **FROM API - Racecards (15 fields):**
 - ✅ horse_id, horse_name, age, sex, draw, number

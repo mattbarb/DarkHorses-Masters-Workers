@@ -6,7 +6,7 @@ Completed comprehensive system audit and cleanup resulting in **excellent system
 
 ## Major Accomplishments
 
-### 1. Fixed ra_race_results Population ✅
+### 1. Fixed ra_mst_race_results Population ✅
 - **Issue:** Table had 0 records (code was commented out)
 - **Fix:** Rewrote insertion logic, enhanced parsing, added new database method
 - **Files Modified:** 3 (results_fetcher.py, supabase_client.py, position_parser.py)
@@ -30,7 +30,7 @@ Completed comprehensive system audit and cleanup resulting in **excellent system
 #### ra_runner_supplementary
 - **Reason:** Unclear purpose, no requirements defined, never populated
 - **Status:** 0 records, no populate script
-- **Alternative:** Use ra_runners (57 columns) or create specific analytical tables
+- **Alternative:** Use ra_mst_runners (57 columns) or create specific analytical tables
 - **Impact:** Simplified from 24 planned tables to 22 active
 - **Migration:** 028_drop_ra_runner_supplementary.sql
 
@@ -79,7 +79,7 @@ Phase 4: Statistics Calculation → 3 tables ✅
 
 ## Files Modified (8)
 
-1. `fetchers/results_fetcher.py` - Fixed ra_race_results
+1. `fetchers/results_fetcher.py` - Fixed ra_mst_race_results
 2. `utils/supabase_client.py` - Added insert_batch_no_conflict()
 3. `utils/position_parser.py` - Enhanced parse_decimal_field()
 4. `scripts/populate_all_calculated_tables.py` - Removed ra_runner_odds
@@ -92,14 +92,14 @@ Phase 4: Statistics Calculation → 3 tables ✅
 
 ### Before
 - 24 planned ra_* tables
-- ra_race_results: 0 records (broken)
+- ra_mst_race_results: 0 records (broken)
 - ra_runner_odds: 0 records (redundant)
 - ra_runner_supplementary: 0 records (unclear purpose)
 - 5 calculated tables in schedule
 
 ### After
 - 22 active ra_* tables (clean, purposeful schema)
-- ra_race_results: Populating correctly ✅
+- ra_mst_race_results: Populating correctly ✅
 - ra_runner_odds: REMOVED ❌
 - ra_runner_supplementary: REMOVED ❌
 - 4 calculated tables in schedule
@@ -109,8 +109,8 @@ Phase 4: Statistics Calculation → 3 tables ✅
 **Database Records:** 1,675,869 total
 
 **Largest Tables:**
-- ra_runners: 1,327,279 records
-- ra_races: 137,035 records
+- ra_mst_runners: 1,327,279 records
+- ra_mst_races: 137,035 records
 - ra_mst_horses: 111,692 records
 - ra_horse_pedigree: 111,624 records
 
@@ -140,7 +140,7 @@ Phase 4: Statistics Calculation → 3 tables ✅
 ## Recommendations
 
 ### Completed ✅
-1. ✅ Fixed ra_race_results population
+1. ✅ Fixed ra_mst_race_results population
 2. ✅ Removed redundant tables
 3. ✅ Updated master documentation
 4. ✅ Comprehensive system audit

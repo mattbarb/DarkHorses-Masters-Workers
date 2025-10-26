@@ -95,8 +95,8 @@ class UnifiedStatisticsBackfill:
         logger.info("Checking position data availability...")
 
         try:
-            # Check ra_runners for position data
-            result = self.db_client.client.table('ra_runners')\
+            # Check ra_mst_runners for position data
+            result = self.db_client.client.table('ra_mst_runners')\
                 .select('id, position')\
                 .not_.is_('position', 'null')\
                 .limit(1)\
@@ -104,7 +104,7 @@ class UnifiedStatisticsBackfill:
 
             if result.data and len(result.data) > 0:
                 # Count how many have position
-                count_result = self.db_client.client.table('ra_runners')\
+                count_result = self.db_client.client.table('ra_mst_runners')\
                     .select('*', count='exact')\
                     .not_.is_('position', 'null')\
                     .limit(1)\
@@ -119,7 +119,7 @@ class UnifiedStatisticsBackfill:
                     logger.warning("⚠️  Will use API fallback (slower, last 365 days only)")
                     return False
             else:
-                logger.warning("⚠️  No position data found in ra_runners")
+                logger.warning("⚠️  No position data found in ra_mst_runners")
                 logger.warning("⚠️  Will use API fallback (slower, last 365 days only)")
                 return False
 
@@ -185,7 +185,7 @@ class UnifiedStatisticsBackfill:
                 count_field = 'total_runners'
 
             # Get all runners for this entity
-            runners = self.db_client.client.table('ra_runners')\
+            runners = self.db_client.client.table('ra_mst_runners')\
                 .select('race_id, position')\
                 .eq(entity_field, entity_id)\
                 .execute()
@@ -203,7 +203,7 @@ class UnifiedStatisticsBackfill:
             all_race_dates = {}
             for i in range(0, len(race_ids), 1000):
                 batch_ids = race_ids[i:i+1000]
-                races = self.db_client.client.table('ra_races')\
+                races = self.db_client.client.table('ra_mst_races')\
                     .select('id, date')\
                     .in_('id', batch_ids)\
                     .execute()

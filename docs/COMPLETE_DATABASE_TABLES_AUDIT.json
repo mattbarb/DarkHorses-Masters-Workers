@@ -291,7 +291,7 @@
     ],
     "row_count": 3041
   },
-  "ra_races": {
+  "ra_mst_races": {
     "columns": [
       "id",
       "course_id",
@@ -344,7 +344,7 @@
     ],
     "row_count": 137035
   },
-  "ra_runners": {
+  "ra_mst_runners": {
     "columns": [
       "id",
       "race_id",
@@ -406,7 +406,7 @@
     ],
     "row_count": 1327279
   },
-  "ra_race_results": {
+  "ra_mst_race_results": {
     "columns": [
       "id",
       "race_id",

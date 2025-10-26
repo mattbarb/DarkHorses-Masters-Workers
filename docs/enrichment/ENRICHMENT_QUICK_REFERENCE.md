@@ -20,7 +20,7 @@
 
 **JOCKEYS, TRAINERS, OWNERS** - No individual detail endpoints exist
 - API only provides results (race history) and analysis (statistics)
-- Results are redundant (we have ra_runners)
+- Results are redundant (we have ra_mst_runners)
 - Analysis should be calculated locally, not stored
 
 ---
@@ -53,11 +53,11 @@
 **Finding:** API does NOT have `/v1/jockeys/{id}/pro` endpoint
 
 **What's Available:**
-- `/v1/jockeys/{id}/results` - Race history (we have this in ra_runners)
+- `/v1/jockeys/{id}/results` - Race history (we have this in ra_mst_runners)
 - `/v1/jockeys/{id}/analysis/*` - 5 analysis endpoints (calculated stats)
 
 **What We Should Do:**
-- ✅ Calculate statistics locally from ra_runners
+- ✅ Calculate statistics locally from ra_mst_runners
 - ✅ Use migration 007 views and functions
 - ❌ Don't store API analysis data (redundant)
 
@@ -73,11 +73,11 @@
 **Finding:** API does NOT have `/v1/trainers/{id}/pro` endpoint
 
 **What's Available:**
-- `/v1/trainers/{id}/results` - Race history (we have this in ra_runners)
+- `/v1/trainers/{id}/results` - Race history (we have this in ra_mst_runners)
 - `/v1/trainers/{id}/analysis/*` - 6 analysis endpoints (calculated stats)
 
 **What We Should Do:**
-- ✅ Calculate statistics locally from ra_runners
+- ✅ Calculate statistics locally from ra_mst_runners
 - ✅ Use migration 007 views and functions
 - ❌ Don't store API analysis data (redundant)
 
@@ -94,11 +94,11 @@
 **Finding:** API does NOT have `/v1/owners/{id}/pro` endpoint
 
 **What's Available:**
-- `/v1/owners/{id}/results` - Race history (we have this in ra_runners)
+- `/v1/owners/{id}/results` - Race history (we have this in ra_mst_runners)
 - `/v1/owners/{id}/analysis/*` - 4 analysis endpoints (calculated stats)
 
 **What We Should Do:**
-- ✅ Calculate statistics locally from ra_runners
+- ✅ Calculate statistics locally from ra_mst_runners
 - ✅ Use migration 007 views and functions
 - ❌ Don't store API analysis data (redundant)
 
@@ -187,12 +187,12 @@
 |-------------|--------|---------------|
 | `/v1/horses/{id}/pro` | ✅ YES | Unique data not available elsewhere |
 | `/v1/horses/{id}/standard` | ✅ YES | Pedigree data (subset of pro) |
-| `/v1/jockeys/{id}/results` | ❌ NO | Already in ra_runners |
-| `/v1/jockeys/{id}/analysis/*` | ❌ NO | Calculate from ra_runners instead |
-| `/v1/trainers/{id}/results` | ❌ NO | Already in ra_runners |
-| `/v1/trainers/{id}/analysis/*` | ❌ NO | Calculate from ra_runners instead |
-| `/v1/owners/{id}/results` | ❌ NO | Already in ra_runners |
-| `/v1/owners/{id}/analysis/*` | ❌ NO | Calculate from ra_runners instead |
+| `/v1/jockeys/{id}/results` | ❌ NO | Already in ra_mst_runners |
+| `/v1/jockeys/{id}/analysis/*` | ❌ NO | Calculate from ra_mst_runners instead |
+| `/v1/trainers/{id}/results` | ❌ NO | Already in ra_mst_runners |
+| `/v1/trainers/{id}/analysis/*` | ❌ NO | Calculate from ra_mst_runners instead |
+| `/v1/owners/{id}/results` | ❌ NO | Already in ra_mst_runners |
+| `/v1/owners/{id}/analysis/*` | ❌ NO | Calculate from ra_mst_runners instead |
 | `/v1/racecards/{id}/pro` | ❌ NO | Already from bulk racecard fetch |
 
 ---
@@ -236,7 +236,7 @@
 
 ### Statistics Storage
 
-All entity statistics calculated locally from ra_runners:
+All entity statistics calculated locally from ra_mst_runners:
 - No API calls required
 - No additional tables needed
 - Columns already added (migration 007)
@@ -279,7 +279,7 @@ All entity statistics calculated locally from ra_runners:
 ### ❌ NOT RECOMMENDED
 
 5. **DON'T Store API Analysis Data**
-   - Redundant with ra_runners
+   - Redundant with ra_mst_runners
    - Wasteful API calls
    - Better to calculate locally
 
@@ -297,7 +297,7 @@ Only horses have a dedicated Pro endpoint with unique enrichment data.
 
 ### Q: Should we store the analysis endpoint data?
 
-**A:** No. Analysis endpoints return calculated statistics that we can (and should) compute locally from our ra_runners table. This:
+**A:** No. Analysis endpoints return calculated statistics that we can (and should) compute locally from our ra_mst_runners table. This:
 - Saves API calls
 - Gives us full control over calculations
 - Allows custom metrics

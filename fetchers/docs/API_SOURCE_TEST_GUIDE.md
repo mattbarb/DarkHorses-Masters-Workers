@@ -36,7 +36,7 @@ The API-Source Test system fetches **REAL data** from the Racing API endpoints, 
 python3 fetchers/master_fetcher_controller.py --mode test-api --interactive
 
 # Insert into specific tables
-python3 fetchers/master_fetcher_controller.py --mode test-api --tables ra_mst_horses ra_races --interactive
+python3 fetchers/master_fetcher_controller.py --mode test-api --tables ra_mst_horses ra_mst_races --interactive
 
 # Standalone (all supported tables)
 python3 fetchers/test_api_source.py
@@ -52,7 +52,7 @@ python3 fetchers/test_api_source.py --tables ra_mst_courses ra_mst_jockeys
 python3 fetchers/master_fetcher_controller.py --mode test-api-cleanup --interactive
 
 # Clean up specific tables
-python3 fetchers/master_fetcher_controller.py --mode test-api-cleanup --tables ra_races ra_runners --interactive
+python3 fetchers/master_fetcher_controller.py --mode test-api-cleanup --tables ra_mst_races ra_mst_runners --interactive
 
 # Standalone
 python3 fetchers/test_api_source.py --cleanup
@@ -71,8 +71,8 @@ python3 fetchers/test_api_source.py --cleanup
 3. **ra_mst_trainers:** Extracts from `/v1/racecards/pro` (yesterday's racecards)
 4. **ra_mst_owners:** Extracts from `/v1/racecards/pro` (yesterday's racecards)
 5. **ra_mst_horses:** Extracts from `/v1/racecards/pro` + enriches with `/v1/horses/{id}/pro`
-6. **ra_races:** Fetches from `/v1/racecards/pro` (complete race data)
-7. **ra_runners:** Extracted from race runners (nested in racecards)
+6. **ra_mst_races:** Fetches from `/v1/racecards/pro` (complete race data)
+7. **ra_mst_runners:** Extracted from race runners (nested in racecards)
 8. **ra_mst_bookmakers:** Uses hardcoded bookmaker (no API endpoint available)
 
 ### Marking Strategy
@@ -112,12 +112,12 @@ python3 fetchers/test_api_source.py --cleanup
 3. ✅ `ra_mst_trainers` - Trainer entities from racecards
 4. ✅ `ra_mst_owners` - Owner entities from racecards
 5. ✅ `ra_mst_horses` - Horse data with Pro enrichment
-6. ✅ `ra_races` - Race data from racecards
+6. ✅ `ra_mst_races` - Race data from racecards
 7. ✅ `ra_mst_bookmakers` - Bookmaker reference (hardcoded)
 
 **Future Expansion:**
-- `ra_runners` - Runner data from race entries
-- `ra_race_results` - Results data from completed races
+- `ra_mst_runners` - Runner data from race entries
+- `ra_mst_race_results` - Results data from completed races
 - `ra_horse_pedigree` - Pedigree data from enrichment
 
 ---
@@ -131,16 +131,16 @@ python3 fetchers/test_api_source.py --cleanup
 **Workflow:**
 ```bash
 # 1. Insert real API test data
-python3 fetchers/master_fetcher_controller.py --mode test-api --tables ra_races --interactive
+python3 fetchers/master_fetcher_controller.py --mode test-api --tables ra_mst_races --interactive
 
 # 2. Run analysis to check column population
-python3 fetchers/master_fetcher_controller.py --mode analyze --tables ra_races --interactive
+python3 fetchers/master_fetcher_controller.py --mode analyze --tables ra_mst_races --interactive
 
 # 3. Verify new columns are populated
 # Check analysis output for columns with >0% population
 
 # 4. Clean up
-python3 fetchers/master_fetcher_controller.py --mode test-api-cleanup --tables ra_races --interactive
+python3 fetchers/master_fetcher_controller.py --mode test-api-cleanup --tables ra_mst_races --interactive
 ```
 
 ### 2. Test Complete Data Pipeline
@@ -211,7 +211,7 @@ Total API Fields Captured: 156
   - ra_mst_trainers: 7 API fields captured
   - ra_mst_owners: 6 API fields captured
   - ra_mst_horses: 15 API fields captured (with Pro enrichment)
-  - ra_races: 45 API fields captured
+  - ra_mst_races: 45 API fields captured
   - ra_mst_bookmakers: 3 fields captured
 
 ================================================================================
@@ -524,19 +524,19 @@ python3 fetchers/test_api_source.py --cleanup --tables ra_mst_horses
 
 ```bash
 # Insert real race data (race + runners)
-python3 fetchers/test_api_source.py --tables ra_races
+python3 fetchers/test_api_source.py --tables ra_mst_races
 
 # Verify race and runners both inserted
 psql -h ... -c "
 SELECT r.race_title, COUNT(run.id) as runner_count
-FROM ra_races r
-LEFT JOIN ra_runners run ON r.race_id = run.race_id
+FROM ra_mst_races r
+LEFT JOIN ra_mst_runners run ON r.race_id = run.race_id
 WHERE r.race_id LIKE '%**TEST**%'
 GROUP BY r.race_title;
 "
 
 # Clean up both race and runners
-python3 fetchers/test_api_source.py --cleanup --tables ra_races ra_runners
+python3 fetchers/test_api_source.py --cleanup --tables ra_mst_races ra_mst_runners
 ```
 
 ### Example 3: Pre-Deployment Full Validation

@@ -4,7 +4,7 @@ Entity Enrichment Backfill Script
 This script enriches entities (horses, jockeys, trainers, owners, pedigrees) that were
 skipped during the fast backfill process.
 
-It reads all runners from ra_runners table and extracts entities, enriching horses
+It reads all runners from ra_mst_runners table and extracts entities, enriching horses
 with complete pedigree data from the Racing API Pro endpoint.
 
 USAGE:
@@ -134,7 +134,7 @@ class EntityEnrichmentBackfiller:
             List of runner records
         """
         try:
-            query = self.db_client.client.table('ra_runners')\
+            query = self.db_client.client.table('ra_mst_runners')\
                 .select('race_id,horse_id,horse_name,jockey_id,jockey_name,trainer_id,trainer_name,owner_id,owner_name,sex')\
                 .order('race_id')
 

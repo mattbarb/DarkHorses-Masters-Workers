@@ -19,8 +19,8 @@
    - [ra_trainers](#ra_trainers)
    - [ra_owners](#ra_owners)
    - [ra_courses](#ra_courses)
-   - [ra_races](#ra_races)
-   - [ra_runners](#ra_runners)
+   - [ra_mst_races](#ra_mst_races)
+   - [ra_mst_runners](#ra_mst_runners)
    - [ra_results](#ra_results)
 4. [ML Output Table](#ml-output-table)
 5. [API Usage Guide](#api-usage-guide)
@@ -71,8 +71,8 @@ The DarkHorses database consists of:
 | `ra_trainers` | 2,780 | Trainer entity data | MEDIUM | Partial |
 | `ra_owners` | 48,092 | Owner entity data | LOW | No |
 | `ra_courses` | 101 | Course reference data | MEDIUM | Complete |
-| `ra_races` | 136,648 | Race metadata | HIGH | Complete |
-| `ra_runners` | 379,422 | Runner entries & results | **CRITICAL** | Complete |
+| `ra_mst_races` | 136,648 | Race metadata | HIGH | Complete |
+| `ra_mst_runners` | 379,422 | Runner entries & results | **CRITICAL** | Complete |
 | `ra_results` | Variable | Historical results | HIGH | Complete |
 | `dh_ml_runner_history` | Dynamic | ML-ready runner data | **CRITICAL** | N/A (computed) |
 
@@ -80,9 +80,9 @@ The DarkHorses database consists of:
 
 | API Endpoint | Tables Updated | Frequency |
 |--------------|----------------|-----------|
-| `/v1/racecards/pro` | ra_races, ra_runners, ra_horses, ra_jockeys, ra_trainers, ra_owners | Daily |
+| `/v1/racecards/pro` | ra_mst_races, ra_mst_runners, ra_horses, ra_jockeys, ra_trainers, ra_owners | Daily |
 | `/v1/horses/{id}/pro` | ra_horses, ra_horse_pedigree | On discovery (NEW horses only) |
-| `/v1/results` | ra_races, ra_runners | Daily |
+| `/v1/results` | ra_mst_races, ra_mst_runners | Daily |
 | `/v1/courses` | ra_courses | Monthly |
 | `/v1/bookmakers` | ra_bookmakers | Monthly |
 
@@ -195,7 +195,7 @@ SELECT
     SUM(CASE WHEN r.position = 1 THEN 1 ELSE 0 END) as wins
 FROM ra_horse_pedigree p
 JOIN ra_horses h ON p.horse_id = h.horse_id
-LEFT JOIN ra_runners r ON h.horse_id = r.horse_id
+LEFT JOIN ra_mst_runners r ON h.horse_id = r.horse_id
 WHERE p.sire_id = 'sir_1234567'
 GROUP BY h.name, p.sire;
 ```
@@ -221,7 +221,7 @@ GROUP BY h.name, p.sire;
 
 #### Calculated Statistics (Computed)
 
-Calculate from `ra_runners` table:
+Calculate from `ra_mst_runners` table:
 - Total rides
 - Total wins
 - Win rate
@@ -248,7 +248,7 @@ SELECT
     SUM(CASE WHEN r.position = 1 THEN 1 ELSE 0 END) as wins,
     ROUND(100.0 * SUM(CASE WHEN r.position = 1 THEN 1 ELSE 0 END) / COUNT(r.runner_id), 2) as win_rate
 FROM ra_jockeys j
-LEFT JOIN ra_runners r ON j.jockey_id = r.jockey_id
+LEFT JOIN ra_mst_runners r ON j.jockey_id = r.jockey_id
 WHERE r.position IS NOT NULL
 GROUP BY j.jockey_id, j.name;
 ```
@@ -275,7 +275,7 @@ GROUP BY j.jockey_id, j.name;
 
 #### Calculated Statistics (Computed)
 
-Calculate from `ra_runners` table:
+Calculate from `ra_mst_runners` table:
 - Total runners
 - Total wins
 - Win rate
@@ -303,7 +303,7 @@ SELECT
     SUM(CASE WHEN r.position = 1 THEN 1 ELSE 0 END) as wins,
     ROUND(100.0 * SUM(CASE WHEN r.position = 1 THEN 1 ELSE 0 END) / COUNT(r.runner_id), 2) as win_rate
 FROM ra_trainers t
-LEFT JOIN ra_runners r ON t.trainer_id = r.trainer_id
+LEFT JOIN ra_mst_runners r ON t.trainer_id = r.trainer_id
 WHERE r.position IS NOT NULL
 GROUP BY t.trainer_id, t.name, t.location;
 ```
@@ -366,7 +366,7 @@ GROUP BY t.trainer_id, t.name, t.location;
 
 ---
 
-### ra_races
+### ra_mst_races
 
 **Purpose:** Race metadata and conditions
 **Records:** 136,648 races
@@ -457,7 +457,7 @@ GROUP BY t.trainer_id, t.name, t.location;
 
 ---
 
-### ra_runners
+### ra_mst_runners
 
 **Purpose:** Runner entries and results (MOST CRITICAL TABLE FOR ML)
 **Records:** 379,422 runners
@@ -615,8 +615,8 @@ SELECT
     runners.weight_lbs,
     runners.jockey_name,
     runners.starting_price
-FROM ra_runners runners
-JOIN ra_races races ON runners.race_id = races.race_id
+FROM ra_mst_runners runners
+JOIN ra_mst_races races ON runners.race_id = races.race_id
 WHERE runners.horse_id = 'hor_1234567'
   AND runners.position IS NOT NULL
 ORDER BY races.race_date DESC;
@@ -626,12 +626,12 @@ ORDER BY races.race_date DESC;
 
 ### ra_results
 
-**Purpose:** Historical race results (subset of ra_runners)
+**Purpose:** Historical race results (subset of ra_mst_runners)
 **Records:** Variable (subset of runners with results)
 **Primary Key:** Composite (race_id + horse_id)
 **Enrichment Status:** ✅ Complete
 
-**Note:** Results data is merged into `ra_runners` table. The `ra_results` table may be deprecated in favor of using `ra_runners` where `position IS NOT NULL`.
+**Note:** Results data is merged into `ra_mst_runners` table. The `ra_results` table may be deprecated in favor of using `ra_mst_runners` where `position IS NOT NULL`.
 
 ---
 
@@ -653,7 +653,7 @@ ORDER BY races.race_date DESC;
 The ML API calculates these features on-demand from the source tables:
 
 **Career Statistics:**
-- Calculated from `ra_runners` WHERE `position IS NOT NULL`
+- Calculated from `ra_mst_runners` WHERE `position IS NOT NULL`
 - `total_races`, `total_wins`, `total_places`
 - `win_rate`, `place_rate`, `avg_finish_position`
 
@@ -685,8 +685,8 @@ SELECT
     SUM(CASE WHEN position <= 3 THEN 1 ELSE 0 END) as places,
     ROUND(100.0 * SUM(CASE WHEN position = 1 THEN 1 ELSE 0 END) / COUNT(*), 2) as win_rate,
     ROUND(AVG(position::numeric), 2) as avg_position
-FROM ra_runners r
-JOIN ra_races races ON r.race_id = races.race_id
+FROM ra_mst_runners r
+JOIN ra_mst_races races ON r.race_id = races.race_id
 WHERE r.horse_id = :horse_id
   AND r.position IS NOT NULL
   AND races.race_date < :current_race_date;
@@ -697,8 +697,8 @@ SELECT
     COUNT(*) as course_runs,
     SUM(CASE WHEN position = 1 THEN 1 ELSE 0 END) as course_wins,
     ROUND(100.0 * SUM(CASE WHEN position = 1 THEN 1 ELSE 0 END) / COUNT(*), 2) as course_win_rate
-FROM ra_runners r
-JOIN ra_races races ON r.race_id = races.race_id
+FROM ra_mst_runners r
+JOIN ra_mst_races races ON r.race_id = races.race_id
 WHERE r.horse_id = :horse_id
   AND races.course_id = :course_id
   AND r.position IS NOT NULL
@@ -706,8 +706,8 @@ WHERE r.horse_id = :horse_id
 
 -- Get last 5 positions
 SELECT position
-FROM ra_runners r
-JOIN ra_races races ON r.race_id = races.race_id
+FROM ra_mst_runners r
+JOIN ra_mst_races races ON r.race_id = races.race_id
 WHERE r.horse_id = :horse_id
   AND r.position IS NOT NULL
   AND races.race_date < :current_race_date
@@ -790,7 +790,7 @@ SELECT
     races.off_time,
     races.race_name
 FROM dh_ml_runner_history ml
-JOIN ra_races races ON ml.race_id = races.race_id
+JOIN ra_mst_races races ON ml.race_id = races.race_id
 WHERE ml.race_date = :date
   AND ml.is_scratched = FALSE
 ORDER BY races.off_datetime, ml.current_draw;
@@ -862,8 +862,8 @@ SELECT
     ) as races
 FROM ra_horses h
 LEFT JOIN ra_horse_pedigree p ON h.horse_id = p.horse_id
-LEFT JOIN ra_runners r ON h.horse_id = r.horse_id
-LEFT JOIN ra_races races ON r.race_id = races.race_id
+LEFT JOIN ra_mst_runners r ON h.horse_id = r.horse_id
+LEFT JOIN ra_mst_races races ON r.race_id = races.race_id
 WHERE h.horse_id = :horse_id
   AND r.position IS NOT NULL
 GROUP BY h.horse_id, p.id;
@@ -922,8 +922,8 @@ WHERE runner_id = ANY(:runner_ids);
 - `ra_horse_pedigree` - (horse_id)
 - `ra_jockeys` - (jockey_id)
 - `ra_trainers` - (trainer_id)
-- `ra_races` - (race_id), (race_date), (course_id, race_date)
-- `ra_runners` - (runner_id), (race_id), (horse_id), (position)
+- `ra_mst_races` - (race_id), (race_date), (course_id, race_date)
+- `ra_mst_runners` - (runner_id), (race_id), (horse_id), (position)
 - `dh_ml_runner_history` - (runner_id, compilation_date), (race_date), (race_id)
 
 **Query Tips:**
@@ -965,7 +965,7 @@ SELECT
     MAX(race_date) as latest_race,
     MAX(created_at) as latest_fetch,
     NOW() - MAX(created_at) as staleness
-FROM ra_races
+FROM ra_mst_races
 WHERE race_date >= CURRENT_DATE;
 ```
 
@@ -1065,13 +1065,13 @@ Quick lookup for which table contains each field:
 
 | Field | Primary Table | Also Available In |
 |-------|---------------|-------------------|
-| `horse_id` | ra_horses | ra_runners, dh_ml_runner_history |
+| `horse_id` | ra_horses | ra_mst_runners, dh_ml_runner_history |
 | `dob` | ra_horses | dh_ml_runner_history |
-| `sire_id` | ra_horse_pedigree | ra_runners (denormalized) |
-| `position` | ra_runners | dh_ml_runner_history.historical_races |
-| `official_rating` | ra_runners | dh_ml_runner_history |
-| `win_rate` | dh_ml_runner_history | (calculated from ra_runners) |
-| `race_class` | ra_races | dh_ml_runner_history |
+| `sire_id` | ra_horse_pedigree | ra_mst_runners (denormalized) |
+| `position` | ra_mst_runners | dh_ml_runner_history.historical_races |
+| `official_rating` | ra_mst_runners | dh_ml_runner_history |
+| `win_rate` | dh_ml_runner_history | (calculated from ra_mst_runners) |
+| `race_class` | ra_mst_races | dh_ml_runner_history |
 
 ---
 

@@ -27,7 +27,7 @@ def get_year_counts(db):
     counts = {}
     for year in range(2015, 2026):
         try:
-            result = db.client.table('ra_races').select('*', count='exact') \
+            result = db.client.table('ra_mst_races').select('*', count='exact') \
                 .gte('race_date', f'{year}-01-01') \
                 .lte('race_date', f'{year}-12-31') \
                 .limit(1).execute()
@@ -95,7 +95,7 @@ def main():
     tables = [
         ('ra_courses', 'Courses'),
         ('ra_races', 'Races'),
-        ('ra_runners', 'Runners'),
+        ('ra_mst_runners', 'Runners'),
         ('ra_horses', 'Horses'),
         ('ra_jockeys', 'Jockeys'),
         ('ra_trainers', 'Trainers'),

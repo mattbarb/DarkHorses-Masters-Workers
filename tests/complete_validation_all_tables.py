@@ -39,8 +39,8 @@ class CompleteValidationAllTables:
         'ra_mst_trainers',
         # Transaction Tables (4)
         'ra_races',
-        'ra_runners',
-        'ra_race_results',
+        'ra_mst_runners',
+        'ra_mst_race_results',
         'ra_horse_pedigree',
         # Statistics/Analytics Tables (4)
         'ra_entity_combinations',
@@ -62,8 +62,8 @@ class CompleteValidationAllTables:
         'ra_mst_sires': 'name',
         'ra_mst_trainers': 'name',
         'ra_races': 'race_name',
-        'ra_runners': 'horse_name',
-        'ra_race_results': 'horse_name',
+        'ra_mst_runners': 'horse_name',
+        'ra_mst_race_results': 'horse_name',
         'ra_horse_pedigree': 'sire',
         'ra_entity_combinations': 'combination_type',
         'ra_performance_by_distance': 'entity_id',

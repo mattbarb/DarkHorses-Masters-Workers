@@ -4,7 +4,7 @@ Simple Pedigree Statistics Calculator
 ======================================
 
 Calculates statistics for ra_mst_sires, ra_mst_dams, and ra_mst_damsires tables
-using progeny performance data from ra_runners + ra_races.
+using progeny performance data from ra_mst_runners + ra_races.
 
 Matches ACTUAL table schema with columns:
 - total_runners, total_wins, total_places_2nd, total_places_3rd
@@ -74,7 +74,7 @@ def calculate_and_update_sires(db: SupabaseReferenceClient, limit: int = None):
             continue
 
         # Get all runners for these horses
-        runners_query = db.client.table('ra_runners').select(
+        runners_query = db.client.table('ra_mst_runners').select(
             'position, race_id'
         ).in_('horse_id', offspring_ids).execute()
         runners = runners_query.data
@@ -84,7 +84,7 @@ def calculate_and_update_sires(db: SupabaseReferenceClient, limit: int = None):
 
         # Get race details for class/distance analysis
         race_ids = list(set([r['race_id'] for r in runners]))
-        races_response = db.client.table('ra_races').select('id, class, distance, distance_f').in_('id', race_ids[:1000]).execute()  # Limit to avoid timeout
+        races_response = db.client.table('ra_mst_races').select('id, class, distance, distance_f').in_('id', race_ids[:1000]).execute()  # Limit to avoid timeout
         races_dict = {r['id']: r for r in races_response.data}
 
         # Calculate basic stats
@@ -217,14 +217,14 @@ def calculate_and_update_dams(db: SupabaseReferenceClient, limit: int = None):
         if not offspring_ids:
             continue
 
-        runners_query = db.client.table('ra_runners').select('position, race_id').in_('horse_id', offspring_ids).execute()
+        runners_query = db.client.table('ra_mst_runners').select('position, race_id').in_('horse_id', offspring_ids).execute()
         runners = runners_query.data
 
         if not runners:
             continue
 
         race_ids = list(set([r['race_id'] for r in runners]))
-        races_response = db.client.table('ra_races').select('id, class, distance, distance_f').in_('id', race_ids[:1000]).execute()
+        races_response = db.client.table('ra_mst_races').select('id, class, distance, distance_f').in_('id', race_ids[:1000]).execute()
         races_dict = {r['id']: r for r in races_response.data}
 
         total_runners = len(runners)
@@ -342,14 +342,14 @@ def calculate_and_update_damsires(db: SupabaseReferenceClient, limit: int = None
         if not offspring_ids:
             continue
 
-        runners_query = db.client.table('ra_runners').select('position, race_id').in_('horse_id', offspring_ids).execute()
+        runners_query = db.client.table('ra_mst_runners').select('position, race_id').in_('horse_id', offspring_ids).execute()
         runners = runners_query.data
 
         if not runners:
             continue
 
         race_ids = list(set([r['race_id'] for r in runners]))
-        races_response = db.client.table('ra_races').select('id, class, distance, distance_f').in_('id', race_ids[:1000]).execute()
+        races_response = db.client.table('ra_mst_races').select('id, class, distance, distance_f').in_('id', race_ids[:1000]).execute()
         races_dict = {r['id']: r for r in races_response.data}
 
         total_runners = len(runners)

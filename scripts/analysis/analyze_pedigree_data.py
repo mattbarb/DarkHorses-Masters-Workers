@@ -57,13 +57,13 @@ try:
         print(f"    Breeder: {breeder}")
         print()
 
-    # Check ra_runners pedigree columns
+    # Check ra_mst_runners pedigree columns
     print("RA_RUNNERS PEDIGREE COLUMNS:")
     print("-" * 100)
     cur.execute("""
         SELECT column_name, data_type
         FROM information_schema.columns
-        WHERE table_name = 'ra_runners'
+        WHERE table_name = 'ra_mst_runners'
         AND column_name IN ('sire_id', 'sire', 'sire_region', 'dam_id', 'dam', 'dam_region', 'damsire_id', 'damsire', 'damsire_region', 'breeder')
         ORDER BY ordinal_position;
     """)
@@ -73,7 +73,7 @@ try:
 
     print()
 
-    # Check population in ra_runners
+    # Check population in ra_mst_runners
     cur.execute("""
         SELECT
             COUNT(*) as total_runners,
@@ -86,7 +86,7 @@ try:
             COUNT(sire_region) as has_sire_region,
             COUNT(dam_region) as has_dam_region,
             COUNT(damsire_region) as has_damsire_region
-        FROM ra_runners;
+        FROM ra_mst_runners;
     """)
 
     stats = cur.fetchone()
@@ -105,7 +105,7 @@ try:
     print(f"  With damsire_region:{stats[9]:>12,} ({stats[9]/total*100:>5.1f}%)")
     print()
 
-    # Check relationship between ra_runners and ra_horse_pedigree
+    # Check relationship between ra_mst_runners and ra_horse_pedigree
     print("RELATIONSHIP CHECK:")
     print("-" * 100)
     cur.execute("""
@@ -115,17 +115,17 @@ try:
             COUNT(DISTINCT run.horse_id) FILTER (
                 WHERE EXISTS (SELECT 1 FROM ra_horse_pedigree ped WHERE ped.horse_id = run.horse_id)
             ) as horses_with_pedigree
-        FROM ra_runners run;
+        FROM ra_mst_runners run;
     """)
 
     horses_in_runners, horses_in_pedigree, horses_with_ped = cur.fetchone()
 
-    print(f"  Unique horses in ra_runners:        {horses_in_runners:>12,}")
+    print(f"  Unique horses in ra_mst_runners:        {horses_in_runners:>12,}")
     print(f"  Unique horses in ra_horse_pedigree: {horses_in_pedigree:>12,}")
     print(f"  Horses with pedigree records:       {horses_with_ped:>12,} ({horses_with_ped/horses_in_runners*100:>5.1f}%)")
     print()
 
-    # Check if sire/dam/damsire IDs in ra_runners link to ra_horses
+    # Check if sire/dam/damsire IDs in ra_mst_runners link to ra_horses
     print("LINEAGE REFERENCE VALIDATION:")
     print("-" * 100)
 
@@ -134,14 +134,14 @@ try:
             COUNT(DISTINCT sire_id) FILTER (WHERE sire_id IS NOT NULL) as unique_sires,
             COUNT(DISTINCT dam_id) FILTER (WHERE dam_id IS NOT NULL) as unique_dams,
             COUNT(DISTINCT damsire_id) FILTER (WHERE damsire_id IS NOT NULL) as unique_damsires
-        FROM ra_runners;
+        FROM ra_mst_runners;
     """)
 
     unique_sires, unique_dams, unique_damsires = cur.fetchone()
 
-    print(f"  Unique sires in ra_runners:    {unique_sires:>12,}")
-    print(f"  Unique dams in ra_runners:     {unique_dams:>12,}")
-    print(f"  Unique damsires in ra_runners: {unique_damsires:>12,}")
+    print(f"  Unique sires in ra_mst_runners:    {unique_sires:>12,}")
+    print(f"  Unique dams in ra_mst_runners:     {unique_dams:>12,}")
+    print(f"  Unique damsires in ra_mst_runners: {unique_damsires:>12,}")
     print()
 
     # Check if these exist in ra_horses
@@ -159,7 +159,7 @@ try:
                 WHERE run.damsire_id IS NOT NULL
                 AND EXISTS (SELECT 1 FROM ra_horses h WHERE h.horse_id = run.damsire_id)
             ) as damsires_in_horses
-        FROM ra_runners run;
+        FROM ra_mst_runners run;
     """)
 
     sires_in_horses, dams_in_horses, damsires_in_horses = cur.fetchone()
@@ -175,7 +175,7 @@ try:
     print()
 
     print("CURRENT STATE:")
-    print("  • ra_runners has pedigree columns (sire_id, dam_id, damsire_id, etc.)")
+    print("  • ra_mst_runners has pedigree columns (sire_id, dam_id, damsire_id, etc.)")
     print("  • ra_horse_pedigree has same data (horse_id → sire/dam/damsire)")
     print("  • Both tables store similar pedigree information")
     print()
@@ -189,7 +189,7 @@ try:
     print("  Structure:")
     print("    ra_lineage")
     print("      - lineage_id (PK)")
-    print("      - runner_id (FK to ra_runners)")
+    print("      - runner_id (FK to ra_mst_runners)")
     print("      - generation (1=sire/dam, 2=grandsire/granddam, 3=great-grand, etc.)")
     print("      - relation_type (sire/dam/damsire/grandsire_paternal/etc.)")
     print("      - ancestor_horse_id (FK to ra_horses)")
@@ -208,7 +208,7 @@ try:
     print("      + grandsire_maternal_id, granddam_maternal_id")
     print("      + great_grandsire_ids (JSONB for 4th generation)")
     print("  Pros: Horse-centric (pedigree is property of horse, not runner)")
-    print("  Cons: ra_runners still needs sire/dam/damsire for convenience")
+    print("  Cons: ra_mst_runners still needs sire/dam/damsire for convenience")
     print()
 
     cur.close()

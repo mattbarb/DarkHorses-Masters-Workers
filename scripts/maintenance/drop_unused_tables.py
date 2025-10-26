@@ -33,7 +33,7 @@ def drop_unused_tables():
     supabase = create_client(supabase_url, supabase_key)
 
     tables_to_drop = [
-        ('ra_results', '0 records - results data stored in ra_runners instead'),
+        ('ra_results', '0 records - results data stored in ra_mst_runners instead'),
         ('om_weather_hourly_forecast', '528 stale records - replaced by dh_weather_* tables')
     ]
 

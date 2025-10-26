@@ -13,7 +13,7 @@ Following the discovery that 5 of 11 "planned" tables were already operational (
 
 #### 1. ra_entity_combinations
 - **Purpose:** Track jockey-trainer partnership statistics
-- **Data Source:** Aggregated from ra_runners table
+- **Data Source:** Aggregated from ra_mst_runners table
 - **Script:** `/scripts/populate_entity_combinations_from_runners.py`
 - **Calculation:** Groups runners by jockey_id + trainer_id, calculates win rates
 - **Status:** ✅ Working - Successfully populated with jockey-trainer partnerships
@@ -44,7 +44,7 @@ Top jockey-trainer partnerships:
 - **Update Schedule:** Daily
 
 **Note on Historical Data:**
-The ra_odds_historical table contains SP (Starting Price) data from Excel imports (2017+) but uses different identifiers (horse_name, track, date_of_race) rather than race_id/horse_id. Matching historical odds to ra_runners would require:
+The ra_odds_historical table contains SP (Starting Price) data from Excel imports (2017+) but uses different identifiers (horse_name, track, date_of_race) rather than race_id/horse_id. Matching historical odds to ra_mst_runners would require:
 - Fuzzy name matching
 - Date + track + race_time alignment
 - Or: Backfill race_id/horse_id into ra_odds_historical
@@ -57,7 +57,7 @@ The ra_odds_historical table contains SP (Starting Price) data from Excel import
 
 #### 3. ra_runner_statistics
 - **Purpose:** Individual runner-level performance metrics grouped by conditions
-- **Data Source:** Aggregated from ra_runners + ra_races tables
+- **Data Source:** Aggregated from ra_mst_runners + ra_mst_races tables
 - **Script:** `/scripts/populate_runner_statistics.py`
 - **Calculation:** For each race entry (runner), calculate horse's career stats, course performance, distance performance, going performance, recent form, jockey partnership stats
 - **Status:** ✅ Working - Successfully calculates 60 statistical fields per runner
@@ -81,7 +81,7 @@ Top performers by career win %:
 
 #### 4. ra_performance_by_distance
 - **Purpose:** Performance analysis grouped by distance ranges for multiple entity types
-- **Data Source:** Aggregated from ra_runners + ra_races tables
+- **Data Source:** Aggregated from ra_mst_runners + ra_mst_races tables
 - **Script:** `/scripts/populate_performance_by_distance.py`
 - **Calculation:** Groups performance by entity (horse/jockey/trainer) and distance, calculates win rates, A/E index, P/L, finishing times
 - **Status:** ✅ Working - Successfully tracks performance at different distances
@@ -105,7 +105,7 @@ Breakdown by entity type:
 
 #### 5. ra_performance_by_venue
 - **Purpose:** Course specialist identification - which entities excel at specific venues
-- **Data Source:** Aggregated from ra_runners + ra_races tables
+- **Data Source:** Aggregated from ra_mst_runners + ra_mst_races tables
 - **Script:** `/scripts/populate_performance_by_venue.py`
 - **Calculation:** Groups performance by entity and venue (course), calculates win rates, A/E index, P/L
 - **Status:** ✅ Working - Successfully identifies course specialists
@@ -393,7 +393,7 @@ python3 scripts/populate_phase2_analytics.py
 ## Next Steps
 
 ### Immediate
-1. ✅ Test scripts with production data (full ra_runners table)
+1. ✅ Test scripts with production data (full ra_mst_runners table)
 2. ✅ Add to scheduled tasks
 3. ✅ Monitor first runs for performance
 4. ✅ Implement Phase 2 analytics tables

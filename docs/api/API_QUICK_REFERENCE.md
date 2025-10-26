@@ -8,8 +8,8 @@
 
 | Table | Primary Key | Purpose | Row Count (Typical) |
 |-------|-------------|---------|---------------------|
-| **ra_races** | race_id | Race details | ~50k races/year |
-| **ra_runners** | runner_id | Runner + Results | ~500k runners/year |
+| **ra_mst_races** | race_id | Race details | ~50k races/year |
+| **ra_mst_runners** | runner_id | Runner + Results | ~500k runners/year |
 | **ra_horses** | horse_id | Horse reference | ~50k horses |
 | **ra_jockeys** | jockey_id | Jockey reference | ~500 jockeys |
 | **ra_trainers** | trainer_id | Trainer reference | ~1000 trainers |
@@ -21,7 +21,7 @@
 ## 🔑 Key Relationships
 
 ```
-ra_races (1) ──────► (N) ra_runners
+ra_mst_races (1) ──────► (N) ra_mst_runners
                          ├─► (1) ra_horses
                          ├─► (1) ra_jockeys
                          ├─► (1) ra_trainers
@@ -32,7 +32,7 @@ ra_races (1) ──────► (N) ra_runners
 
 ## 🎯 Most Important Fields
 
-### Race Data (ra_races)
+### Race Data (ra_mst_races)
 ```sql
 race_id              -- Unique identifier
 course_name          -- e.g., "Newmarket"
@@ -47,10 +47,10 @@ prize_money          -- DECIMAL (total prize fund)
 field_size           -- INTEGER (number of runners)
 ```
 
-### Runner Data (ra_runners)
+### Runner Data (ra_mst_runners)
 ```sql
 runner_id            -- Unique identifier
-race_id              -- FK to ra_races
+race_id              -- FK to ra_mst_races
 horse_id             -- FK to ra_horses
 jockey_id            -- FK to ra_jockeys
 trainer_id           -- FK to ra_trainers
@@ -87,7 +87,7 @@ SELECT
     race_class,
     distance_meters,
     field_size
-FROM ra_races
+FROM ra_mst_races
 WHERE race_date = CURRENT_DATE
 ORDER BY off_datetime;
 ```
@@ -107,7 +107,7 @@ SELECT
     r.form,
     r.position,
     r.starting_price
-FROM ra_runners r
+FROM ra_mst_runners r
 JOIN ra_horses h ON r.horse_id = h.horse_id
 LEFT JOIN ra_jockeys j ON r.jockey_id = j.jockey_id
 LEFT JOIN ra_trainers t ON r.trainer_id = t.trainer_id
@@ -129,7 +129,7 @@ SELECT
     ) AS win_rate_pct,
     SUM(r.prize_won) AS total_earnings
 FROM ra_horses h
-LEFT JOIN ra_runners r ON h.horse_id = r.horse_id
+LEFT JOIN ra_mst_runners r ON h.horse_id = r.horse_id
 WHERE h.horse_id = 'hrs_12345678'
   AND r.position IS NOT NULL
 GROUP BY h.horse_id, h.name;
@@ -143,8 +143,8 @@ SELECT
     r.position,
     r.distance_beaten,
     r.starting_price
-FROM ra_runners r
-JOIN ra_races races ON r.race_id = races.race_id
+FROM ra_mst_runners r
+JOIN ra_mst_races races ON r.race_id = races.race_id
 WHERE r.horse_id = 'hrs_12345678'
   AND r.position IS NOT NULL
 ORDER BY races.race_date DESC
@@ -162,8 +162,8 @@ SELECT
         NULLIF(COUNT(*), 0) * 100,
         2
     ) AS win_rate
-FROM ra_runners r
-JOIN ra_races races ON r.race_id = races.race_id
+FROM ra_mst_runners r
+JOIN ra_mst_races races ON r.race_id = races.race_id
 JOIN ra_courses c ON races.course_id = c.course_id
 WHERE r.horse_id = 'hrs_12345678'
   AND r.position IS NOT NULL
@@ -310,7 +310,7 @@ WHERE position IN (1, 2, 3)
 ### Get Horses with Form
 ```sql
 WHERE EXISTS (
-    SELECT 1 FROM ra_runners r2
+    SELECT 1 FROM ra_mst_runners r2
     WHERE r2.horse_id = r.horse_id
       AND r2.position IS NOT NULL
 )
@@ -323,10 +323,10 @@ WHERE EXISTS (
 ### Always Use Indexes
 ```sql
 -- These indexes already exist
-CREATE INDEX idx_runners_race_id ON ra_runners(race_id);
-CREATE INDEX idx_runners_horse_id ON ra_runners(horse_id);
-CREATE INDEX idx_runners_position ON ra_runners(position);
-CREATE INDEX idx_races_race_date ON ra_races(race_date);
+CREATE INDEX idx_runners_race_id ON ra_mst_runners(race_id);
+CREATE INDEX idx_runners_horse_id ON ra_mst_runners(horse_id);
+CREATE INDEX idx_runners_position ON ra_mst_runners(position);
+CREATE INDEX idx_races_race_date ON ra_mst_races(race_date);
 ```
 
 ### Optimize Calculated Stats
@@ -338,7 +338,7 @@ CREATE INDEX idx_races_race_date ON ra_races(race_date);
 ```sql
 -- Always paginate large result sets
 SELECT ...
-FROM ra_races
+FROM ra_mst_races
 WHERE race_date BETWEEN '2024-01-01' AND '2024-12-31'
 ORDER BY off_datetime DESC
 LIMIT 50 OFFSET 0;
@@ -429,7 +429,7 @@ supabase = create_client(
 )
 
 # Test query
-result = supabase.table('ra_races').select('*').limit(1).execute()
+result = supabase.table('ra_mst_races').select('*').limit(1).execute()
 print(f"Connected! Sample race: {result.data[0]['race_name']}")
 ```
 

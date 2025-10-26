@@ -46,7 +46,7 @@ for column_name, description in renamed_columns.items():
             'sql': f"""
                 SELECT column_name, data_type
                 FROM information_schema.columns
-                WHERE table_name = 'ra_runners' AND column_name = '{column_name}'
+                WHERE table_name = 'ra_mst_runners' AND column_name = '{column_name}'
             """
         }).execute()
 
@@ -86,7 +86,7 @@ for column_name in old_columns:
             'sql': f"""
                 SELECT column_name
                 FROM information_schema.columns
-                WHERE table_name = 'ra_runners' AND column_name = '{column_name}'
+                WHERE table_name = 'ra_mst_runners' AND column_name = '{column_name}'
             """
         }).execute()
 
@@ -131,7 +131,7 @@ for column_name, expected_type in new_columns.items():
             'sql': f"""
                 SELECT column_name, data_type
                 FROM information_schema.columns
-                WHERE table_name = 'ra_runners' AND column_name = '{column_name}'
+                WHERE table_name = 'ra_mst_runners' AND column_name = '{column_name}'
             """
         }).execute()
 
@@ -153,20 +153,20 @@ print("TEST 4: Verify Indexes Updated")
 print("-" * 100)
 
 expected_indexes = [
-    'idx_ra_runners_horse_sex_code',
-    'idx_ra_runners_horse_region',
-    'idx_ra_runners_last_run_date',
-    'idx_ra_runners_days_since_last_run',
-    'idx_ra_runners_trainer_14_days_gin',
-    'idx_ra_runners_quotes_gin',
-    'idx_ra_runners_stable_tour_gin',
-    'idx_ra_runners_medical_gin',
-    'idx_ra_runners_prev_trainers_gin',
-    'idx_ra_runners_prev_owners_gin',
-    'idx_ra_runners_odds_gin',
-    'idx_ra_runners_horse_dob',
-    'idx_ra_runners_horse_colour',
-    'idx_ra_runners_horse_age'
+    'idx_ra_mst_runners_horse_sex_code',
+    'idx_ra_mst_runners_horse_region',
+    'idx_ra_mst_runners_last_run_date',
+    'idx_ra_mst_runners_days_since_last_run',
+    'idx_ra_mst_runners_trainer_14_days_gin',
+    'idx_ra_mst_runners_quotes_gin',
+    'idx_ra_mst_runners_stable_tour_gin',
+    'idx_ra_mst_runners_medical_gin',
+    'idx_ra_mst_runners_prev_trainers_gin',
+    'idx_ra_mst_runners_prev_owners_gin',
+    'idx_ra_mst_runners_odds_gin',
+    'idx_ra_mst_runners_horse_dob',
+    'idx_ra_mst_runners_horse_colour',
+    'idx_ra_mst_runners_horse_age'
 ]
 
 print(f"\nChecking {len(expected_indexes)} indexes...")
@@ -177,7 +177,7 @@ for index_name in expected_indexes:
             'sql': f"""
                 SELECT indexname
                 FROM pg_indexes
-                WHERE tablename = 'ra_runners' AND indexname = '{index_name}'
+                WHERE tablename = 'ra_mst_runners' AND indexname = '{index_name}'
             """
         }).execute()
 
@@ -202,13 +202,13 @@ try:
         'sql': """
             SELECT COUNT(*) as column_count
             FROM information_schema.columns
-            WHERE table_name = 'ra_runners'
+            WHERE table_name = 'ra_mst_runners'
         """
     }).execute()
 
     if result.data:
         total_columns = result.data[0].get('column_count', 0)
-        print(f"\n  Total columns in ra_runners: {total_columns}")
+        print(f"\n  Total columns in ra_mst_runners: {total_columns}")
         print(f"  Expected: 57 (before) + 8 (new) - 8 (renamed) = 57")
 
         if total_columns == 57:
@@ -251,7 +251,7 @@ for column_name in critical_columns:
             'sql': f"""
                 SELECT column_name
                 FROM information_schema.columns
-                WHERE table_name = 'ra_runners' AND column_name = '{column_name}'
+                WHERE table_name = 'ra_mst_runners' AND column_name = '{column_name}'
             """
         }).execute()
 

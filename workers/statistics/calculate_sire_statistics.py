@@ -4,7 +4,7 @@ Calculate Sire Statistics from Database
 =========================================
 
 Populates ra_sire_stats table with comprehensive statistics calculated from
-historical race data in ra_runners + ra_races + ra_rel_pedigree tables.
+historical race data in ra_mst_runners + ra_races + ra_rel_pedigree tables.
 
 Statistics Calculated:
 ----------------------
@@ -23,7 +23,7 @@ Data Sources:
 -------------
 - ra_mst_sires: List of all sires
 - ra_rel_pedigree: Horse-to-sire relationships
-- ra_runners: Race performance data
+- ra_mst_runners: Race performance data
 - ra_races: Race dates and metadata
 
 Usage:
@@ -78,11 +78,11 @@ class SireStatisticsCalculator:
         """
         Calculate sire's own racing career statistics
 
-        Query ra_runners where horse_id = sire_id (the sire raced as a horse)
+        Query ra_mst_runners where horse_id = sire_id (the sire raced as a horse)
         """
         try:
             # Get all races where this sire raced
-            runners = self.db_client.client.table('ra_runners')\
+            runners = self.db_client.client.table('ra_mst_runners')\
                 .select('position, prize_won, race_id')\
                 .eq('horse_id', sire_id)\
                 .execute()
@@ -102,7 +102,7 @@ class SireStatisticsCalculator:
             # Get race dates
             race_ids = [r['race_id'] for r in runners.data if r.get('race_id')]
             if race_ids:
-                races = self.db_client.client.table('ra_races')\
+                races = self.db_client.client.table('ra_mst_races')\
                     .select('id, date')\
                     .in_('id', race_ids)\
                     .execute()
@@ -164,7 +164,7 @@ class SireStatisticsCalculator:
         Calculate progeny (offspring) performance statistics
 
         Query ra_rel_pedigree to find all horses sired by this sire,
-        then aggregate their race performance from ra_runners
+        then aggregate their race performance from ra_mst_runners
         """
         try:
             # Find all progeny (offspring)
@@ -189,7 +189,7 @@ class SireStatisticsCalculator:
             total_progeny = len(progeny_ids)
 
             # Get all races for these progeny
-            runners = self.db_client.client.table('ra_runners')\
+            runners = self.db_client.client.table('ra_mst_runners')\
                 .select('position, prize_won')\
                 .in_('horse_id', progeny_ids)\
                 .execute()

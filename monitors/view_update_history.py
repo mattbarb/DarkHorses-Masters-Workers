@@ -189,7 +189,7 @@ def main():
     )
     parser.add_argument(
         '--table',
-        help='Show detailed statistics for a specific table (e.g., ra_runners)'
+        help='Show detailed statistics for a specific table (e.g., ra_mst_runners)'
     )
     parser.add_argument(
         '--days',

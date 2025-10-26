@@ -1,5 +1,5 @@
 """
-Sample-based analysis of duplicate columns in ra_runners
+Sample-based analysis of duplicate columns in ra_mst_runners
 Uses small sample to avoid timeouts
 """
 
@@ -57,7 +57,7 @@ def main():
         # Fetch sample with all columns
         try:
             columns = ['runner_id'] + group['columns']
-            result = supabase.table('ra_runners') \
+            result = supabase.table('ra_mst_runners') \
                 .select(','.join(columns)) \
                 .limit(sample_size) \
                 .execute()
@@ -120,11 +120,11 @@ def main():
                 elif different_count > 0:
                     logger.info(f"  ⚠️  Values differ! Both columns have unique data")
                     logger.info(f"  🔧 Recommendation: MERGE {col2} into {col1}, then drop {col2}")
-                    logger.info(f"     SQL: UPDATE ra_runners SET {col1} = COALESCE({col1}, {col2})")
+                    logger.info(f"     SQL: UPDATE ra_mst_runners SET {col1} = COALESCE({col1}, {col2})")
             else:
                 logger.info(f"  Both columns have data but different amounts")
                 logger.info(f"  🔧 Recommendation: MERGE {col2} into {col1}, then drop {col2}")
-                logger.info(f"     SQL: UPDATE ra_runners SET {col1} = COALESCE({col1}, {col2})")
+                logger.info(f"     SQL: UPDATE ra_mst_runners SET {col1} = COALESCE({col1}, {col2})")
 
         except Exception as e:
             logger.error(f"Error analyzing group: {e}", exc_info=True)

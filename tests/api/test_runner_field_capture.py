@@ -72,7 +72,7 @@ def validate_runners():
 
     # Get 5 recent runners
     logger.info("Fetching 5 most recent runner records...")
-    result = supabase.table('ra_runners') \
+    result = supabase.table('ra_mst_runners') \
         .select('*') \
         .order('created_at', desc=True) \
         .limit(5) \

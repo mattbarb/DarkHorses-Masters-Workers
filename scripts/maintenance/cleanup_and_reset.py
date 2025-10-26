@@ -41,7 +41,7 @@ class DatabaseCleanup:
 
     # All data tables (in order - reference data last to preserve foreign keys)
     ALL_TABLES = [
-        'ra_runners',      # Delete first (has FK to races, horses, jockeys, etc.)
+        'ra_mst_runners',      # Delete first (has FK to races, horses, jockeys, etc.)
         'ra_races',        # Delete second (has FK to courses)
         'ra_horses',       # Entity tables
         'ra_jockeys',
@@ -53,7 +53,7 @@ class DatabaseCleanup:
 
     # Primary key mapping for each table
     TABLE_PRIMARY_KEYS = {
-        'ra_runners': 'runner_id',
+        'ra_mst_runners': 'runner_id',
         'ra_races': 'race_id',
         'ra_horses': 'horse_id',
         'ra_jockeys': 'jockey_id',
@@ -211,7 +211,7 @@ def main():
 Examples:
   python3 cleanup_and_reset.py                    # Dry-run (safe, shows what will happen)
   python3 cleanup_and_reset.py --confirm          # Actually delete all data
-  python3 cleanup_and_reset.py --confirm --tables ra_races ra_runners  # Only specific tables
+  python3 cleanup_and_reset.py --confirm --tables ra_races ra_mst_runners  # Only specific tables
         """
     )
 

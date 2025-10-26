@@ -114,7 +114,7 @@ This is likely because:
 **Step 2: Run historical results backfill**
 ```bash
 # Need to create: scripts/backfill_historical_results.py
-# Would fetch results for all past races in ra_races table
+# Would fetch results for all past races in ra_mst_races table
 # Estimated time: TBD (depends on race count)
 ```
 
@@ -245,7 +245,7 @@ ra_horse_pedigree:
 ```
 Overall Data Completeness: ~90%
 
-ra_runners:
+ra_mst_runners:
   ✅ position:        265,595 ( 70.0%)
   ✅ distance_beaten: 265,595 ( 70.0%)
   ✅ prize_won:       265,595 ( 70.0%)

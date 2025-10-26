@@ -32,7 +32,7 @@ class EnhancedValidationReportGenerator:
             'winning_time', 'winning_time_detail', 'comments', 'non_runners',
             'tote_win', 'tote_pl', 'tote_ex', 'tote_csf', 'tote_tricast', 'tote_trifecta'
         ],
-        'ra_runners': [
+        'ra_mst_runners': [
             'position', 'distance_beaten', 'prize_won', 'starting_price',
             'result_updated_at', 'finishing_time', 'starting_price_decimal',
             'race_comment', 'overall_beaten_distance'
@@ -44,7 +44,7 @@ class EnhancedValidationReportGenerator:
         'ra_races': [
             'race_number', 'meet_id', 'prize', 'sex_restriction', 'distance_m', 'time'
         ],
-        'ra_runners': [
+        'ra_mst_runners': [
             'rpr', 'ts', 'weight_st_lbs', 'claiming_price_min', 'claiming_price_max',
             'medication', 'equipment', 'morning_line_odds', 'jockey_silk_url',
             'jockey_claim_lbs', 'weight_stones_lbs'
@@ -126,7 +126,7 @@ class EnhancedValidationReportGenerator:
         logger.info("\nPhase 2: Reading back data and categorizing columns...")
 
         # Get recent races
-        recent_races = self.db_client.client.table('ra_races').select('*').order('created_at', desc=True).limit(5).execute()
+        recent_races = self.db_client.client.table('ra_mst_races').select('*').order('created_at', desc=True).limit(5).execute()
 
         if not recent_races.data:
             return {'success': False, 'error': 'No races found'}
@@ -145,17 +145,17 @@ class EnhancedValidationReportGenerator:
         )
         reports['ra_races'] = race_report
 
-        # Validate ra_runners
+        # Validate ra_mst_runners
         race_id = recent_races.data[0]['id']
-        runners = self.db_client.client.table('ra_runners').select('*').eq('race_id', race_id).limit(1).execute()
+        runners = self.db_client.client.table('ra_mst_runners').select('*').eq('race_id', race_id).limit(1).execute()
         if runners.data:
             runner_report = self._validate_table_with_categories(
-                'ra_runners',
+                'ra_mst_runners',
                 runners.data[0],
                 'Runner data',
                 data_type
             )
-            reports['ra_runners'] = runner_report
+            reports['ra_mst_runners'] = runner_report
 
         # Validate ra_mst_horses
         if runners.data and runners.data[0].get('horse_id'):
@@ -414,13 +414,13 @@ class EnhancedValidationReportGenerator:
 
         # Delete runners first
         for race_id in self.test_race_ids:
-            result = self.db_client.client.table('ra_runners').delete().eq('race_id', race_id).execute()
+            result = self.db_client.client.table('ra_mst_runners').delete().eq('race_id', race_id).execute()
             if result.data:
                 total_deleted += len(result.data)
 
         # Delete races
         for race_id in self.test_race_ids:
-            result = self.db_client.client.table('ra_races').delete().eq('id', race_id).execute()
+            result = self.db_client.client.table('ra_mst_races').delete().eq('id', race_id).execute()
             if result.data:
                 total_deleted += len(result.data)
 

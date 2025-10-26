@@ -119,7 +119,7 @@ Same structure as dams - all statistics fields are NULL.
 
 ## Transaction Tables (4 tables)
 
-### ra_races (66.7% coverage - 32/48 columns)
+### ra_mst_races (66.7% coverage - 32/48 columns)
 **Expected NULLs (16 columns):**
 
 **Post-race only (10 columns):**
@@ -139,7 +139,7 @@ Same structure as dams - all statistics fields are NULL.
 
 ---
 
-### ra_runners (64.9% coverage - 37/57 columns)
+### ra_mst_runners (64.9% coverage - 37/57 columns)
 **Expected NULLs (20 columns):**
 
 **Post-race only (9 columns):**
@@ -166,7 +166,7 @@ Same structure as dams - all statistics fields are NULL.
 
 ---
 
-### ra_race_results (86.8% coverage - 33/38 columns)
+### ra_mst_race_results (86.8% coverage - 33/38 columns)
 **Expected NULLs (5 columns):**
 
 **Optional/Derived (5 columns):**
@@ -231,7 +231,7 @@ Same structure as dams - all statistics fields are NULL.
 
 ### High Coverage (80-96%) - 8 tables
 - ✅ ra_mst_horses (14/15 - 93.3%)
-- ✅ ra_race_results (33/38 - 86.8%)
+- ✅ ra_mst_race_results (33/38 - 86.8%)
 - ✅ ra_mst_owners (20/24 - 83.3%)
 - ✅ ra_mst_trainers (19/23 - 82.6%)
 - ✅ ra_mst_jockeys (18/22 - 81.8%)
@@ -241,8 +241,8 @@ Same structure as dams - all statistics fields are NULL.
 
 ### Moderate Coverage (60-79%) - 3 tables
 - ⚠️ ra_performance_by_distance (14/20 - 70.0%)
-- ⚠️ ra_races (32/48 - 66.7%)
-- ⚠️ ra_runners (37/57 - 64.9%)
+- ⚠️ ra_mst_races (32/48 - 66.7%)
+- ⚠️ ra_mst_runners (37/57 - 64.9%)
 
 ### Low Coverage (17-40%) - Statistics Not Calculated - 3 tables
 - ⏳ ra_mst_sires (19/47 - 40.4%) - Awaiting full statistics calculation
@@ -256,9 +256,9 @@ Same structure as dams - all statistics fields are NULL.
 When we exclude **expected NULLs**, the actual coverage is:
 
 ### Transaction Tables (Core Data)
-- **ra_races:** 32 populated + 16 expected NULL = **100% actual coverage** ✅
-- **ra_runners:** 37 populated + 20 expected NULL = **100% actual coverage** ✅
-- **ra_race_results:** 33 populated + 5 expected NULL = **100% actual coverage** ✅
+- **ra_mst_races:** 32 populated + 16 expected NULL = **100% actual coverage** ✅
+- **ra_mst_runners:** 37 populated + 20 expected NULL = **100% actual coverage** ✅
+- **ra_mst_race_results:** 33 populated + 5 expected NULL = **100% actual coverage** ✅
 - **ra_horse_pedigree:** 11 populated + 0 expected NULL = **100% actual coverage** ✅
 
 ### Master Tables (Entities)

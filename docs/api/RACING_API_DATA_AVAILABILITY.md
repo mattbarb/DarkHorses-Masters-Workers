@@ -28,7 +28,7 @@ This document provides a complete analysis of The Racing API capabilities, testi
 
 ### Critical Issues Found
 
-1. **Position Data Not Extracted (CRITICAL)** - Results API contains finishing positions but workers don't extract to ra_runners table
+1. **Position Data Not Extracted (CRITICAL)** - Results API contains finishing positions but workers don't extract to ra_mst_runners table
 2. **Ratings Fields Working** - OFR, RPR, and TS are present in API responses (contrary to DATA_SOURCES_MAPPING.md)
 3. **Pedigree IDs Present** - sire_id, dam_id, damsire_id available in both Racecards and Results
 4. **Odds Data Available** - Pro plan provides live odds from 28+ bookmakers
@@ -410,7 +410,7 @@ Bet365, William Hill, Coral, Betfred, Boyle Sports, Ladbrokes, Unibet, Bet Goodw
 | `comment` | text | Midfield - headway... | NO | Partial |
 | `silk_url` | string | https://... | NO | YES |
 
-**CRITICAL FINDING:** Position, sp, btn, prize, and time fields ARE in the Results API but NOT being extracted to ra_runners table!
+**CRITICAL FINDING:** Position, sp, btn, prize, and time fields ARE in the Results API but NOT being extracted to ra_mst_runners table!
 
 ---
 
@@ -545,7 +545,7 @@ Based on DATA_SOURCES_MAPPING.md, the ML model requires 115 fields. Here's the m
 | days_since_last_run | Current date - MAX(race_date) | Results history |
 | total_earnings | SUM(prize) WHERE position matters | **Position + Prize data** |
 
-**Status:** API provides position field in Results, MUST extract to ra_runners
+**Status:** API provides position field in Results, MUST extract to ra_mst_runners
 
 #### Category 6: Context Performance (20 fields) - Must Calculate
 
@@ -629,7 +629,7 @@ Weather data not available from Racing API, requires Open-Meteo API (already imp
 
 #### Gap 1: Position Data Not Extracted (CRITICAL)
 
-**Problem:** Results API provides `position` field but workers don't extract it to ra_runners table.
+**Problem:** Results API provides `position` field but workers don't extract it to ra_mst_runners table.
 
 **Impact:** Breaks 46 ML fields (42% of model):
 - All career win/place statistics
@@ -638,7 +638,7 @@ Weather data not available from Racing API, requires Open-Meteo API (already imp
 - All relationship statistics
 
 **Solution:**
-1. Add position, btn, prize_won, sp, time fields to ra_runners table
+1. Add position, btn, prize_won, sp, time fields to ra_mst_runners table
 2. Update results_fetcher.py to extract runner-level result data
 3. Implement UPSERT logic to update existing runner records
 
@@ -731,7 +731,7 @@ The following were identified as gaps in DATA_SOURCES_MAPPING.md but are actuall
    - Thousands separators (commas)
    - Decimal points
    - Null/empty values
-2. Map to prize field in ra_races (race prize)
+2. Map to prize field in ra_mst_races (race prize)
 3. Map to prize field in Results API for runner prize_won
 4. Test edge cases
 
@@ -892,7 +892,7 @@ def _prepare_runner_records(self, results: List[Dict]) -> List[Dict]:
         results: List of result dictionaries (raw API responses)
 
     Returns:
-        List of runner records for ra_runners table
+        List of runner records for ra_mst_runners table
     """
     runner_records = []
 
@@ -956,7 +956,7 @@ def fetch_and_store(self, ...):
         runner_records = self._prepare_runner_records(all_results)
 
         if runner_records:
-            # UPSERT into ra_runners (update existing or insert new)
+            # UPSERT into ra_mst_runners (update existing or insert new)
             runner_stats = self.db_client.upsert_runners(runner_records)
             logger.info(f"Runner records updated: {runner_stats}")
 ```
@@ -1031,7 +1031,7 @@ def upsert_runners(self, runners: List[Dict]) -> Dict:
         return {'upserted': 0}
 
     try:
-        result = self.supabase.table('ra_runners').upsert(
+        result = self.supabase.table('ra_mst_runners').upsert(
             runners,
             on_conflict='runner_id',
             returning='minimal'
@@ -1078,10 +1078,10 @@ SELECT
     prize_won,
     starting_price,
     finishing_time
-FROM ra_runners
+FROM ra_mst_runners
 WHERE position IS NOT NULL
 AND race_id IN (
-    SELECT race_id FROM ra_races
+    SELECT race_id FROM ra_mst_races
     WHERE race_date = '2025-10-01'
 )
 LIMIT 10;
@@ -1179,11 +1179,11 @@ EOF
 
 ### 10.2 Database Schema Requirements
 
-**Required Fields in ra_runners Table:**
+**Required Fields in ra_mst_runners Table:**
 
 ```sql
 -- Position fields (from Results API)
-ALTER TABLE ra_runners
+ALTER TABLE ra_mst_runners
 ADD COLUMN IF NOT EXISTS position INTEGER,
 ADD COLUMN IF NOT EXISTS distance_beaten VARCHAR(20),
 ADD COLUMN IF NOT EXISTS prize_won DECIMAL(10,2),
@@ -1192,8 +1192,8 @@ ADD COLUMN IF NOT EXISTS finishing_time VARCHAR(20),
 ADD COLUMN IF NOT EXISTS result_updated_at TIMESTAMP;
 
 -- Indexes for performance
-CREATE INDEX IF NOT EXISTS idx_ra_runners_position ON ra_runners(position);
-CREATE INDEX IF NOT EXISTS idx_ra_runners_result_updated ON ra_runners(result_updated_at);
+CREATE INDEX IF NOT EXISTS idx_ra_mst_runners_position ON ra_mst_runners(position);
+CREATE INDEX IF NOT EXISTS idx_ra_mst_runners_result_updated ON ra_mst_runners(result_updated_at);
 ```
 
 ### 10.3 Rate Limiting and API Usage
@@ -1287,14 +1287,14 @@ CREATE INDEX IF NOT EXISTS idx_ra_runners_result_updated ON ra_runners(result_up
 
 1. **Racing API is Comprehensive** - Provides 57 endpoints covering all aspects of horse racing data
 2. **Data IS Available** - All core ML fields are available in the API (position, ratings, pedigree IDs, etc.)
-3. **Extraction is Incomplete** - The critical issue is that position data from Results API is not being extracted to ra_runners table
+3. **Extraction is Incomplete** - The critical issue is that position data from Results API is not being extracted to ra_mst_runners table
 4. **Quick Wins Possible** - Fixing position data extraction will immediately enable 43 additional ML fields
 5. **Pro Plan Valuable** - Pro plan provides significant value with historical data, ratings, and expert content
 
 ### Immediate Next Steps
 
 1. **Run Position Data Extraction Implementation** (P0 - This Week)
-   - Add position fields to ra_runners
+   - Add position fields to ra_mst_runners
    - Update results_fetcher.py
    - Test on sample data
    - Backfill historical results

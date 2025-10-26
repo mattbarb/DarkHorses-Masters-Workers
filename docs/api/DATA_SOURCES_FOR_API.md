@@ -34,8 +34,8 @@ This document provides a comprehensive mapping of all database fields in the Dar
 
 | Database Table | Total Fields | API Fields | Calculated Fields | Availability |
 |----------------|--------------|------------|-------------------|--------------|
-| ra_races | 35+ | 28 | 2 | 95%+ |
-| ra_runners | 60+ | 45 | 5 | 90%+ |
+| ra_mst_races | 35+ | 28 | 2 | 95%+ |
+| ra_mst_runners | 60+ | 45 | 5 | 90%+ |
 | ra_horses | 8 | 6 | 0 | 100% |
 | ra_jockeys | 6 | 4 | 0 | 100% |
 | ra_trainers | 6 | 4 | 0 | 100% |
@@ -70,8 +70,8 @@ This document provides a comprehensive mapping of all database fields in the Dar
 │         Supabase PostgreSQL Database            │
 │                                                 │
 │  Reference Tables (ra_* prefix):                │
-│    - ra_races      (race details)               │
-│    - ra_runners    (runner + results)           │
+│    - ra_mst_races      (race details)               │
+│    - ra_mst_runners    (runner + results)           │
 │    - ra_horses     (horse reference)            │
 │    - ra_jockeys    (jockey reference)           │
 │    - ra_trainers   (trainer reference)          │
@@ -90,7 +90,7 @@ This document provides a comprehensive mapping of all database fields in the Dar
 
 ## Table-by-Table Field Mapping
 
-### 1. ra_races (Race Reference Data)
+### 1. ra_mst_races (Race Reference Data)
 
 **Purpose**: Stores comprehensive information about each race
 **Source**: Primarily from `/v1/racecards/pro` endpoint, supplemented by `/v1/results`
@@ -149,7 +149,7 @@ This document provides a comprehensive mapping of all database fields in the Dar
 
 ---
 
-### 2. ra_runners (Runner & Results Data)
+### 2. ra_mst_runners (Runner & Results Data)
 
 **Purpose**: Stores both pre-race declarations and post-race results for each runner
 **Source**: Combined from `/v1/racecards/pro` (pre-race) and `/v1/results` (post-race)
@@ -161,7 +161,7 @@ This document provides a comprehensive mapping of all database fields in the Dar
 | Database Field | Type | API Source | JSON Path | Availability | Notes |
 |----------------|------|------------|-----------|--------------|-------|
 | **runner_id** | VARCHAR(150) PK | Generated | `{race_id}_{horse_id}` | 100% | Composite key |
-| **race_id** | VARCHAR(100) FK | Both | `racecards[].runners[].race_id` | 100% | Foreign key to ra_races |
+| **race_id** | VARCHAR(100) FK | Both | `racecards[].runners[].race_id` | 100% | Foreign key to ra_mst_races |
 | **racing_api_race_id** | VARCHAR(100) | Both | Same as above | 100% | Explicit copy |
 | **horse_id** | VARCHAR(100) FK | Both | `racecards[].runners[].horse_id` | 100% | Foreign key to ra_horses |
 | **racing_api_horse_id** | VARCHAR(100) | Both | Same as above | 100% | Explicit copy |
@@ -312,7 +312,7 @@ This document provides a comprehensive mapping of all database fields in the Dar
 | **created_at** | TIMESTAMP | Generated | 100% | First seen |
 | **updated_at** | TIMESTAMP | Generated | 100% | Last updated |
 
-**Note**: Pedigree data (sire, dam, damsire) is stored in ra_runners table, not here
+**Note**: Pedigree data (sire, dam, damsire) is stored in ra_mst_runners table, not here
 
 ---
 
@@ -329,7 +329,7 @@ This document provides a comprehensive mapping of all database fields in the Dar
 | **created_at** | TIMESTAMP | Generated | 100% | First seen |
 | **updated_at** | TIMESTAMP | Generated | 100% | Last updated |
 
-**Future Enhancement**: Can aggregate career statistics from ra_runners
+**Future Enhancement**: Can aggregate career statistics from ra_mst_runners
 
 ---
 
@@ -346,7 +346,7 @@ This document provides a comprehensive mapping of all database fields in the Dar
 | **created_at** | TIMESTAMP | Generated | 100% | First seen |
 | **updated_at** | TIMESTAMP | Generated | 100% | Last updated |
 
-**Future Enhancement**: Can aggregate career statistics from ra_runners
+**Future Enhancement**: Can aggregate career statistics from ra_mst_runners
 
 ---
 
@@ -389,14 +389,14 @@ These fields are NOT directly in the API but can be calculated from reference ta
 
 | Metric | Calculation | Source Tables | Formula |
 |--------|-------------|---------------|---------|
-| **total_races** | COUNT | ra_runners | `COUNT(*) WHERE horse_id = X` |
-| **total_wins** | COUNT | ra_runners | `COUNT(*) WHERE horse_id = X AND position = 1` |
-| **total_places** | COUNT | ra_runners | `COUNT(*) WHERE horse_id = X AND position IN (1,2,3)` |
-| **win_rate** | PERCENTAGE | ra_runners | `(total_wins / total_races) * 100` |
-| **place_rate** | PERCENTAGE | ra_runners | `(total_places / total_races) * 100` |
-| **avg_finish_position** | AVG | ra_runners | `AVG(position) WHERE position IS NOT NULL` |
-| **days_since_last_run** | DATE_DIFF | ra_runners | `CURRENT_DATE - MAX(race_date)` |
-| **total_earnings** | SUM | ra_runners | `SUM(prize_won)` |
+| **total_races** | COUNT | ra_mst_runners | `COUNT(*) WHERE horse_id = X` |
+| **total_wins** | COUNT | ra_mst_runners | `COUNT(*) WHERE horse_id = X AND position = 1` |
+| **total_places** | COUNT | ra_mst_runners | `COUNT(*) WHERE horse_id = X AND position IN (1,2,3)` |
+| **win_rate** | PERCENTAGE | ra_mst_runners | `(total_wins / total_races) * 100` |
+| **place_rate** | PERCENTAGE | ra_mst_runners | `(total_places / total_races) * 100` |
+| **avg_finish_position** | AVG | ra_mst_runners | `AVG(position) WHERE position IS NOT NULL` |
+| **days_since_last_run** | DATE_DIFF | ra_mst_runners | `CURRENT_DATE - MAX(race_date)` |
+| **total_earnings** | SUM | ra_mst_runners | `SUM(prize_won)` |
 
 ### Context-Specific Performance
 
@@ -744,8 +744,8 @@ SELECT
     AVG(r.position) FILTER (WHERE r.position IS NOT NULL) AS avg_finish,
     MAX(races.race_date) AS last_run_date
 FROM ra_horses h
-LEFT JOIN ra_runners r ON h.horse_id = r.horse_id
-LEFT JOIN ra_races races ON r.race_id = races.race_id
+LEFT JOIN ra_mst_runners r ON h.horse_id = r.horse_id
+LEFT JOIN ra_mst_races races ON r.race_id = races.race_id
 WHERE h.horse_id = 'hrs_12345678'
 GROUP BY h.horse_id, h.name;
 ```
@@ -763,8 +763,8 @@ SELECT
         NULLIF(COUNT(*), 0) * 100,
         2
     ) AS course_win_rate
-FROM ra_runners r
-JOIN ra_races races ON r.race_id = races.race_id
+FROM ra_mst_runners r
+JOIN ra_mst_races races ON r.race_id = races.race_id
 JOIN ra_courses c ON races.course_id = c.course_id
 WHERE r.horse_id = 'hrs_12345678'
   AND c.course_id = 'crs_12345'
@@ -784,8 +784,8 @@ SELECT
     r.starting_price,
     j.name AS jockey_name,
     t.name AS trainer_name
-FROM ra_runners r
-JOIN ra_races races ON r.race_id = races.race_id
+FROM ra_mst_runners r
+JOIN ra_mst_races races ON r.race_id = races.race_id
 LEFT JOIN ra_jockeys j ON r.jockey_id = j.jockey_id
 LEFT JOIN ra_trainers t ON r.trainer_id = t.trainer_id
 WHERE r.horse_id = 'hrs_12345678'
@@ -809,7 +809,7 @@ SELECT
         2
     ) AS win_rate,
     SUM(r.prize_won) AS total_prize_money
-FROM ra_runners r
+FROM ra_mst_runners r
 JOIN ra_jockeys j ON r.jockey_id = j.jockey_id
 JOIN ra_trainers t ON r.trainer_id = t.trainer_id
 WHERE r.jockey_id = 'jky_12345'
@@ -843,10 +843,10 @@ SELECT
     r.form,
     r.comment,
     -- Calculated stats (would need subqueries or joins)
-    (SELECT COUNT(*) FROM ra_runners r2 WHERE r2.horse_id = r.horse_id) AS total_races,
-    (SELECT COUNT(*) FROM ra_runners r2 WHERE r2.horse_id = r.horse_id AND r2.position = 1) AS total_wins
-FROM ra_runners r
-JOIN ra_races races ON r.race_id = races.race_id
+    (SELECT COUNT(*) FROM ra_mst_runners r2 WHERE r2.horse_id = r.horse_id) AS total_races,
+    (SELECT COUNT(*) FROM ra_mst_runners r2 WHERE r2.horse_id = r.horse_id AND r2.position = 1) AS total_wins
+FROM ra_mst_runners r
+JOIN ra_mst_races races ON r.race_id = races.race_id
 JOIN ra_horses h ON r.horse_id = h.horse_id
 LEFT JOIN ra_jockeys j ON r.jockey_id = j.jockey_id
 LEFT JOIN ra_trainers t ON r.trainer_id = t.trainer_id
@@ -864,10 +864,10 @@ def get_runner_with_stats(runner_id):
     """Get runner with calculated stats for API response"""
 
     # Fetch base runner data
-    runner = supabase.table('ra_runners').select('*').eq('runner_id', runner_id).single().execute()
+    runner = supabase.table('ra_mst_runners').select('*').eq('runner_id', runner_id).single().execute()
 
     # Fetch race data
-    race = supabase.table('ra_races').select('*').eq('race_id', runner.data['race_id']).single().execute()
+    race = supabase.table('ra_mst_races').select('*').eq('race_id', runner.data['race_id']).single().execute()
 
     # Calculate career stats
     career_stats = calculate_career_stats(runner.data['horse_id'])

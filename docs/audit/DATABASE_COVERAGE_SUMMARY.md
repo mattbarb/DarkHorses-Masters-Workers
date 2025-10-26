@@ -75,7 +75,7 @@
 
 ### 3. RACING DATA TABLES 🟡
 
-#### ra_races
+#### ra_mst_races
 - **Records:** 136,448
 - **Status:** ✅ **PRIMARY TABLE** - Fully populated
 - **Date Range:** 2015-01-01 to 2025-10-07
@@ -105,7 +105,7 @@
 
 ---
 
-#### ra_runners
+#### ra_mst_runners
 - **Records:** 377,713
 - **Status:** ⚠️ **PARTIALLY POPULATED**
 - **Issue:** Average 2.8 runners per race (expected 8-12)
@@ -132,17 +132,17 @@ This suggests one of two scenarios:
 - **Status:** ❌ **EMPTY TABLE**
 - **Issue:** Table completely empty
 - **Known Reason:** See CODE_CLEANUP_COMPLETED.md - table schema doesn't match API data
-- **Current Solution:** Results data stored in ra_races instead
+- **Current Solution:** Results data stored in ra_mst_races instead
 
 **Background:**
-Per previous audits, `ra_results` table has schema mismatch with API response. The results_fetcher.py was modified to skip inserting to this table and instead populates ra_races with result data.
+Per previous audits, `ra_results` table has schema mismatch with API response. The results_fetcher.py was modified to skip inserting to this table and instead populates ra_mst_races with result data.
 
 **Decision Needed:**
 1. **Option A:** Drop ra_results table (not being used)
 2. **Option B:** Fix schema and populate it properly
-3. **Option C:** Keep as-is (data in ra_races is sufficient)
+3. **Option C:** Keep as-is (data in ra_mst_races is sufficient)
 
-**Recommendation:** Option C - Current approach works. The ra_results table overlaps significantly with ra_races anyway.
+**Recommendation:** Option C - Current approach works. The ra_results table overlaps significantly with ra_mst_races anyway.
 
 ---
 
@@ -164,7 +164,7 @@ Per previous audits, `ra_results` table has schema mismatch with API response. T
 |-------|----------|--------|
 | **ra_horse_pedigree empty** | 🔴 HIGH | No sire/dam data available |
 | **Low runner count** | 🟡 MEDIUM | Only 31% of expected runners |
-| **ra_results empty** | 🟢 LOW | Data available in ra_races |
+| **ra_results empty** | 🟢 LOW | Data available in ra_mst_races |
 
 ---
 
@@ -209,7 +209,7 @@ Per previous audits, `ra_results` table has schema mismatch with API response. T
 
 3. **Historical Results (if needed)**
    - ra_results table empty
-   - However, result data may be in ra_races api_data JSONB field
+   - However, result data may be in ra_mst_races api_data JSONB field
 
 ---
 
@@ -289,7 +289,7 @@ Per previous audits, `ra_results` table has schema mismatch with API response. T
    - Cannot analyze breeding patterns
 
 7. **Race Results**
-   - ⚠️ May be available in ra_races.api_data JSONB
+   - ⚠️ May be available in ra_mst_races.api_data JSONB
    - Not in dedicated ra_results table
    - Requires JSONB queries
 
@@ -301,11 +301,11 @@ Per previous audits, `ra_results` table has schema mismatch with API response. T
 
 1. **Investigate Low Runner Count** ⚠️
    ```sql
-   -- Check if race_date is populated in ra_runners
+   -- Check if race_date is populated in ra_mst_runners
    SELECT COUNT(*) as total,
           COUNT(race_date) as with_date,
           COUNT(*) - COUNT(race_date) as missing_date
-   FROM ra_runners;
+   FROM ra_mst_runners;
    ```
 
    **Action:** If race_date is NULL, this explains the low count (year filtering excludes them)
@@ -374,8 +374,8 @@ The database has **excellent race coverage** and **good entity data**, but is mi
 
 | Table | Records | Status |
 |-------|---------|--------|
-| ra_races | 136,448 | ✅ Complete |
-| ra_runners | 377,713 | ⚠️ Partial (31%) |
+| ra_mst_races | 136,448 | ✅ Complete |
+| ra_mst_runners | 377,713 | ⚠️ Partial (31%) |
 | ra_horses | 111,325 | ✅ Complete |
 | ra_owners | 48,053 | ✅ Complete |
 | ra_jockeys | 3,478 | ✅ Complete |
@@ -386,7 +386,7 @@ The database has **excellent race coverage** and **good entity data**, but is mi
 | ra_results | 0 | ❌ Empty |
 
 **Date Range:** 2015-01-01 to 2025-10-07 (11 years)
-**Primary Table:** ra_races (136,448 records)
+**Primary Table:** ra_mst_races (136,448 records)
 **Coverage:** UK and Ireland racing only
 
 ---

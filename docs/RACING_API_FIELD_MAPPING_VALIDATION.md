@@ -26,8 +26,8 @@
 | ra_mst_regions | UNKNOWN | 2 |
 | ra_mst_sires | entity_extractor.py | 1 |
 | ra_mst_trainers | entity_extractor.py | 3 |
-| ra_races | races_fetcher.py + results_fetcher.py | 46 |
-| ra_runners | races_fetcher.py + results_fetcher.py | 53 |
+| ra_mst_races | races_fetcher.py + results_fetcher.py | 46 |
+| ra_mst_runners | races_fetcher.py + results_fetcher.py | 53 |
 
 ## Detailed Table Analysis
 
@@ -181,16 +181,16 @@
 **Partially Populated Fields:**
 - `location` - 46.6% population
 
-## ra_race_results
+## ra_mst_race_results
 
 **Status:** ⚠️ Table exists but NOT IMPLEMENTED
 
 **Implementation Notes:**
 - This table is defined in database but not currently populated
-- Position data is stored in `ra_runners` table instead
+- Position data is stored in `ra_mst_runners` table instead
 - May be implemented in future for separate results tracking
 
-## ra_races
+## ra_mst_races
 
 **Total Columns:** 46
 **Racing API Columns:** 46
@@ -266,7 +266,7 @@
 - `jumps` - 3.3% population
 - ... and 14 more
 
-## ra_runners
+## ra_mst_runners
 
 **Total Columns:** 53
 **Racing API Columns:** 53
@@ -362,7 +362,7 @@
 
 **Total Critical Issues:** 14
 
-### ra_races
+### ra_mst_races
 
 **race_number** (0% populated)
 - **API Source:** `/v1/racecards/pro -> races[]`
@@ -394,7 +394,7 @@
 - **Field Path:** `response.races[].meet_id`
 - **Recommendation:** Verify if field exists in API response. May require API endpoint update or field mapping fix.
 
-### ra_runners
+### ra_mst_runners
 
 **headgear_run** (0% populated)
 - **API Source:** `/v1/racecards/pro OR /v1/results`
@@ -478,8 +478,8 @@ Some fields have lower population rates due to regional differences:
 **Overall Coverage:** 39.8% of Racing API fields are fully captured (≥95% population)
 
 **Strengths:**
-- ✅ Core race data (ra_races) - Excellent coverage of essential fields
-- ✅ Runner data (ra_runners) - Comprehensive capture of race entries
+- ✅ Core race data (ra_mst_races) - Excellent coverage of essential fields
+- ✅ Runner data (ra_mst_runners) - Comprehensive capture of race entries
 - ✅ Master entities (horses, jockeys, trainers, owners) - Complete ID and name capture
 - ✅ Pedigree data (ra_horse_pedigree) - 100% capture for enriched horses
 
@@ -618,7 +618,7 @@ After implementing fixes:
      COUNT(starting_price_decimal) as sp_decimal_count,
      COUNT(race_comment) as comment_count,
      COUNT(jockey_silk_url) as silk_count
-   FROM ra_runners
+   FROM ra_mst_runners
    WHERE result_updated_at IS NOT NULL;
    -- Should show >0 for all enhanced fields
    ```

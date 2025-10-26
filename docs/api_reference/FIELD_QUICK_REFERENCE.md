@@ -14,8 +14,8 @@
 | `ra_trainers` | 2,780 | Trainer reference | trainer_id, name, location |
 | `ra_owners` | 48,092 | Owner reference | owner_id, name |
 | `ra_courses` | 101 | Course reference | course_id, name, region |
-| `ra_races` | 136,648 | Race metadata | race_id, race_date, course_id, distance_meters, going, race_class |
-| `ra_runners` | 379,422 | **Core ML data** | runner_id, race_id, horse_id, position, ratings, form |
+| `ra_mst_races` | 136,648 | Race metadata | race_id, race_date, course_id, distance_meters, going, race_class |
+| `ra_mst_runners` | 379,422 | **Core ML data** | runner_id, race_id, horse_id, position, ratings, form |
 
 ---
 
@@ -135,10 +135,10 @@ SELECT
     races.race_date, races.course_id, races.distance_meters,
     races.going, races.race_class, races.surface, races.field_size
 
-FROM ra_runners r
+FROM ra_mst_runners r
 JOIN ra_horses h ON r.horse_id = h.horse_id
 LEFT JOIN ra_horse_pedigree p ON h.horse_id = p.horse_id
-JOIN ra_races races ON r.race_id = races.race_id
+JOIN ra_mst_races races ON r.race_id = races.race_id
 
 WHERE r.race_id = :race_id;
 ```
@@ -157,8 +157,8 @@ SELECT
     r.weight_lbs,
     r.jockey_name,
     r.starting_price
-FROM ra_runners r
-JOIN ra_races races ON r.race_id = races.race_id
+FROM ra_mst_runners r
+JOIN ra_mst_races races ON r.race_id = races.race_id
 WHERE r.horse_id = :horse_id
   AND r.position IS NOT NULL
 ORDER BY races.race_date DESC;
@@ -172,37 +172,37 @@ ORDER BY races.race_date DESC;
 Source data comes from the tables below.
 
 ### Career Features
-Calculate from `ra_runners`:
+Calculate from `ra_mst_runners`:
 - `total_races`, `total_wins`, `total_places`
 - `win_rate`, `place_rate`, `avg_finish_position`
 - `days_since_last_run`
 
 ### Context Features
-Calculate from `ra_runners` + `ra_races`:
+Calculate from `ra_mst_runners` + `ra_mst_races`:
 - `course_win_rate`, `course_runs`, `course_wins`
 - `distance_win_rate`, `distance_runs`, `distance_wins`
 - `surface_win_rate`, `going_win_rate`, `class_win_rate`
 
 ### Form Features
-Calculate from `ra_runners` + `ra_races`:
+Calculate from `ra_mst_runners` + `ra_mst_races`:
 - `last_5_positions` (array)
 - `last_10_positions` (array)
 - `recent_form_score` (0-100)
 
 ### Relationship Features
-Calculate from `ra_runners`:
+Calculate from `ra_mst_runners`:
 - `horse_jockey_win_rate`, `horse_jockey_runs`, `horse_jockey_wins`
 - `horse_trainer_win_rate`, `horse_trainer_runs`, `horse_trainer_wins`
 - `jockey_trainer_win_rate`
 
 ### Entry Features
-From `ra_runners` (current race):
+From `ra_mst_runners` (current race):
 - `current_weight_lbs`, `current_draw`, `current_number`
 - `current_official_rating`, `current_rpr`, `current_tsr`
 - `current_age`, `has_blinkers`
 
 ### Race Context Features
-From `ra_races`:
+From `ra_mst_races`:
 - `distance_meters`, `race_class`, `race_type`
 - `surface`, `going`, `field_size`
 

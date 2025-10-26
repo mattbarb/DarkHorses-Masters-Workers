@@ -4,7 +4,7 @@ Backfill ra_races from 2015 to present using RacesFetcher
 
 Fetches racecards from Racing API and populates:
 - ra_races (race metadata with distance_m calculated)
-- ra_runners (race entries)
+- ra_mst_runners (race entries)
 - ra_mst_* tables (via automatic entity extraction)
 
 Usage:

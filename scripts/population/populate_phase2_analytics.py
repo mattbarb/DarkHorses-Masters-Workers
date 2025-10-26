@@ -7,7 +7,7 @@ Runs all Phase 2 calculation scripts to populate derived analytics tables:
 - ra_performance_by_distance (entity performance grouped by distance)
 - ra_performance_by_venue (entity performance grouped by venue/course)
 
-These tables are calculated FROM existing ra_runners and ra_races data and
+These tables are calculated FROM existing ra_mst_runners and ra_races data and
 should be run regularly to keep statistics up to date.
 
 Phase 2 tables provide advanced analytics for:

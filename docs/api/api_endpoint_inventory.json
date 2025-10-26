@@ -59,7 +59,7 @@
     },
     "all_tested": true,
     "all_successful": true,
-    "recommendation": "Query on-demand only - data already in ra_runners"
+    "recommendation": "Query on-demand only - data already in ra_mst_runners"
   },
   "analysis_endpoints": {
     "description": "Calculated performance statistics",
@@ -88,6 +88,6 @@
     "all_tested": true,
     "all_successful": true,
     "total_endpoints": 14,
-    "recommendation": "Calculate locally from ra_runners - don't store API data"
+    "recommendation": "Calculate locally from ra_mst_runners - don't store API data"
   }
 }

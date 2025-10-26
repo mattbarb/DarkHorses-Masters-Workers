@@ -71,7 +71,7 @@ class ValidationReportGenerator:
         logger.info("\nPhase 2: Verifying data in database...")
 
         # Get the most recent races (the ones we just inserted)
-        recent_races = self.db_client.client.table('ra_races').select('*').order('created_at', desc=True).limit(5).execute()
+        recent_races = self.db_client.client.table('ra_mst_races').select('*').order('created_at', desc=True).limit(5).execute()
 
         if not recent_races.data:
             logger.error("No races found in database!")
@@ -92,12 +92,12 @@ class ValidationReportGenerator:
             'Race data'
         )
 
-        # Validate ra_runners
+        # Validate ra_mst_runners
         race_id = recent_races.data[0]['id']
-        runners = self.db_client.client.table('ra_runners').select('*').eq('race_id', race_id).limit(1).execute()
+        runners = self.db_client.client.table('ra_mst_runners').select('*').eq('race_id', race_id).limit(1).execute()
         if runners.data:
-            reports['ra_runners'] = self._validate_table_and_generate_report(
-                'ra_runners',
+            reports['ra_mst_runners'] = self._validate_table_and_generate_report(
+                'ra_mst_runners',
                 runners.data[0],
                 'Runner data'
             )
@@ -331,13 +331,13 @@ class ValidationReportGenerator:
 
         # Delete runners first (child table)
         for race_id in self.test_race_ids:
-            result = self.db_client.client.table('ra_runners').delete().eq('race_id', race_id).execute()
+            result = self.db_client.client.table('ra_mst_runners').delete().eq('race_id', race_id).execute()
             if result.data:
                 total_deleted += len(result.data)
 
         # Delete races (parent table)
         for race_id in self.test_race_ids:
-            result = self.db_client.client.table('ra_races').delete().eq('id', race_id).execute()
+            result = self.db_client.client.table('ra_mst_races').delete().eq('id', race_id).execute()
             if result.data:
                 total_deleted += len(result.data)
 

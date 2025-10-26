@@ -46,7 +46,7 @@ tables:
   ra_entity_combinations:
     name: "Jockey-Trainer Partnerships"
     phase: 1
-    data_source: "ra_runners (aggregated)"
+    data_source: "ra_mst_runners (aggregated)"
     update_frequency: "daily"
     calculation_time: "2-5 minutes"
     records_expected: "200-500 partnerships"
@@ -54,7 +54,7 @@ tables:
   ra_runner_statistics:
     name: "Runner Performance Metrics"
     phase: 2
-    data_source: "ra_runners + ra_races (aggregated)"
+    data_source: "ra_mst_runners + ra_mst_races (aggregated)"
     update_frequency: "daily"
     calculation_time: "5-8 minutes"
     records_expected: "50K-100K runners"
@@ -63,7 +63,7 @@ tables:
   ra_performance_by_distance:
     name: "Distance-Based Performance"
     phase: 2
-    data_source: "ra_runners + ra_races (aggregated)"
+    data_source: "ra_mst_runners + ra_mst_races (aggregated)"
     update_frequency: "daily"
     calculation_time: "5-8 minutes"
     records_expected: "5K-15K records"
@@ -72,7 +72,7 @@ tables:
   ra_performance_by_venue:
     name: "Venue-Based Performance (Course Specialists)"
     phase: 2
-    data_source: "ra_runners + ra_races (aggregated)"
+    data_source: "ra_mst_runners + ra_mst_races (aggregated)"
     update_frequency: "daily"
     calculation_time: "5-8 minutes"
     records_expected: "3K-10K records"
@@ -95,8 +95,8 @@ dependencies:
   racing_api_fetch:
     description: "Calculated tables depend on Racing API data"
     required_tables:
-      - ra_runners
-      - ra_races
+      - ra_mst_runners
+      - ra_mst_races
       - ra_odds_live
     must_complete_before: "calculated_tables"
 

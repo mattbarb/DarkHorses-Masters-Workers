@@ -137,7 +137,7 @@ python3 agents/pedigree_statistics_agent.py --continuous --interval 168  # Weekl
 ### Integration with Main System
 
 The agent operates independently but uses the same database as the main fetchers:
-- **Reads from:** `ra_mst_horses`, `ra_runners`, `ra_races`
+- **Reads from:** `ra_mst_horses`, `ra_mst_runners`, `ra_races`
 - **Writes to:** `ra_mst_sires`, `ra_mst_dams`, `ra_mst_damsires`
 
 Can run concurrently with fetchers (uses database-level locking).
@@ -150,7 +150,7 @@ Can run concurrently with fetchers (uses database-level locking).
 - Run specific tables instead of all at once
 
 **Missing data:**
-- Ensure fetchers have populated `ra_runners` and `ra_races`
+- Ensure fetchers have populated `ra_mst_runners` and `ra_races`
 - Check that horses have pedigree IDs populated
 
 **Errors:**

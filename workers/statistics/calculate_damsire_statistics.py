@@ -4,7 +4,7 @@ Calculate Damsire Statistics from Database
 ===========================================
 
 Populates ra_damsire_stats table with comprehensive statistics calculated from
-historical race data in ra_runners + ra_races + ra_rel_pedigree tables.
+historical race data in ra_mst_runners + ra_races + ra_rel_pedigree tables.
 
 Statistics Calculated:
 ----------------------
@@ -26,7 +26,7 @@ Data Sources:
 -------------
 - ra_mst_damsires: List of all damsires
 - ra_rel_pedigree: Horse-to-damsire relationships
-- ra_runners: Race performance data
+- ra_mst_runners: Race performance data
 - ra_races: Race dates and metadata
 
 Usage:
@@ -81,11 +81,11 @@ class DamsireStatisticsCalculator:
         """
         Calculate damsire's own racing career statistics
 
-        Query ra_runners where horse_id = damsire_id (the damsire raced as a horse)
+        Query ra_mst_runners where horse_id = damsire_id (the damsire raced as a horse)
         """
         try:
             # Get all races where this damsire raced
-            runners = self.db_client.client.table('ra_runners')\
+            runners = self.db_client.client.table('ra_mst_runners')\
                 .select('position, prize_won, race_id')\
                 .eq('horse_id', damsire_id)\
                 .execute()
@@ -105,7 +105,7 @@ class DamsireStatisticsCalculator:
             # Get race dates
             race_ids = [r['race_id'] for r in runners.data if r.get('race_id')]
             if race_ids:
-                races = self.db_client.client.table('ra_races')\
+                races = self.db_client.client.table('ra_mst_races')\
                     .select('id, date')\
                     .in_('id', race_ids)\
                     .execute()
@@ -167,7 +167,7 @@ class DamsireStatisticsCalculator:
         Calculate grandoffspring (maternal grandchildren) performance statistics
 
         Query ra_rel_pedigree to find all horses with this damsire,
-        then aggregate their race performance from ra_runners
+        then aggregate their race performance from ra_mst_runners
         """
         try:
             # Find all grandoffspring (horses with this damsire)
@@ -192,7 +192,7 @@ class DamsireStatisticsCalculator:
             total_grandoffspring = len(grandoffspring_ids)
 
             # Get all races for these grandoffspring
-            runners = self.db_client.client.table('ra_runners')\
+            runners = self.db_client.client.table('ra_mst_runners')\
                 .select('position, prize_won')\
                 .in_('horse_id', grandoffspring_ids)\
                 .execute()

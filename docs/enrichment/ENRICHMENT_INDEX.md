@@ -93,7 +93,7 @@
 ### 📊 What Should Be Calculated
 
 **Entity Statistics:**
-- Calculate from `ra_runners` table (zero API calls)
+- Calculate from `ra_mst_runners` table (zero API calls)
 - Use migration 007 views and functions
 - Saves 100,000+ API calls per day
 - Full control and customization
@@ -184,7 +184,7 @@
 **Read:** Complete Analysis + Test Results
 **Focus:**
 - Only horses have additional API data
-- Entity statistics calculated from `ra_runners`
+- Entity statistics calculated from `ra_mst_runners`
 - Use statistics views for analysis
 - Raw test data available in JSON
 
@@ -201,13 +201,13 @@
 **→ No** - See: Executive Summary section "What Doesn't Exist"
 - API doesn't provide individual jockey Pro endpoints
 - Only results and analysis endpoints available
-- Results redundant (we have ra_runners)
+- Results redundant (we have ra_mst_runners)
 - Analysis should be calculated locally
 
 ### Q: What about trainer enrichment?
 **→ No** - See: Quick Reference "Trainers - NO INDIVIDUAL ENDPOINT"
 - Same as jockeys - no Pro endpoint exists
-- Calculate statistics locally from ra_runners
+- Calculate statistics locally from ra_mst_runners
 - Use migration 007 views and functions
 
 ### Q: Should we store the analysis endpoints?

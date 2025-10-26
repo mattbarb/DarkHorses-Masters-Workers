@@ -102,11 +102,11 @@ All successful insertions were in tables where the **ID column is VARCHAR** (not
 3. ❌ `ra_odds_live` - BIGINT id
 4. ❌ `ra_performance_by_distance` - BIGINT id
 5. ❌ `ra_performance_by_venue` - BIGINT id
-6. ❌ `ra_race_results` - BIGINT id
+6. ❌ `ra_mst_race_results` - BIGINT id
 7. ❌ `ra_runner_odds` - BIGINT id
 8. ❌ `ra_runner_statistics` - BIGINT id
 9. ❌ `ra_runner_supplementary` - BIGINT id
-10. ❌ `ra_runners` - BIGINT id
+10. ❌ `ra_mst_runners` - BIGINT id
 
 **Example Schema:**
 ```python
@@ -169,7 +169,7 @@ def generate_test_value(self, column_name: str, data_type: str) -> Any:
 
 **Affected Tables:**
 1. ❌ `ra_odds_historical` - Has TIME column(s)
-2. ❌ `ra_races` - Has TIME column(s)
+2. ❌ `ra_mst_races` - Has TIME column(s)
 
 **Fix Required:**
 ```python
@@ -260,14 +260,14 @@ The analysis successfully processed **4,451,256 rows** across **23 tables** with
 1. ⚠️ `ra_mst_dams` - 48,372 rows, 47 columns
 2. ⚠️ `ra_mst_damsires` - 3,041 rows, 47 columns
 3. ⚠️ `ra_mst_sires` - 2,143 rows, 47 columns
-4. ⚠️ `ra_races` - 137,035 rows, 48 columns
-5. ⚠️ `ra_runners` - 1,327,102 rows, 57 columns
+4. ⚠️ `ra_mst_races` - 137,035 rows, 48 columns
+5. ⚠️ `ra_mst_runners` - 1,327,102 rows, 57 columns
 
 #### EMPTY Tables (7 tables - Not Yet Populated)
 1. ❌ `ra_entity_combinations` - 0 rows
 2. ❌ `ra_performance_by_distance` - 0 rows
 3. ❌ `ra_performance_by_venue` - 0 rows
-4. ❌ `ra_race_results` - 0 rows
+4. ❌ `ra_mst_race_results` - 0 rows
 5. ❌ `ra_runner_odds` - 0 rows
 6. ❌ `ra_runner_statistics` - 0 rows
 7. ❌ `ra_runner_supplementary` - 0 rows
@@ -428,7 +428,7 @@ With these changes implemented, the success rate should increase to:
 - `ra_odds_historical` - 2.4M rows, all 36 columns well-populated
 
 **Largest Table:**
-- `ra_runners` - 1.3M rows, 57 columns
+- `ra_mst_runners` - 1.3M rows, 57 columns
 
 **Most Columns:**
 - `ra_runner_statistics` - 60 columns (but currently empty)

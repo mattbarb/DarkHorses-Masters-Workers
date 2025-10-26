@@ -13,7 +13,7 @@ After comprehensive research of The Racing API, actual API responses, and existi
 1. **Current State:** We capture only 3 basic jockey fields (ID, name, claim)
 2. **Available Data:** API provides minimal jockey-specific data
 3. **Key Finding:** **No dedicated jockey profile/statistics endpoints exist**
-4. **Recommendation:** Jockey enrichment must come from **aggregating race participation data** (ra_runners)
+4. **Recommendation:** Jockey enrichment must come from **aggregating race participation data** (ra_mst_runners)
 
 ---
 
@@ -228,7 +228,7 @@ updated_at      TIMESTAMP
 **Calculated Statistics Fields (Migration 007):**
 ```sql
 -- Career Statistics
-total_rides         INTEGER        -- Calculated from ra_runners
+total_rides         INTEGER        -- Calculated from ra_mst_runners
 total_wins          INTEGER        -- Position = 1
 total_places        INTEGER        -- Position <= 3
 total_seconds       INTEGER        -- Position = 2
@@ -252,7 +252,7 @@ SELECT
     ROUND(100.0 * COUNT(CASE WHEN r.position = 1 THEN 1 END) / NULLIF(COUNT(r.runner_id), 0), 2) as calculated_win_rate,
     ROUND(100.0 * COUNT(CASE WHEN r.position <= 3 THEN 1 END) / NULLIF(COUNT(r.runner_id), 0), 2) as calculated_place_rate
 FROM ra_jockeys j
-LEFT JOIN ra_runners r ON r.jockey_id = j.jockey_id AND r.position IS NOT NULL
+LEFT JOIN ra_mst_runners r ON r.jockey_id = j.jockey_id AND r.position IS NOT NULL
 GROUP BY j.jockey_id, j.name;
 ```
 
@@ -261,13 +261,13 @@ GROUP BY j.jockey_id, j.name;
 SELECT * FROM update_entity_statistics();
 ```
 
-This function updates all jockey statistics from ra_runners data.
+This function updates all jockey statistics from ra_mst_runners data.
 
 ---
 
 ## Section 5: Runner Data Analysis
 
-### Fields Available in ra_runners (Jockey Context)
+### Fields Available in ra_mst_runners (Jockey Context)
 
 From `fetchers/races_fetcher.py` transformation:
 
@@ -380,8 +380,8 @@ SELECT
     COUNT(CASE WHEN race.race_date >= CURRENT_DATE - 14 AND r.position = 1 THEN 1 END) as recent_14d_wins,
     -- Similar for 30-day
 FROM ra_jockeys j
-LEFT JOIN ra_runners r ON r.jockey_id = j.jockey_id
-LEFT JOIN ra_races race ON race.race_id = r.race_id
+LEFT JOIN ra_mst_runners r ON r.jockey_id = j.jockey_id
+LEFT JOIN ra_mst_races race ON race.race_id = r.race_id
 GROUP BY j.jockey_id;
 ```
 
@@ -408,8 +408,8 @@ SELECT
     SUM(r.prize_money_won) as total_prize_money,
     SUM(CASE WHEN race.race_date >= CURRENT_DATE - 30 THEN r.prize_money_won ELSE 0 END) as recent_30d_prize_money
 FROM ra_jockeys j
-LEFT JOIN ra_runners r ON r.jockey_id = j.jockey_id AND r.position = 1  -- Winners only
-LEFT JOIN ra_races race ON race.race_id = r.race_id
+LEFT JOIN ra_mst_runners r ON r.jockey_id = j.jockey_id AND r.position = 1  -- Winners only
+LEFT JOIN ra_mst_races race ON race.race_id = r.race_id
 GROUP BY j.jockey_id;
 ```
 
@@ -467,8 +467,8 @@ CREATE TABLE ra_jockey_context_stats (
 ```sql
 -- Win rate on All-Weather vs. Turf
 SELECT surface, COUNT(*), COUNT(CASE WHEN position = 1 THEN 1 END)
-FROM ra_runners r
-JOIN ra_races rc ON rc.race_id = r.race_id
+FROM ra_mst_runners r
+JOIN ra_mst_races rc ON rc.race_id = r.race_id
 WHERE jockey_id = 'jky_250764'
 GROUP BY surface;
 
@@ -481,8 +481,8 @@ SELECT
     END as distance_band,
     COUNT(*) as rides,
     COUNT(CASE WHEN position = 1 THEN 1 END) as wins
-FROM ra_runners r
-JOIN ra_races rc ON rc.race_id = r.race_id
+FROM ra_mst_runners r
+JOIN ra_mst_races rc ON rc.race_id = r.race_id
 WHERE r.jockey_id = 'jky_250764'
 GROUP BY distance_band;
 ```
@@ -505,7 +505,7 @@ SELECT
     COUNT(*) as rides_together,
     COUNT(CASE WHEN r.position = 1 THEN 1 END) as wins_together,
     ROUND(100.0 * COUNT(CASE WHEN r.position = 1 THEN 1 END) / COUNT(*), 2) as partnership_win_rate
-FROM ra_runners r
+FROM ra_mst_runners r
 WHERE r.jockey_id = 'jky_250764'
 GROUP BY r.jockey_id, r.trainer_id
 HAVING COUNT(*) >= 5  -- Minimum 5 rides together
@@ -519,7 +519,7 @@ SELECT
     COUNT(*) as rides_together,
     COUNT(CASE WHEN r.position = 1 THEN 1 END) as wins_together,
     ROUND(100.0 * COUNT(CASE WHEN r.position = 1 THEN 1 END) / COUNT(*), 2) as partnership_win_rate
-FROM ra_runners r
+FROM ra_mst_runners r
 JOIN ra_horses h ON h.horse_id = r.horse_id
 WHERE r.jockey_id = 'jky_250764'
 GROUP BY r.jockey_id, r.horse_id, h.name
@@ -749,40 +749,40 @@ BEGIN
         -- NEW: Recent form stats
         recent_14d_rides = (
             SELECT COUNT(*)
-            FROM ra_runners r
-            JOIN ra_races rc ON rc.race_id = r.race_id
+            FROM ra_mst_runners r
+            JOIN ra_mst_races rc ON rc.race_id = r.race_id
             WHERE r.jockey_id = j.jockey_id
               AND rc.race_date >= CURRENT_DATE - INTERVAL '14 days'
               AND r.position IS NOT NULL
         ),
         recent_14d_wins = (
             SELECT COUNT(*)
-            FROM ra_runners r
-            JOIN ra_races rc ON rc.race_id = r.race_id
+            FROM ra_mst_runners r
+            JOIN ra_mst_races rc ON rc.race_id = r.race_id
             WHERE r.jockey_id = j.jockey_id
               AND rc.race_date >= CURRENT_DATE - INTERVAL '14 days'
               AND r.position = 1
         ),
         recent_30d_rides = (
             SELECT COUNT(*)
-            FROM ra_runners r
-            JOIN ra_races rc ON rc.race_id = r.race_id
+            FROM ra_mst_runners r
+            JOIN ra_mst_races rc ON rc.race_id = r.race_id
             WHERE r.jockey_id = j.jockey_id
               AND rc.race_date >= CURRENT_DATE - INTERVAL '30 days'
               AND r.position IS NOT NULL
         ),
         recent_30d_wins = (
             SELECT COUNT(*)
-            FROM ra_runners r
-            JOIN ra_races rc ON rc.race_id = r.race_id
+            FROM ra_mst_runners r
+            JOIN ra_mst_races rc ON rc.race_id = r.race_id
             WHERE r.jockey_id = j.jockey_id
               AND rc.race_date >= CURRENT_DATE - INTERVAL '30 days'
               AND r.position = 1
         ),
         last_ride_date = (
             SELECT MAX(rc.race_date)
-            FROM ra_runners r
-            JOIN ra_races rc ON rc.race_id = r.race_id
+            FROM ra_mst_runners r
+            JOIN ra_mst_races rc ON rc.race_id = r.race_id
             WHERE r.jockey_id = j.jockey_id
         ),
 
@@ -857,8 +857,8 @@ BEGIN
         ROUND(100.0 * COUNT(CASE WHEN r.position = 1 THEN 1 END) / COUNT(*), 2) as win_rate,
         ROUND(100.0 * COUNT(CASE WHEN r.position <= 3 THEN 1 END) / COUNT(*), 2) as place_rate,
         ROUND(AVG(r.position), 2) as avg_finishing_position
-    FROM ra_runners r
-    JOIN ra_races rc ON rc.race_id = r.race_id
+    FROM ra_mst_runners r
+    JOIN ra_mst_races rc ON rc.race_id = r.race_id
     WHERE r.position IS NOT NULL AND rc.surface IS NOT NULL
     GROUP BY r.jockey_id, rc.surface
     HAVING COUNT(*) >= 5;  -- Minimum 5 rides for statistical significance
@@ -882,8 +882,8 @@ BEGIN
         ROUND(100.0 * COUNT(CASE WHEN r.position = 1 THEN 1 END) / COUNT(*), 2) as win_rate,
         ROUND(100.0 * COUNT(CASE WHEN r.position <= 3 THEN 1 END) / COUNT(*), 2) as place_rate,
         ROUND(AVG(r.position), 2) as avg_finishing_position
-    FROM ra_runners r
-    JOIN ra_races rc ON rc.race_id = r.race_id
+    FROM ra_mst_runners r
+    JOIN ra_mst_races rc ON rc.race_id = r.race_id
     WHERE r.position IS NOT NULL AND rc.distance_meters IS NOT NULL
     GROUP BY r.jockey_id, context_value
     HAVING COUNT(*) >= 5;
@@ -900,8 +900,8 @@ BEGIN
         ROUND(100.0 * COUNT(CASE WHEN r.position = 1 THEN 1 END) / COUNT(*), 2) as win_rate,
         ROUND(100.0 * COUNT(CASE WHEN r.position <= 3 THEN 1 END) / COUNT(*), 2) as place_rate,
         ROUND(AVG(r.position), 2) as avg_finishing_position
-    FROM ra_runners r
-    JOIN ra_races rc ON rc.race_id = r.race_id
+    FROM ra_mst_runners r
+    JOIN ra_mst_races rc ON rc.race_id = r.race_id
     WHERE r.position IS NOT NULL AND rc.race_class IS NOT NULL
     GROUP BY r.jockey_id, rc.race_class
     HAVING COUNT(*) >= 5;
@@ -918,8 +918,8 @@ BEGIN
         ROUND(100.0 * COUNT(CASE WHEN r.position = 1 THEN 1 END) / COUNT(*), 2) as win_rate,
         ROUND(100.0 * COUNT(CASE WHEN r.position <= 3 THEN 1 END) / COUNT(*), 2) as place_rate,
         ROUND(AVG(r.position), 2) as avg_finishing_position
-    FROM ra_runners r
-    JOIN ra_races rc ON rc.race_id = r.race_id
+    FROM ra_mst_runners r
+    JOIN ra_mst_races rc ON rc.race_id = r.race_id
     WHERE r.position IS NOT NULL AND rc.going IS NOT NULL
     GROUP BY r.jockey_id, rc.going
     HAVING COUNT(*) >= 5;
@@ -975,10 +975,10 @@ SELECT
     ROUND(100.0 * COUNT(CASE WHEN r.position <= 3 THEN 1 END) / COUNT(*), 2) as partnership_place_rate,
     MAX(rc.race_date) as last_ride_together,
     MIN(rc.race_date) as first_ride_together
-FROM ra_runners r
+FROM ra_mst_runners r
 JOIN ra_jockeys j ON j.jockey_id = r.jockey_id
 JOIN ra_trainers t ON t.trainer_id = r.trainer_id
-JOIN ra_races rc ON rc.race_id = r.race_id
+JOIN ra_mst_races rc ON rc.race_id = r.race_id
 WHERE r.position IS NOT NULL
 GROUP BY r.jockey_id, j.name, r.trainer_id, t.name
 HAVING COUNT(*) >= 5;  -- Minimum 5 rides together
@@ -1000,10 +1000,10 @@ SELECT
     MAX(rc.race_date) as last_ride_together,
     MIN(rc.race_date) as first_ride_together,
     CURRENT_DATE - MAX(rc.race_date) as days_since_last_ride
-FROM ra_runners r
+FROM ra_mst_runners r
 JOIN ra_jockeys j ON j.jockey_id = r.jockey_id
 JOIN ra_horses h ON h.horse_id = r.horse_id
-JOIN ra_races rc ON rc.race_id = r.race_id
+JOIN ra_mst_races rc ON rc.race_id = r.race_id
 WHERE r.position IS NOT NULL
 GROUP BY r.jockey_id, j.name, r.horse_id, h.name
 HAVING COUNT(*) >= 3;  -- Minimum 3 rides together
@@ -1197,8 +1197,8 @@ CREATE INDEX IF NOT EXISTS idx_jockeys_active ON ra_jockeys(active_last_30d) WHE
 CREATE INDEX IF NOT EXISTS idx_jockeys_last_ride ON ra_jockeys(last_ride_date DESC);
 
 -- For runner lookups
-CREATE INDEX IF NOT EXISTS idx_runners_jockey_position ON ra_runners(jockey_id, position) WHERE position IS NOT NULL;
-CREATE INDEX IF NOT EXISTS idx_runners_jockey_race ON ra_runners(jockey_id, race_id);
+CREATE INDEX IF NOT EXISTS idx_runners_jockey_position ON ra_mst_runners(jockey_id, position) WHERE position IS NOT NULL;
+CREATE INDEX IF NOT EXISTS idx_runners_jockey_race ON ra_mst_runners(jockey_id, race_id);
 
 -- For contextual stats
 CREATE INDEX IF NOT EXISTS idx_context_stats_lookup ON ra_jockey_context_stats(jockey_id, context_type, context_value);
@@ -1254,7 +1254,7 @@ CREATE INDEX IF NOT EXISTS idx_context_stats_lookup ON ra_jockey_context_stats(j
    - No individual jockey detail endpoint exists
 
 2. ✅ **Database Aggregation is Primary Enrichment Method**
-   - All meaningful jockey statistics calculated from ra_runners
+   - All meaningful jockey statistics calculated from ra_mst_runners
    - Migration 007 provides excellent foundation
    - Partnership and contextual analysis possible through joins
 
@@ -1317,10 +1317,10 @@ CREATE INDEX IF NOT EXISTS idx_context_stats_lookup ON ra_jockey_context_stats(j
 
 ## Conclusion
 
-**The Racing API provides minimal jockey-specific data.** All meaningful jockey enrichment must come from aggregating race participation data (ra_runners). The good news: we already have:
+**The Racing API provides minimal jockey-specific data.** All meaningful jockey enrichment must come from aggregating race participation data (ra_mst_runners). The good news: we already have:
 
 1. ✅ Solid foundation (Migration 007)
-2. ✅ All necessary raw data (ra_runners with jockey context)
+2. ✅ All necessary raw data (ra_mst_runners with jockey context)
 3. ✅ Working extraction and storage
 
 **Quick wins available:**

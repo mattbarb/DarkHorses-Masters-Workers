@@ -141,7 +141,7 @@ LIMIT 20;
 - Check Supabase dashboard for rate limits
 
 **Missing data?**
-- Ensure fetchers have populated `ra_runners`
+- Ensure fetchers have populated `ra_mst_runners`
 - Check pedigree IDs in `ra_mst_horses`
 
 **Need to stop?**

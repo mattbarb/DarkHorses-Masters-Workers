@@ -142,8 +142,8 @@ TABLE RECORD COUNTS
 ✅ ra_jockeys                        3,480 records
 ✅ ra_trainers                       2,780 records
 ✅ ra_owners                        48,092 records
-✅ ra_races                        136,648 records
-✅ ra_runners                      379,422 records
+✅ ra_mst_races                        136,648 records
+✅ ra_mst_runners                      379,422 records
 ✅ ra_horse_pedigree                    10 records  <-- NEW!
 ❌ ra_results                            0 records  <-- Expected (deprecated)
 

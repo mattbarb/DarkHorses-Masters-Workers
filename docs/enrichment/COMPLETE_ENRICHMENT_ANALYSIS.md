@@ -30,12 +30,12 @@
 2. **JOCKEYS, TRAINERS, OWNERS**: No individual detail endpoints exist
    - API only provides **results** endpoints (race history)
    - API provides **analysis** endpoints (performance statistics)
-   - Analysis data should be **calculated locally** from ra_runners, not stored from API
+   - Analysis data should be **calculated locally** from ra_mst_runners, not stored from API
 
 3. **Analysis Endpoints**: These are derived/calculated statistics
    - Should NOT be stored as entity enrichment
    - Can be calculated on-demand or cached locally
-   - Better to compute from our own ra_runners data
+   - Better to compute from our own ra_mst_runners data
 
 ### Total New Fields Available
 
@@ -47,7 +47,7 @@
 
 1. ✅ **COMPLETED**: Horse enrichment via `/v1/horses/{id}/pro`
 2. 🔄 **IN PROGRESS**: Horse pedigree backfill (22/111,430 complete)
-3. 📊 **CALCULATE LOCALLY**: Entity statistics from ra_runners
+3. 📊 **CALCULATE LOCALLY**: Entity statistics from ra_mst_runners
 4. ⏸️ **NOT RECOMMENDED**: Store API analysis endpoints (redundant)
 
 ---
@@ -154,7 +154,7 @@ CREATE TABLE ra_horse_pedigree (
 **Purpose:** Get complete race history for a horse
 **Status:** ✅ Tested successfully
 **Use Case:** Historical performance analysis
-**Recommendation:** Query on-demand, don't store (redundant with ra_runners)
+**Recommendation:** Query on-demand, don't store (redundant with ra_mst_runners)
 
 **Sample Response:**
 ```json
@@ -169,7 +169,7 @@ CREATE TABLE ra_horse_pedigree (
 #### 2. Horse Distance Analysis (`/v1/horses/{id}/analysis/distance-times`)
 **Purpose:** Performance statistics by distance
 **Status:** ✅ Tested successfully
-**Recommendation:** Calculate locally from ra_runners
+**Recommendation:** Calculate locally from ra_mst_runners
 
 **Sample Response:**
 ```json
@@ -203,7 +203,7 @@ CREATE TABLE ra_horse_pedigree (
 **Purpose:** Complete race history for jockey
 **Status:** ✅ Tested successfully
 **Rate Limit:** 2 requests/second
-**Recommendation:** Query on-demand (redundant with ra_runners)
+**Recommendation:** Query on-demand (redundant with ra_mst_runners)
 
 **Response:**
 ```json
@@ -225,7 +225,7 @@ All return **calculated statistics** that should be computed locally:
 | `/v1/jockeys/{id}/analysis/distances` | Performance by distance | dist, rides, wins, win_%, a/e | ❌ Calculate |
 | `/v1/jockeys/{id}/analysis/trainers` | Performance by trainer | trainer, rides, wins, win_%, a/e | ❌ Calculate |
 | `/v1/jockeys/{id}/analysis/owners` | Performance by owner | owner, rides, wins, win_%, a/e | ❌ Calculate |
-| `/v1/jockeys/{id}/results` | Race history | Full race results | ❌ Have in ra_runners |
+| `/v1/jockeys/{id}/results` | Race history | Full race results | ❌ Have in ra_mst_runners |
 
 ### Analysis Fields Example (Courses)
 
@@ -259,7 +259,7 @@ All return **calculated statistics** that should be computed locally:
 CREATE TABLE ra_jockeys (
     jockey_id VARCHAR(50) PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
-    -- Statistics fields (calculated locally from ra_runners)
+    -- Statistics fields (calculated locally from ra_mst_runners)
     total_rides INTEGER,
     total_wins INTEGER,
     total_places INTEGER,
@@ -279,7 +279,7 @@ CREATE TABLE ra_jockeys (
 
 ### Recommended Approach
 
-1. **Calculate statistics locally** from ra_runners table
+1. **Calculate statistics locally** from ra_mst_runners table
 2. Use existing migration 007 views and functions:
    - `jockey_statistics` view
    - `update_entity_statistics()` function
@@ -311,7 +311,7 @@ LIMIT 10;
 #### 1. Trainer Results (`/v1/trainers/{id}/results`)
 **Purpose:** Complete race history for trainer
 **Status:** ✅ Tested successfully
-**Recommendation:** Query on-demand (redundant with ra_runners)
+**Recommendation:** Query on-demand (redundant with ra_mst_runners)
 
 #### 2. Trainer Analysis Endpoints (6 endpoints)
 
@@ -322,7 +322,7 @@ LIMIT 10;
 | `/v1/trainers/{id}/analysis/jockeys` | Performance with jockeys | jockey, runners, wins, win_%, a/e | ❌ Calculate |
 | `/v1/trainers/{id}/analysis/owners` | Performance by owner | owner, runners, wins, win_%, a/e | ❌ Calculate |
 | `/v1/trainers/{id}/analysis/horse-age` | Performance by horse age | horse_age, runners, wins, win_% | ❌ Calculate |
-| `/v1/trainers/{id}/results` | Race history | Full race results | ❌ Have in ra_runners |
+| `/v1/trainers/{id}/results` | Race history | Full race results | ❌ Have in ra_mst_runners |
 
 ### Analysis Fields Example (Horse Age)
 
@@ -354,7 +354,7 @@ LIMIT 10;
 CREATE TABLE ra_trainers (
     trainer_id VARCHAR(50) PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
-    -- Statistics fields (calculated locally from ra_runners)
+    -- Statistics fields (calculated locally from ra_mst_runners)
     total_runners INTEGER,
     total_wins INTEGER,
     total_places INTEGER,
@@ -403,7 +403,7 @@ LIMIT 20;
 #### 1. Owner Results (`/v1/owners/{id}/results`)
 **Purpose:** Complete race history for owner
 **Status:** ✅ Tested successfully
-**Recommendation:** Query on-demand (redundant with ra_runners)
+**Recommendation:** Query on-demand (redundant with ra_mst_runners)
 
 #### 2. Owner Analysis Endpoints (4 endpoints)
 
@@ -421,7 +421,7 @@ LIMIT 20;
 CREATE TABLE ra_owners (
     owner_id VARCHAR(50) PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
-    -- Statistics fields (calculated locally from ra_runners)
+    -- Statistics fields (calculated locally from ra_mst_runners)
     total_horses INTEGER,
     total_runners INTEGER,
     total_wins INTEGER,
@@ -443,7 +443,7 @@ CREATE TABLE ra_owners (
 
 ### Recommended Approach
 
-Calculate locally from ra_runners (48,092 owners):
+Calculate locally from ra_mst_runners (48,092 owners):
 
 ```sql
 -- Update all owner statistics
@@ -521,7 +521,7 @@ CREATE TABLE ra_courses (
 
 **Storing API Analysis Data**
 - Reason: Redundant with local data
-- Better: Calculate on-demand from ra_runners
+- Better: Calculate on-demand from ra_mst_runners
 - Cost: Unnecessary API calls and storage
 
 ---
@@ -556,7 +556,7 @@ CREATE TABLE ra_courses (
 ### Phase 4: NOT RECOMMENDED ❌
 
 **API Analysis Endpoints Storage**
-- Reason: Redundant with ra_runners data
+- Reason: Redundant with ra_mst_runners data
 - Alternative: Calculate locally or query on-demand
 - Cost savings: Avoid unnecessary API calls
 
@@ -612,7 +612,7 @@ All necessary schema changes already applied. Current database supports:
 ```python
 """
 Daily Statistics Update Script
-Calculates entity statistics from ra_runners
+Calculates entity statistics from ra_mst_runners
 """
 
 def update_all_statistics():
@@ -708,7 +708,7 @@ def check_statistics_freshness():
 **API Analysis Endpoints**
 - Cost: 100,000s of API calls for analysis data
 - Benefit: Pre-calculated statistics
-- ROI: LOW - can calculate locally from ra_runners
+- ROI: LOW - can calculate locally from ra_mst_runners
 - Status: Not recommended
 
 **Individual Race Enrichment**
@@ -790,7 +790,7 @@ race_id: rac_10975861
 
 7. ❌ **AVOID**: Storing API analysis endpoints
    - Reason: Redundant with local data
-   - Alternative: Calculate from ra_runners
+   - Alternative: Calculate from ra_mst_runners
    - Savings: 100,000s of API calls
 
 8. ❌ **AVOID**: Individual race enrichment
@@ -873,14 +873,14 @@ race_id: rac_10975861
 
 | Entity | Endpoint | Purpose | Store? |
 |--------|----------|---------|--------|
-| Horse | `/v1/horses/{id}/results` | Race history | ❌ Have in ra_runners |
-| Jockey | `/v1/jockeys/{id}/results` | Race history | ❌ Have in ra_runners |
-| Trainer | `/v1/trainers/{id}/results` | Race history | ❌ Have in ra_runners |
-| Owner | `/v1/owners/{id}/results` | Race history | ❌ Have in ra_runners |
+| Horse | `/v1/horses/{id}/results` | Race history | ❌ Have in ra_mst_runners |
+| Jockey | `/v1/jockeys/{id}/results` | Race history | ❌ Have in ra_mst_runners |
+| Trainer | `/v1/trainers/{id}/results` | Race history | ❌ Have in ra_mst_runners |
+| Owner | `/v1/owners/{id}/results` | Race history | ❌ Have in ra_mst_runners |
 
 ### Analysis Endpoints (Calculated Statistics)
 
-All analysis endpoints return statistics that can be calculated locally from ra_runners:
+All analysis endpoints return statistics that can be calculated locally from ra_mst_runners:
 
 **Jockeys (5 endpoints):**
 - `/v1/jockeys/{id}/analysis/courses`

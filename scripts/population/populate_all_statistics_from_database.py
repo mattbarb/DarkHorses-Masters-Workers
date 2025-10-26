@@ -4,7 +4,7 @@ Unified Statistics Population Script
 ====================================
 
 Purpose: Single script to calculate ALL statistics across ALL tables from 2015-01-01 to CURRENT_DATE
-Database: 100% calculation from ra_runners + ra_races (NO API calls)
+Database: 100% calculation from ra_mst_runners + ra_races (NO API calls)
 Duration: ~45-60 minutes for all ~70,000 entities
 
 Tables Updated:
@@ -74,7 +74,7 @@ class UnifiedStatisticsPopulator:
     # ========================================
 
     def calculate_jockey_statistics(self) -> Dict:
-        """Calculate all jockey statistics from ra_runners + ra_races"""
+        """Calculate all jockey statistics from ra_mst_runners + ra_races"""
         logger.info("=" * 80)
         logger.info("CALCULATING JOCKEY STATISTICS")
         logger.info("=" * 80)
@@ -121,7 +121,7 @@ class UnifiedStatisticsPopulator:
                     -- Last activity dates
                     MAX(rc.date) as last_ride_date,
                     MAX(CASE WHEN r.position = 1 THEN rc.date END) as last_win_date
-                FROM ra_runners r
+                FROM ra_mst_runners r
                 JOIN ra_races rc ON r.race_id = rc.id
                 WHERE r.jockey_id = '{jockey_id}'
                   AND rc.date >= '{self.start_date}'
@@ -200,7 +200,7 @@ class UnifiedStatisticsPopulator:
     # ========================================
 
     def calculate_trainer_statistics(self) -> Dict:
-        """Calculate all trainer statistics from ra_runners + ra_races"""
+        """Calculate all trainer statistics from ra_mst_runners + ra_races"""
         logger.info("=" * 80)
         logger.info("CALCULATING TRAINER STATISTICS")
         logger.info("=" * 80)
@@ -240,7 +240,7 @@ class UnifiedStatisticsPopulator:
                     COUNT(*) FILTER (WHERE rc.date >= CURRENT_DATE - INTERVAL '30 days' AND r.position = 1) as recent_30d_wins,
                     MAX(rc.date) as last_runner_date,
                     MAX(CASE WHEN r.position = 1 THEN rc.date END) as last_win_date
-                FROM ra_runners r
+                FROM ra_mst_runners r
                 JOIN ra_races rc ON r.race_id = rc.id
                 WHERE r.trainer_id = '{trainer_id}'
                   AND rc.date >= '{self.start_date}'
@@ -318,7 +318,7 @@ class UnifiedStatisticsPopulator:
     # ========================================
 
     def calculate_owner_statistics(self) -> Dict:
-        """Calculate all owner statistics from ra_runners + ra_races"""
+        """Calculate all owner statistics from ra_mst_runners + ra_races"""
         logger.info("=" * 80)
         logger.info("CALCULATING OWNER STATISTICS")
         logger.info("=" * 80)
@@ -359,7 +359,7 @@ class UnifiedStatisticsPopulator:
                     COUNT(*) FILTER (WHERE rc.date >= CURRENT_DATE - INTERVAL '30 days' AND r.position = 1) as recent_30d_wins,
                     MAX(rc.date) as last_runner_date,
                     MAX(CASE WHEN r.position = 1 THEN rc.date END) as last_win_date
-                FROM ra_runners r
+                FROM ra_mst_runners r
                 JOIN ra_races rc ON r.race_id = rc.id
                 WHERE r.owner_id = '{owner_id}'
                   AND rc.date >= '{self.start_date}'
@@ -489,7 +489,7 @@ class UnifiedStatisticsPopulator:
                     MIN(rc.date) as first_run,
                     MAX(rc.date) as last_run,
                     MAX(CASE WHEN r.position = 1 THEN rc.date END) as last_win
-                FROM ra_runners r
+                FROM ra_mst_runners r
                 JOIN ra_races rc ON r.race_id = rc.id
                 WHERE r.horse_id = '{sire_id}'
                   AND rc.date >= '{self.start_date}'
@@ -524,7 +524,7 @@ class UnifiedStatisticsPopulator:
                     COUNT(CASE WHEN r.position = 1 AND rc.race_type LIKE '%Flat%' THEN 1 END) as flat_wins,
                     COUNT(CASE WHEN r.position = 1 AND rc.race_type LIKE '%Jump%' THEN 1 END) as jump_wins
                 FROM ra_mst_horses h
-                LEFT JOIN ra_runners r ON r.horse_id = h.id
+                LEFT JOIN ra_mst_runners r ON r.horse_id = h.id
                 LEFT JOIN ra_races rc ON r.race_id = rc.id
                 WHERE h.sire_id = '{sire_id}'
                   AND (rc.date IS NULL OR rc.date >= '{self.start_date}')
@@ -667,7 +667,7 @@ class UnifiedStatisticsPopulator:
                     MIN(rc.date) as first_run,
                     MAX(rc.date) as last_run,
                     MAX(CASE WHEN r.position = 1 THEN rc.date END) as last_win
-                FROM ra_runners r
+                FROM ra_mst_runners r
                 JOIN ra_races rc ON r.race_id = rc.id
                 WHERE r.horse_id = '{dam_id}'
                   AND rc.date >= '{self.start_date}'
@@ -695,7 +695,7 @@ class UnifiedStatisticsPopulator:
                     COUNT(CASE WHEN r.position = 1 AND rc.race_type LIKE '%Flat%' THEN 1 END) as flat_wins,
                     COUNT(CASE WHEN r.position = 1 AND rc.race_type LIKE '%Jump%' THEN 1 END) as jump_wins
                 FROM ra_mst_horses h
-                LEFT JOIN ra_runners r ON r.horse_id = h.id
+                LEFT JOIN ra_mst_runners r ON r.horse_id = h.id
                 LEFT JOIN ra_races rc ON r.race_id = rc.id
                 WHERE h.dam_id = '{dam_id}'
                   AND (rc.date IS NULL OR rc.date >= '{self.start_date}')
@@ -830,7 +830,7 @@ class UnifiedStatisticsPopulator:
                     COUNT(CASE WHEN r.position = 1 AND rc.race_type LIKE '%Flat%' THEN 1 END) as flat_wins,
                     COUNT(CASE WHEN r.position = 1 AND rc.race_type LIKE '%Jump%' THEN 1 END) as jump_wins
                 FROM ra_mst_horses h
-                LEFT JOIN ra_runners r ON r.horse_id = h.id
+                LEFT JOIN ra_mst_runners r ON r.horse_id = h.id
                 LEFT JOIN ra_races rc ON r.race_id = rc.id
                 WHERE h.damsire_id = '{damsire_id}'
                   AND (rc.date IS NULL OR rc.date >= '{self.start_date}')

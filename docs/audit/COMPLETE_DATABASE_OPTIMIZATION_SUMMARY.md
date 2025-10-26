@@ -52,8 +52,8 @@ This document summarizes all database optimization work completed today, includi
 ```
 
 **Impact:**
-- ra_races: 45 → 32 columns (-13)
-- ra_runners: 69 → 60 columns (-9)
+- ra_mst_races: 45 → 32 columns (-13)
+- ra_mst_runners: 69 → 60 columns (-9)
 - ra_horse_pedigree: 13 → 10 columns (-3)
 - ra_trainers: 5 → 4 columns (-1)
 
@@ -148,7 +148,7 @@ ra_horse_pedigree:
   ✅ Coverage:     89,144 ( 80.0%)
   ✅ breeder:      80,230 ( 90.0%)
 
-ra_runners ratings:
+ra_mst_runners ratings:
   ✅ Official Rating: 285,000 ( 76%)
   ✅ RPR:             333,000 ( 88%)
   ✅ TSR:             295,000 ( 78%)
@@ -213,14 +213,14 @@ ra_runners ratings:
 
 ### Columns Removed (Migration 009 - Optional)
 
-**ra_races (13 removed):**
+**ra_mst_races (13 removed):**
 - api_race_id, app_race_id
 - admin_notes, user_notes, popularity_score
 - betting_status, race_status, results_status
 - start_time, live_stream_url, replay_url
 - stalls_position, total_prize_money
 
-**ra_runners (9 removed):**
+**ra_mst_runners (9 removed):**
 - api_entry_id, app_entry_id, entry_id
 - user_notes, user_rating, number_card
 - trainer_comments, stall, timeform_rating

@@ -111,7 +111,7 @@
         "breeder_location": {"source": "pedigree.breeder_location", "type": "varchar(255)", "description": "Breeder location"}
       }
     },
-    "ra_races": {
+    "ra_mst_races": {
       "fetcher": "races_fetcher.py",
       "api_endpoint": "/v1/racecards/pro",
       "type": "date_range",
@@ -132,7 +132,7 @@
         "race_type": {"source": "race.type", "type": "varchar(50)", "description": "Flat/Jump/NH/etc"}
       }
     },
-    "ra_runners": {
+    "ra_mst_runners": {
       "fetcher": "races_fetcher.py + results_fetcher.py",
       "api_endpoint": "/v1/racecards/pro (pre-race) + /v1/results (post-race)",
       "type": "date_range",
@@ -164,13 +164,13 @@
         "weight_stones_lbs": {"source": "runner.weight_stones_lbs", "type": "varchar(20)", "description": "Weight in UK format (8-13)"}
       }
     },
-    "ra_race_results": {
+    "ra_mst_race_results": {
       "fetcher": "results_fetcher.py",
       "api_endpoint": "/v1/results",
       "type": "date_range",
       "update_frequency": "daily",
       "filter": "region_codes=['gb', 'ire']",
-      "action": "Updates ra_runners with position data",
+      "action": "Updates ra_mst_runners with position data",
       "columns": {
         "race_id": {"source": "race.id", "type": "varchar(50)", "description": "Race ID (FK)"},
         "runner_id": {"source": "runner.id", "type": "varchar(50)", "description": "Runner ID (FK)"},
@@ -192,12 +192,12 @@
       "ra_mst_trainers",
       "ra_mst_owners",
       "2_transaction_tables",
-      "ra_races",
-      "ra_runners",
+      "ra_mst_races",
+      "ra_mst_runners",
       "ra_mst_horses",
       "ra_horse_pedigree",
       "3_results",
-      "ra_race_results"
+      "ra_mst_race_results"
     ],
     "daily": [
       "Same order as backfill but with smaller date ranges (last 3 days)"

@@ -28,7 +28,7 @@
 
 **Status:** 🟢 **99.08% STATISTICS COMPLETE**
 **Update Frequency:** Daily (recent form) + Weekly (lifetime stats)
-**Data Source:** Database calculation from ra_runners + ra_races
+**Data Source:** Database calculation from ra_mst_runners + ra_mst_races
 
 | Column | Type | Status | Source | Notes |
 |--------|------|--------|--------|-------|
@@ -36,7 +36,7 @@
 | name | text | ✅ COMPLETE | API | Jockey name |
 | created_at | timestamp | ✅ COMPLETE | System | Auto-generated |
 | updated_at | timestamp | ✅ COMPLETE | System | Auto-updated |
-| total_rides | integer | 🟢 CALCULATED | DB: COUNT(*) FROM ra_runners | Lifetime rides |
+| total_rides | integer | 🟢 CALCULATED | DB: COUNT(*) FROM ra_mst_runners | Lifetime rides |
 | total_wins | integer | 🟢 CALCULATED | DB: COUNT WHERE position=1 | Lifetime wins |
 | total_places | integer | 🟢 CALCULATED | DB: COUNT WHERE position<=3 | Lifetime places |
 | total_seconds | integer | 🟢 CALCULATED | DB: COUNT WHERE position=2 | Lifetime seconds |
@@ -63,7 +63,7 @@
 
 **Status:** 🟢 **99.71% STATISTICS COMPLETE**
 **Update Frequency:** Daily (recent form) + Weekly (lifetime stats)
-**Data Source:** Database calculation from ra_runners + ra_races
+**Data Source:** Database calculation from ra_mst_runners + ra_mst_races
 
 | Column | Type | Status | Source | Notes |
 |--------|------|--------|--------|-------|
@@ -72,7 +72,7 @@
 | location | text | ✅ COMPLETE | API | Trainer location |
 | created_at | timestamp | ✅ COMPLETE | System | Auto-generated |
 | updated_at | timestamp | ✅ COMPLETE | System | Auto-updated |
-| total_runners | integer | 🟢 CALCULATED | DB: COUNT(*) FROM ra_runners | Lifetime runners |
+| total_runners | integer | 🟢 CALCULATED | DB: COUNT(*) FROM ra_mst_runners | Lifetime runners |
 | total_wins | integer | 🟢 CALCULATED | DB: COUNT WHERE position=1 | Lifetime wins |
 | total_places | integer | 🟢 CALCULATED | DB: COUNT WHERE position<=3 | Lifetime places |
 | total_seconds | integer | 🟢 CALCULATED | DB: COUNT WHERE position=2 | Lifetime seconds |
@@ -99,7 +99,7 @@
 
 **Status:** 🟢 **99.89% STATISTICS COMPLETE**
 **Update Frequency:** Daily (recent form) + Weekly (lifetime stats)
-**Data Source:** Database calculation from ra_runners + ra_races
+**Data Source:** Database calculation from ra_mst_runners + ra_mst_races
 
 | Column | Type | Status | Source | Notes |
 |--------|------|--------|--------|-------|
@@ -108,7 +108,7 @@
 | created_at | timestamp | ✅ COMPLETE | System | Auto-generated |
 | updated_at | timestamp | ✅ COMPLETE | System | Auto-updated |
 | total_horses | integer | 🟢 CALCULATED | DB: COUNT DISTINCT horse_id | Unique horses owned |
-| total_runners | integer | 🟢 CALCULATED | DB: COUNT(*) FROM ra_runners | Total race entries |
+| total_runners | integer | 🟢 CALCULATED | DB: COUNT(*) FROM ra_mst_runners | Total race entries |
 | total_wins | integer | 🟢 CALCULATED | DB: COUNT WHERE position=1 | Lifetime wins |
 | total_places | integer | 🟢 CALCULATED | DB: COUNT WHERE position<=3 | Lifetime places |
 | total_seconds | integer | 🟢 CALCULATED | DB: COUNT WHERE position=2 | Lifetime seconds |
@@ -164,7 +164,7 @@
 
 **Status:** ⚠️ **PENDING CALCULATION**
 **Update Frequency:** Monthly (progeny performance)
-**Data Source:** Database calculation from ra_runners + ra_races + ra_mst_horses
+**Data Source:** Database calculation from ra_mst_runners + ra_mst_races + ra_mst_horses
 
 | Column | Type | Status | Source | Notes |
 |--------|------|--------|--------|-------|
@@ -317,7 +317,7 @@
 **Script:** `scripts/populate_all_statistics_from_database.py`
 **Purpose:** Single script to calculate ALL pending statistics from 2015-01-01 to CURRENT_DATE
 **Duration:** ~45-60 minutes (all ~70,000 entities)
-**Data Source:** 100% from ra_runners + ra_races (NO API calls)
+**Data Source:** 100% from ra_mst_runners + ra_mst_races (NO API calls)
 
 **What It Will Update:**
 1. ✅ **People Statistics** - ALREADY COMPLETE (jockeys, trainers, owners)

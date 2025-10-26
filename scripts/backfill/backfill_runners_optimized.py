@@ -1,5 +1,5 @@
 """
-Optimized Backfill Script for ra_runners
+Optimized Backfill Script for ra_mst_runners
 Works within Supabase REST API timeout constraints (8 seconds)
 Uses small batches with retry logic and checkpoint/resume capability
 """
@@ -99,7 +99,7 @@ def fetch_records_with_retry(supabase, db_field: str, batch_size: int, max_retri
     """
     for attempt in range(max_retries):
         try:
-            result = supabase.table('ra_runners') \
+            result = supabase.table('ra_mst_runners') \
                 .select('runner_id, api_data') \
                 .is_(db_field, 'null') \
                 .not_.is_('api_data', 'null') \
@@ -131,7 +131,7 @@ def update_record_with_retry(supabase, runner_id: str, update_data: dict, max_re
     """
     for attempt in range(max_retries):
         try:
-            supabase.table('ra_runners') \
+            supabase.table('ra_mst_runners') \
                 .update(update_data) \
                 .eq('runner_id', runner_id) \
                 .execute()
@@ -379,7 +379,7 @@ def main():
     args = parser.parse_args()
 
     logger.info("=" * 80)
-    logger.info("OPTIMIZED BACKFILL FOR ra_runners")
+    logger.info("OPTIMIZED BACKFILL FOR ra_mst_runners")
     logger.info("=" * 80)
     logger.info("This script processes small batches to work within Supabase timeouts")
     logger.info(f"Batch size: {args.batch_size}")

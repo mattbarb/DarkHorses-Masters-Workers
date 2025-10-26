@@ -21,22 +21,22 @@ The `ra_runner_supplementary` table has been **removed** from the system as it h
 1. **Empty table** - 0 records, never populated
 2. **No working implementation** - No populate script exists
 3. **Unclear purpose** - Requirements never defined
-4. **Redundant design** - ra_runners already has 57 comprehensive columns
+4. **Redundant design** - ra_mst_runners already has 57 comprehensive columns
 5. **Maintenance burden** - Additional table to maintain with no clear value
 
 ### Better Alternatives
 
 Modern database design principles suggest:
-1. **Add directly to ra_runners** - If supplementary fields are needed, add them to main table
+1. **Add directly to ra_mst_runners** - If supplementary fields are needed, add them to main table
 2. **Use analytical tables** - For calculated metrics, use purpose-built tables like:
    - ra_runner_statistics (60 columns of performance metrics)
    - ra_performance_by_distance
    - ra_performance_by_venue
 3. **Avoid premature tables** - Don't create tables until requirements are clear
 
-## Current ra_runners Table Coverage
+## Current ra_mst_runners Table Coverage
 
-The `ra_runners` table already captures comprehensive runner data (57 columns):
+The `ra_mst_runners` table already captures comprehensive runner data (57 columns):
 
 ### Race Context (5 fields)
 - race_id, horse_id, jockey_id, trainer_id, owner_id
@@ -80,7 +80,7 @@ Based on documentation review, the table had ~16 columns planned but:
 **Conclusion:** If specific supplementary data is needed, better to:
 1. Define clear requirements first
 2. Identify data source
-3. Add to ra_runners OR create specific analytical table
+3. Add to ra_mst_runners OR create specific analytical table
 
 ## Changes Made
 
@@ -101,7 +101,7 @@ Based on documentation review, the table had ~16 columns planned but:
 - Mark table as REMOVED
 - Update table counts (22 instead of 23)
 - Remove from planned tables list
-- Note: Use ra_runners directly or create specific analytical tables
+- Note: Use ra_mst_runners directly or create specific analytical tables
 
 ## Impact
 
@@ -125,11 +125,11 @@ Based on documentation review, the table had ~16 columns planned but:
 
 If additional runner fields are identified in the future:
 
-### Option 1: Add to ra_runners
+### Option 1: Add to ra_mst_runners
 ```sql
 -- Example: Add supplementary columns directly
-ALTER TABLE ra_runners ADD COLUMN field_1 TEXT;
-ALTER TABLE ra_runners ADD COLUMN field_2 INTEGER;
+ALTER TABLE ra_mst_runners ADD COLUMN field_1 TEXT;
+ALTER TABLE ra_mst_runners ADD COLUMN field_2 INTEGER;
 -- etc.
 ```
 
@@ -146,7 +146,7 @@ ALTER TABLE ra_runners ADD COLUMN field_2 INTEGER;
 -- Example: Create purpose-built table
 CREATE TABLE ra_runner_performance_metrics (
     id BIGSERIAL PRIMARY KEY,
-    race_id TEXT REFERENCES ra_races(id),
+    race_id TEXT REFERENCES ra_mst_races(id),
     horse_id TEXT REFERENCES ra_mst_horses(id),
     -- Specific calculated metrics
     recent_form_score DECIMAL,
@@ -171,13 +171,13 @@ CREATE TABLE ra_runner_performance_metrics (
 
 **Reasoning:**
 1. No clear requirements after multiple planning iterations
-2. Better alternatives exist (extend ra_runners OR create specific tables)
+2. Better alternatives exist (extend ra_mst_runners OR create specific tables)
 3. Table has never been used (0 records)
 4. Simplifies schema and reduces maintenance
 
 **If supplementary data is needed:**
 - Define requirements FIRST
-- Choose appropriate approach (extend ra_runners vs new table)
+- Choose appropriate approach (extend ra_mst_runners vs new table)
 - Create with clear purpose and populate script
 
 ## Files Modified
@@ -196,8 +196,8 @@ After running the migration:
 psql -c "SELECT table_name FROM information_schema.tables WHERE table_name = 'ra_runner_supplementary';"
 # Should return 0 rows
 
-# 2. Verify ra_runners table still intact
-psql -c "SELECT COUNT(*) FROM ra_runners;"
+# 2. Verify ra_mst_runners table still intact
+psql -c "SELECT COUNT(*) FROM ra_mst_runners;"
 # Should show ~1.3M records (unchanged)
 
 # 3. Check for any broken references

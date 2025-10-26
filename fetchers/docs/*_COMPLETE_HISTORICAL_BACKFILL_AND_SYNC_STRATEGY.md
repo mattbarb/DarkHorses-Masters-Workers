@@ -65,9 +65,9 @@ The backfill script processes **10+ years of historical racing data** in monthly
 ### Tables Populated (14 of 18)
 
 **Transaction Tables (4):**
-1. ✅ `ra_races` - Race metadata
-2. ✅ `ra_runners` - Runner entries with complete details
-3. ✅ `ra_race_results` - Historical results with positions/times
+1. ✅ `ra_mst_races` - Race metadata
+2. ✅ `ra_mst_runners` - Runner entries with complete details
+3. ✅ `ra_mst_race_results` - Historical results with positions/times
 4. ✅ `ra_horse_pedigree` - Complete pedigree (sire, dam, damsire)
 
 **Master Tables (7):**
@@ -241,9 +241,9 @@ DO UPDATE SET
 
 | Table | Primary Key |
 |-------|-------------|
-| `ra_races` | `race_id` |
-| `ra_runners` | `(race_id, horse_id)` composite |
-| `ra_race_results` | `(race_id, horse_id)` composite |
+| `ra_mst_races` | `race_id` |
+| `ra_mst_runners` | `(race_id, horse_id)` composite |
+| `ra_mst_race_results` | `(race_id, horse_id)` composite |
 | `ra_horse_pedigree` | `horse_id` |
 | `ra_mst_horses` | `horse_id` |
 | `ra_mst_jockeys` | `jockey_id` |
@@ -325,12 +325,12 @@ The following 4 tables are **calculated from source data**, not fetched:
 **Command to calculate:**
 
 ```bash
-# Calculate all statistics from ra_race_results
+# Calculate all statistics from ra_mst_race_results
 python3 scripts/populate_all_statistics.py
 ```
 
 **Runtime:** 15-25 minutes
-**Data source:** `ra_race_results` table (no API calls)
+**Data source:** `ra_mst_race_results` table (no API calls)
 
 ---
 
@@ -357,7 +357,7 @@ SELECT
   EXTRACT(YEAR FROM date) as year,
   COUNT(*) as races,
   COUNT(DISTINCT course_id) as unique_courses
-FROM ra_races
+FROM ra_mst_races
 GROUP BY EXTRACT(YEAR FROM date)
 ORDER BY year;
 
@@ -366,7 +366,7 @@ SELECT
   COUNT(*) as total_runners,
   COUNT(DISTINCT horse_id) as unique_horses,
   COUNT(DISTINCT jockey_id) as unique_jockeys
-FROM ra_runners;
+FROM ra_mst_runners;
 
 -- Check pedigree coverage
 SELECT
@@ -381,7 +381,7 @@ SELECT
   COUNT(*) as total_runners,
   COUNT(position) as with_positions,
   ROUND(COUNT(position)::numeric / COUNT(*) * 100, 2) as results_pct
-FROM ra_runners;
+FROM ra_mst_runners;
 ```
 
 ### Check for Errors
@@ -524,9 +524,9 @@ python3 tests/complete_validation_all_tables.py
 
 | Table | Estimated Records |
 |-------|------------------|
-| ra_races | ~150,000 |
-| ra_runners | ~1,500,000 |
-| ra_race_results | ~1,500,000 |
+| ra_mst_races | ~150,000 |
+| ra_mst_runners | ~1,500,000 |
+| ra_mst_race_results | ~1,500,000 |
 | ra_horse_pedigree | ~200,000 |
 | ra_mst_horses | ~200,000 |
 | ra_mst_jockeys | ~5,000 |
@@ -572,7 +572,7 @@ python3 tests/complete_validation_all_tables.py
 - Provides: Position, time, prize, starting price
 - Available: After race completes
 
-**Combined:** Both sources populate `ra_runners` with complete data
+**Combined:** Both sources populate `ra_mst_runners` with complete data
 
 ### 2. Entity Extraction
 
@@ -673,7 +673,7 @@ All data is filtered to **UK (GB) and Ireland (IRE) only**:
 ### 4. Statistics Require Source Data
 
 The 4 statistics tables **MUST be calculated AFTER** backfill completes:
-- They derive from `ra_race_results` table
+- They derive from `ra_mst_race_results` table
 - Cannot be calculated until historical data exists
 - Run `populate_all_statistics.py` after backfill finishes
 
@@ -701,8 +701,8 @@ PYTHONPATH=$PWD python3 scripts/backfill/backfill_events.py \
 ### Phase 1 Complete When:
 - ✅ All 130 chunks processed successfully
 - ✅ No errors in backfill log
-- ✅ ~150,000 races in `ra_races`
-- ✅ ~1,500,000 runners in `ra_runners`
+- ✅ ~150,000 races in `ra_mst_races`
+- ✅ ~1,500,000 runners in `ra_mst_runners`
 - ✅ ~200,000 horses in `ra_mst_horses`
 - ✅ ~200,000 pedigree records in `ra_horse_pedigree`
 - ✅ Checkpoint shows: `last_completed_chunk: 130`

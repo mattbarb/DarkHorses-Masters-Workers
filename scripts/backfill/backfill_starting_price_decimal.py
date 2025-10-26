@@ -33,14 +33,14 @@ def check_current_coverage():
     db = SupabaseReferenceClient(config.supabase.url, config.supabase.service_key)
 
     # Total runners
-    total = db.client.from_('ra_runners').select('id', count='exact').execute().count
+    total = db.client.from_('ra_mst_runners').select('id', count='exact').execute().count
 
     # Runners with position data (completed races)
-    with_position = db.client.from_('ra_runners').select('id', count='exact')\
+    with_position = db.client.from_('ra_mst_runners').select('id', count='exact')\
         .not_.is_('position', 'null').execute().count
 
     # Runners with starting_price_decimal
-    with_sp_dec = db.client.from_('ra_runners').select('id', count='exact')\
+    with_sp_dec = db.client.from_('ra_mst_runners').select('id', count='exact')\
         .not_.is_('starting_price_decimal', 'null').execute().count
 
     logger.info(f"Total runners: {total:,}")

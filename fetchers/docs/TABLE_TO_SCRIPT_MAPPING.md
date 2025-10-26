@@ -17,9 +17,9 @@
 | ra_mst_owners | `master_fetcher_controller.py` (owners_fetcher.py) | Fetcher | Backfill/Daily | /v1/owners |
 | ra_mst_horses | `master_fetcher_controller.py` (races_fetcher.py) | Fetcher | Backfill/Daily | /v1/racecards/pro + /v1/horses/{id}/pro |
 | ra_horse_pedigree | `master_fetcher_controller.py` (races_fetcher.py) | Fetcher | Backfill/Daily | /v1/horses/{id}/pro |
-| ra_races | `master_fetcher_controller.py` (races_fetcher.py) | Fetcher | Backfill/Daily | /v1/racecards/pro |
-| ra_runners | `master_fetcher_controller.py` (races_fetcher.py) | Fetcher | Backfill/Daily | /v1/racecards/pro |
-| ra_race_results | `master_fetcher_controller.py` (results_fetcher.py) | Fetcher | Backfill/Daily | /v1/results |
+| ra_mst_races | `master_fetcher_controller.py` (races_fetcher.py) | Fetcher | Backfill/Daily | /v1/racecards/pro |
+| ra_mst_runners | `master_fetcher_controller.py` (races_fetcher.py) | Fetcher | Backfill/Daily | /v1/racecards/pro |
+| ra_mst_race_results | `master_fetcher_controller.py` (results_fetcher.py) | Fetcher | Backfill/Daily | /v1/results |
 | ra_mst_sires | `../scripts/population_workers/pedigree_statistics_agent.py` | Calculator | Weekly | Database calculation |
 | ra_mst_dams | `../scripts/population_workers/pedigree_statistics_agent.py` | Calculator | Weekly | Database calculation |
 | ra_mst_damsires | `../scripts/population_workers/pedigree_statistics_agent.py` | Calculator | Weekly | Database calculation |
@@ -95,7 +95,7 @@ python3 -c "from fetchers.bookmakers_fetcher import BookmakersFetcher; Bookmaker
 - Metadata: created_at, updated_at
 
 **Additional Statistics Script:** `../scripts/statistics_workers/calculate_jockey_statistics.py`
-**Statistics Source:** Database calculation from ra_runners + ra_races
+**Statistics Source:** Database calculation from ra_mst_runners + ra_mst_races
 
 **How to Run:**
 ```bash
@@ -124,7 +124,7 @@ python3 scripts/statistics_workers/calculate_jockey_statistics.py
 - Metadata: created_at, updated_at
 
 **Additional Statistics Script:** `../scripts/statistics_workers/calculate_trainer_statistics.py`
-**Statistics Source:** Database calculation from ra_runners + ra_races
+**Statistics Source:** Database calculation from ra_mst_runners + ra_mst_races
 
 **How to Run:**
 ```bash
@@ -153,7 +153,7 @@ python3 scripts/statistics_workers/calculate_trainer_statistics.py
 - Metadata: created_at, updated_at
 
 **Additional Statistics Script:** `../scripts/statistics_workers/calculate_owner_statistics.py`
-**Statistics Source:** Database calculation from ra_runners + ra_races
+**Statistics Source:** Database calculation from ra_mst_runners + ra_mst_races
 
 **How to Run:**
 ```bash
@@ -232,7 +232,7 @@ python3 fetchers/master_fetcher_controller.py --mode daily
 
 ---
 
-### ra_races
+### ra_mst_races
 
 **Primary Script:** `master_fetcher_controller.py`
 **Underlying Fetcher:** `races_fetcher.py`
@@ -252,7 +252,7 @@ python3 fetchers/master_fetcher_controller.py --mode daily
 
 # Specific date range (manual)
 python3 fetchers/master_fetcher_controller.py --mode manual \
-    --table ra_races --start-date 2024-01-01 --end-date 2024-01-31
+    --table ra_mst_races --start-date 2024-01-01 --end-date 2024-01-31
 ```
 
 **Backfill:** Date range 2015-01-01 to present (~150,000 races)
@@ -264,7 +264,7 @@ python3 fetchers/master_fetcher_controller.py --mode manual \
 
 ---
 
-### ra_runners
+### ra_mst_runners
 
 **Primary Script:** `master_fetcher_controller.py`
 **Underlying Fetcher:** `races_fetcher.py` (pre-race) + `results_fetcher.py` (post-race)
@@ -303,7 +303,7 @@ python3 fetchers/master_fetcher_controller.py --mode daily
 
 ---
 
-### ra_race_results
+### ra_mst_race_results
 
 **Primary Script:** `master_fetcher_controller.py`
 **Underlying Fetcher:** `results_fetcher.py`
@@ -326,14 +326,14 @@ python3 fetchers/master_fetcher_controller.py --mode daily
 
 # Specific date range (manual)
 python3 fetchers/master_fetcher_controller.py --mode manual \
-    --table ra_race_results --start-date 2024-01-01 --end-date 2024-01-31
+    --table ra_mst_race_results --start-date 2024-01-01 --end-date 2024-01-31
 ```
 
 **Backfill:** Date range 2015-01-01 to present (~150,000 results)
 **Daily:** Last 3 days (~300 results)
 
 **Special Notes:**
-- Updates ra_runners table with position data
+- Updates ra_mst_runners table with position data
 - Populates 6 enhanced fields
 - Critical for statistics calculations
 
@@ -342,7 +342,7 @@ python3 fetchers/master_fetcher_controller.py --mode manual \
 ### ra_mst_sires
 
 **Primary Script:** `../scripts/population_workers/pedigree_statistics_agent.py`
-**Data Source:** Database calculation (ra_mst_horses + ra_runners + ra_races)
+**Data Source:** Database calculation (ra_mst_horses + ra_mst_runners + ra_mst_races)
 **Update Frequency:** Weekly
 
 **Columns Populated (47):**
@@ -376,7 +376,7 @@ python3 scripts/population_workers/pedigree_statistics_agent.py --table sires --
 ### ra_mst_dams
 
 **Primary Script:** `../scripts/population_workers/pedigree_statistics_agent.py`
-**Data Source:** Database calculation (ra_mst_horses + ra_runners + ra_races)
+**Data Source:** Database calculation (ra_mst_horses + ra_mst_runners + ra_mst_races)
 **Update Frequency:** Weekly
 
 **Columns Populated (47):**
@@ -407,7 +407,7 @@ python3 scripts/population_workers/pedigree_statistics_agent.py --table dams --t
 ### ra_mst_damsires
 
 **Primary Script:** `../scripts/population_workers/pedigree_statistics_agent.py`
-**Data Source:** Database calculation (ra_mst_horses + ra_runners + ra_races)
+**Data Source:** Database calculation (ra_mst_horses + ra_mst_runners + ra_mst_races)
 **Update Frequency:** Weekly
 
 **Columns Populated (47):**
@@ -449,8 +449,8 @@ This populates (in order):
 3. ra_mst_jockeys
 4. ra_mst_trainers
 5. ra_mst_owners
-6. ra_races (+ ra_runners, ra_mst_horses, ra_horse_pedigree)
-7. ra_race_results (updates ra_runners)
+6. ra_mst_races (+ ra_mst_runners, ra_mst_horses, ra_horse_pedigree)
+7. ra_mst_race_results (updates ra_mst_runners)
 
 **Step 2: Pedigree Statistics (Database Calculation)**
 ```bash
@@ -556,7 +556,7 @@ python3 fetchers/master_fetcher_controller.py --mode daily
 python3 scripts/population_workers/pedigree_statistics_agent.py
 
 # SPECIFIC TABLE
-python3 fetchers/master_fetcher_controller.py --mode manual --table ra_races --start-date 2024-01-01
+python3 fetchers/master_fetcher_controller.py --mode manual --table ra_mst_races --start-date 2024-01-01
 
 # TEST MODE
 python3 fetchers/master_fetcher_controller.py --mode daily --test

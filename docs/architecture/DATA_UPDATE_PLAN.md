@@ -103,7 +103,7 @@ Test Script: tests/endpoint_validation/test_results_runners.py
 
 ---
 
-## Issue 3: Missing 13 Valuable Fields in ra_races and ra_runners ⚠️ HIGH
+## Issue 3: Missing 13 Valuable Fields in ra_mst_races and ra_mst_runners ⚠️ HIGH
 
 **Root Cause:** Not extracting available API fields in `races_fetcher.py`
 
@@ -169,7 +169,7 @@ SELECT
   AVG(runners_per_race) as avg_runners
 FROM (
   SELECT race_id, COUNT(*) as runners_per_race
-  FROM ra_runners
+  FROM ra_mst_runners
   GROUP BY race_id
 ) subquery;
 
@@ -222,7 +222,7 @@ SELECT
   COUNT(tip) as has_tip,
   COUNT(verdict) as has_verdict,
   COUNT(spotlight) as has_spotlight
-FROM ra_races
+FROM ra_mst_races
 WHERE race_date = '2025-10-08';
 ```
 
@@ -380,7 +380,7 @@ python3 tests/endpoint_validation/test_all_endpoints.py
 # SQL:
 SELECT
   COUNT(*) / COUNT(DISTINCT race_id) as avg_runners_per_race
-FROM ra_runners
+FROM ra_mst_runners
 WHERE fetched_at > NOW() - INTERVAL '7 days';
 
 # Expected: 8-12 avg
@@ -393,7 +393,7 @@ SELECT
   COUNT(tip) as has_tip,
   COUNT(verdict) as has_verdict,
   AVG(CASE WHEN tip IS NOT NULL THEN 1.0 ELSE 0.0 END) * 100 as tip_pct
-FROM ra_races
+FROM ra_mst_races
 WHERE race_date > NOW() - INTERVAL '7 days'
 GROUP BY race_date
 ORDER BY race_date DESC;
@@ -430,7 +430,7 @@ SELECT
   'Races' as entity,
   COUNT(*) as total_records,
   AVG(CASE WHEN tip IS NOT NULL THEN 1.0 ELSE 0.0 END) * 100 as field_coverage_pct
-FROM ra_races
+FROM ra_mst_races
 WHERE race_date > NOW() - INTERVAL '30 days'
 
 UNION ALL
@@ -439,7 +439,7 @@ SELECT
   'Runners' as entity,
   COUNT(*) as total_records,
   AVG(CASE WHEN spotlight IS NOT NULL THEN 1.0 ELSE 0.0 END) * 100 as field_coverage_pct
-FROM ra_runners
+FROM ra_mst_runners
 WHERE fetched_at > NOW() - INTERVAL '30 days'
 
 UNION ALL
@@ -459,7 +459,7 @@ SELECT
     WHEN COUNT(*) / COUNT(DISTINCT race_id) >= 8 THEN 100.0
     ELSE (COUNT(*) / COUNT(DISTINCT race_id) / 8.0) * 100
   END as target_pct
-FROM ra_runners
+FROM ra_mst_runners
 WHERE fetched_at > NOW() - INTERVAL '30 days';
 EOF
 
@@ -507,7 +507,7 @@ SELECT
   MAX(runner_count) as max_runners
 FROM (
   SELECT race_id, COUNT(*) as runner_count
-  FROM ra_runners
+  FROM ra_mst_runners
   WHERE fetched_at > NOW() - INTERVAL '7 days'
   GROUP BY race_id
 ) subquery;
@@ -520,7 +520,7 @@ SELECT
   COUNT(verdict) as has_verdict,
   COUNT(betting_forecast) as has_betting_forecast,
   ROUND(AVG(CASE WHEN tip IS NOT NULL THEN 100.0 ELSE 0.0 END), 1) as tip_coverage_pct
-FROM ra_races
+FROM ra_mst_races
 WHERE race_date > NOW() - INTERVAL '7 days';
 -- Expected: 80%+ coverage on new fields
 
@@ -539,8 +539,8 @@ SELECT
   ROUND(
     (
       (SELECT COUNT(*) FROM ra_horse_pedigree) / 90000.0 * 0.4 +
-      (SELECT AVG(runner_count) / 9.0 FROM (SELECT COUNT(*) as runner_count FROM ra_runners WHERE fetched_at > NOW() - INTERVAL '7 days' GROUP BY race_id) s) * 0.4 +
-      (SELECT AVG(CASE WHEN tip IS NOT NULL THEN 1.0 ELSE 0.0 END) FROM ra_races WHERE race_date > NOW() - INTERVAL '7 days') * 0.2
+      (SELECT AVG(runner_count) / 9.0 FROM (SELECT COUNT(*) as runner_count FROM ra_mst_runners WHERE fetched_at > NOW() - INTERVAL '7 days' GROUP BY race_id) s) * 0.4 +
+      (SELECT AVG(CASE WHEN tip IS NOT NULL THEN 1.0 ELSE 0.0 END) FROM ra_mst_races WHERE race_date > NOW() - INTERVAL '7 days') * 0.2
     ) * 100,
     1
   ) as data_quality_score;
@@ -666,9 +666,9 @@ if not horse_id:
 psql $DATABASE_URL -f migrations/003_add_missing_fields.sql
 
 # Or add manually:
-ALTER TABLE ra_races ADD COLUMN IF NOT EXISTS tip TEXT;
-ALTER TABLE ra_races ADD COLUMN IF NOT EXISTS verdict TEXT;
-ALTER TABLE ra_races ADD COLUMN IF NOT EXISTS betting_forecast TEXT;
+ALTER TABLE ra_mst_races ADD COLUMN IF NOT EXISTS tip TEXT;
+ALTER TABLE ra_mst_races ADD COLUMN IF NOT EXISTS verdict TEXT;
+ALTER TABLE ra_mst_races ADD COLUMN IF NOT EXISTS betting_forecast TEXT;
 # ... etc
 ```
 

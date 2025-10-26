@@ -18,7 +18,7 @@ try:
     conn = psycopg2.connect(conn_string)
     cur = conn.cursor()
 
-    # Analyze current ra_runners usage
+    # Analyze current ra_mst_runners usage
     print("CURRENT STATE ANALYSIS")
     print("-" * 100)
     print()
@@ -31,7 +31,7 @@ try:
             COUNT(*) FILTER (WHERE position IS NOT NULL) as with_results,
             ROUND(COUNT(*) FILTER (WHERE position IS NULL)::numeric / COUNT(*)::numeric * 100, 1) as pct_racecards,
             ROUND(COUNT(*) FILTER (WHERE position IS NOT NULL)::numeric / COUNT(*)::numeric * 100, 1) as pct_results
-        FROM ra_runners;
+        FROM ra_mst_runners;
     """)
 
     stats = cur.fetchone()
@@ -64,7 +64,7 @@ try:
             COUNT(prize_won) as has_prize,
             COUNT(starting_price) as has_sp,
             COUNT(finishing_time) as has_time
-        FROM ra_runners;
+        FROM ra_mst_runners;
     """)
 
     usage = cur.fetchone()
@@ -94,7 +94,7 @@ try:
             COUNT(*) FILTER (WHERE position IS NOT NULL AND horse_id IS NOT NULL) as result_complete,
             COUNT(*) FILTER (WHERE position IS NULL AND horse_id IS NULL) as incomplete_racecard,
             COUNT(*) FILTER (WHERE position IS NOT NULL AND horse_id IS NULL) as incomplete_result
-        FROM ra_runners;
+        FROM ra_mst_runners;
     """)
 
     rc_complete, res_complete, rc_incomplete, res_incomplete = cur.fetchone()
@@ -111,7 +111,7 @@ try:
         SELECT COUNT(*) as duplicate_runner_ids
         FROM (
             SELECT runner_id, COUNT(*)
-            FROM ra_runners
+            FROM ra_mst_runners
             GROUP BY runner_id
             HAVING COUNT(*) > 1
         ) duplicates;
@@ -127,7 +127,7 @@ try:
             COUNT(*) FILTER (WHERE created_at = updated_at) as never_updated,
             COUNT(*) FILTER (WHERE created_at != updated_at) as has_updates,
             ROUND(COUNT(*) FILTER (WHERE created_at != updated_at)::numeric / COUNT(*)::numeric * 100, 1) as pct_updated
-        FROM ra_runners;
+        FROM ra_mst_runners;
     """)
 
     never_updated, has_updates, pct_updated = cur.fetchone()
@@ -166,11 +166,11 @@ try:
     print()
 
     # Calculate potential table sizes
-    print("OPTION 1: KEEP CURRENT (Combined ra_runners)")
+    print("OPTION 1: KEEP CURRENT (Combined ra_mst_runners)")
     print("-" * 100)
     print()
     print("Structure:")
-    print("  • ra_runners: 1.3M rows (racecards + results combined)")
+    print("  • ra_mst_runners: 1.3M rows (racecards + results combined)")
     print("  • Single table with all 75 columns")
     print()
     print("Pros:")
@@ -192,7 +192,7 @@ try:
     print()
     print("Structure:")
     print("  • ra_racecards: ~132K rows (racecard data only)")
-    print("  • ra_race_results: ~1.2M rows (result data only)")
+    print("  • ra_mst_race_results: ~1.2M rows (result data only)")
     print("  • Or: ra_entries + ra_results")
     print()
     print("Pros:")
@@ -214,7 +214,7 @@ try:
     print("-" * 100)
     print()
     print("Structure:")
-    print("  • ra_runners: 1.3M rows (current combined table)")
+    print("  • ra_mst_runners: 1.3M rows (current combined table)")
     print("  • CREATE VIEW ra_racecards AS SELECT ... WHERE position IS NULL")
     print("  • CREATE VIEW ra_results AS SELECT ... WHERE position IS NOT NULL")
     print()
@@ -248,7 +248,7 @@ try:
         ('ra_horses', 'Reference data'),
         ('ra_horse_pedigree', 'Reference data (detail)'),
         ('ra_races', 'Race metadata'),
-        ('ra_runners', 'Race entries + results (COMBINED)'),
+        ('ra_mst_runners', 'Race entries + results (COMBINED)'),
         ('ra_results', 'Legacy - unused'),
         ('ra_odds_*', 'Odds data (separate system)'),
     ]
@@ -262,20 +262,20 @@ try:
     print()
     print("Option A: Entry/Result Pattern")
     print("  ra_race_entries    - Racecard data (pre-race)")
-    print("  ra_race_results    - Result data (post-race)")
+    print("  ra_mst_race_results    - Result data (post-race)")
     print()
     print("Option B: Racecard/Result Pattern")
     print("  ra_racecards       - Racecard data (pre-race)")
     print("  ra_results         - Result data (post-race)")
     print()
     print("Option C: Runner Status Pattern")
-    print("  ra_runners         - Racecard data (pre-race)")
+    print("  ra_mst_runners         - Racecard data (pre-race)")
     print("  ra_runner_results  - Result data (post-race)")
     print()
     print("Option D: Keep Current + Views")
-    print("  ra_runners         - Combined table (as is)")
+    print("  ra_mst_runners         - Combined table (as is)")
     print("  CREATE VIEW ra_racecards AS ...")
-    print("  CREATE VIEW ra_race_results AS ...")
+    print("  CREATE VIEW ra_mst_race_results AS ...")
     print()
 
     cur.close()

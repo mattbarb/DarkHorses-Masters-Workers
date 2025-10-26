@@ -89,7 +89,7 @@ class LocalBatchEnricher:
         Returns:
             Dict with sets of unique IDs for each entity type
         """
-        logger.info("Fetching unique entities from ra_runners...")
+        logger.info("Fetching unique entities from ra_mst_runners...")
 
         entities = {
             'horses': set(),
@@ -105,7 +105,7 @@ class LocalBatchEnricher:
 
         try:
             while True:
-                result = self.db_client.client.table('ra_runners')\
+                result = self.db_client.client.table('ra_mst_runners')\
                     .select('horse_id,jockey_id,trainer_id,owner_id')\
                     .limit(limit)\
                     .offset(offset)\

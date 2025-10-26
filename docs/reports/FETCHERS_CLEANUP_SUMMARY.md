@@ -159,12 +159,12 @@ scripts/
 
 | File | Purpose | Target Tables | API Endpoint | Update Frequency |
 |------|---------|---------------|--------------|------------------|
-| **races_fetcher.py** | Fetch racecards | ra_races, ra_runners, ra_mst_horses, ra_horse_pedigree, entities | /v1/racecards/pro | Daily |
-| **results_fetcher.py** | Fetch race results | ra_races (update), ra_runners (update), ra_race_results | /v1/results | Daily |
+| **races_fetcher.py** | Fetch racecards | ra_mst_races, ra_mst_runners, ra_mst_horses, ra_horse_pedigree, entities | /v1/racecards/pro | Daily |
+| **results_fetcher.py** | Fetch race results | ra_mst_races (update), ra_mst_runners (update), ra_mst_race_results | /v1/results | Daily |
 | **courses_fetcher.py** | Fetch courses/tracks | ra_mst_courses | /v1/courses | Monthly |
 | **bookmakers_fetcher.py** | Static bookmaker list | ra_mst_bookmakers | Static data | Monthly |
 | **horses_fetcher.py** | Bulk horse discovery | ra_mst_horses | /v1/horses/search | As needed |
-| **events_fetcher.py** | ALL events (consolidated) | ra_races, ra_runners, entities | /v1/racecards/pro + /v1/results | Daily |
+| **events_fetcher.py** | ALL events (consolidated) | ra_mst_races, ra_mst_runners, entities | /v1/racecards/pro + /v1/results | Daily |
 | **masters_fetcher.py** | ALL master data (consolidated) | ra_mst_courses, ra_mst_bookmakers, ra_mst_regions | Multiple endpoints | Monthly |
 | **statistics_fetcher.py** | Statistics update wrapper | ra_mst_* (statistics columns) | Calls scripts/statistics_workers | Weekly |
 

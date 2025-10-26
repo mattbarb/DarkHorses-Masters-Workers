@@ -167,7 +167,7 @@ class LiveDataTestInserter:
         logger.info("\nAdding **TEST** markers to fetched data...")
 
         # Get races from database (the ones we just inserted)
-        races_query = self.db_client.client.table('ra_races').select('*').gte('date', target_date).limit(5).execute()
+        races_query = self.db_client.client.table('ra_mst_races').select('*').gte('date', target_date).limit(5).execute()
 
         if not races_query.data:
             logger.warning("No races found in database to mark")
@@ -195,14 +195,14 @@ class LiveDataTestInserter:
 
             # Update the race with marked data
             try:
-                self.db_client.client.table('ra_races').update(marked_race).eq('id', race_id).execute()
+                self.db_client.client.table('ra_mst_races').update(marked_race).eq('id', race_id).execute()
                 races_marked += 1
                 logger.info(f"  ✅ Marked race: {race_id} - {marked_race.get('race_title', 'N/A')[:50]}")
             except Exception as e:
                 logger.error(f"  ❌ Failed to mark race {race_id}: {e}")
 
             # Get runners for this race
-            runners_query = self.db_client.client.table('ra_runners').select('*').eq('race_id', race_id).execute()
+            runners_query = self.db_client.client.table('ra_mst_runners').select('*').eq('race_id', race_id).execute()
 
             if runners_query.data:
                 for runner in runners_query.data:
@@ -216,7 +216,7 @@ class LiveDataTestInserter:
                     # Update the runner with marked data
                     try:
                         # Use composite key (race_id, horse_id)
-                        self.db_client.client.table('ra_runners').update(marked_runner).eq('race_id', race_id).eq('horse_id', runner['horse_id']).execute()
+                        self.db_client.client.table('ra_mst_runners').update(marked_runner).eq('race_id', race_id).eq('horse_id', runner['horse_id']).execute()
                         runners_marked += 1
                     except Exception as e:
                         logger.error(f"  ❌ Failed to mark runner {runner.get('horse_name')}: {e}")
@@ -272,7 +272,7 @@ class LiveDataTestInserter:
             logger.info(f"   - No new horses discovered in this race data")
         logger.info(f"\nNow open Supabase and verify:")
         logger.info(f"1. Check ra_races table - look for **TEST** in all columns")
-        logger.info(f"2. Check ra_runners table - look for **TEST** in all columns")
+        logger.info(f"2. Check ra_mst_runners table - look for **TEST** in all columns")
         logger.info(f"3. Check ra_mst_horses table - look for **TEST** in name column")
         logger.info(f"4. Check ra_horse_pedigree table - look for **TEST** in enrichment fields")
         logger.info(f"{'=' * 80}\n")
@@ -303,8 +303,8 @@ class LiveDataTestInserter:
 
         # Tables to clean (in order - child tables first)
         tables_to_clean = [
-            ('ra_runners', 'horse_name'),  # Child table
-            ('ra_race_results', 'horse_name'),  # Child table
+            ('ra_mst_runners', 'horse_name'),  # Child table
+            ('ra_mst_race_results', 'horse_name'),  # Child table
             ('ra_races', 'race_name'),  # Parent table - FIXED: race_title → race_name
             ('ra_horse_pedigree', 'sire'),  # Enrichment data
             ('ra_mst_horses', 'name'),  # Note: column is 'name' not 'horse_name'
@@ -390,7 +390,7 @@ def main():
                 print(f"\n⚠️  No pedigree enrichment found - horses may have already existed")
 
             print(f"\n👀 Now open Supabase and verify all columns show **TEST**:")
-            print(f"   - ra_races, ra_runners (complete race data)")
+            print(f"   - ra_races, ra_mst_runners (complete race data)")
             print(f"   - ra_mst_horses (basic horse info)")
             print(f"   - ra_horse_pedigree (enrichment data - dob, breeder, sire, dam, damsire)")
             print(f"\n🧹 When done, cleanup with: python3 tests/test_live_data_with_markers.py --cleanup")

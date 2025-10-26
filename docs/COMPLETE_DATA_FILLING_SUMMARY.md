@@ -40,7 +40,7 @@ Sires:     2,142 with names (99.95%)
 **Script:** `scripts/populate_pedigree_statistics.py`
 **Status:** ✅ Syntax fixed, ready to execute
 **Duration:** ~30-60 minutes (53,556 entities)
-**Data Source:** 100% from ra_runners + ra_races (NO API calls)
+**Data Source:** 100% from ra_mst_runners + ra_mst_races (NO API calls)
 
 **What It Calculates:**
 - Total runners/wins for progeny (offspring performance)
@@ -87,7 +87,7 @@ python3 scripts/populate_pedigree_statistics.py
 **YOU WERE RIGHT** that we need API data first, **BUT** we discovered:
 
 1. ✅ **All names are already in the database** (ra_horse_pedigree table)
-2. ✅ **All statistics can be calculated from existing data** (ra_runners + ra_races from 2015-present)
+2. ✅ **All statistics can be calculated from existing data** (ra_mst_runners + ra_mst_races from 2015-present)
 3. ✅ **No API calls are required** to fill ANY missing data
 
 **This means:**

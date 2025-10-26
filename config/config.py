@@ -27,6 +27,7 @@ class SupabaseConfig:
     """Supabase database configuration"""
     url: Optional[str] = None
     service_key: Optional[str] = None
+    db_password: Optional[str] = None
     batch_size: int = 100
     max_retries: int = 3
 
@@ -83,6 +84,7 @@ class ReferenceDataConfig:
         self.supabase = SupabaseConfig(
             url=os.getenv('SUPABASE_URL'),
             service_key=os.getenv('SUPABASE_SERVICE_KEY'),
+            db_password=os.getenv('SUPABASE_PASSWORD'),
             batch_size=int(os.getenv('SUPABASE_BATCH_SIZE', '100'))
         )
 

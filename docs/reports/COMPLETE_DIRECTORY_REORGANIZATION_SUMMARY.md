@@ -265,8 +265,8 @@ Root: 0 files (100% organized)
 **Before:**
 ```
 migrations/
-├── 001_create_ra_races.sql
-├── 002_create_ra_runners.sql
+├── 001_create_ra_mst_races.sql
+├── 002_create_ra_mst_runners.sql
 ├── ... (13 SQL files mixed with Python runners in scripts/)
 ```
 
@@ -274,8 +274,8 @@ migrations/
 ```
 migrations/
 ├── sql/ (13 migration files)
-│   ├── 001_create_ra_races.sql
-│   ├── 002_create_ra_runners.sql
+│   ├── 001_create_ra_mst_races.sql
+│   ├── 002_create_ra_mst_runners.sql
 │   ├── ... (11 more)
 └── runners/ (6 Python migration runners)
     ├── run_migration_011.py

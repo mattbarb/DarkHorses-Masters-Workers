@@ -41,7 +41,7 @@ class DataCompletenessValidator:
             'ra_trainers',
             'ra_owners',
             'ra_races',
-            'ra_runners',
+            'ra_mst_runners',
             'ra_horse_pedigree'
         ]
 
@@ -129,19 +129,19 @@ class DataCompletenessValidator:
 
         try:
             # Total runners
-            total_runners = self.db_client.client.table('ra_runners').select('*', count='exact').limit(0).execute().count
+            total_runners = self.db_client.client.table('ra_mst_runners').select('*', count='exact').limit(0).execute().count
 
             # Runners with position
-            runners_with_position = self.db_client.client.table('ra_runners').select('position', count='exact').not_.is_('position', 'null').limit(0).execute().count
+            runners_with_position = self.db_client.client.table('ra_mst_runners').select('position', count='exact').not_.is_('position', 'null').limit(0).execute().count
 
             # Runners with distance_beaten
-            runners_with_distance = self.db_client.client.table('ra_runners').select('distance_beaten', count='exact').not_.is_('distance_beaten', 'null').limit(0).execute().count
+            runners_with_distance = self.db_client.client.table('ra_mst_runners').select('distance_beaten', count='exact').not_.is_('distance_beaten', 'null').limit(0).execute().count
 
             # Runners with prize_won
-            runners_with_prize = self.db_client.client.table('ra_runners').select('prize_won', count='exact').not_.is_('prize_won', 'null').limit(0).execute().count
+            runners_with_prize = self.db_client.client.table('ra_mst_runners').select('prize_won', count='exact').not_.is_('prize_won', 'null').limit(0).execute().count
 
             # Runners with starting_price
-            runners_with_sp = self.db_client.client.table('ra_runners').select('starting_price', count='exact').not_.is_('starting_price', 'null').limit(0).execute().count
+            runners_with_sp = self.db_client.client.table('ra_mst_runners').select('starting_price', count='exact').not_.is_('starting_price', 'null').limit(0).execute().count
 
             # Calculate percentages
             position_pct = (runners_with_position / total_runners * 100) if total_runners > 0 else 0
@@ -184,14 +184,14 @@ class DataCompletenessValidator:
 
         try:
             # Total runners
-            total_runners = self.db_client.client.table('ra_runners').select('*', count='exact').limit(0).execute().count
+            total_runners = self.db_client.client.table('ra_mst_runners').select('*', count='exact').limit(0).execute().count
 
             # Runners with ratings
-            runners_with_or = self.db_client.client.table('ra_runners').select('official_rating', count='exact').not_.is_('official_rating', 'null').limit(0).execute().count
+            runners_with_or = self.db_client.client.table('ra_mst_runners').select('official_rating', count='exact').not_.is_('official_rating', 'null').limit(0).execute().count
 
-            runners_with_rpr = self.db_client.client.table('ra_runners').select('rpr', count='exact').not_.is_('rpr', 'null').limit(0).execute().count
+            runners_with_rpr = self.db_client.client.table('ra_mst_runners').select('rpr', count='exact').not_.is_('rpr', 'null').limit(0).execute().count
 
-            runners_with_tsr = self.db_client.client.table('ra_runners').select('tsr', count='exact').not_.is_('tsr', 'null').limit(0).execute().count
+            runners_with_tsr = self.db_client.client.table('ra_mst_runners').select('tsr', count='exact').not_.is_('tsr', 'null').limit(0).execute().count
 
             # Calculate percentages
             or_pct = (runners_with_or / total_runners * 100) if total_runners > 0 else 0

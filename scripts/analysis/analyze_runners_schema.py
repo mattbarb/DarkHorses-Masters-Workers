@@ -1,5 +1,5 @@
 """
-Comprehensive ra_runners Schema Analysis
+Comprehensive ra_mst_runners Schema Analysis
 Identifies redundant columns, duplicates, and naming issues
 """
 
@@ -24,14 +24,14 @@ print("=" * 100)
 print()
 
 # Fetch current schema
-result = supabase.table('ra_runners').select('*').limit(1).execute()
+result = supabase.table('ra_mst_runners').select('*').limit(1).execute()
 
 # Get columns from the data (if any rows exist)
 if result.data:
     columns = list(result.data[0].keys())
-    print(f"✅ Found {len(columns)} columns in ra_runners table\n")
+    print(f"✅ Found {len(columns)} columns in ra_mst_runners table\n")
 else:
-    print("⚠️  No data in ra_runners table - fetching from information_schema\n")
+    print("⚠️  No data in ra_mst_runners table - fetching from information_schema\n")
     # Fallback to querying schema
     columns = []
 
@@ -184,7 +184,7 @@ print("  runner_id = f\"{race_id}_{horse_id}\"")
 print()
 print("Analysis:")
 print("  ✅ runner_id IS a composite of race_id + horse_id")
-print("  ✅ It serves as the PRIMARY KEY for ra_runners table")
+print("  ✅ It serves as the PRIMARY KEY for ra_mst_runners table")
 print("  ⚠️  Question: Should we use (race_id, horse_id) as composite PK instead?")
 print()
 print("Recommendation:")

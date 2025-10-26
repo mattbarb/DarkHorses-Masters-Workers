@@ -101,7 +101,7 @@ class EntityExtractor:
                     'updated_at': datetime.utcnow().isoformat()
                 }
 
-                # Note: sire/dam fields are stored in ra_runners table, not ra_horses
+                # Note: sire/dam fields are stored in ra_mst_runners table, not ra_horses
                 # The ra_horses table only has basic horse identification
 
                 horses[horse_id] = horse_record

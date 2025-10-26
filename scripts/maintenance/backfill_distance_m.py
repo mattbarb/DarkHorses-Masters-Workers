@@ -63,7 +63,7 @@ def backfill_distance_m():
 
     # Get all races missing distance_m (query in batches to avoid memory issues)
     logger.info("Counting races with missing distance_m...")
-    count_result = db.client.from_('ra_races').select('id', count='exact').is_('distance_m', 'null').execute()
+    count_result = db.client.from_('ra_mst_races').select('id', count='exact').is_('distance_m', 'null').execute()
     total = count_result.count
 
     logger.info(f"Total races needing backfill: {total:,}")
@@ -74,7 +74,7 @@ def backfill_distance_m():
 
     logger.info(f"Fetching races to update ({fetch_size} at a time)...")
     for offset in range(0, total, fetch_size):
-        result = db.client.from_('ra_races').select('id, distance_f').is_('distance_m', 'null').limit(fetch_size).offset(offset).execute()
+        result = db.client.from_('ra_mst_races').select('id, distance_f').is_('distance_m', 'null').limit(fetch_size).offset(offset).execute()
         races_to_update.extend(result.data)
         logger.info(f"  Fetched {len(races_to_update):,}/{total:,} races")
 
@@ -112,7 +112,7 @@ def backfill_distance_m():
         if updates:
             try:
                 for update in updates:
-                    db.client.from_('ra_races').update({'distance_m': update['distance_m']}).eq('id', update['id']).execute()
+                    db.client.from_('ra_mst_races').update({'distance_m': update['distance_m']}).eq('id', update['id']).execute()
                 updated += len(updates)
                 logger.info(f"  ✓ Updated {len(updates)} races")
             except Exception as e:

@@ -22,15 +22,15 @@
 | ra_mst_sires | 47 | 1 | 41 | 5 | 2.1% |
 | ra_mst_dams | 47 | 1 | 41 | 5 | 2.1% |
 | ra_mst_damsires | 47 | 1 | 41 | 5 | 2.1% |
-| ra_races | 48 | 46 | 0 | 2 | 95.8% |
-| ra_runners | 57 | 53 | 1 | 3 | 93.0% |
+| ra_mst_races | 48 | 46 | 0 | 2 | 95.8% |
+| ra_mst_runners | 57 | 53 | 1 | 3 | 93.0% |
 | **TOTAL** | **344** | **129** | **181** | **34** | **37.5%** |
 
 ### Key Findings
 
 **✅ HIGH API COVERAGE (>80%):**
-- `ra_races`: 95.8% - Race data almost entirely from API
-- `ra_runners`: 93.0% - Runner data almost entirely from API
+- `ra_mst_races`: 95.8% - Race data almost entirely from API
+- `ra_mst_runners`: 93.0% - Runner data almost entirely from API
 - `ra_mst_bookmakers`: 83.3% - Bookmaker reference data from API
 - `ra_mst_horses`: 73.3% - Horse master data mostly from API (via enrichment)
 
@@ -120,7 +120,7 @@
 ### Calculated Statistics (18 columns)
 | Column | Source | Calculation Method | Status |
 |--------|--------|-------------------|--------|
-| `total_rides` | Calculated | `COUNT(*)` from ra_runners | ✅ Correct approach |
+| `total_rides` | Calculated | `COUNT(*)` from ra_mst_runners | ✅ Correct approach |
 | `total_wins` | Calculated | `COUNT(*) WHERE position = 1` | ✅ Correct approach |
 | `total_places` | Calculated | `COUNT(*) WHERE position <= 3` | ✅ Correct approach |
 | `win_rate` | Calculated | `(wins / rides) * 100` | ✅ Correct approach |
@@ -131,7 +131,7 @@
 | `recent_30d_rides` | Calculated | `COUNT(*) WHERE date >= NOW() - 30 days` | ✅ Correct approach |
 | `recent_30d_wins` | Calculated | `COUNT(*) WHERE position = 1 AND date >= NOW() - 30 days` | ✅ Correct approach |
 | `recent_30d_win_rate` | Calculated | `(recent_30d_wins / recent_30d_rides) * 100` | ✅ Correct approach |
-| `last_ride_date` | Calculated | `MAX(date)` from ra_runners | ✅ Correct approach |
+| `last_ride_date` | Calculated | `MAX(date)` from ra_mst_runners | ✅ Correct approach |
 | `last_win_date` | Calculated | `MAX(date) WHERE position = 1` | ✅ Correct approach |
 | `days_since_last_ride` | Calculated | `NOW() - last_ride_date` | ✅ Correct approach |
 | `days_since_last_win` | Calculated | `NOW() - last_win_date` | ✅ Correct approach |
@@ -167,7 +167,7 @@ Racing API does NOT provide aggregate jockey statistics. The `/v1/jockeys/{id}/r
 | `location` | Racing API | `/v1/racecards/pro` (trainer_location) | ✅ Captured from racecards |
 
 ### Calculated Statistics (18 columns)
-Similar to jockeys, all calculated from ra_runners:
+Similar to jockeys, all calculated from ra_mst_runners:
 - `total_runners`, `total_wins`, `total_places`
 - `win_rate`, `place_rate`
 - `recent_14d_runs`, `recent_14d_wins`, `recent_14d_win_rate`
@@ -203,7 +203,7 @@ We correctly calculate comprehensive statistics from our complete race database.
 | `name` | Racing API | `/v1/racecards/pro`, `/v1/results` | ✅ Captured from runners |
 
 ### Calculated Statistics (20 columns)
-Similar to jockeys/trainers, all calculated from ra_runners:
+Similar to jockeys/trainers, all calculated from ra_mst_runners:
 - `total_horses`, `total_runners`, `total_wins`, `total_places`
 - `win_rate`, `place_rate`
 - `recent_14d_runners`, `recent_14d_wins`, `recent_14d_win_rate`
@@ -351,7 +351,7 @@ Racing API does NOT provide sire/dam/damsire aggregate statistics. The `/v1/sire
 
 ---
 
-## 10. ra_races (Races)
+## 10. ra_mst_races (Races)
 
 **Total Columns:** 48
 **From Racing API:** 46 (95.8%)
@@ -423,7 +423,7 @@ Racing API does NOT provide sire/dam/damsire aggregate statistics. The `/v1/sire
 
 ---
 
-## 11. ra_runners (Runners)
+## 11. ra_mst_runners (Runners)
 
 **Total Columns:** 57
 **From Racing API:** 53 (93.0%)
@@ -518,8 +518,8 @@ Racing API does NOT provide sire/dam/damsire aggregate statistics. The `/v1/sire
 ### ✅ CORRECTLY CAPTURED FROM RACING API
 
 **High Coverage Tables (>80% API):**
-1. **ra_races**: 46/48 columns (95.8%) - Comprehensive race data
-2. **ra_runners**: 53/57 columns (93.0%) - Complete runner details
+1. **ra_mst_races**: 46/48 columns (95.8%) - Comprehensive race data
+2. **ra_mst_runners**: 53/57 columns (93.0%) - Complete runner details
 3. **ra_mst_bookmakers**: 5/6 columns (83.3%) - Full bookmaker reference
 4. **ra_mst_horses**: 11/15 columns (73.3%) - Via hybrid enrichment
 

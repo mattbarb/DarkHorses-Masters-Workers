@@ -70,7 +70,7 @@ class SupabaseReferenceClient:
             logger.warning(f"No records to upsert for {table}")
             return {'inserted': 0, 'updated': 0, 'errors': 0}
 
-        # Filter out dropped columns for ra_runners (Migration 016a cleanup)
+        # Filter out dropped columns for ra_mst_runners (Migration 016a cleanup)
         # These columns were dropped but may still be in fetcher code during transition
         DROPPED_RUNNER_COLUMNS = {
             'fetched_at',  # Use created_at instead
@@ -86,8 +86,8 @@ class SupabaseReferenceClient:
             'damsire_name',  # Now in ra_damsires table
         }
 
-        # Clean records if table is ra_runners
-        if table == 'ra_runners':
+        # Clean records if table is ra_mst_runners
+        if table == 'ra_mst_runners':
             cleaned_records = []
             for record in records:
                 # Remove dropped columns from this record
@@ -244,21 +244,21 @@ class SupabaseReferenceClient:
     def insert_races(self, races: List[Dict]) -> Dict:
         """Insert/update races (unified table)"""
         logger.info(f"Inserting {len(races)} races")
-        return self.upsert_batch('ra_races', races, 'id')
+        return self.upsert_batch('ra_mst_races', races, 'id')
 
     def insert_results(self, results: List[Dict]) -> Dict:
         """
         Insert/update race results (ra_results table)
 
         This stores race-level result data including tote pools, winning time,
-        comments, and non-runners. Runner-level results are stored in ra_runners.
+        comments, and non-runners. Runner-level results are stored in ra_mst_runners.
         """
         logger.info(f"Inserting {len(results)} results")
         return self.upsert_batch('ra_results', results, 'id')
 
     def insert_race_results(self, results: List[Dict]) -> Dict:
         """
-        Insert/update runner race results (ra_race_results table)
+        Insert/update runner race results (ra_mst_race_results table)
 
         Note: This table stores individual runner results.
         Uses auto-increment 'id' as primary key, no unique constraint on race_id/horse_id.
@@ -266,20 +266,20 @@ class SupabaseReferenceClient:
         """
         logger.info(f"Inserting {len(results)} runner race results")
         # Use insert without ON CONFLICT since table has no unique constraint
-        return self.insert_batch_no_conflict('ra_race_results', results)
+        return self.insert_batch_no_conflict('ra_mst_race_results', results)
 
     def insert_runners(self, runners: List[Dict]) -> Dict:
         """
         Insert/update runners (unified table)
 
         Note: This includes race results data (position, distance_beaten, prize_won, starting_price)
-        The ra_results table was removed - all results data is stored in ra_runners.
+        The ra_results table was removed - all results data is stored in ra_mst_runners.
         See: docs/RESULTS_DATA_ARCHITECTURE.md
 
-        IMPORTANT: ra_runners uses composite unique key (race_id, horse_id) not 'id'
+        IMPORTANT: ra_mst_runners uses composite unique key (race_id, horse_id) not 'id'
         """
         logger.info(f"Inserting {len(runners)} runners")
-        return self.upsert_batch('ra_runners', runners, 'race_id,horse_id')
+        return self.upsert_batch('ra_mst_runners', runners, 'race_id,horse_id')
 
     def insert_bookmakers(self, bookmakers: List[Dict]) -> Dict:
         """Insert/update bookmakers"""

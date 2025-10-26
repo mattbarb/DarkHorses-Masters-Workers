@@ -26,8 +26,8 @@ from collections import defaultdict
 FETCHER_TABLE_MAPPING = {
     'courses_fetcher.py': ['ra_courses'],
     'bookmakers_fetcher.py': ['ra_bookmakers'],
-    'races_fetcher.py': ['ra_races', 'ra_runners'],
-    'results_fetcher.py': ['ra_races', 'ra_runners'],
+    'races_fetcher.py': ['ra_races', 'ra_mst_runners'],
+    'results_fetcher.py': ['ra_races', 'ra_mst_runners'],
     'entity_extractor.py': ['ra_horses', 'ra_jockeys', 'ra_trainers', 'ra_owners', 'ra_sires', 'ra_dams', 'ra_damsires']
 }
 
@@ -303,19 +303,19 @@ def main():
             report['ra_races']['columns']
         )
 
-    if 'ra_runners' in report:
-        comparisons['races_fetcher→ra_runners'] = compare_fetcher_to_schema(
+    if 'ra_mst_runners' in report:
+        comparisons['races_fetcher→ra_mst_runners'] = compare_fetcher_to_schema(
             'races_fetcher.py',
-            'ra_runners',
-            report['ra_runners']['columns']
+            'ra_mst_runners',
+            report['ra_mst_runners']['columns']
         )
 
     # Results fetcher
-    if 'ra_runners' in report:
-        comparisons['results_fetcher→ra_runners'] = compare_fetcher_to_schema(
+    if 'ra_mst_runners' in report:
+        comparisons['results_fetcher→ra_mst_runners'] = compare_fetcher_to_schema(
             'results_fetcher.py',
-            'ra_runners',
-            report['ra_runners']['columns']
+            'ra_mst_runners',
+            report['ra_mst_runners']['columns']
         )
 
     # Courses fetcher

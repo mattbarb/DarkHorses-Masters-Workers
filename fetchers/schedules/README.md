@@ -16,7 +16,7 @@ Complete schedule configuration for all calculated/derived tables:
 ### Racing API Data Fetch
 - **Frequency:** Hourly (checks internal schedule)
 - **Script:** `fetchers/master_fetcher_controller.py --mode scheduled`
-- **Tables:** ra_races, ra_runners, ra_mst_*, etc.
+- **Tables:** ra_races, ra_mst_runners, ra_mst_*, etc.
 - **Cron:** `0 * * * *`
 
 ### Calculated Tables (Daily)
@@ -80,7 +80,7 @@ When `populate_all_calculated_tables.py` runs:
 Racing API Fetch (hourly)
     ↓
 Source Tables Populated
-    ├── ra_runners
+    ├── ra_mst_runners
     ├── ra_races
     └── ra_odds_live
     ↓

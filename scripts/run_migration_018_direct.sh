@@ -21,11 +21,11 @@ echo ""
 echo "Stage 1: Dropping duplicate columns..."
 psql -h $PGHOST -p $PGPORT -U $PGUSER -d $PGDATABASE << 'EOF'
 BEGIN;
-ALTER TABLE ra_runners DROP COLUMN IF EXISTS jockey_claim;
-ALTER TABLE ra_runners DROP COLUMN IF EXISTS apprentice_allowance;
-ALTER TABLE ra_runners DROP COLUMN IF EXISTS overall_beaten_distance;
-ALTER TABLE ra_runners DROP COLUMN IF EXISTS racing_post_rating;
-ALTER TABLE ra_runners DROP COLUMN IF EXISTS race_comment;
+ALTER TABLE ra_mst_runners DROP COLUMN IF EXISTS jockey_claim;
+ALTER TABLE ra_mst_runners DROP COLUMN IF EXISTS apprentice_allowance;
+ALTER TABLE ra_mst_runners DROP COLUMN IF EXISTS overall_beaten_distance;
+ALTER TABLE ra_mst_runners DROP COLUMN IF EXISTS racing_post_rating;
+ALTER TABLE ra_mst_runners DROP COLUMN IF EXISTS race_comment;
 NOTIFY pgrst, 'reload schema';
 COMMIT;
 SELECT '✅ Stage 1 Complete: 5 duplicate columns dropped' as status;
@@ -35,8 +35,8 @@ echo ""
 echo "Stage 2: Renaming columns..."
 psql -h $PGHOST -p $PGPORT -U $PGUSER -d $PGDATABASE << 'EOF'
 BEGIN;
-ALTER TABLE ra_runners RENAME COLUMN age TO horse_age;
-ALTER TABLE ra_runners RENAME COLUMN sex TO horse_sex;
+ALTER TABLE ra_mst_runners RENAME COLUMN age TO horse_age;
+ALTER TABLE ra_mst_runners RENAME COLUMN sex TO horse_sex;
 NOTIFY pgrst, 'reload schema';
 COMMIT;
 SELECT '✅ Stage 2 Complete: 2 columns renamed' as status;
@@ -46,30 +46,30 @@ echo ""
 echo "Stage 3: Adding new columns..."
 psql -h $PGHOST -p $PGPORT -U $PGUSER -d $PGDATABASE << 'EOF'
 BEGIN;
-ALTER TABLE ra_runners ADD COLUMN IF NOT EXISTS horse_dob DATE;
-ALTER TABLE ra_runners ADD COLUMN IF NOT EXISTS horse_sex_code CHAR(1);
-ALTER TABLE ra_runners ADD COLUMN IF NOT EXISTS horse_colour VARCHAR(100);
-ALTER TABLE ra_runners ADD COLUMN IF NOT EXISTS horse_region VARCHAR(10);
-ALTER TABLE ra_runners ADD COLUMN IF NOT EXISTS breeder VARCHAR(255);
-ALTER TABLE ra_runners ADD COLUMN IF NOT EXISTS sire_region VARCHAR(20);
-ALTER TABLE ra_runners ADD COLUMN IF NOT EXISTS dam_region VARCHAR(20);
-ALTER TABLE ra_runners ADD COLUMN IF NOT EXISTS damsire_region VARCHAR(20);
-ALTER TABLE ra_runners ADD COLUMN IF NOT EXISTS trainer_location VARCHAR(255);
-ALTER TABLE ra_runners ADD COLUMN IF NOT EXISTS trainer_14_days JSONB;
-ALTER TABLE ra_runners ADD COLUMN IF NOT EXISTS trainer_rtf VARCHAR(50);
-ALTER TABLE ra_runners ADD COLUMN IF NOT EXISTS headgear_run VARCHAR(50);
-ALTER TABLE ra_runners ADD COLUMN IF NOT EXISTS wind_surgery VARCHAR(200);
-ALTER TABLE ra_runners ADD COLUMN IF NOT EXISTS wind_surgery_run VARCHAR(50);
-ALTER TABLE ra_runners ADD COLUMN IF NOT EXISTS last_run_date DATE;
-ALTER TABLE ra_runners ADD COLUMN IF NOT EXISTS comment TEXT;
-ALTER TABLE ra_runners ADD COLUMN IF NOT EXISTS spotlight TEXT;
-ALTER TABLE ra_runners ADD COLUMN IF NOT EXISTS quotes JSONB;
-ALTER TABLE ra_runners ADD COLUMN IF NOT EXISTS stable_tour JSONB;
-ALTER TABLE ra_runners ADD COLUMN IF NOT EXISTS medical JSONB;
-ALTER TABLE ra_runners ADD COLUMN IF NOT EXISTS past_results_flags TEXT[];
-ALTER TABLE ra_runners ADD COLUMN IF NOT EXISTS prev_trainers JSONB;
-ALTER TABLE ra_runners ADD COLUMN IF NOT EXISTS prev_owners JSONB;
-ALTER TABLE ra_runners ADD COLUMN IF NOT EXISTS odds JSONB;
+ALTER TABLE ra_mst_runners ADD COLUMN IF NOT EXISTS horse_dob DATE;
+ALTER TABLE ra_mst_runners ADD COLUMN IF NOT EXISTS horse_sex_code CHAR(1);
+ALTER TABLE ra_mst_runners ADD COLUMN IF NOT EXISTS horse_colour VARCHAR(100);
+ALTER TABLE ra_mst_runners ADD COLUMN IF NOT EXISTS horse_region VARCHAR(10);
+ALTER TABLE ra_mst_runners ADD COLUMN IF NOT EXISTS breeder VARCHAR(255);
+ALTER TABLE ra_mst_runners ADD COLUMN IF NOT EXISTS sire_region VARCHAR(20);
+ALTER TABLE ra_mst_runners ADD COLUMN IF NOT EXISTS dam_region VARCHAR(20);
+ALTER TABLE ra_mst_runners ADD COLUMN IF NOT EXISTS damsire_region VARCHAR(20);
+ALTER TABLE ra_mst_runners ADD COLUMN IF NOT EXISTS trainer_location VARCHAR(255);
+ALTER TABLE ra_mst_runners ADD COLUMN IF NOT EXISTS trainer_14_days JSONB;
+ALTER TABLE ra_mst_runners ADD COLUMN IF NOT EXISTS trainer_rtf VARCHAR(50);
+ALTER TABLE ra_mst_runners ADD COLUMN IF NOT EXISTS headgear_run VARCHAR(50);
+ALTER TABLE ra_mst_runners ADD COLUMN IF NOT EXISTS wind_surgery VARCHAR(200);
+ALTER TABLE ra_mst_runners ADD COLUMN IF NOT EXISTS wind_surgery_run VARCHAR(50);
+ALTER TABLE ra_mst_runners ADD COLUMN IF NOT EXISTS last_run_date DATE;
+ALTER TABLE ra_mst_runners ADD COLUMN IF NOT EXISTS comment TEXT;
+ALTER TABLE ra_mst_runners ADD COLUMN IF NOT EXISTS spotlight TEXT;
+ALTER TABLE ra_mst_runners ADD COLUMN IF NOT EXISTS quotes JSONB;
+ALTER TABLE ra_mst_runners ADD COLUMN IF NOT EXISTS stable_tour JSONB;
+ALTER TABLE ra_mst_runners ADD COLUMN IF NOT EXISTS medical JSONB;
+ALTER TABLE ra_mst_runners ADD COLUMN IF NOT EXISTS past_results_flags TEXT[];
+ALTER TABLE ra_mst_runners ADD COLUMN IF NOT EXISTS prev_trainers JSONB;
+ALTER TABLE ra_mst_runners ADD COLUMN IF NOT EXISTS prev_owners JSONB;
+ALTER TABLE ra_mst_runners ADD COLUMN IF NOT EXISTS odds JSONB;
 NOTIFY pgrst, 'reload schema';
 COMMIT;
 SELECT '✅ Stage 3 Complete: 24 new columns added' as status;
@@ -79,20 +79,20 @@ echo ""
 echo "Stage 4: Creating indexes..."
 psql -h $PGHOST -p $PGPORT -U $PGUSER -d $PGDATABASE << 'EOF'
 BEGIN;
-CREATE INDEX IF NOT EXISTS idx_ra_runners_horse_age ON ra_runners(horse_age);
-CREATE INDEX IF NOT EXISTS idx_ra_runners_horse_sex_code ON ra_runners(horse_sex_code);
-CREATE INDEX IF NOT EXISTS idx_ra_runners_horse_region ON ra_runners(horse_region);
-CREATE INDEX IF NOT EXISTS idx_ra_runners_horse_dob ON ra_runners(horse_dob);
-CREATE INDEX IF NOT EXISTS idx_ra_runners_horse_colour ON ra_runners(horse_colour);
-CREATE INDEX IF NOT EXISTS idx_ra_runners_last_run_date ON ra_runners(last_run_date);
-CREATE INDEX IF NOT EXISTS idx_ra_runners_trainer_14_days_gin ON ra_runners USING GIN (trainer_14_days);
-CREATE INDEX IF NOT EXISTS idx_ra_runners_quotes_gin ON ra_runners USING GIN (quotes);
-CREATE INDEX IF NOT EXISTS idx_ra_runners_stable_tour_gin ON ra_runners USING GIN (stable_tour);
-CREATE INDEX IF NOT EXISTS idx_ra_runners_medical_gin ON ra_runners USING GIN (medical);
-CREATE INDEX IF NOT EXISTS idx_ra_runners_prev_trainers_gin ON ra_runners USING GIN (prev_trainers);
-CREATE INDEX IF NOT EXISTS idx_ra_runners_prev_owners_gin ON ra_runners USING GIN (prev_owners);
-CREATE INDEX IF NOT EXISTS idx_ra_runners_odds_gin ON ra_runners USING GIN (odds);
-CREATE INDEX IF NOT EXISTS idx_ra_runners_past_results_flags_gin ON ra_runners USING GIN (past_results_flags);
+CREATE INDEX IF NOT EXISTS idx_ra_mst_runners_horse_age ON ra_mst_runners(horse_age);
+CREATE INDEX IF NOT EXISTS idx_ra_mst_runners_horse_sex_code ON ra_mst_runners(horse_sex_code);
+CREATE INDEX IF NOT EXISTS idx_ra_mst_runners_horse_region ON ra_mst_runners(horse_region);
+CREATE INDEX IF NOT EXISTS idx_ra_mst_runners_horse_dob ON ra_mst_runners(horse_dob);
+CREATE INDEX IF NOT EXISTS idx_ra_mst_runners_horse_colour ON ra_mst_runners(horse_colour);
+CREATE INDEX IF NOT EXISTS idx_ra_mst_runners_last_run_date ON ra_mst_runners(last_run_date);
+CREATE INDEX IF NOT EXISTS idx_ra_mst_runners_trainer_14_days_gin ON ra_mst_runners USING GIN (trainer_14_days);
+CREATE INDEX IF NOT EXISTS idx_ra_mst_runners_quotes_gin ON ra_mst_runners USING GIN (quotes);
+CREATE INDEX IF NOT EXISTS idx_ra_mst_runners_stable_tour_gin ON ra_mst_runners USING GIN (stable_tour);
+CREATE INDEX IF NOT EXISTS idx_ra_mst_runners_medical_gin ON ra_mst_runners USING GIN (medical);
+CREATE INDEX IF NOT EXISTS idx_ra_mst_runners_prev_trainers_gin ON ra_mst_runners USING GIN (prev_trainers);
+CREATE INDEX IF NOT EXISTS idx_ra_mst_runners_prev_owners_gin ON ra_mst_runners USING GIN (prev_owners);
+CREATE INDEX IF NOT EXISTS idx_ra_mst_runners_odds_gin ON ra_mst_runners USING GIN (odds);
+CREATE INDEX IF NOT EXISTS idx_ra_mst_runners_past_results_flags_gin ON ra_mst_runners USING GIN (past_results_flags);
 NOTIFY pgrst, 'reload schema';
 COMMIT;
 SELECT '✅ Stage 4 Complete: All indexes created' as status;

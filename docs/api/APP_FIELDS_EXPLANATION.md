@@ -13,11 +13,11 @@ These fields were **planned but never implemented** in the original schema desig
 
 ## The Fields in Question
 
-### ra_races table:
+### ra_mst_races table:
 - `api_race_id` - 100% NULL
 - `app_race_id` - 100% NULL
 
-### ra_runners table:
+### ra_mst_runners table:
 - `api_entry_id` - 100% NULL
 - `app_entry_id` - 100% NULL
 - `entry_id` - 100% NULL
@@ -35,7 +35,7 @@ The original schema was designed to support **multiple data sources**:
 3. **`app_*` fields** - Internal application-generated IDs
 4. **Primary ID** - The actual ID used in the system
 
-### Example from ra_races:
+### Example from ra_mst_races:
 
 ```
 race_id                 - Primary key (from Racing API: "rac_12345")
@@ -44,7 +44,7 @@ api_race_id             - UNUSED - Would be for alternative API source
 app_race_id             - UNUSED - Would be for internal app ID generation
 ```
 
-### Example from ra_runners:
+### Example from ra_mst_runners:
 
 ```
 runner_id               - Primary key (composite: "rac_12345_hrs_67890")
@@ -89,7 +89,7 @@ From `migrations/002_database_fixes.sql`:
 ```sql
 -- Optional: Remove racing_api_* duplicates if you prefer
 -- (Keeping them for now as they may be useful for audit trail)
--- ALTER TABLE ra_races DROP COLUMN IF EXISTS racing_api_race_id;
+-- ALTER TABLE ra_mst_races DROP COLUMN IF EXISTS racing_api_race_id;
 ```
 
 **Decision:** Keep `racing_api_*` fields for audit trail (they ARE used)
@@ -153,22 +153,22 @@ race_record = {
 
 ### ✅ REMOVE These Unused Fields:
 
-**From ra_races:**
+**From ra_mst_races:**
 - `api_race_id` (100% NULL, never will be used)
 - `app_race_id` (100% NULL, never will be used)
 
-**From ra_runners:**
+**From ra_mst_runners:**
 - `api_entry_id` (100% NULL, never will be used)
 - `app_entry_id` (100% NULL, never will be used)
 - `entry_id` (100% NULL, duplicate of `runner_id`)
 
 ### ✅ KEEP These Used Fields:
 
-**From ra_races:**
+**From ra_mst_races:**
 - `racing_api_race_id` ✅ Used in code
 - `is_from_api` ✅ Used in code
 
-**From ra_runners:**
+**From ra_mst_runners:**
 - `racing_api_race_id` ✅ Used in code
 - `racing_api_horse_id` ✅ Used in code
 - `racing_api_jockey_id` ✅ Used in code
@@ -186,33 +186,33 @@ race_record = {
 -- Migration 009: Remove unused ID tracking fields
 -- These fields were planned for multi-source support but never implemented
 
--- Remove from ra_races
-ALTER TABLE ra_races
+-- Remove from ra_mst_races
+ALTER TABLE ra_mst_races
   DROP COLUMN IF EXISTS api_race_id,
   DROP COLUMN IF EXISTS app_race_id;
 
--- Remove from ra_runners
-ALTER TABLE ra_runners
+-- Remove from ra_mst_runners
+ALTER TABLE ra_mst_runners
   DROP COLUMN IF EXISTS api_entry_id,
   DROP COLUMN IF EXISTS app_entry_id,
   DROP COLUMN IF EXISTS entry_id;
 
 -- Verify removal
 SELECT
-  'ra_races' as table_name,
+  'ra_mst_races' as table_name,
   COUNT(*) FILTER (WHERE column_name = 'api_race_id') as has_api_race_id,
   COUNT(*) FILTER (WHERE column_name = 'app_race_id') as has_app_race_id
 FROM information_schema.columns
-WHERE table_name = 'ra_races'
+WHERE table_name = 'ra_mst_races'
   AND column_name IN ('api_race_id', 'app_race_id');
 
 SELECT
-  'ra_runners' as table_name,
+  'ra_mst_runners' as table_name,
   COUNT(*) FILTER (WHERE column_name = 'api_entry_id') as has_api_entry_id,
   COUNT(*) FILTER (WHERE column_name = 'app_entry_id') as has_app_entry_id,
   COUNT(*) FILTER (WHERE column_name = 'entry_id') as has_entry_id
 FROM information_schema.columns
-WHERE table_name = 'ra_runners'
+WHERE table_name = 'ra_mst_runners'
   AND column_name IN ('api_entry_id', 'app_entry_id', 'entry_id');
 ```
 
@@ -231,11 +231,11 @@ WHERE table_name = 'ra_runners'
 
 ### Before vs After:
 
-**ra_races:**
+**ra_mst_races:**
 - Before: 45 columns (2 unused)
 - After: 43 columns (0 unused)
 
-**ra_runners:**
+**ra_mst_runners:**
 - Before: 69 columns (3 unused)
 - After: 66 columns (0 unused)
 

@@ -48,8 +48,8 @@ class AutonomousValidationAgent:
         self.tables_to_verify = [
             # Transaction tables (highest priority)
             'ra_races',
-            'ra_runners',
-            'ra_race_results',
+            'ra_mst_runners',
+            'ra_mst_race_results',
 
             # Master tables - People
             'ra_mst_jockeys',

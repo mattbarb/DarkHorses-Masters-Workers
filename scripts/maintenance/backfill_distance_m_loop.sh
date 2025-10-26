@@ -18,7 +18,7 @@ from config.config import get_config
 from utils.supabase_client import SupabaseReferenceClient
 config = get_config()
 db = SupabaseReferenceClient(config.supabase.url, config.supabase.service_key)
-result = db.client.from_('ra_races').select('id', count='exact').is_('distance_m', 'null').execute()
+result = db.client.from_('ra_mst_races').select('id', count='exact').is_('distance_m', 'null').execute()
 print(result.count)
 " 2>/dev/null)
 
@@ -65,7 +65,7 @@ from config.config import get_config
 from utils.supabase_client import SupabaseReferenceClient
 config = get_config()
 db = SupabaseReferenceClient(config.supabase.url, config.supabase.service_key)
-result = db.client.from_('ra_races').select('id', count='exact').is_('distance_m', 'null').execute()
+result = db.client.from_('ra_mst_races').select('id', count='exact').is_('distance_m', 'null').execute()
 print(result.count)
 " 2>/dev/null)
     
@@ -94,8 +94,8 @@ from config.config import get_config
 from utils.supabase_client import SupabaseReferenceClient
 config = get_config()
 db = SupabaseReferenceClient(config.supabase.url, config.supabase.service_key)
-total = db.client.from_('ra_races').select('id', count='exact').execute().count
-with_dist = db.client.from_('ra_races').select('id', count='exact').not_.is_('distance_m', 'null').execute().count
+total = db.client.from_('ra_mst_races').select('id', count='exact').execute().count
+with_dist = db.client.from_('ra_mst_races').select('id', count='exact').not_.is_('distance_m', 'null').execute().count
 missing = total - with_dist
 pct = (with_dist / total * 100) if total > 0 else 0
 print(f"Total races: {total:,}")

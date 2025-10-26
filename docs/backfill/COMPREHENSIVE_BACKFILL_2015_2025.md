@@ -16,8 +16,8 @@ Based on analysis conducted on 2025-10-16:
 
 | Table | Total Records | Coverage | Status |
 |-------|--------------|----------|--------|
-| **ra_races** | 136,648 | 2015-2025 (100%) | ✅ COMPLETE |
-| **ra_runners** | 380,313 | 2025 only (~28%) | ⚠️ PARTIAL |
+| **ra_mst_races** | 136,648 | 2015-2025 (100%) | ✅ COMPLETE |
+| **ra_mst_runners** | 380,313 | 2025 only (~28%) | ⚠️ PARTIAL |
 | **ra_horses** | 111,430 | 2025 only | ⚠️ PARTIAL |
 | **ra_jockeys** | 3,482 | 2025 only | ⚠️ PARTIAL |
 | **ra_trainers** | 2,780 | 2025 only | ⚠️ PARTIAL |
@@ -28,7 +28,7 @@ Based on analysis conducted on 2025-10-16:
 
 ### Critical Finding
 
-**The ra_runners table only has ~28% coverage** (380,313 runners for 136,648 races = 2.78 runners per race average, when it should be ~10). This indicates that while we have runner data from October 2025, **we're missing runner data for the vast majority of historical races (2015-2024)**.
+**The ra_mst_runners table only has ~28% coverage** (380,313 runners for 136,648 races = 2.78 runners per race average, when it should be ~10). This indicates that while we have runner data from October 2025, **we're missing runner data for the vast majority of historical races (2015-2024)**.
 
 This is a **CRITICAL GAP** that blocks:
 - Historical race analysis
@@ -50,8 +50,8 @@ This is a **CRITICAL GAP** that blocks:
 
 1. **Fetches racecards** for all dates from 2015-01-01 onwards using `/v1/racecards/pro` endpoint
 2. **Extracts and stores:**
-   - Race metadata → `ra_races` (UPSERT, no duplicates)
-   - Runner data → `ra_runners` (CRITICAL - fills the gap)
+   - Race metadata → `ra_mst_races` (UPSERT, no duplicates)
+   - Runner data → `ra_mst_runners` (CRITICAL - fills the gap)
    - Jockey entities → `ra_jockeys`
    - Trainer entities → `ra_trainers`
    - Owner entities → `ra_owners`
@@ -365,8 +365,8 @@ EntityExtractor.extract_and_store_from_runners()
     └─ Store complete data with pedigree
     ↓
 Supabase PostgreSQL (UPSERT)
-    ├─ ra_races (race metadata)
-    ├─ ra_runners (runner data) ← CRITICAL GAP BEING FILLED
+    ├─ ra_mst_races (race metadata)
+    ├─ ra_mst_runners (runner data) ← CRITICAL GAP BEING FILLED
     ├─ ra_jockeys (jockeys)
     ├─ ra_trainers (trainers)
     ├─ ra_owners (owners)
@@ -451,8 +451,8 @@ SELECT
   ROUND(COUNT(DISTINCT run.race_id)::numeric / COUNT(DISTINCT r.race_id)::numeric * 100, 2) as coverage_pct,
   COUNT(run.runner_id) as total_runners,
   ROUND(COUNT(run.runner_id)::numeric / COUNT(DISTINCT r.race_id)::numeric, 1) as avg_runners_per_race
-FROM ra_races r
-LEFT JOIN ra_runners run ON r.race_id = run.race_id
+FROM ra_mst_races r
+LEFT JOIN ra_mst_runners run ON r.race_id = run.race_id
 WHERE r.race_date >= '2015-01-01'
 GROUP BY EXTRACT(YEAR FROM r.race_date)
 ORDER BY year DESC;
@@ -489,7 +489,7 @@ SELECT 'Pedigrees', COUNT(*) FROM ra_horse_pedigree;
 
 -- 5. Check for orphaned runners (runners without horses)
 SELECT COUNT(*)
-FROM ra_runners run
+FROM ra_mst_runners run
 LEFT JOIN ra_horses h ON run.horse_id = h.horse_id
 WHERE h.horse_id IS NULL;
 ```
@@ -562,7 +562,7 @@ Action: Verify unique constraints on tables
 1. **Manual recovery:**
 ```bash
 # Check last processed date from database
-python3 -c "from utils.supabase_client import SupabaseReferenceClient; from config.config import get_config; c = get_config(); db = SupabaseReferenceClient(c.supabase.url, c.supabase.service_key); result = db.client.table('ra_runners').select('fetched_at').order('fetched_at', desc=True).limit(1).execute(); print(result.data[0]['fetched_at'] if result.data else 'No data')"
+python3 -c "from utils.supabase_client import SupabaseReferenceClient; from config.config import get_config; c = get_config(); db = SupabaseReferenceClient(c.supabase.url, c.supabase.service_key); result = db.client.table('ra_mst_runners').select('fetched_at').order('fetched_at', desc=True).limit(1).execute(); print(result.data[0]['fetched_at'] if result.data else 'No data')"
 
 # Resume from that date
 python3 scripts/backfill_all_ra_tables_2015_2025.py --start-date <LAST_DATE>

@@ -45,7 +45,7 @@ def step1_backup_database():
 
     logger.warning("IMPORTANT: Manually create backup tables before proceeding:")
     logger.warning("  CREATE TABLE ra_horses_backup_20251008 AS SELECT * FROM ra_horses;")
-    logger.warning("  CREATE TABLE ra_runners_backup_20251008 AS SELECT * FROM ra_runners;")
+    logger.warning("  CREATE TABLE ra_mst_runners_backup_20251008 AS SELECT * FROM ra_mst_runners;")
     logger.warning("  CREATE TABLE ra_races_backup_20251008 AS SELECT * FROM ra_races;")
     logger.warning("  CREATE TABLE ra_horse_pedigree_backup_20251008 AS SELECT * FROM ra_horse_pedigree;")
 

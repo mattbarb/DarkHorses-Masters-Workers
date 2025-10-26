@@ -31,9 +31,9 @@ These tables get ALL their data from The Racing API:
 #### Transaction Tables (Date Range Fetchers)
 | Table | API Endpoint | Fetcher Script | Data Type |
 |-------|--------------|----------------|-----------|
-| `ra_races` | `/v1/racecards/pro` | `races_fetcher.py` | Race metadata |
-| `ra_runners` | `/v1/racecards/pro` | `races_fetcher.py` | Race entries/runners |
-| `ra_race_results` | `/v1/results` | `results_fetcher.py` | Historical results |
+| `ra_mst_races` | `/v1/racecards/pro` | `races_fetcher.py` | Race metadata |
+| `ra_mst_runners` | `/v1/racecards/pro` | `races_fetcher.py` | Race entries/runners |
+| `ra_mst_race_results` | `/v1/results` | `results_fetcher.py` | Historical results |
 
 #### Enriched Tables (Hybrid: API + Enrichment)
 | Table | Primary API | Enrichment API | Fetcher Script | Data Type |
@@ -52,9 +52,9 @@ These tables are calculated FROM existing Racing API data:
 #### Pedigree Statistics (Calculated from Progeny Performance)
 | Table | Data Source | Calculation Script | Calculation Type |
 |-------|-------------|-------------------|------------------|
-| `ra_mst_sires` | `ra_runners` + `ra_races` + `ra_mst_horses` | `scripts/populate_pedigree_statistics.py` | Aggregate progeny stats |
-| `ra_mst_dams` | `ra_runners` + `ra_races` + `ra_mst_horses` | `scripts/populate_pedigree_statistics.py` | Aggregate progeny stats |
-| `ra_mst_damsires` | `ra_runners` + `ra_races` + `ra_mst_horses` | `scripts/populate_pedigree_statistics.py` | Aggregate grandprogeny stats |
+| `ra_mst_sires` | `ra_mst_runners` + `ra_mst_races` + `ra_mst_horses` | `scripts/populate_pedigree_statistics.py` | Aggregate progeny stats |
+| `ra_mst_dams` | `ra_mst_runners` + `ra_mst_races` + `ra_mst_horses` | `scripts/populate_pedigree_statistics.py` | Aggregate progeny stats |
+| `ra_mst_damsires` | `ra_mst_runners` + `ra_mst_races` + `ra_mst_horses` | `scripts/populate_pedigree_statistics.py` | Aggregate grandprogeny stats |
 
 **Columns Calculated (47 per table):**
 - Total runners, wins, places
@@ -68,15 +68,15 @@ These tables are calculated FROM existing Racing API data:
 #### Performance Metrics (Calculated from Race Results)
 | Table | Data Source | Calculation Script | Calculation Type |
 |-------|-------------|-------------------|------------------|
-| `ra_performance_by_distance` | `ra_runners` + `ra_races` | TBD | Distance performance aggregates |
-| `ra_performance_by_venue` | `ra_runners` + `ra_races` | TBD | Venue performance aggregates |
-| `ra_runner_statistics` | `ra_runners` + `ra_races` | TBD | Individual runner stats |
+| `ra_performance_by_distance` | `ra_mst_runners` + `ra_mst_races` | TBD | Distance performance aggregates |
+| `ra_performance_by_venue` | `ra_mst_runners` + `ra_mst_races` | TBD | Venue performance aggregates |
+| `ra_runner_statistics` | `ra_mst_runners` + `ra_mst_races` | TBD | Individual runner stats |
 
 #### Supplementary Tables
 | Table | Data Source | Population Method | Data Type |
 |-------|-------------|-------------------|-----------|
-| `ra_runner_supplementary` | `ra_runners` (extracted) | Direct extraction | Additional runner metadata |
-| `ra_entity_combinations` | `ra_runners` (patterns) | Pattern analysis | Entity combination tracking |
+| `ra_runner_supplementary` | `ra_mst_runners` (extracted) | Direct extraction | Additional runner metadata |
+| `ra_entity_combinations` | `ra_mst_runners` (patterns) | Pattern analysis | Entity combination tracking |
 
 ---
 
@@ -253,9 +253,9 @@ python3 scripts/populate_pedigree_statistics.py
 | `ra_mst_owners` | Racing API | ✅ Production |
 | `ra_mst_horses` | Racing API (hybrid) | ✅ Production |
 | `ra_horse_pedigree` | Racing API (enrichment) | ✅ Production |
-| `ra_races` | Racing API | ✅ Production |
-| `ra_runners` | Racing API | ✅ Production |
-| `ra_race_results` | Racing API | ✅ Production |
+| `ra_mst_races` | Racing API | ✅ Production |
+| `ra_mst_runners` | Racing API | ✅ Production |
+| `ra_mst_race_results` | Racing API | ✅ Production |
 | `ra_mst_regions` | Extracted from courses | ✅ Production |
 | `ra_mst_sires` | Database calculation | ✅ Production |
 | `ra_mst_dams` | Database calculation | ✅ Production |

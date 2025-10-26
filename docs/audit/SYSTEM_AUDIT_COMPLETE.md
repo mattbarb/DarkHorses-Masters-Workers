@@ -15,7 +15,7 @@ Comprehensive fetcher audit completed with **excellent results**. The system is 
 ### ✅ System Working Correctly
 
 1. **All 14 ra_* tables are being populated**
-   - Transaction tables: ra_races, ra_runners, ra_race_results ✅
+   - Transaction tables: ra_mst_races, ra_mst_runners, ra_mst_race_results ✅
    - Master reference tables: 7 tables (courses, bookmakers, regions, people, horses) ✅
    - Pedigree statistics: ra_mst_sires, ra_mst_dams, ra_mst_damsires ✅
    - Pedigree lineage: ra_horse_pedigree ✅
@@ -51,7 +51,7 @@ Comprehensive fetcher audit completed with **excellent results**. The system is 
 
 ## Changes Made This Session
 
-### 1. Fixed ra_race_results Population
+### 1. Fixed ra_mst_race_results Population
 **Issue:** Table had 0 records (code was commented out)
 **Fix:**
 - Un-commented and rewrote insertion code in `results_fetcher.py`
@@ -112,7 +112,7 @@ Racing API (/v1/racecards/pro, /v1/results, etc.)
     ↓
 Fetchers (races, results, courses, bookmakers, masters)
     ↓
-Primary Tables (ra_races, ra_runners, ra_mst_*)
+Primary Tables (ra_mst_races, ra_mst_runners, ra_mst_*)
     ↓
 Entity Extraction (AUTOMATIC)
     ├── ra_mst_jockeys (base fields)
@@ -135,8 +135,8 @@ Statistics Calculation (SECONDARY - from database)
 **Database Size:** 1,675,869 total records across 14 tables
 
 **Largest Tables:**
-- ra_runners: 1,327,279 records
-- ra_races: 137,035 records
+- ra_mst_runners: 1,327,279 records
+- ra_mst_races: 137,035 records
 - ra_mst_horses: 111,692 records
 - ra_horse_pedigree: 111,624 records
 - ra_mst_dams: 48,372 records
@@ -200,7 +200,7 @@ Statistics Calculation (SECONDARY - from database)
 9. `migrations/028_drop_ra_runner_supplementary.sql` - Table removal migration
 
 ### Modified Files
-1. `fetchers/results_fetcher.py` - Fixed ra_race_results population
+1. `fetchers/results_fetcher.py` - Fixed ra_mst_race_results population
 2. `utils/supabase_client.py` - Added insert_batch_no_conflict() method
 3. `utils/position_parser.py` - Enhanced parse_decimal_field()
 4. `scripts/populate_all_calculated_tables.py` - Removed ra_runner_odds

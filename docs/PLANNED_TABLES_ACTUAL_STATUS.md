@@ -122,7 +122,7 @@ The master tables documentation classified 11 tables as "planned but not impleme
   - `calculated_at`, `created_at` (TIMESTAMP)
 - **Purpose:** Track entity pair combinations (jockey-horse, trainer-horse, etc.)
 - **Constraint:** `chk_entity_comb_canonical_order` - Requires entity types in canonical order
-- **Data Source:** Analysis of ra_runners
+- **Data Source:** Analysis of ra_mst_runners
 - **Script Created:** ✅ `scripts/populate_entity_combinations_v2.py`
 - **Issue:** Need to resolve canonical order constraint (likely alphabetical)
 - **Action Needed:** 🔧 Fix constraint handling, then populate
@@ -141,7 +141,7 @@ The master tables documentation classified 11 tables as "planned but not impleme
 #### 8. ra_runner_statistics
 - **Status:** ⚠️ EMPTY (0 rows)
 - **Purpose:** Individual runner performance metrics
-- **Data Source:** Database calculation from ra_runners + ra_races
+- **Data Source:** Database calculation from ra_mst_runners + ra_mst_races
 - **Action Needed:** 📊 Implement statistics calculation (Phase 2)
 
 ---
@@ -234,7 +234,7 @@ understanding the canonical order constraint.
 
 ### Discovery 3: ra_runner_supplementary Purpose Unclear
 This table exists but its intended use is not clear. Need to determine what "supplementary"
-data should be stored vs. what already exists in ra_runners (which has 57 columns).
+data should be stored vs. what already exists in ra_mst_runners (which has 57 columns).
 
 ---
 

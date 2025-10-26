@@ -87,7 +87,7 @@ try:
             rac.course_name,
             r.position
         FROM ra_lineage l
-        JOIN ra_runners r ON l.runner_id = r.runner_id
+        JOIN ra_mst_runners r ON l.runner_id = r.runner_id
         JOIN ra_races rac ON r.race_id = rac.race_id
         WHERE l.ancestor_name = %s
         AND l.relation_type = 'sire'
@@ -120,7 +120,7 @@ try:
             ROUND(AVG(CASE WHEN r.position IS NOT NULL THEN r.position::int END), 2) as avg_position,
             SUM(COALESCE(r.prize_won, 0)) as total_prize_money
         FROM ra_lineage l
-        JOIN ra_runners r ON l.runner_id = r.runner_id
+        JOIN ra_mst_runners r ON l.runner_id = r.runner_id
         WHERE l.relation_type = 'sire'
         AND r.position IS NOT NULL
         GROUP BY l.ancestor_name
@@ -152,7 +152,7 @@ try:
             COUNT(*) FILTER (WHERE r.position = '1') as wins,
             ROUND(COUNT(*) FILTER (WHERE r.position = '1')::numeric / COUNT(*)::numeric * 100, 1) as win_rate
         FROM ra_lineage l
-        JOIN ra_runners r ON l.runner_id = r.runner_id
+        JOIN ra_mst_runners r ON l.runner_id = r.runner_id
         WHERE l.relation_type = 'dam'
         AND r.position IS NOT NULL
         GROUP BY l.ancestor_name

@@ -36,7 +36,7 @@ nohup python3 fetchers/master_fetcher_controller.py --mode backfill > logs/backf
 tail -f logs/backfill_2015_full.log
 
 # Check database growth
-watch -n 60 'psql "$SUPABASE_URL" -c "SELECT COUNT(*) FROM ra_runners;"'
+watch -n 60 'psql "$SUPABASE_URL" -c "SELECT COUNT(*) FROM ra_mst_runners;"'
 ```
 
 ### Verify Completion
@@ -51,7 +51,7 @@ config = get_config()
 client = SupabaseReferenceClient(config.supabase.url, config.supabase.service_key)
 
 print('\n📊 Backfill Results:\n')
-tables = ['ra_races', 'ra_runners', 'ra_race_results', 'ra_mst_horses', 'ra_horse_pedigree']
+tables = ['ra_mst_races', 'ra_mst_runners', 'ra_mst_race_results', 'ra_mst_horses', 'ra_horse_pedigree']
 for table in tables:
     count = client.client.table(table).select('id', count='exact').execute().count
     print(f'  {table}: {count:,} records')
@@ -61,9 +61,9 @@ print()
 ```
 
 Expected results:
-- `ra_races`: ~150,000+
-- `ra_runners`: ~1,500,000+ (CRITICAL - should be ~10 per race)
-- `ra_race_results`: ~150,000+
+- `ra_mst_races`: ~150,000+
+- `ra_mst_runners`: ~1,500,000+ (CRITICAL - should be ~10 per race)
+- `ra_mst_race_results`: ~150,000+
 - `ra_mst_horses`: ~200,000+
 - `ra_horse_pedigree`: ~200,000+
 
@@ -84,7 +84,7 @@ crontab -e
 
 ```bash
 # 1. Transaction tables (races, runners, results) - Every 4 hours
-0 6,10,14,18,22 * * * cd /Users/matthewbarber/Documents/GitHub/DarkHorses-Masters-Workers && python3 fetchers/master_fetcher_controller.py --mode daily --tables ra_races ra_runners ra_race_results ra_horse_pedigree >> logs/cron_transactions.log 2>&1
+0 6,10,14,18,22 * * * cd /Users/matthewbarber/Documents/GitHub/DarkHorses-Masters-Workers && python3 fetchers/master_fetcher_controller.py --mode daily --tables ra_mst_races ra_mst_runners ra_mst_race_results ra_horse_pedigree >> logs/cron_transactions.log 2>&1
 
 # 2. Master tables (people, horses) - Daily at 1pm UK
 0 13 * * * cd /Users/matthewbarber/Documents/GitHub/DarkHorses-Masters-Workers && python3 fetchers/master_fetcher_controller.py --mode scheduled >> logs/cron_scheduled.log 2>&1
@@ -136,7 +136,7 @@ psql "$SUPABASE_URL" -c "
 SELECT
   MAX(date) as latest_race_date,
   MAX(updated_at) as last_update
-FROM ra_races;
+FROM ra_mst_races;
 "
 ```
 
@@ -198,7 +198,7 @@ grep -i "error\|failed" logs/cron_*.log
 ```bash
 python3 fetchers/master_fetcher_controller.py \
   --mode manual \
-  --table ra_races \
+  --table ra_mst_races \
   --start-date 2024-01-01 \
   --end-date 2024-01-31 \
   --interactive
@@ -244,8 +244,8 @@ python3 fetchers/master_fetcher_controller.py \
 You're done when:
 
 1. ✅ **Backfill complete:**
-   - `ra_runners` has ~1.5M+ records
-   - `ra_races` has ~150K+ records
+   - `ra_mst_runners` has ~1.5M+ records
+   - `ra_mst_races` has ~150K+ records
    - Runner-to-race ratio is ~10 (not ~2.7)
 
 2. ✅ **Scheduled sync working:**

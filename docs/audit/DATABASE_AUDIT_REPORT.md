@@ -6,12 +6,12 @@
 
 ## EXECUTIVE SUMMARY - TOP 10 CRITICAL ISSUES
 
-1. **CRITICAL: entry_id column missing from ra_runners** - Code expects this field but table doesn't have it
+1. **CRITICAL: entry_id column missing from ra_mst_runners** - Code expects this field but table doesn't have it
 2. **Database Connection Timeout** - All direct database queries timing out (possible network/load issue)
 3. **All tables show 0 rows** - Either empty database or connection/permission issue
 4. **Missing schema documentation** - No CREATE TABLE scripts found in repository
 5. **Field name mismatches** - Code uses 'name' but may need 'horse_name', 'jockey_name', etc.
-6. **Pedigree data duplication** - Stored in both ra_runners AND ra_horse_pedigree tables
+6. **Pedigree data duplication** - Stored in both ra_mst_runners AND ra_horse_pedigree tables
 7. **API response stored as JSONB** - Important data may be trapped in api_data column
 8. **Inconsistent ID naming** - Mix of racing_api_* and regular ID columns
 9. **Missing foreign key validation** - No evidence of FK constraints being enforced
@@ -50,7 +50,7 @@
 
 Since direct database access failed, this analysis is based on examining the fetcher code to determine what the schema SHOULD contain.
 
-### TABLE 1: ra_races
+### TABLE 1: ra_mst_races
 
 **Source File:** `/fetchers/races_fetcher.py` (lines 236-275)
 
@@ -124,7 +124,7 @@ METADATA:
 
 ---
 
-### TABLE 2: ra_runners
+### TABLE 2: ra_mst_runners
 
 **Source File:** `/fetchers/races_fetcher.py` (lines 291-349)
 
@@ -138,7 +138,7 @@ CORE IDENTIFICATION:
 ✓ fetched_at              TIMESTAMP
 
 RACE LINKAGE:
-✓ race_id                 TEXT NOT NULL       (FK to ra_races)
+✓ race_id                 TEXT NOT NULL       (FK to ra_mst_races)
 ✓ racing_api_race_id      TEXT                (duplicate)
 
 HORSE:
@@ -220,20 +220,20 @@ METADATA:
 **CRITICAL ISSUES:**
 
 1. **MISSING COLUMN: entry_id**
-   - User reported: "entry_id in ra_runners is totally missing"
+   - User reported: "entry_id in ra_mst_runners is totally missing"
    - Code does NOT try to insert entry_id (see lines 291-349)
    - Possible solutions:
      ```sql
      -- Option 1: Add if API provides it
-     ALTER TABLE ra_runners ADD COLUMN entry_id TEXT;
+     ALTER TABLE ra_mst_runners ADD COLUMN entry_id TEXT;
 
      -- Option 2: Generate from existing data
-     ALTER TABLE ra_runners ADD COLUMN entry_id TEXT
+     ALTER TABLE ra_mst_runners ADD COLUMN entry_id TEXT
      GENERATED ALWAYS AS (runner_id) STORED;
      ```
 
 2. **Pedigree Data Duplication**
-   - Sire/Dam data stored in BOTH ra_runners AND ra_horse_pedigree
+   - Sire/Dam data stored in BOTH ra_mst_runners AND ra_horse_pedigree
    - Should normalize - keep only in ra_horse_pedigree
    - OR remove ra_horse_pedigree and keep in runners
 
@@ -309,7 +309,7 @@ BASIC INFO:
 - `horses_fetcher.py` - Only when sire_id, dam_id, or damsire_id present
 
 **Issue:**
-- Pedigree data ALSO stored in ra_runners (sire_id, sire_name, dam_id, dam_name, damsire_id, damsire_name)
+- Pedigree data ALSO stored in ra_mst_runners (sire_id, sire_name, dam_id, dam_name, damsire_id, damsire_name)
 - **Duplication problem** - which is source of truth?
 - Recommendation: Pick one location
 
@@ -334,7 +334,7 @@ BASIC INFO:
 **Missing Fields:**
 - No jockey region, nationality, stats
 - Very bare-bones table
-- Additional jockey data trapped in ra_runners (jockey_claim, apprentice_allowance)
+- Additional jockey data trapped in ra_mst_runners (jockey_claim, apprentice_allowance)
 
 ---
 
@@ -417,7 +417,7 @@ BASIC INFO:
 
 ```
 CORE:
-✓ race_id                 TEXT PRIMARY KEY    (FK to ra_races)
+✓ race_id                 TEXT PRIMARY KEY    (FK to ra_mst_races)
 ✓ course_id               TEXT
 ✓ course_name             TEXT
 ✓ race_name               TEXT
@@ -449,16 +449,16 @@ METADATA:
 
 **Data Inserted By:**
 - `results_fetcher.py::_transform_result()` - Lines 207-257
-- `results_fetcher.py` also inserts into ra_races (lines 132-154)
+- `results_fetcher.py` also inserts into ra_mst_races (lines 132-154)
 
 **Issues:**
-1. **Overlap with ra_races** - Many fields duplicate
-2. results_fetcher inserts BOTH into ra_results AND ra_races
-3. Unclear purpose of ra_results if ra_races already has this data
+1. **Overlap with ra_mst_races** - Many fields duplicate
+2. results_fetcher inserts BOTH into ra_results AND ra_mst_races
+3. Unclear purpose of ra_results if ra_mst_races already has this data
 4. Runner results (positions, finish times) NOT stored anywhere
 5. Recommendation: Either:
    - Use ra_results for race metadata only
-   - OR merge ra_results into ra_races
+   - OR merge ra_results into ra_mst_races
    - Create separate ra_runner_results for finishing positions
 
 ---
@@ -514,7 +514,7 @@ CREATE TABLE ra_collection_metadata (
 
 **Fields That Will Be Frequently NULL:**
 
-1. **ra_races:**
+1. **ra_mst_races:**
    - start_time (often not provided by API)
    - weather_conditions (not always reported)
    - rail_movements (UK/IRE specific, often NULL)
@@ -522,7 +522,7 @@ CREATE TABLE ra_collection_metadata (
    - live_stream_url (most races don't have)
    - replay_url (only after race finishes)
 
-2. **ra_runners:**
+2. **ra_mst_runners:**
    - entry_id (MISSING COLUMN)
    - jockey_claim (most jockeys don't have)
    - apprentice_allowance (most not apprentices)
@@ -562,29 +562,29 @@ Note: User mentioned "2015-2025" but Standard API plan only supports last 12 mon
 **Expected Foreign Key Relationships:**
 
 ```sql
--- ra_races
-ALTER TABLE ra_races
+-- ra_mst_races
+ALTER TABLE ra_mst_races
   ADD CONSTRAINT fk_races_course
   FOREIGN KEY (course_id) REFERENCES ra_courses(course_id);
 
--- ra_runners
-ALTER TABLE ra_runners
+-- ra_mst_runners
+ALTER TABLE ra_mst_runners
   ADD CONSTRAINT fk_runners_race
-  FOREIGN KEY (race_id) REFERENCES ra_races(race_id);
+  FOREIGN KEY (race_id) REFERENCES ra_mst_races(race_id);
 
-ALTER TABLE ra_runners
+ALTER TABLE ra_mst_runners
   ADD CONSTRAINT fk_runners_horse
   FOREIGN KEY (horse_id) REFERENCES ra_horses(horse_id);
 
-ALTER TABLE ra_runners
+ALTER TABLE ra_mst_runners
   ADD CONSTRAINT fk_runners_jockey
   FOREIGN KEY (jockey_id) REFERENCES ra_jockeys(jockey_id);
 
-ALTER TABLE ra_runners
+ALTER TABLE ra_mst_runners
   ADD CONSTRAINT fk_runners_trainer
   FOREIGN KEY (trainer_id) REFERENCES ra_trainers(trainer_id);
 
-ALTER TABLE ra_runners
+ALTER TABLE ra_mst_runners
   ADD CONSTRAINT fk_runners_owner
   FOREIGN KEY (owner_id) REFERENCES ra_owners(owner_id);
 
@@ -596,7 +596,7 @@ ALTER TABLE ra_horse_pedigree
 -- ra_results
 ALTER TABLE ra_results
   ADD CONSTRAINT fk_results_race
-  FOREIGN KEY (race_id) REFERENCES ra_races(race_id);
+  FOREIGN KEY (race_id) REFERENCES ra_mst_races(race_id);
 
 ALTER TABLE ra_results
   ADD CONSTRAINT fk_results_course
@@ -610,8 +610,8 @@ ALTER TABLE ra_results
 ## API DATA STORAGE (JSONB COLUMNS)
 
 **Tables with api_data columns:**
-1. ra_races - Full racecard API response
-2. ra_runners - Full runner API response
+1. ra_mst_races - Full racecard API response
+2. ra_mst_runners - Full runner API response
 3. ra_results - Full result API response
 
 **Purpose:**
@@ -630,8 +630,8 @@ ALTER TABLE ra_results
 - Extract frequently-queried fields to proper columns
 - Consider adding JSONB indexes:
   ```sql
-  CREATE INDEX idx_races_api_data_gin ON ra_races USING GIN (api_data);
-  CREATE INDEX idx_runners_api_data_gin ON ra_runners USING GIN (api_data);
+  CREATE INDEX idx_races_api_data_gin ON ra_mst_races USING GIN (api_data);
+  CREATE INDEX idx_runners_api_data_gin ON ra_mst_runners USING GIN (api_data);
   ```
 
 ---
@@ -692,14 +692,14 @@ print(db.get_table_count('ra_courses'))
 ```sql
 -- Determine what entry_id should be
 -- Option A: Same as runner_id
-ALTER TABLE ra_runners ADD COLUMN entry_id TEXT;
-UPDATE ra_runners SET entry_id = runner_id;
+ALTER TABLE ra_mst_runners ADD COLUMN entry_id TEXT;
+UPDATE ra_mst_runners SET entry_id = runner_id;
 
 -- Option B: From API data if available
 -- Check api_data->'entry_id' in existing rows
 
 -- Option C: Generate from race_id and number
-UPDATE ra_runners SET entry_id = race_id || '_' || number
+UPDATE ra_mst_runners SET entry_id = race_id || '_' || number
 WHERE number IS NOT NULL;
 ```
 
@@ -728,36 +728,36 @@ ALTER TABLE ra_courses DROP COLUMN longitude;
 
 **5. Remove Duplicate Columns**
 ```sql
--- ra_runners - pick one naming convention
-ALTER TABLE ra_runners DROP COLUMN weight;  -- Keep weight_lbs
-ALTER TABLE ra_runners DROP COLUMN rpr;  -- Keep racing_post_rating
-ALTER TABLE ra_runners DROP COLUMN stall;  -- Keep draw
+-- ra_mst_runners - pick one naming convention
+ALTER TABLE ra_mst_runners DROP COLUMN weight;  -- Keep weight_lbs
+ALTER TABLE ra_mst_runners DROP COLUMN rpr;  -- Keep racing_post_rating
+ALTER TABLE ra_mst_runners DROP COLUMN stall;  -- Keep draw
 
 -- Update code to match
 ```
 
 **6. Resolve Pedigree Data Duplication**
 ```sql
--- Option A: Remove from ra_runners, keep in ra_horse_pedigree
-ALTER TABLE ra_runners DROP COLUMN sire_id;
-ALTER TABLE ra_runners DROP COLUMN sire_name;
-ALTER TABLE ra_runners DROP COLUMN dam_id;
-ALTER TABLE ra_runners DROP COLUMN dam_name;
-ALTER TABLE ra_runners DROP COLUMN damsire_id;
-ALTER TABLE ra_runners DROP COLUMN damsire_name;
+-- Option A: Remove from ra_mst_runners, keep in ra_horse_pedigree
+ALTER TABLE ra_mst_runners DROP COLUMN sire_id;
+ALTER TABLE ra_mst_runners DROP COLUMN sire_name;
+ALTER TABLE ra_mst_runners DROP COLUMN dam_id;
+ALTER TABLE ra_mst_runners DROP COLUMN dam_name;
+ALTER TABLE ra_mst_runners DROP COLUMN damsire_id;
+ALTER TABLE ra_mst_runners DROP COLUMN damsire_name;
 
 -- Option B: Remove ra_horse_pedigree table entirely
 DROP TABLE ra_horse_pedigree;
--- Keep pedigree data in ra_runners (it's already there)
+-- Keep pedigree data in ra_mst_runners (it's already there)
 ```
 
 **7. Add Missing NOT NULL Constraints**
 ```sql
 -- Critical fields that should never be NULL
-ALTER TABLE ra_races ALTER COLUMN race_name SET NOT NULL;
-ALTER TABLE ra_races ALTER COLUMN race_date SET NOT NULL;
-ALTER TABLE ra_runners ALTER COLUMN horse_id SET NOT NULL;
-ALTER TABLE ra_runners ALTER COLUMN race_id SET NOT NULL;
+ALTER TABLE ra_mst_races ALTER COLUMN race_name SET NOT NULL;
+ALTER TABLE ra_mst_races ALTER COLUMN race_date SET NOT NULL;
+ALTER TABLE ra_mst_runners ALTER COLUMN horse_id SET NOT NULL;
+ALTER TABLE ra_mst_runners ALTER COLUMN race_id SET NOT NULL;
 ALTER TABLE ra_horses ALTER COLUMN name SET NOT NULL;
 ```
 
@@ -772,35 +772,35 @@ ALTER TABLE ra_horses ALTER COLUMN name SET NOT NULL;
 **9. Add Indexes for Performance**
 ```sql
 -- Date queries
-CREATE INDEX idx_races_race_date ON ra_races(race_date DESC);
-CREATE INDEX idx_races_course_date ON ra_races(course_id, race_date DESC);
+CREATE INDEX idx_races_race_date ON ra_mst_races(race_date DESC);
+CREATE INDEX idx_races_course_date ON ra_mst_races(course_id, race_date DESC);
 
 -- FK lookups
-CREATE INDEX idx_runners_race_id ON ra_runners(race_id);
-CREATE INDEX idx_runners_horse_id ON ra_runners(horse_id);
-CREATE INDEX idx_runners_jockey_id ON ra_runners(jockey_id);
-CREATE INDEX idx_runners_trainer_id ON ra_runners(trainer_id);
+CREATE INDEX idx_runners_race_id ON ra_mst_runners(race_id);
+CREATE INDEX idx_runners_horse_id ON ra_mst_runners(horse_id);
+CREATE INDEX idx_runners_jockey_id ON ra_mst_runners(jockey_id);
+CREATE INDEX idx_runners_trainer_id ON ra_mst_runners(trainer_id);
 
 -- Regional filtering
-CREATE INDEX idx_races_region_date ON ra_races(region, race_date DESC);
+CREATE INDEX idx_races_region_date ON ra_mst_races(region, race_date DESC);
 CREATE INDEX idx_horses_region ON ra_horses(region);
 
 -- JSONB data
-CREATE INDEX idx_races_api_data_gin ON ra_races USING GIN (api_data);
-CREATE INDEX idx_runners_api_data_gin ON ra_runners USING GIN (api_data);
+CREATE INDEX idx_races_api_data_gin ON ra_mst_races USING GIN (api_data);
+CREATE INDEX idx_runners_api_data_gin ON ra_mst_runners USING GIN (api_data);
 ```
 
 **10. Clarify ra_results Table Purpose**
 ```sql
 -- Decision needed:
--- A. Merge ra_results into ra_races (they overlap significantly)
+-- A. Merge ra_results into ra_mst_races (they overlap significantly)
 -- B. Use ra_results only for race outcomes (winner, times, etc.)
 -- C. Create new ra_runner_results for finishing positions
 
 -- Recommended: Create ra_runner_results
 CREATE TABLE ra_runner_results (
-    runner_id TEXT PRIMARY KEY REFERENCES ra_runners(runner_id),
-    race_id TEXT NOT NULL REFERENCES ra_races(race_id),
+    runner_id TEXT PRIMARY KEY REFERENCES ra_mst_runners(runner_id),
+    race_id TEXT NOT NULL REFERENCES ra_mst_races(race_id),
     finishing_position INTEGER,
     distance_beaten NUMERIC,
     finish_time NUMERIC,
@@ -847,7 +847,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 CREATE TRIGGER tr_validate_race_class
-    BEFORE INSERT OR UPDATE ON ra_races
+    BEFORE INSERT OR UPDATE ON ra_mst_races
     FOR EACH ROW
     EXECUTE FUNCTION validate_race_class();
 ```
@@ -865,9 +865,9 @@ SELECT
     r.distance_f,
     COUNT(ru.runner_id) AS runner_count,
     r.prize_money
-FROM ra_races r
+FROM ra_mst_races r
 LEFT JOIN ra_courses c ON c.course_id = r.course_id
-LEFT JOIN ra_runners ru ON ru.race_id = r.race_id
+LEFT JOIN ra_mst_runners ru ON ru.race_id = r.race_id
 WHERE r.race_date >= CURRENT_DATE - INTERVAL '30 days'
 GROUP BY r.race_id, r.race_date, r.race_name, c.name, r.race_class, r.distance_f, r.prize_money;
 
@@ -899,19 +899,19 @@ CREATE TABLE ra_audit_log (
 ### Script 1: Add Missing entry_id Column
 
 ```sql
--- Add entry_id column to ra_runners
-ALTER TABLE ra_runners ADD COLUMN IF NOT EXISTS entry_id TEXT;
+-- Add entry_id column to ra_mst_runners
+ALTER TABLE ra_mst_runners ADD COLUMN IF NOT EXISTS entry_id TEXT;
 
 -- Populate with runner_id as default (adjust if different logic needed)
-UPDATE ra_runners
+UPDATE ra_mst_runners
 SET entry_id = runner_id
 WHERE entry_id IS NULL;
 
 -- Add index
-CREATE INDEX IF NOT EXISTS idx_runners_entry_id ON ra_runners(entry_id);
+CREATE INDEX IF NOT EXISTS idx_runners_entry_id ON ra_mst_runners(entry_id);
 
 -- Document the column
-COMMENT ON COLUMN ra_runners.entry_id IS
+COMMENT ON COLUMN ra_mst_runners.entry_id IS
 'Entry ID for the runner (unique identifier per race entry)';
 ```
 
@@ -929,34 +929,34 @@ ALTER TABLE ra_courses DROP COLUMN IF EXISTS longitude;
 -- Add foreign keys (will fail if referential integrity violated)
 -- Run data cleanup first if needed
 
-ALTER TABLE ra_races
+ALTER TABLE ra_mst_races
 ADD CONSTRAINT fk_races_course
 FOREIGN KEY (course_id) REFERENCES ra_courses(course_id)
 ON DELETE RESTRICT;
 
-ALTER TABLE ra_runners
+ALTER TABLE ra_mst_runners
 ADD CONSTRAINT fk_runners_race
-FOREIGN KEY (race_id) REFERENCES ra_races(race_id)
+FOREIGN KEY (race_id) REFERENCES ra_mst_races(race_id)
 ON DELETE CASCADE;
 
-ALTER TABLE ra_runners
+ALTER TABLE ra_mst_runners
 ADD CONSTRAINT fk_runners_horse
 FOREIGN KEY (horse_id) REFERENCES ra_horses(horse_id)
 ON DELETE RESTRICT;
 
 -- Note: jockey_id, trainer_id, owner_id can be NULL
 -- So use FOREIGN KEY with ON DELETE SET NULL
-ALTER TABLE ra_runners
+ALTER TABLE ra_mst_runners
 ADD CONSTRAINT fk_runners_jockey
 FOREIGN KEY (jockey_id) REFERENCES ra_jockeys(jockey_id)
 ON DELETE SET NULL;
 
-ALTER TABLE ra_runners
+ALTER TABLE ra_mst_runners
 ADD CONSTRAINT fk_runners_trainer
 FOREIGN KEY (trainer_id) REFERENCES ra_trainers(trainer_id)
 ON DELETE SET NULL;
 
-ALTER TABLE ra_runners
+ALTER TABLE ra_mst_runners
 ADD CONSTRAINT fk_runners_owner
 FOREIGN KEY (owner_id) REFERENCES ra_owners(owner_id)
 ON DELETE SET NULL;
@@ -971,24 +971,24 @@ ON DELETE CASCADE;
 
 ```sql
 -- Races
-CREATE INDEX IF NOT EXISTS idx_races_race_date ON ra_races(race_date DESC);
-CREATE INDEX IF NOT EXISTS idx_races_course_date ON ra_races(course_id, race_date DESC);
-CREATE INDEX IF NOT EXISTS idx_races_region_date ON ra_races(region, race_date DESC);
+CREATE INDEX IF NOT EXISTS idx_races_race_date ON ra_mst_races(race_date DESC);
+CREATE INDEX IF NOT EXISTS idx_races_course_date ON ra_mst_races(course_id, race_date DESC);
+CREATE INDEX IF NOT EXISTS idx_races_region_date ON ra_mst_races(region, race_date DESC);
 
 -- Runners
-CREATE INDEX IF NOT EXISTS idx_runners_race_id ON ra_runners(race_id);
-CREATE INDEX IF NOT EXISTS idx_runners_horse_id ON ra_runners(horse_id);
-CREATE INDEX IF NOT EXISTS idx_runners_jockey_id ON ra_runners(jockey_id);
-CREATE INDEX IF NOT EXISTS idx_runners_trainer_id ON ra_runners(trainer_id);
-CREATE INDEX IF NOT EXISTS idx_runners_owner_id ON ra_runners(owner_id);
+CREATE INDEX IF NOT EXISTS idx_runners_race_id ON ra_mst_runners(race_id);
+CREATE INDEX IF NOT EXISTS idx_runners_horse_id ON ra_mst_runners(horse_id);
+CREATE INDEX IF NOT EXISTS idx_runners_jockey_id ON ra_mst_runners(jockey_id);
+CREATE INDEX IF NOT EXISTS idx_runners_trainer_id ON ra_mst_runners(trainer_id);
+CREATE INDEX IF NOT EXISTS idx_runners_owner_id ON ra_mst_runners(owner_id);
 
 -- Horses
 CREATE INDEX IF NOT EXISTS idx_horses_region ON ra_horses(region);
 CREATE INDEX IF NOT EXISTS idx_horses_name ON ra_horses(name);
 
 -- JSONB
-CREATE INDEX IF NOT EXISTS idx_races_api_data_gin ON ra_races USING GIN (api_data);
-CREATE INDEX IF NOT EXISTS idx_runners_api_data_gin ON ra_runners USING GIN (api_data);
+CREATE INDEX IF NOT EXISTS idx_races_api_data_gin ON ra_mst_races USING GIN (api_data);
+CREATE INDEX IF NOT EXISTS idx_runners_api_data_gin ON ra_mst_runners USING GIN (api_data);
 CREATE INDEX IF NOT EXISTS idx_results_api_data_gin ON ra_results USING GIN (api_data);
 ```
 
@@ -997,16 +997,16 @@ CREATE INDEX IF NOT EXISTS idx_results_api_data_gin ON ra_results USING GIN (api
 ```sql
 -- Only add if data quality allows
 -- Check for NULLs first:
-SELECT COUNT(*) FROM ra_races WHERE race_name IS NULL;
-SELECT COUNT(*) FROM ra_races WHERE race_date IS NULL;
-SELECT COUNT(*) FROM ra_runners WHERE race_id IS NULL;
-SELECT COUNT(*) FROM ra_runners WHERE horse_id IS NULL;
+SELECT COUNT(*) FROM ra_mst_races WHERE race_name IS NULL;
+SELECT COUNT(*) FROM ra_mst_races WHERE race_date IS NULL;
+SELECT COUNT(*) FROM ra_mst_runners WHERE race_id IS NULL;
+SELECT COUNT(*) FROM ra_mst_runners WHERE horse_id IS NULL;
 
 -- If counts are 0, add constraints:
-ALTER TABLE ra_races ALTER COLUMN race_name SET NOT NULL;
-ALTER TABLE ra_races ALTER COLUMN race_date SET NOT NULL;
-ALTER TABLE ra_runners ALTER COLUMN race_id SET NOT NULL;
-ALTER TABLE ra_runners ALTER COLUMN horse_id SET NOT NULL;
+ALTER TABLE ra_mst_races ALTER COLUMN race_name SET NOT NULL;
+ALTER TABLE ra_mst_races ALTER COLUMN race_date SET NOT NULL;
+ALTER TABLE ra_mst_runners ALTER COLUMN race_id SET NOT NULL;
+ALTER TABLE ra_mst_runners ALTER COLUMN horse_id SET NOT NULL;
 ALTER TABLE ra_horses ALTER COLUMN name SET NOT NULL;
 ```
 
@@ -1017,7 +1017,7 @@ ALTER TABLE ra_horses ALTER COLUMN name SET NOT NULL;
 ### Phase 1: Emergency Fixes (Day 1)
 1. [ ] Fix database connection timeout issue
 2. [ ] Verify tables exist and check row counts
-3. [ ] Add missing entry_id column to ra_runners
+3. [ ] Add missing entry_id column to ra_mst_runners
 4. [ ] Fix field name mismatches in fetchers (race_date, off_time, race_class)
 
 ### Phase 2: Data Integrity (Week 1)
@@ -1053,7 +1053,7 @@ After implementing fixes, verify:
 
 - [ ] All tables accessible without timeout
 - [ ] Row counts match expected data volumes
-- [ ] entry_id column exists and populated in ra_runners
+- [ ] entry_id column exists and populated in ra_mst_runners
 - [ ] Foreign key constraints enforced
 - [ ] No orphaned records
 - [ ] Fetchers can insert data successfully
@@ -1081,9 +1081,9 @@ After implementing fixes, verify:
 ```
 ra_courses
     ↓ (course_id)
-ra_races ←──────────── ra_results (race_id)
+ra_mst_races ←──────────── ra_results (race_id)
     ↓ (race_id)
-ra_runners
+ra_mst_runners
     ↓ (horse_id, jockey_id, trainer_id, owner_id)
     ├→ ra_horses ──→ ra_horse_pedigree (horse_id)
     ├→ ra_jockeys
@@ -1097,18 +1097,18 @@ ra_runners
 
 | Table | Code Field | API Field | Notes |
 |-------|------------|-----------|-------|
-| ra_races | race_date | date | Mismatch |
-| ra_races | off_time | off_time | Match |
+| ra_mst_races | race_date | date | Mismatch |
+| ra_mst_races | off_time | off_time | Match |
 | ra_results | off_time | off | Mismatch |
 | ra_results | race_class | class | Mismatch |
 | ra_courses | name | course | Mismatch |
 | ra_courses | region | region_code | Mismatch |
-| ra_runners | weight_lbs | lbs | Match |
-| ra_runners | career_runs | career_total.runs | Nested |
-| ra_runners | official_rating | ofr | Abbreviation |
-| ra_runners | racing_post_rating | rpr | Abbreviation |
-| ra_runners | timeform_rating | tfr | Abbreviation |
-| ra_runners | tsr | ts | Abbreviation |
+| ra_mst_runners | weight_lbs | lbs | Match |
+| ra_mst_runners | career_runs | career_total.runs | Nested |
+| ra_mst_runners | official_rating | ofr | Abbreviation |
+| ra_mst_runners | racing_post_rating | rpr | Abbreviation |
+| ra_mst_runners | timeform_rating | tfr | Abbreviation |
+| ra_mst_runners | tsr | ts | Abbreviation |
 
 ---
 

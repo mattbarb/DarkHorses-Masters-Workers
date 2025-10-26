@@ -15,7 +15,7 @@ Usage:
     python3 fetchers/analyze_tables.py
 
     # Run analysis for specific tables
-    python3 fetchers/analyze_tables.py --tables ra_races ra_runners
+    python3 fetchers/analyze_tables.py --tables ra_races ra_mst_runners
 
     # Export results to JSON
     python3 fetchers/analyze_tables.py --output json
@@ -61,8 +61,8 @@ class TableAnalyzer:
         'ra_horse_pedigree',
         # Transaction Tables
         'ra_races',
-        'ra_runners',
-        'ra_race_results',
+        'ra_mst_runners',
+        'ra_mst_race_results',
         # Future/Partial Tables
         'ra_entity_combinations',
         'ra_performance_by_distance',
@@ -78,8 +78,8 @@ class TableAnalyzer:
     # Tables with date fields for temporal analysis
     TEMPORAL_TABLES = {
         'ra_races': 'off_dt',
-        'ra_runners': 'created_at',  # Use created_at as proxy
-        'ra_race_results': 'created_at',
+        'ra_mst_runners': 'created_at',  # Use created_at as proxy
+        'ra_mst_race_results': 'created_at',
         'ra_mst_horses': 'created_at',
         'ra_horse_pedigree': 'created_at',
     }

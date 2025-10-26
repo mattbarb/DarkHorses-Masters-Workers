@@ -37,10 +37,10 @@ python3 tests/test_schema_auto.py
 
 ```bash
 # Via controller
-python3 fetchers/master_fetcher_controller.py --mode test-auto --tables ra_races ra_runners --interactive
+python3 fetchers/master_fetcher_controller.py --mode test-auto --tables ra_mst_races ra_mst_runners --interactive
 
 # Via direct script
-python3 tests/test_schema_auto.py --tables ra_mst_horses ra_races
+python3 tests/test_schema_auto.py --tables ra_mst_horses ra_mst_races
 ```
 
 ### Cleanup Test Data
@@ -132,8 +132,8 @@ Total Columns Populated: 625
 ✅ Successful Insertions:
   - ra_mst_courses: 15 columns
   - ra_mst_horses: 23 columns
-  - ra_races: 45 columns
-  - ra_runners: 57 columns
+  - ra_mst_races: 45 columns
+  - ra_mst_runners: 57 columns
   ...
 ```
 
@@ -142,7 +142,7 @@ Total Columns Populated: 625
 **Open Supabase Table Editor:**
 1. Go to your Supabase dashboard
 2. Navigate to Table Editor
-3. Select each table (e.g., `ra_races`, `ra_runners`)
+3. Select each table (e.g., `ra_mst_races`, `ra_mst_runners`)
 4. Look for rows with `**TEST**` markers
 
 **What to Look For:**
@@ -171,8 +171,8 @@ ORDER BY table_name;
 
 **Check specific table for test data:**
 ```sql
--- Example: Check ra_runners for test data
-SELECT * FROM ra_runners
+-- Example: Check ra_mst_runners for test data
+SELECT * FROM ra_mst_runners
 WHERE horse_name LIKE '%**TEST**%'
    OR jockey_name LIKE '%**TEST**%'
 LIMIT 1;
@@ -271,7 +271,7 @@ The system uses `docs/COMPLETE_COLUMN_INVENTORY_WITH_SOURCES.json` which contain
   "total_columns": 625,
   "columns": [
     {
-      "table": "ra_races",
+      "table": "ra_mst_races",
       "column": "race_id",
       "type": "character varying",
       "nullable": false,
@@ -311,9 +311,9 @@ Use this checklist when visually reviewing test data:
 
 ### Transaction Tables
 
-- [ ] `ra_races` - All 45 race metadata columns
-- [ ] `ra_runners` - All 57 runner columns including enhanced fields
-- [ ] `ra_race_results` - All 38 result columns
+- [ ] `ra_mst_races` - All 45 race metadata columns
+- [ ] `ra_mst_runners` - All 57 runner columns including enhanced fields
+- [ ] `ra_mst_race_results` - All 38 result columns
 - [ ] `ra_horse_pedigree` - All lineage columns (sire, dam, damsire, breeder with IDs)
 
 ### Calculated Tables
@@ -360,7 +360,7 @@ python3 scripts/analysis/generate_column_inventory.py
 python3 tests/test_schema_auto.py --tables ra_mst_courses ra_mst_bookmakers ra_mst_jockeys ra_mst_trainers ra_mst_owners ra_mst_horses
 
 # Then: Transaction tables
-python3 tests/test_schema_auto.py --tables ra_races ra_runners ra_race_results
+python3 tests/test_schema_auto.py --tables ra_mst_races ra_mst_runners ra_mst_race_results
 
 # Finally: Calculated tables
 python3 tests/test_schema_auto.py --tables ra_runner_statistics ra_performance_by_distance
@@ -390,8 +390,8 @@ from tests.test_schema_auto import SchemaAwareTestInserter
 inserter = SchemaAwareTestInserter()
 
 # Create custom test row
-test_row = inserter.create_test_row('ra_runners')
-print(f"Generated {len(test_row)} columns for ra_runners")
+test_row = inserter.create_test_row('ra_mst_runners')
+print(f"Generated {len(test_row)} columns for ra_mst_runners")
 print(test_row)
 
 # Verify all required columns are present
@@ -417,9 +417,9 @@ cat test_data_report.txt | grep "Successfully inserted"
 -- After cleanup, check for any remaining test data
 SELECT table_name, COUNT(*) as test_rows
 FROM (
-    SELECT 'ra_races' as table_name FROM ra_races WHERE race_title LIKE '%**TEST**%'
+    SELECT 'ra_mst_races' as table_name FROM ra_mst_races WHERE race_title LIKE '%**TEST**%'
     UNION ALL
-    SELECT 'ra_runners' FROM ra_runners WHERE horse_name LIKE '%**TEST**%'
+    SELECT 'ra_mst_runners' FROM ra_mst_runners WHERE horse_name LIKE '%**TEST**%'
     UNION ALL
     SELECT 'ra_mst_horses' FROM ra_mst_horses WHERE horse_name LIKE '%**TEST**%'
     -- Add more tables as needed

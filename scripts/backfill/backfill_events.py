@@ -16,7 +16,7 @@ Features:
 
 Database Tables Populated:
 - ra_races (race metadata)
-- ra_runners (runner records with positions)
+- ra_mst_runners (runner records with positions)
 - ra_mst_horses (via entity extraction)
 - ra_mst_jockeys (via entity extraction)
 - ra_mst_trainers (via entity extraction)

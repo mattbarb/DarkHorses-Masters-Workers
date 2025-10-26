@@ -51,9 +51,9 @@ python3 tests/comprehensive_autonomous_validator.py
 ## 🔍 What Gets Verified
 
 ### Transaction Tables (3)
-- ra_races (45 columns)
-- ra_runners (57 columns)
-- ra_race_results (38 columns)
+- ra_mst_races (45 columns)
+- ra_mst_runners (57 columns)
+- ra_mst_race_results (38 columns)
 
 ### Master Tables - People (3)
 - ra_mst_jockeys (5 columns)

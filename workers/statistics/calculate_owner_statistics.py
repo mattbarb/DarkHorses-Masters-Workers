@@ -4,7 +4,7 @@ Calculate Owner Statistics from Database
 =========================================
 
 Populates ra_mst_owners table with comprehensive statistics calculated from
-historical race data in ra_runners + ra_races tables.
+historical race data in ra_mst_runners + ra_races tables.
 
 Statistics Calculated:
 ----------------------
@@ -27,7 +27,7 @@ Statistics Calculated:
 Data Sources:
 -------------
 - ra_mst_owners: List of all owners
-- ra_runners: Race performance data (JOIN on owner_id)
+- ra_mst_runners: Race performance data (JOIN on owner_id)
 - ra_races: Race dates
 
 Usage:
@@ -85,7 +85,7 @@ class OwnerStatisticsCalculator:
         """Calculate all statistics for a single owner"""
         try:
             # Get all runners for this owner
-            runners = self.db_client.client.table('ra_runners')\
+            runners = self.db_client.client.table('ra_mst_runners')\
                 .select('position, race_id, horse_id')\
                 .eq('owner_id', owner_id)\
                 .execute()
@@ -117,7 +117,7 @@ class OwnerStatisticsCalculator:
             # Get race dates
             race_ids = list(set([r['race_id'] for r in runners.data if r.get('race_id')]))
             if race_ids:
-                races = self.db_client.client.table('ra_races')\
+                races = self.db_client.client.table('ra_mst_races')\
                     .select('id, date')\
                     .in_('id', race_ids)\
                     .execute()

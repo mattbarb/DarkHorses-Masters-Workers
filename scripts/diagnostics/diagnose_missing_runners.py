@@ -93,7 +93,7 @@ def diagnose_missing_runners():
             api_runners_without_horse_id = api_count - api_runners_with_horse_id
 
             # Count database runners
-            db_result = db_client.client.table('ra_runners')\
+            db_result = db_client.client.table('ra_mst_runners')\
                 .select('runner_id', count='exact')\
                 .eq('race_id', race_id)\
                 .execute()

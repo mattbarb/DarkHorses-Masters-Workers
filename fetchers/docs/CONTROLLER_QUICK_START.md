@@ -33,7 +33,7 @@ python3 fetchers/master_fetcher_controller.py --mode daily --interactive
 python3 fetchers/master_fetcher_controller.py --mode daily --test --interactive
 
 # Manual run with progress
-python3 fetchers/master_fetcher_controller.py --mode manual --table ra_races --days-back 7 --interactive
+python3 fetchers/master_fetcher_controller.py --mode manual --table ra_mst_races --days-back 7 --interactive
 ```
 
 ### Production/Server (Automated)
@@ -70,7 +70,7 @@ The controller includes built-in scheduling logic:
 
 ### Daily Schedule
 - **When:** Every day at 1:00 AM UK time
-- **Tables:** `ra_races`, `ra_race_results`
+- **Tables:** `ra_mst_races`, `ra_mst_race_results`
 - **Purpose:** Sync race data and results
 - **Duration:** ~10 minutes
 
@@ -208,7 +208,7 @@ python3 fetchers/master_fetcher_controller.py --mode daily --test --interactive
 ```bash
 # Recover specific date range
 python3 fetchers/master_fetcher_controller.py --mode manual \
-    --table ra_races \
+    --table ra_mst_races \
     --start-date 2024-01-01 \
     --end-date 2024-01-31 \
     --interactive
@@ -282,7 +282,7 @@ FINAL SUMMARY - DAILY MODE
    ...
 
 ❌ Failed tables:
-   ra_races: API connection timeout
+   ra_mst_races: API connection timeout
 
 💾 Results saved to: logs/fetcher_daily_20251021_011032.json
 ================================================================================
@@ -378,7 +378,7 @@ python3 fetchers/master_fetcher_controller.py --mode daily --interactive
 |----------|-------------|---------|
 | `--interactive` | Enable progress monitoring | Local runs |
 | `--test` | Limit data for testing | Development |
-| `--table TABLE` | Specific table (manual mode) | `--table ra_races` |
+| `--table TABLE` | Specific table (manual mode) | `--table ra_mst_races` |
 | `--tables T1 T2` | Multiple tables | `--tables ra_mst_courses ra_mst_bookmakers` |
 | `--start-date DATE` | Start date (manual mode) | `--start-date 2024-01-01` |
 | `--end-date DATE` | End date (manual mode) | `--end-date 2024-01-31` |

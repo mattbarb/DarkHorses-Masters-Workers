@@ -254,7 +254,7 @@ python3 scripts/backfill_horse_pedigree.py
    ↓
 9. Stores pedigrees in ra_horse_pedigree
    ↓
-10. Stores runners in ra_runners
+10. Stores runners in ra_mst_runners
 ```
 
 **Result:** Every new horse discovered gets complete data immediately!

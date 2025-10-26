@@ -1,5 +1,5 @@
 """
-Merge Duplicate Columns in ra_runners
+Merge Duplicate Columns in ra_mst_runners
 Consolidates data from duplicate columns into primary columns before dropping duplicates
 Uses small batches to avoid Supabase timeout constraints
 """
@@ -72,7 +72,7 @@ def fetch_records_to_merge(supabase, primary_col: str, duplicate_col: str, batch
     """
     for attempt in range(max_retries):
         try:
-            result = supabase.table('ra_runners') \
+            result = supabase.table('ra_mst_runners') \
                 .select(f'runner_id,{duplicate_col}') \
                 .is_(primary_col, 'null') \
                 .not_.is_(duplicate_col, 'null') \
@@ -107,7 +107,7 @@ def update_record_with_retry(supabase, runner_id: str, primary_col: str, value, 
     """
     for attempt in range(max_retries):
         try:
-            supabase.table('ra_runners') \
+            supabase.table('ra_mst_runners') \
                 .update({
                     primary_col: value,
                     'updated_at': datetime.utcnow().isoformat()
@@ -227,7 +227,7 @@ def main():
     import argparse
 
     parser = argparse.ArgumentParser(
-        description='Merge duplicate columns in ra_runners before dropping'
+        description='Merge duplicate columns in ra_mst_runners before dropping'
     )
     parser.add_argument(
         '--batch-size',
@@ -244,7 +244,7 @@ def main():
     args = parser.parse_args()
 
     logger.info("=" * 80)
-    logger.info("MERGE DUPLICATE COLUMNS IN ra_runners")
+    logger.info("MERGE DUPLICATE COLUMNS IN ra_mst_runners")
     logger.info("=" * 80)
     logger.info("This script merges data from duplicate columns into primary columns")
     logger.info(f"Batch size: {args.batch_size}")

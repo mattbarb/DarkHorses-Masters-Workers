@@ -234,7 +234,7 @@
 Racing API → master_fetcher_controller.py → Individual Fetchers → Supabase
 ```
 
-**Tables:** ra_mst_courses, ra_mst_bookmakers, ra_mst_regions, ra_mst_jockeys, ra_mst_trainers, ra_mst_owners, ra_mst_horses, ra_horse_pedigree, ra_races, ra_runners
+**Tables:** ra_mst_courses, ra_mst_bookmakers, ra_mst_regions, ra_mst_jockeys, ra_mst_trainers, ra_mst_owners, ra_mst_horses, ra_horse_pedigree, ra_mst_races, ra_mst_runners
 
 **Scripts:**
 - courses_fetcher.py

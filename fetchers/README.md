@@ -46,7 +46,7 @@ python3 fetchers/master_fetcher_controller.py --list
 python3 fetchers/master_fetcher_controller.py --mode backfill
 
 # Backfill specific tables
-python3 fetchers/master_fetcher_controller.py --mode backfill --tables ra_races ra_runners
+python3 fetchers/master_fetcher_controller.py --mode backfill --tables ra_races ra_mst_runners
 ```
 
 ### 2. DAILY Mode
@@ -94,10 +94,10 @@ python3 fetchers/master_fetcher_controller.py --mode manual --table ra_races --d
 | Table | Fetcher | Type | API Endpoint | Update Frequency |
 |-------|---------|------|--------------|------------------|
 | `ra_races` | `races_fetcher.py` | Date Range | `/v1/racecards/pro` | Daily |
-| `ra_runners` | `races_fetcher.py` | Date Range | `/v1/racecards/pro` | Daily |
+| `ra_mst_runners` | `races_fetcher.py` | Date Range | `/v1/racecards/pro` | Daily |
 | `ra_mst_horses` | `races_fetcher.py` | Extracted | `/v1/racecards/pro` + enrichment | Daily |
 | `ra_horse_pedigree` | `races_fetcher.py` | Extracted | `/v1/horses/{id}/pro` | Daily |
-| `ra_race_results` | `results_fetcher.py` | Date Range | `/v1/results` | Daily |
+| `ra_mst_race_results` | `results_fetcher.py` | Date Range | `/v1/results` | Daily |
 
 **Date Range Type:** Requires start/end dates or days_back parameter.
 **Extracted Type:** Data is extracted during another fetcher's operation.
@@ -233,7 +233,7 @@ python3 fetchers/master_fetcher_controller.py --mode manual --table ra_races --d
 | age_band | varchar(50) | race.age_band | Age restrictions |
 | ... | ... | ... | (30+ total) |
 
-### ra_runners (40+ columns)
+### ra_mst_runners (40+ columns)
 **Source:** `/v1/racecards/pro`
 **Fetcher:** `races_fetcher.py`
 
@@ -259,10 +259,10 @@ python3 fetchers/master_fetcher_controller.py --mode manual --table ra_races --d
 - jockey_silk_url, overall_beaten_distance
 - jockey_claim_lbs, weight_stones_lbs
 
-### ra_race_results (35+ columns)
+### ra_mst_race_results (35+ columns)
 **Source:** `/v1/results`
 **Fetcher:** `results_fetcher.py`
-**Updates:** ra_runners table with position data
+**Updates:** ra_mst_runners table with position data
 
 | Column | Type | Source Field | Description |
 |--------|------|--------------|-------------|
@@ -289,12 +289,12 @@ python3 fetchers/master_fetcher_controller.py --mode manual --table ra_races --d
 
 2. **Races** (creates horses, pedigree, runners - run sequentially)
    - ra_races
-   - ra_runners
+   - ra_mst_runners
    - ra_mst_horses (extracted)
    - ra_horse_pedigree (extracted)
 
 3. **Results** (updates runners - run after races)
-   - ra_race_results
+   - ra_mst_race_results
 
 ### Daily Order (Same as backfill)
 
@@ -376,7 +376,7 @@ psql -c "SELECT table_name, MAX(updated_at) as last_update
 
 # Check row counts
 psql -c "SELECT 'ra_races' as table, COUNT(*) FROM ra_races
-         UNION ALL SELECT 'ra_runners', COUNT(*) FROM ra_runners
+         UNION ALL SELECT 'ra_mst_runners', COUNT(*) FROM ra_mst_runners
          UNION ALL SELECT 'ra_mst_horses', COUNT(*) FROM ra_mst_horses;"
 ```
 
@@ -399,9 +399,9 @@ psql -c "SELECT 'ra_races' as table, COUNT(*) FROM ra_races
 | ra_mst_trainers | ~3,000 | 2m | N/A |
 | ra_mst_owners | ~10,000 | 3m | N/A |
 | ra_races | ~150,000 | 2h | ~2,000/min |
-| ra_runners | ~2,000,000 | 2h | Included |
+| ra_mst_runners | ~2,000,000 | 2h | Included |
 | ra_mst_horses | ~200,000 | 2h | Included |
-| ra_race_results | ~150,000 | 2h | ~2,000/min |
+| ra_mst_race_results | ~150,000 | 2h | ~2,000/min |
 
 **Total Backfill Time:** ~6-8 hours
 

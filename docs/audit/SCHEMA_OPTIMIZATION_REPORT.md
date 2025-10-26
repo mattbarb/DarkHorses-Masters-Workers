@@ -55,7 +55,7 @@
 
 ---
 
-### 4. ra_races - 15 Columns to REMOVE (100% NULL)
+### 4. ra_mst_races - 15 Columns to REMOVE (100% NULL)
 
 #### Application-Specific Columns (Not from API)
 | Column | Purpose | Action |
@@ -79,11 +79,11 @@
 | `stalls_position` | ❌ 100% NULL | Not in API |
 | `total_prize_money` | ❌ 100% NULL | Use `prize_money` instead |
 
-**Total to remove from ra_races:** 15 columns
+**Total to remove from ra_mst_races:** 15 columns
 
 ---
 
-### 5. ra_runners - 9 Columns to REMOVE (100% NULL)
+### 5. ra_mst_runners - 9 Columns to REMOVE (100% NULL)
 
 #### Application-Specific Columns
 | Column | Purpose | Action |
@@ -104,13 +104,13 @@
 
 **Note:** Check if `timeform_rating` should be populated from `tfr` field.
 
-**Total to remove from ra_runners:** 9 columns
+**Total to remove from ra_mst_runners:** 9 columns
 
 ---
 
 ## Columns OK as NULL (Expected Behavior)
 
-### ra_races - Moderate NULL is OK
+### ra_mst_races - Moderate NULL is OK
 
 | Column | NULL % | Reason |
 |--------|--------|--------|
@@ -127,7 +127,7 @@
 
 ---
 
-### ra_runners - Results Data (Expected High NULL)
+### ra_mst_runners - Results Data (Expected High NULL)
 
 | Column | NULL % | Reason |
 |--------|--------|--------|
@@ -142,7 +142,7 @@
 
 ---
 
-### ra_runners - Career Stats (Expected NULL)
+### ra_mst_runners - Career Stats (Expected NULL)
 
 | Column | NULL % | Reason |
 |--------|--------|--------|
@@ -169,8 +169,8 @@
 1. `ra_horses` - None (all fields needed for backfill)
 2. `ra_trainers` - Drop `location` (1 column)
 3. `ra_horse_pedigree` - Drop `sire_region`, `dam_region`, `damsire_region` (3 columns)
-4. `ra_races` - Drop 15 columns (listed above)
-5. `ra_runners` - Drop 9 columns (listed above)
+4. `ra_mst_races` - Drop 15 columns (listed above)
+5. `ra_mst_runners` - Drop 9 columns (listed above)
 
 **Total columns to remove:** 28
 
@@ -186,31 +186,31 @@ ALTER TABLE ra_horse_pedigree DROP COLUMN IF EXISTS sire_region;
 ALTER TABLE ra_horse_pedigree DROP COLUMN IF EXISTS dam_region;
 ALTER TABLE ra_horse_pedigree DROP COLUMN IF EXISTS damsire_region;
 
--- ra_races
-ALTER TABLE ra_races DROP COLUMN IF EXISTS api_race_id;
-ALTER TABLE ra_races DROP COLUMN IF EXISTS app_race_id;
-ALTER TABLE ra_races DROP COLUMN IF EXISTS admin_notes;
-ALTER TABLE ra_races DROP COLUMN IF EXISTS user_notes;
-ALTER TABLE ra_races DROP COLUMN IF EXISTS popularity_score;
-ALTER TABLE ra_races DROP COLUMN IF EXISTS betting_status;
-ALTER TABLE ra_races DROP COLUMN IF EXISTS race_status;
-ALTER TABLE ra_races DROP COLUMN IF EXISTS results_status;
-ALTER TABLE ra_races DROP COLUMN IF EXISTS start_time;
-ALTER TABLE ra_races DROP COLUMN IF EXISTS live_stream_url;
-ALTER TABLE ra_races DROP COLUMN IF EXISTS replay_url;
-ALTER TABLE ra_races DROP COLUMN IF EXISTS stalls_position;
-ALTER TABLE ra_races DROP COLUMN IF EXISTS total_prize_money;
+-- ra_mst_races
+ALTER TABLE ra_mst_races DROP COLUMN IF EXISTS api_race_id;
+ALTER TABLE ra_mst_races DROP COLUMN IF EXISTS app_race_id;
+ALTER TABLE ra_mst_races DROP COLUMN IF EXISTS admin_notes;
+ALTER TABLE ra_mst_races DROP COLUMN IF EXISTS user_notes;
+ALTER TABLE ra_mst_races DROP COLUMN IF EXISTS popularity_score;
+ALTER TABLE ra_mst_races DROP COLUMN IF EXISTS betting_status;
+ALTER TABLE ra_mst_races DROP COLUMN IF EXISTS race_status;
+ALTER TABLE ra_mst_races DROP COLUMN IF EXISTS results_status;
+ALTER TABLE ra_mst_races DROP COLUMN IF EXISTS start_time;
+ALTER TABLE ra_mst_races DROP COLUMN IF EXISTS live_stream_url;
+ALTER TABLE ra_mst_races DROP COLUMN IF EXISTS replay_url;
+ALTER TABLE ra_mst_races DROP COLUMN IF EXISTS stalls_position;
+ALTER TABLE ra_mst_races DROP COLUMN IF EXISTS total_prize_money;
 
--- ra_runners
-ALTER TABLE ra_runners DROP COLUMN IF EXISTS api_entry_id;
-ALTER TABLE ra_runners DROP COLUMN IF EXISTS app_entry_id;
-ALTER TABLE ra_runners DROP COLUMN IF EXISTS entry_id;
-ALTER TABLE ra_runners DROP COLUMN IF EXISTS number_card;
-ALTER TABLE ra_runners DROP COLUMN IF EXISTS user_notes;
-ALTER TABLE ra_runners DROP COLUMN IF EXISTS user_rating;
-ALTER TABLE ra_runners DROP COLUMN IF EXISTS trainer_comments;
-ALTER TABLE ra_runners DROP COLUMN IF EXISTS stall;
-ALTER TABLE ra_runners DROP COLUMN IF EXISTS timeform_rating;
+-- ra_mst_runners
+ALTER TABLE ra_mst_runners DROP COLUMN IF EXISTS api_entry_id;
+ALTER TABLE ra_mst_runners DROP COLUMN IF EXISTS app_entry_id;
+ALTER TABLE ra_mst_runners DROP COLUMN IF EXISTS entry_id;
+ALTER TABLE ra_mst_runners DROP COLUMN IF EXISTS number_card;
+ALTER TABLE ra_mst_runners DROP COLUMN IF EXISTS user_notes;
+ALTER TABLE ra_mst_runners DROP COLUMN IF EXISTS user_rating;
+ALTER TABLE ra_mst_runners DROP COLUMN IF EXISTS trainer_comments;
+ALTER TABLE ra_mst_runners DROP COLUMN IF EXISTS stall;
+ALTER TABLE ra_mst_runners DROP COLUMN IF EXISTS timeform_rating;
 ```
 
 **Impact:**
@@ -223,7 +223,7 @@ ALTER TABLE ra_runners DROP COLUMN IF EXISTS timeform_rating;
 
 ## Special Investigation: timeform_rating
 
-**Issue:** `ra_runners.timeform_rating` is 100% NULL but workers capture `tfr` field.
+**Issue:** `ra_mst_runners.timeform_rating` is 100% NULL but workers capture `tfr` field.
 
 **Check:** Is `tfr` being stored in a different column?
 

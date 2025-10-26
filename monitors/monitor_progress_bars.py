@@ -74,7 +74,7 @@ def get_year_counts(db) -> Dict[int, int]:
 
         try:
             # Check ra_races table (primary source for all race data)
-            result = db.client.table('ra_races') \
+            result = db.client.table('ra_mst_races') \
                 .select('*', count='exact') \
                 .gte('race_date', start_date) \
                 .lte('race_date', end_date) \
@@ -161,7 +161,7 @@ def display_progress(db):
         'Trainers': 'ra_trainers',
         'Owners': 'ra_owners',
         'Races': 'ra_races',
-        'Runners': 'ra_runners'
+        'Runners': 'ra_mst_runners'
     }
 
     for name, table in tables.items():

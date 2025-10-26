@@ -81,7 +81,7 @@ After comprehensive testing of all 21 API endpoints, we confirmed:
 - `/v1/courses/{id}/pro` - Does not exist
 
 **What IS available (but not recommended to store):**
-- Results endpoints (race history - redundant with our `ra_runners` table)
+- Results endpoints (race history - redundant with our `ra_mst_runners` table)
 - Analysis endpoints (calculated statistics - better to calculate locally)
 
 ---
@@ -90,7 +90,7 @@ After comprehensive testing of all 21 API endpoints, we confirmed:
 
 ### Entity Statistics
 
-Instead of storing API analysis data, we should calculate statistics from our own `ra_runners` table.
+Instead of storing API analysis data, we should calculate statistics from our own `ra_mst_runners` table.
 
 **Benefits:**
 - Zero API calls (saves 100,000s of requests)
@@ -154,7 +154,7 @@ Instead of storing API analysis data, we should calculate statistics from our ow
 ### ❌ DON'T DO
 
 5. **Store API analysis endpoints** - Calculate locally instead
-6. **Store results endpoints** - Already have in ra_runners
+6. **Store results endpoints** - Already have in ra_mst_runners
 7. **Enrich individual races** - Redundant with bulk racecard fetch
 8. **Look for jockey/trainer/owner Pro endpoints** - They don't exist
 

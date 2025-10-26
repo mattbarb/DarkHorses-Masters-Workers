@@ -17,7 +17,7 @@ This audit completes the comprehensive review of ALL ra_* tables in the database
 ### Key Findings
 
 1. **ra_horse_pedigree is empty but NEEDED** - Pedigree data (sire/dam/damsire) is available from Racing API `/horses/{id}/pro` endpoint but not being fetched
-2. **ra_results is empty and REDUNDANT** - Results data is already stored in ra_races table; schema mismatch with API; fetcher intentionally skips this table
+2. **ra_results is empty and REDUNDANT** - Results data is already stored in ra_mst_races table; schema mismatch with API; fetcher intentionally skips this table
 3. **Total ra_* tables in database:** 9 tables (7 previously audited + 2 in this audit)
 4. **No other ra_* tables exist** in the database
 
@@ -341,8 +341,8 @@ FROM ra_horses;
 Per previous audits and code reviews, the ra_results table has a **schema mismatch** with the Racing API response structure. The results_fetcher.py was intentionally modified to:
 
 1. ✅ Fetch results from `/v1/results` endpoint
-2. ✅ Store race-level result data in **ra_races** table
-3. ✅ Store runner-level result data in **ra_runners** table
+2. ✅ Store race-level result data in **ra_mst_races** table
+3. ✅ Store runner-level result data in **ra_mst_runners** table
 4. ❌ Skip inserting to ra_results table (schema doesn't match)
 
 **Code Evidence:**
@@ -358,7 +358,7 @@ From `/Users/matthewbarber/Documents/GitHub/DarkHorses-Masters-Workers/docs/DATA
 ```
 ra_results table has schema mismatch with API response.
 The results_fetcher.py was modified to skip inserting to this table
-and instead populates ra_races with result data.
+and instead populates ra_mst_races with result data.
 ```
 
 #### Architecture Decision
@@ -366,13 +366,13 @@ and instead populates ra_races with result data.
 The **current architecture is correct**:
 
 **Race Results Data Storage:**
-- Race-level results → `ra_races` table
-- Runner-level results → `ra_runners` table (with position, distance_beaten, prize_won, starting_price)
+- Race-level results → `ra_mst_races` table
+- Runner-level results → `ra_mst_runners` table (with position, distance_beaten, prize_won, starting_price)
 - Full API response → `api_data` JSONB field in both tables
 
 **Why ra_results is redundant:**
-- Race metadata already in ra_races
-- Runner results already in ra_runners
+- Race metadata already in ra_mst_races
+- Runner results already in ra_mst_runners
 - API response already in api_data JSONB fields
 - No unique data that ra_results would provide
 
@@ -409,9 +409,9 @@ The **current architecture is correct**:
 ```
 
 **Current Extraction:**
-- ✅ Race data → ra_races
-- ✅ Runner data → ra_runners
-- ✅ Position data → ra_runners (position, distance_beaten, prize_won, starting_price)
+- ✅ Race data → ra_mst_races
+- ✅ Runner data → ra_mst_runners
+- ✅ Position data → ra_mst_runners (position, distance_beaten, prize_won, starting_price)
 - ❌ Nothing → ra_results (intentionally skipped)
 
 ### Impact Assessment
@@ -421,13 +421,13 @@ The **current architecture is correct**:
 **Nothing is missing.**
 
 All data from Results API is being captured in:
-- ra_races (race-level data)
-- ra_runners (runner-level data)
+- ra_mst_races (race-level data)
+- ra_mst_runners (runner-level data)
 - api_data JSONB fields (complete API response)
 
 #### What ra_results WOULD Store (if used)
 
-Based on code and schema analysis, ra_results appears to duplicate ra_races:
+Based on code and schema analysis, ra_results appears to duplicate ra_mst_races:
 - race_id (PRIMARY KEY)
 - course_id, course_name
 - race_date, off_time
@@ -436,7 +436,7 @@ Based on code and schema analysis, ra_results appears to duplicate ra_races:
 - field_size
 - api_data (JSONB)
 
-**All of these fields already exist in ra_races.**
+**All of these fields already exist in ra_mst_races.**
 
 ### Solution Options
 
@@ -446,7 +446,7 @@ Based on code and schema analysis, ra_results appears to duplicate ra_races:
 
 **Reasoning:**
 - Table is not being used (0 records)
-- Schema overlaps with ra_races
+- Schema overlaps with ra_mst_races
 - No unique data to capture
 - Simplifies database schema
 - Removes maintenance burden
@@ -469,10 +469,10 @@ DROP TABLE IF EXISTS ra_results CASCADE;
 
 #### Option 2: Fix Schema and Populate
 
-**Approach:** Redesign schema to avoid overlap with ra_races
+**Approach:** Redesign schema to avoid overlap with ra_mst_races
 
 **Possible Redesign:**
-Store ONLY result-specific metadata that ra_races doesn't have:
+Store ONLY result-specific metadata that ra_mst_races doesn't have:
 - Winning time
 - Sectional times (if available)
 - Photo finish info
@@ -508,9 +508,9 @@ Store ONLY result-specific metadata that ra_races doesn't have:
 
 **Reasoning:**
 1. Table is not being used (intentionally)
-2. No data loss (all results data in ra_races and ra_runners)
+2. No data loss (all results data in ra_mst_races and ra_mst_runners)
 3. Simplifies database schema
-4. Racing API doesn't provide race-level result data that isn't already in ra_races
+4. Racing API doesn't provide race-level result data that isn't already in ra_mst_races
 5. If needed later, can recreate (but unlikely)
 
 **Implementation Priority:** P3 - LOW (Optional cleanup)
@@ -527,8 +527,8 @@ SELECT COUNT(*) FROM ra_results;
 
 -- Verify all results data is in other tables
 SELECT
-  (SELECT COUNT(*) FROM ra_races WHERE fetched_at IS NOT NULL) as races_with_data,
-  (SELECT COUNT(*) FROM ra_runners WHERE position IS NOT NULL) as runners_with_position
+  (SELECT COUNT(*) FROM ra_mst_races WHERE fetched_at IS NOT NULL) as races_with_data,
+  (SELECT COUNT(*) FROM ra_mst_runners WHERE position IS NOT NULL) as runners_with_position
 FROM dual;
 -- Should show significant data in both tables
 ```
@@ -543,7 +543,7 @@ WHERE table_name = 'ra_results';
 
 -- Verify results data still accessible
 SELECT COUNT(*) as races_with_results
-FROM ra_races
+FROM ra_mst_races
 WHERE fetched_at IS NOT NULL
   AND race_date < CURRENT_DATE;
 -- Should show 136,000+ races
@@ -563,8 +563,8 @@ WHERE fetched_at IS NOT NULL
 | 4 | ra_jockeys | 3,480 | ✅ Complete | Add statistics fields |
 | 5 | ra_trainers | 2,780 | ✅ Complete | Add statistics fields |
 | 6 | ra_owners | 48,092 | ✅ Complete | Add statistics fields |
-| 7 | ra_races | 136,648 | ✅ Complete | None |
-| 8 | ra_runners | 379,422 | ⚠️ Partial | Continue position data capture |
+| 7 | ra_mst_races | 136,648 | ✅ Complete | None |
+| 8 | ra_mst_runners | 379,422 | ⚠️ Partial | Continue position data capture |
 | **9** | **ra_horse_pedigree** | **0** | **❌ Empty** | **Backfill from API (P0)** |
 | **10** | **ra_results** | **0** | **🟡 Deprecated** | **Drop table (P3)** |
 
@@ -634,8 +634,8 @@ WHERE fetched_at IS NOT NULL
 - `GET /v1/results` - Includes pedigree IDs for each runner
 
 **Current Extraction:**
-- ✅ Pedigree IDs extracted from racecards → ra_runners
-- ✅ Pedigree IDs extracted from results → ra_runners
+- ✅ Pedigree IDs extracted from racecards → ra_mst_runners
+- ✅ Pedigree IDs extracted from results → ra_mst_runners
 - ❌ Pedigree relationships NOT stored → ra_horse_pedigree
 
 ### Results Data Sources
@@ -648,9 +648,9 @@ WHERE fetched_at IS NOT NULL
 - ✅ Full API response
 
 **Current Extraction:**
-- ✅ Race data → ra_races
-- ✅ Runner data → ra_runners
-- ✅ Position data → ra_runners (97% coverage on new data)
+- ✅ Race data → ra_mst_races
+- ✅ Runner data → ra_mst_runners
+- ✅ Position data → ra_mst_runners (97% coverage on new data)
 - ❌ Nothing → ra_results (intentionally skipped)
 
 ---
@@ -742,9 +742,9 @@ def _transform_result(self, result: Dict) -> tuple:
         Tuple of (None, list_of_runner_dicts)
 
     Note: ra_results table not being populated (returns None)
-          All data goes to ra_races and ra_runners instead
+          All data goes to ra_mst_races and ra_mst_runners instead
     """
-    # ... code that extracts to ra_races and ra_runners
+    # ... code that extracts to ra_mst_races and ra_mst_runners
     # Intentionally skips ra_results table
 ```
 
@@ -801,11 +801,11 @@ CREATE TABLE ra_results (
     api_data JSONB,
     created_at TIMESTAMP DEFAULT NOW(),
     updated_at TIMESTAMP DEFAULT NOW(),
-    FOREIGN KEY (race_id) REFERENCES ra_races(race_id)
+    FOREIGN KEY (race_id) REFERENCES ra_mst_races(race_id)
 );
 ```
 
-**Note:** This schema heavily overlaps with ra_races, which is why the table is not being used.
+**Note:** This schema heavily overlaps with ra_mst_races, which is why the table is not being used.
 
 ---
 

@@ -45,21 +45,21 @@ def run_migration_statements():
     # Initialize Supabase client
     client = create_client(config.supabase.url, config.supabase.service_key)
 
-    logger.info("\nAdding columns to ra_runners table...")
+    logger.info("\nAdding columns to ra_mst_runners table...")
 
     # Execute each ALTER TABLE statement individually
     statements = [
-        ("ALTER TABLE ra_runners ADD COLUMN IF NOT EXISTS starting_price_decimal DECIMAL(10,2);",
+        ("ALTER TABLE ra_mst_runners ADD COLUMN IF NOT EXISTS starting_price_decimal DECIMAL(10,2);",
          "Add starting_price_decimal"),
-        ("ALTER TABLE ra_runners ADD COLUMN IF NOT EXISTS race_comment TEXT;",
+        ("ALTER TABLE ra_mst_runners ADD COLUMN IF NOT EXISTS race_comment TEXT;",
          "Add race_comment"),
-        ("ALTER TABLE ra_runners ADD COLUMN IF NOT EXISTS jockey_silk_url TEXT;",
+        ("ALTER TABLE ra_mst_runners ADD COLUMN IF NOT EXISTS jockey_silk_url TEXT;",
          "Add jockey_silk_url"),
-        ("ALTER TABLE ra_runners ADD COLUMN IF NOT EXISTS overall_beaten_distance DECIMAL(10,2);",
+        ("ALTER TABLE ra_mst_runners ADD COLUMN IF NOT EXISTS overall_beaten_distance DECIMAL(10,2);",
          "Add overall_beaten_distance"),
-        ("ALTER TABLE ra_runners ADD COLUMN IF NOT EXISTS jockey_claim_lbs INTEGER;",
+        ("ALTER TABLE ra_mst_runners ADD COLUMN IF NOT EXISTS jockey_claim_lbs INTEGER;",
          "Add jockey_claim_lbs"),
-        ("ALTER TABLE ra_runners ADD COLUMN IF NOT EXISTS weight_stones_lbs VARCHAR(10);",
+        ("ALTER TABLE ra_mst_runners ADD COLUMN IF NOT EXISTS weight_stones_lbs VARCHAR(10);",
          "Add weight_stones_lbs"),
     ]
 
@@ -88,7 +88,7 @@ def run_migration_statements():
 
     quick_sql = """
 -- Add all columns in one statement
-ALTER TABLE ra_runners
+ALTER TABLE ra_mst_runners
   ADD COLUMN IF NOT EXISTS starting_price_decimal DECIMAL(10,2),
   ADD COLUMN IF NOT EXISTS race_comment TEXT,
   ADD COLUMN IF NOT EXISTS jockey_silk_url TEXT,
@@ -98,15 +98,15 @@ ALTER TABLE ra_runners
 
 -- Add indexes
 CREATE INDEX IF NOT EXISTS idx_runners_sp_decimal
-  ON ra_runners(starting_price_decimal)
+  ON ra_mst_runners(starting_price_decimal)
   WHERE starting_price_decimal IS NOT NULL;
 
 CREATE INDEX IF NOT EXISTS idx_runners_ovr_btn
-  ON ra_runners(overall_beaten_distance)
+  ON ra_mst_runners(overall_beaten_distance)
   WHERE overall_beaten_distance IS NOT NULL;
 
 CREATE INDEX IF NOT EXISTS idx_runners_jockey_claim
-  ON ra_runners(jockey_claim_lbs)
+  ON ra_mst_runners(jockey_claim_lbs)
   WHERE jockey_claim_lbs > 0;
 """
 

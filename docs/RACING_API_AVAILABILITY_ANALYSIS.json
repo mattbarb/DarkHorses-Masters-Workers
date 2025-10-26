@@ -218,7 +218,7 @@
             "column": "total_rides",
             "type": "integer",
             "source": "Calculated from Historical Races",
-            "api_endpoint": "Database Query: ra_runners JOIN ra_races",
+            "api_endpoint": "Database Query: ra_mst_runners JOIN ra_mst_races",
             "field_path": "COUNT(*) WHERE jockey_id = X",
             "populated_pct": 100.0
           },
@@ -226,7 +226,7 @@
             "column": "total_wins",
             "type": "integer",
             "source": "Calculated from Historical Races",
-            "api_endpoint": "Database Query: ra_runners JOIN ra_races",
+            "api_endpoint": "Database Query: ra_mst_runners JOIN ra_mst_races",
             "field_path": "COUNT(*) WHERE jockey_id = X AND position = 1",
             "populated_pct": 100.0
           },
@@ -234,7 +234,7 @@
             "column": "total_places",
             "type": "integer",
             "source": "Calculated from Historical Races",
-            "api_endpoint": "Database Query: ra_runners JOIN ra_races",
+            "api_endpoint": "Database Query: ra_mst_runners JOIN ra_mst_races",
             "field_path": "COUNT(*) WHERE jockey_id = X AND position IN (2,3)",
             "populated_pct": 100.0
           },
@@ -242,7 +242,7 @@
             "column": "total_seconds",
             "type": "integer",
             "source": "Calculated from Historical Races",
-            "api_endpoint": "Database Query: ra_runners JOIN ra_races",
+            "api_endpoint": "Database Query: ra_mst_runners JOIN ra_mst_races",
             "field_path": "COUNT(*) WHERE jockey_id = X",
             "populated_pct": 100.0
           },
@@ -250,7 +250,7 @@
             "column": "total_thirds",
             "type": "integer",
             "source": "Calculated from Historical Races",
-            "api_endpoint": "Database Query: ra_runners JOIN ra_races",
+            "api_endpoint": "Database Query: ra_mst_runners JOIN ra_mst_races",
             "field_path": "COUNT(*) WHERE jockey_id = X",
             "populated_pct": 100.0
           },
@@ -258,7 +258,7 @@
             "column": "win_rate",
             "type": "numeric",
             "source": "Calculated from Historical Races",
-            "api_endpoint": "Database Query: ra_runners JOIN ra_races",
+            "api_endpoint": "Database Query: ra_mst_runners JOIN ra_mst_races",
             "field_path": "COUNT(*) WHERE jockey_id = X AND position = 1",
             "populated_pct": 99.08
           },
@@ -266,7 +266,7 @@
             "column": "place_rate",
             "type": "numeric",
             "source": "Calculated from Historical Races",
-            "api_endpoint": "Database Query: ra_runners JOIN ra_races",
+            "api_endpoint": "Database Query: ra_mst_runners JOIN ra_mst_races",
             "field_path": "COUNT(*) WHERE jockey_id = X AND position IN (2,3)",
             "populated_pct": 97.24
           },
@@ -274,7 +274,7 @@
             "column": "stats_updated_at",
             "type": "timestamp without time zone",
             "source": "Calculated from Database",
-            "api_endpoint": "Database Query: Aggregation over ra_runners + ra_races",
+            "api_endpoint": "Database Query: Aggregation over ra_mst_runners + ra_mst_races",
             "field_path": "Various aggregation methods depending on statistic",
             "populated_pct": 100.0
           },
@@ -282,7 +282,7 @@
             "column": "last_ride_date",
             "type": "date",
             "source": "Calculated from Recent Activity",
-            "api_endpoint": "Database Query: ra_runners WHERE date > NOW() - INTERVAL 'N days'",
+            "api_endpoint": "Database Query: ra_mst_runners WHERE date > NOW() - INTERVAL 'N days'",
             "field_path": "Date-filtered aggregation over last N days",
             "populated_pct": 28.6
           },
@@ -290,7 +290,7 @@
             "column": "last_win_date",
             "type": "date",
             "source": "Calculated from Recent Activity",
-            "api_endpoint": "Database Query: ra_runners WHERE date > NOW() - INTERVAL 'N days'",
+            "api_endpoint": "Database Query: ra_mst_runners WHERE date > NOW() - INTERVAL 'N days'",
             "field_path": "Date-filtered aggregation over last N days",
             "populated_pct": 12.46
           },
@@ -298,7 +298,7 @@
             "column": "days_since_last_ride",
             "type": "integer",
             "source": "Calculated from Recent Activity",
-            "api_endpoint": "Database Query: ra_runners WHERE date > NOW() - INTERVAL 'N days'",
+            "api_endpoint": "Database Query: ra_mst_runners WHERE date > NOW() - INTERVAL 'N days'",
             "field_path": "Date-filtered aggregation over last N days",
             "populated_pct": 28.6
           },
@@ -306,7 +306,7 @@
             "column": "days_since_last_win",
             "type": "integer",
             "source": "Calculated from Recent Activity",
-            "api_endpoint": "Database Query: ra_runners WHERE date > NOW() - INTERVAL 'N days'",
+            "api_endpoint": "Database Query: ra_mst_runners WHERE date > NOW() - INTERVAL 'N days'",
             "field_path": "Date-filtered aggregation over last N days",
             "populated_pct": 12.46
           },
@@ -314,7 +314,7 @@
             "column": "recent_14d_rides",
             "type": "integer",
             "source": "Calculated from Recent Activity",
-            "api_endpoint": "Database Query: ra_runners WHERE date > NOW() - INTERVAL '14 days'",
+            "api_endpoint": "Database Query: ra_mst_runners WHERE date > NOW() - INTERVAL '14 days'",
             "field_path": "Date-filtered aggregation over last 14 days",
             "populated_pct": 100.0
           },
@@ -322,7 +322,7 @@
             "column": "recent_14d_wins",
             "type": "integer",
             "source": "Calculated from Recent Activity",
-            "api_endpoint": "Database Query: ra_runners WHERE date > NOW() - INTERVAL '14 days'",
+            "api_endpoint": "Database Query: ra_mst_runners WHERE date > NOW() - INTERVAL '14 days'",
             "field_path": "Date-filtered aggregation over last 14 days",
             "populated_pct": 100.0
           },
@@ -330,7 +330,7 @@
             "column": "recent_14d_win_rate",
             "type": "numeric",
             "source": "Calculated from Historical Races",
-            "api_endpoint": "Database Query: ra_runners JOIN ra_races",
+            "api_endpoint": "Database Query: ra_mst_runners JOIN ra_mst_races",
             "field_path": "COUNT(*) WHERE jockey_id = X AND position = 1",
             "populated_pct": 83.63
           },
@@ -338,7 +338,7 @@
             "column": "recent_30d_rides",
             "type": "integer",
             "source": "Calculated from Recent Activity",
-            "api_endpoint": "Database Query: ra_runners WHERE date > NOW() - INTERVAL '30 days'",
+            "api_endpoint": "Database Query: ra_mst_runners WHERE date > NOW() - INTERVAL '30 days'",
             "field_path": "Date-filtered aggregation over last 30 days",
             "populated_pct": 100.0
           },
@@ -346,7 +346,7 @@
             "column": "recent_30d_wins",
             "type": "integer",
             "source": "Calculated from Recent Activity",
-            "api_endpoint": "Database Query: ra_runners WHERE date > NOW() - INTERVAL '30 days'",
+            "api_endpoint": "Database Query: ra_mst_runners WHERE date > NOW() - INTERVAL '30 days'",
             "field_path": "Date-filtered aggregation over last 30 days",
             "populated_pct": 100.0
           },
@@ -354,7 +354,7 @@
             "column": "recent_30d_win_rate",
             "type": "numeric",
             "source": "Calculated from Historical Races",
-            "api_endpoint": "Database Query: ra_runners JOIN ra_races",
+            "api_endpoint": "Database Query: ra_mst_runners JOIN ra_mst_races",
             "field_path": "COUNT(*) WHERE jockey_id = X AND position = 1",
             "populated_pct": 84.9
           }
@@ -438,7 +438,7 @@
             "column": "total_runners",
             "type": "integer",
             "source": "Calculated from Historical Races",
-            "api_endpoint": "Database Query: ra_runners JOIN ra_races",
+            "api_endpoint": "Database Query: ra_mst_runners JOIN ra_mst_races",
             "field_path": "COUNT(*) WHERE trainer_id = X",
             "populated_pct": 100.0
           },
@@ -446,7 +446,7 @@
             "column": "total_wins",
             "type": "integer",
             "source": "Calculated from Historical Races",
-            "api_endpoint": "Database Query: ra_runners JOIN ra_races",
+            "api_endpoint": "Database Query: ra_mst_runners JOIN ra_mst_races",
             "field_path": "COUNT(*) WHERE trainer_id = X AND position = 1",
             "populated_pct": 100.0
           },
@@ -454,7 +454,7 @@
             "column": "total_places",
             "type": "integer",
             "source": "Calculated from Historical Races",
-            "api_endpoint": "Database Query: ra_runners JOIN ra_races",
+            "api_endpoint": "Database Query: ra_mst_runners JOIN ra_mst_races",
             "field_path": "COUNT(*) WHERE trainer_id = X AND position IN (2,3)",
             "populated_pct": 100.0
           },
@@ -462,7 +462,7 @@
             "column": "total_seconds",
             "type": "integer",
             "source": "Calculated from Historical Races",
-            "api_endpoint": "Database Query: ra_runners JOIN ra_races",
+            "api_endpoint": "Database Query: ra_mst_runners JOIN ra_mst_races",
             "field_path": "COUNT(*) WHERE trainer_id = X",
             "populated_pct": 100.0
           },
@@ -470,7 +470,7 @@
             "column": "total_thirds",
             "type": "integer",
             "source": "Calculated from Historical Races",
-            "api_endpoint": "Database Query: ra_runners JOIN ra_races",
+            "api_endpoint": "Database Query: ra_mst_runners JOIN ra_mst_races",
             "field_path": "COUNT(*) WHERE trainer_id = X",
             "populated_pct": 100.0
           },
@@ -478,7 +478,7 @@
             "column": "win_rate",
             "type": "numeric",
             "source": "Calculated from Historical Races",
-            "api_endpoint": "Database Query: ra_runners JOIN ra_races",
+            "api_endpoint": "Database Query: ra_mst_runners JOIN ra_mst_races",
             "field_path": "COUNT(*) WHERE trainer_id = X AND position = 1",
             "populated_pct": 99.71
           },
@@ -486,7 +486,7 @@
             "column": "place_rate",
             "type": "numeric",
             "source": "Calculated from Historical Races",
-            "api_endpoint": "Database Query: ra_runners JOIN ra_races",
+            "api_endpoint": "Database Query: ra_mst_runners JOIN ra_mst_races",
             "field_path": "COUNT(*) WHERE trainer_id = X AND position IN (2,3)",
             "populated_pct": 95.22
           },
@@ -494,7 +494,7 @@
             "column": "stats_updated_at",
             "type": "timestamp without time zone",
             "source": "Calculated from Database",
-            "api_endpoint": "Database Query: Aggregation over ra_runners + ra_races",
+            "api_endpoint": "Database Query: Aggregation over ra_mst_runners + ra_mst_races",
             "field_path": "Various aggregation methods depending on statistic",
             "populated_pct": 100.0
           },
@@ -502,7 +502,7 @@
             "column": "last_runner_date",
             "type": "date",
             "source": "Calculated from Recent Activity",
-            "api_endpoint": "Database Query: ra_runners WHERE date > NOW() - INTERVAL 'N days'",
+            "api_endpoint": "Database Query: ra_mst_runners WHERE date > NOW() - INTERVAL 'N days'",
             "field_path": "Date-filtered aggregation over last N days",
             "populated_pct": 35.96
           },
@@ -510,7 +510,7 @@
             "column": "last_win_date",
             "type": "date",
             "source": "Calculated from Recent Activity",
-            "api_endpoint": "Database Query: ra_runners WHERE date > NOW() - INTERVAL 'N days'",
+            "api_endpoint": "Database Query: ra_mst_runners WHERE date > NOW() - INTERVAL 'N days'",
             "field_path": "Date-filtered aggregation over last N days",
             "populated_pct": 18.12
           },
@@ -518,7 +518,7 @@
             "column": "days_since_last_runner",
             "type": "integer",
             "source": "Calculated from Recent Activity",
-            "api_endpoint": "Database Query: ra_runners WHERE date > NOW() - INTERVAL 'N days'",
+            "api_endpoint": "Database Query: ra_mst_runners WHERE date > NOW() - INTERVAL 'N days'",
             "field_path": "Date-filtered aggregation over last N days",
             "populated_pct": 35.96
           },
@@ -526,7 +526,7 @@
             "column": "days_since_last_win",
             "type": "integer",
             "source": "Calculated from Recent Activity",
-            "api_endpoint": "Database Query: ra_runners WHERE date > NOW() - INTERVAL 'N days'",
+            "api_endpoint": "Database Query: ra_mst_runners WHERE date > NOW() - INTERVAL 'N days'",
             "field_path": "Date-filtered aggregation over last N days",
             "populated_pct": 18.12
           },
@@ -534,7 +534,7 @@
             "column": "recent_14d_runs",
             "type": "integer",
             "source": "Calculated from Recent Activity",
-            "api_endpoint": "Database Query: ra_runners WHERE date > NOW() - INTERVAL '14 days'",
+            "api_endpoint": "Database Query: ra_mst_runners WHERE date > NOW() - INTERVAL '14 days'",
             "field_path": "Date-filtered aggregation over last 14 days",
             "populated_pct": 100.0
           },
@@ -542,7 +542,7 @@
             "column": "recent_14d_wins",
             "type": "integer",
             "source": "Calculated from Recent Activity",
-            "api_endpoint": "Database Query: ra_runners WHERE date > NOW() - INTERVAL '14 days'",
+            "api_endpoint": "Database Query: ra_mst_runners WHERE date > NOW() - INTERVAL '14 days'",
             "field_path": "Date-filtered aggregation over last 14 days",
             "populated_pct": 100.0
           },
@@ -550,7 +550,7 @@
             "column": "recent_14d_win_rate",
             "type": "numeric",
             "source": "Calculated from Historical Races",
-            "api_endpoint": "Database Query: ra_runners JOIN ra_races",
+            "api_endpoint": "Database Query: ra_mst_runners JOIN ra_mst_races",
             "field_path": "COUNT(*) WHERE trainer_id = X AND position = 1",
             "populated_pct": 83.28
           },
@@ -558,7 +558,7 @@
             "column": "recent_30d_runs",
             "type": "integer",
             "source": "Calculated from Recent Activity",
-            "api_endpoint": "Database Query: ra_runners WHERE date > NOW() - INTERVAL '30 days'",
+            "api_endpoint": "Database Query: ra_mst_runners WHERE date > NOW() - INTERVAL '30 days'",
             "field_path": "Date-filtered aggregation over last 30 days",
             "populated_pct": 100.0
           },
@@ -566,7 +566,7 @@
             "column": "recent_30d_wins",
             "type": "integer",
             "source": "Calculated from Recent Activity",
-            "api_endpoint": "Database Query: ra_runners WHERE date > NOW() - INTERVAL '30 days'",
+            "api_endpoint": "Database Query: ra_mst_runners WHERE date > NOW() - INTERVAL '30 days'",
             "field_path": "Date-filtered aggregation over last 30 days",
             "populated_pct": 100.0
           },
@@ -574,7 +574,7 @@
             "column": "recent_30d_win_rate",
             "type": "numeric",
             "source": "Calculated from Historical Races",
-            "api_endpoint": "Database Query: ra_runners JOIN ra_races",
+            "api_endpoint": "Database Query: ra_mst_runners JOIN ra_mst_races",
             "field_path": "COUNT(*) WHERE trainer_id = X AND position = 1",
             "populated_pct": 84.9
           }
@@ -650,7 +650,7 @@
             "column": "total_horses",
             "type": "integer",
             "source": "Calculated from Historical Races",
-            "api_endpoint": "Database Query: ra_runners JOIN ra_races",
+            "api_endpoint": "Database Query: ra_mst_runners JOIN ra_mst_races",
             "field_path": "COUNT(*) WHERE owner_id = X",
             "populated_pct": 99.97
           },
@@ -658,7 +658,7 @@
             "column": "total_runners",
             "type": "integer",
             "source": "Calculated from Historical Races",
-            "api_endpoint": "Database Query: ra_runners JOIN ra_races",
+            "api_endpoint": "Database Query: ra_mst_runners JOIN ra_mst_races",
             "field_path": "COUNT(*) WHERE owner_id = X",
             "populated_pct": 100.0
           },
@@ -666,7 +666,7 @@
             "column": "total_wins",
             "type": "integer",
             "source": "Calculated from Historical Races",
-            "api_endpoint": "Database Query: ra_runners JOIN ra_races",
+            "api_endpoint": "Database Query: ra_mst_runners JOIN ra_mst_races",
             "field_path": "COUNT(*) WHERE owner_id = X AND position = 1",
             "populated_pct": 100.0
           },
@@ -674,7 +674,7 @@
             "column": "total_places",
             "type": "integer",
             "source": "Calculated from Historical Races",
-            "api_endpoint": "Database Query: ra_runners JOIN ra_races",
+            "api_endpoint": "Database Query: ra_mst_runners JOIN ra_mst_races",
             "field_path": "COUNT(*) WHERE owner_id = X AND position IN (2,3)",
             "populated_pct": 99.97
           },
@@ -682,7 +682,7 @@
             "column": "total_seconds",
             "type": "integer",
             "source": "Calculated from Historical Races",
-            "api_endpoint": "Database Query: ra_runners JOIN ra_races",
+            "api_endpoint": "Database Query: ra_mst_runners JOIN ra_mst_races",
             "field_path": "COUNT(*) WHERE owner_id = X",
             "populated_pct": 99.97
           },
@@ -690,7 +690,7 @@
             "column": "total_thirds",
             "type": "integer",
             "source": "Calculated from Historical Races",
-            "api_endpoint": "Database Query: ra_runners JOIN ra_races",
+            "api_endpoint": "Database Query: ra_mst_runners JOIN ra_mst_races",
             "field_path": "COUNT(*) WHERE owner_id = X",
             "populated_pct": 99.97
           },
@@ -698,7 +698,7 @@
             "column": "win_rate",
             "type": "numeric",
             "source": "Calculated from Historical Races",
-            "api_endpoint": "Database Query: ra_runners JOIN ra_races",
+            "api_endpoint": "Database Query: ra_mst_runners JOIN ra_mst_races",
             "field_path": "COUNT(*) WHERE owner_id = X AND position = 1",
             "populated_pct": 99.89
           },
@@ -706,7 +706,7 @@
             "column": "place_rate",
             "type": "numeric",
             "source": "Calculated from Historical Races",
-            "api_endpoint": "Database Query: ra_runners JOIN ra_races",
+            "api_endpoint": "Database Query: ra_mst_runners JOIN ra_mst_races",
             "field_path": "COUNT(*) WHERE owner_id = X AND position IN (2,3)",
             "populated_pct": 97.92
           },
@@ -714,7 +714,7 @@
             "column": "active_last_30d",
             "type": "boolean",
             "source": "Calculated from Recent Activity",
-            "api_endpoint": "Database Query: ra_runners WHERE date > NOW() - INTERVAL '30 days'",
+            "api_endpoint": "Database Query: ra_mst_runners WHERE date > NOW() - INTERVAL '30 days'",
             "field_path": "Date-filtered aggregation over last 30 days",
             "populated_pct": 97.92
           },
@@ -722,7 +722,7 @@
             "column": "stats_updated_at",
             "type": "timestamp without time zone",
             "source": "Calculated from Database",
-            "api_endpoint": "Database Query: Aggregation over ra_runners + ra_races",
+            "api_endpoint": "Database Query: Aggregation over ra_mst_runners + ra_mst_races",
             "field_path": "Various aggregation methods depending on statistic",
             "populated_pct": 99.97
           },
@@ -730,7 +730,7 @@
             "column": "last_runner_date",
             "type": "date",
             "source": "Calculated from Recent Activity",
-            "api_endpoint": "Database Query: ra_runners WHERE date > NOW() - INTERVAL 'N days'",
+            "api_endpoint": "Database Query: ra_mst_runners WHERE date > NOW() - INTERVAL 'N days'",
             "field_path": "Date-filtered aggregation over last N days",
             "populated_pct": 2.93
           },
@@ -738,7 +738,7 @@
             "column": "last_win_date",
             "type": "date",
             "source": "Calculated from Recent Activity",
-            "api_endpoint": "Database Query: ra_runners WHERE date > NOW() - INTERVAL 'N days'",
+            "api_endpoint": "Database Query: ra_mst_runners WHERE date > NOW() - INTERVAL 'N days'",
             "field_path": "Date-filtered aggregation over last N days",
             "populated_pct": 1.53
           },
@@ -746,7 +746,7 @@
             "column": "days_since_last_runner",
             "type": "integer",
             "source": "Calculated from Recent Activity",
-            "api_endpoint": "Database Query: ra_runners WHERE date > NOW() - INTERVAL 'N days'",
+            "api_endpoint": "Database Query: ra_mst_runners WHERE date > NOW() - INTERVAL 'N days'",
             "field_path": "Date-filtered aggregation over last N days",
             "populated_pct": 2.93
           },
@@ -754,7 +754,7 @@
             "column": "days_since_last_win",
             "type": "integer",
             "source": "Calculated from Recent Activity",
-            "api_endpoint": "Database Query: ra_runners WHERE date > NOW() - INTERVAL 'N days'",
+            "api_endpoint": "Database Query: ra_mst_runners WHERE date > NOW() - INTERVAL 'N days'",
             "field_path": "Date-filtered aggregation over last N days",
             "populated_pct": 1.53
           },
@@ -762,7 +762,7 @@
             "column": "recent_14d_runs",
             "type": "integer",
             "source": "Calculated from Recent Activity",
-            "api_endpoint": "Database Query: ra_runners WHERE date > NOW() - INTERVAL '14 days'",
+            "api_endpoint": "Database Query: ra_mst_runners WHERE date > NOW() - INTERVAL '14 days'",
             "field_path": "Date-filtered aggregation over last 14 days",
             "populated_pct": 100.0
           },
@@ -770,7 +770,7 @@
             "column": "recent_14d_wins",
             "type": "integer",
             "source": "Calculated from Recent Activity",
-            "api_endpoint": "Database Query: ra_runners WHERE date > NOW() - INTERVAL '14 days'",
+            "api_endpoint": "Database Query: ra_mst_runners WHERE date > NOW() - INTERVAL '14 days'",
             "field_path": "Date-filtered aggregation over last 14 days",
             "populated_pct": 100.0
           },
@@ -778,7 +778,7 @@
             "column": "recent_14d_win_rate",
             "type": "numeric",
             "source": "Calculated from Historical Races",
-            "api_endpoint": "Database Query: ra_runners JOIN ra_races",
+            "api_endpoint": "Database Query: ra_mst_runners JOIN ra_mst_races",
             "field_path": "COUNT(*) WHERE owner_id = X AND position = 1",
             "populated_pct": 99.24
           },
@@ -786,7 +786,7 @@
             "column": "recent_30d_runs",
             "type": "integer",
             "source": "Calculated from Recent Activity",
-            "api_endpoint": "Database Query: ra_runners WHERE date > NOW() - INTERVAL '30 days'",
+            "api_endpoint": "Database Query: ra_mst_runners WHERE date > NOW() - INTERVAL '30 days'",
             "field_path": "Date-filtered aggregation over last 30 days",
             "populated_pct": 100.0
           },
@@ -794,7 +794,7 @@
             "column": "recent_30d_wins",
             "type": "integer",
             "source": "Calculated from Recent Activity",
-            "api_endpoint": "Database Query: ra_runners WHERE date > NOW() - INTERVAL '30 days'",
+            "api_endpoint": "Database Query: ra_mst_runners WHERE date > NOW() - INTERVAL '30 days'",
             "field_path": "Date-filtered aggregation over last 30 days",
             "populated_pct": 100.0
           },
@@ -802,7 +802,7 @@
             "column": "recent_30d_win_rate",
             "type": "numeric",
             "source": "Calculated from Historical Races",
-            "api_endpoint": "Database Query: ra_runners JOIN ra_races",
+            "api_endpoint": "Database Query: ra_mst_runners JOIN ra_mst_races",
             "field_path": "COUNT(*) WHERE owner_id = X AND position = 1",
             "populated_pct": 99.34
           }
@@ -1036,7 +1036,7 @@
             "type": "integer",
             "source": "Database Calculation - Pedigree Agent",
             "api_endpoint": "N/A - Calculated from database",
-            "field_path": "COUNT(ra_runners) WHERE horse_id IN (SELECT id FROM ra_mst_horses WHERE sire_id/dam_id/damsire_id = entity.id)",
+            "field_path": "COUNT(ra_mst_runners) WHERE horse_id IN (SELECT id FROM ra_mst_horses WHERE sire_id/dam_id/damsire_id = entity.id)",
             "populated_pct": 100.0
           },
           {
@@ -1044,7 +1044,7 @@
             "type": "integer",
             "source": "Database Calculation - Pedigree Agent",
             "api_endpoint": "N/A - Calculated from database",
-            "field_path": "COUNT(ra_runners) WHERE position = 1 AND horse_id IN progeny",
+            "field_path": "COUNT(ra_mst_runners) WHERE position = 1 AND horse_id IN progeny",
             "populated_pct": 100.0
           },
           {
@@ -1052,7 +1052,7 @@
             "type": "integer",
             "source": "Database Calculation - Pedigree Agent",
             "api_endpoint": "N/A - Calculated from database",
-            "field_path": "COUNT(ra_runners) WHERE position = 2 AND horse_id IN progeny",
+            "field_path": "COUNT(ra_mst_runners) WHERE position = 2 AND horse_id IN progeny",
             "populated_pct": 100.0
           },
           {
@@ -1060,7 +1060,7 @@
             "type": "integer",
             "source": "Database Calculation - Pedigree Agent",
             "api_endpoint": "N/A - Calculated from database",
-            "field_path": "COUNT(ra_runners) WHERE position = 3 AND horse_id IN progeny",
+            "field_path": "COUNT(ra_mst_runners) WHERE position = 3 AND horse_id IN progeny",
             "populated_pct": 100.0
           },
           {
@@ -1132,7 +1132,7 @@
             "type": "integer",
             "source": "Database Calculation - Pedigree Agent",
             "api_endpoint": "N/A - Calculated from database",
-            "field_path": "COUNT(ra_runners) WHERE race.class = class_1_name",
+            "field_path": "COUNT(ra_mst_runners) WHERE race.class = class_1_name",
             "populated_pct": 0.0
           },
           {
@@ -1140,7 +1140,7 @@
             "type": "integer",
             "source": "Database Calculation - Pedigree Agent",
             "api_endpoint": "N/A - Calculated from database",
-            "field_path": "COUNT(ra_runners) WHERE position = 1 AND race.class = class_1_name",
+            "field_path": "COUNT(ra_mst_runners) WHERE position = 1 AND race.class = class_1_name",
             "populated_pct": 0.0
           },
           {
@@ -1172,7 +1172,7 @@
             "type": "integer",
             "source": "Database Calculation - Pedigree Agent",
             "api_endpoint": "N/A - Calculated from database",
-            "field_path": "COUNT(ra_runners) WHERE race.class = class_2_name",
+            "field_path": "COUNT(ra_mst_runners) WHERE race.class = class_2_name",
             "populated_pct": 0.0
           },
           {
@@ -1180,7 +1180,7 @@
             "type": "integer",
             "source": "Database Calculation - Pedigree Agent",
             "api_endpoint": "N/A - Calculated from database",
-            "field_path": "COUNT(ra_runners) WHERE position = 1 AND race.class = class_2_name",
+            "field_path": "COUNT(ra_mst_runners) WHERE position = 1 AND race.class = class_2_name",
             "populated_pct": 0.0
           },
           {
@@ -1212,7 +1212,7 @@
             "type": "integer",
             "source": "Database Calculation - Pedigree Agent",
             "api_endpoint": "N/A - Calculated from database",
-            "field_path": "COUNT(ra_runners) WHERE race.class = class_3_name",
+            "field_path": "COUNT(ra_mst_runners) WHERE race.class = class_3_name",
             "populated_pct": 0.0
           },
           {
@@ -1220,7 +1220,7 @@
             "type": "integer",
             "source": "Database Calculation - Pedigree Agent",
             "api_endpoint": "N/A - Calculated from database",
-            "field_path": "COUNT(ra_runners) WHERE position = 1 AND race.class = class_3_name",
+            "field_path": "COUNT(ra_mst_runners) WHERE position = 1 AND race.class = class_3_name",
             "populated_pct": 0.0
           },
           {
@@ -1252,7 +1252,7 @@
             "type": "integer",
             "source": "Database Calculation - Pedigree Agent",
             "api_endpoint": "N/A - Calculated from database",
-            "field_path": "COUNT(ra_runners) WHERE race.distance_f = distance_1_name",
+            "field_path": "COUNT(ra_mst_runners) WHERE race.distance_f = distance_1_name",
             "populated_pct": 0.0
           },
           {
@@ -1260,7 +1260,7 @@
             "type": "integer",
             "source": "Database Calculation - Pedigree Agent",
             "api_endpoint": "N/A - Calculated from database",
-            "field_path": "COUNT(ra_runners) WHERE position = 1 AND race.distance_f = distance_1_name",
+            "field_path": "COUNT(ra_mst_runners) WHERE position = 1 AND race.distance_f = distance_1_name",
             "populated_pct": 0.0
           },
           {
@@ -1292,7 +1292,7 @@
             "type": "integer",
             "source": "Database Calculation - Pedigree Agent",
             "api_endpoint": "N/A - Calculated from database",
-            "field_path": "COUNT(ra_runners) WHERE race.distance_f = distance_2_name",
+            "field_path": "COUNT(ra_mst_runners) WHERE race.distance_f = distance_2_name",
             "populated_pct": 0.0
           },
           {
@@ -1300,7 +1300,7 @@
             "type": "integer",
             "source": "Database Calculation - Pedigree Agent",
             "api_endpoint": "N/A - Calculated from database",
-            "field_path": "COUNT(ra_runners) WHERE position = 1 AND race.distance_f = distance_2_name",
+            "field_path": "COUNT(ra_mst_runners) WHERE position = 1 AND race.distance_f = distance_2_name",
             "populated_pct": 0.0
           },
           {
@@ -1332,7 +1332,7 @@
             "type": "integer",
             "source": "Database Calculation - Pedigree Agent",
             "api_endpoint": "N/A - Calculated from database",
-            "field_path": "COUNT(ra_runners) WHERE race.distance_f = distance_3_name",
+            "field_path": "COUNT(ra_mst_runners) WHERE race.distance_f = distance_3_name",
             "populated_pct": 0.0
           },
           {
@@ -1340,7 +1340,7 @@
             "type": "integer",
             "source": "Database Calculation - Pedigree Agent",
             "api_endpoint": "N/A - Calculated from database",
-            "field_path": "COUNT(ra_runners) WHERE position = 1 AND race.distance_f = distance_3_name",
+            "field_path": "COUNT(ra_mst_runners) WHERE position = 1 AND race.distance_f = distance_3_name",
             "populated_pct": 0.0
           },
           {
@@ -1449,7 +1449,7 @@
             "type": "integer",
             "source": "Database Calculation - Pedigree Agent",
             "api_endpoint": "N/A - Calculated from database",
-            "field_path": "COUNT(ra_runners) WHERE horse_id IN (SELECT id FROM ra_mst_horses WHERE sire_id/dam_id/damsire_id = entity.id)",
+            "field_path": "COUNT(ra_mst_runners) WHERE horse_id IN (SELECT id FROM ra_mst_horses WHERE sire_id/dam_id/damsire_id = entity.id)",
             "populated_pct": 100.0
           },
           {
@@ -1457,7 +1457,7 @@
             "type": "integer",
             "source": "Database Calculation - Pedigree Agent",
             "api_endpoint": "N/A - Calculated from database",
-            "field_path": "COUNT(ra_runners) WHERE position = 1 AND horse_id IN progeny",
+            "field_path": "COUNT(ra_mst_runners) WHERE position = 1 AND horse_id IN progeny",
             "populated_pct": 100.0
           },
           {
@@ -1465,7 +1465,7 @@
             "type": "integer",
             "source": "Database Calculation - Pedigree Agent",
             "api_endpoint": "N/A - Calculated from database",
-            "field_path": "COUNT(ra_runners) WHERE position = 2 AND horse_id IN progeny",
+            "field_path": "COUNT(ra_mst_runners) WHERE position = 2 AND horse_id IN progeny",
             "populated_pct": 100.0
           },
           {
@@ -1473,7 +1473,7 @@
             "type": "integer",
             "source": "Database Calculation - Pedigree Agent",
             "api_endpoint": "N/A - Calculated from database",
-            "field_path": "COUNT(ra_runners) WHERE position = 3 AND horse_id IN progeny",
+            "field_path": "COUNT(ra_mst_runners) WHERE position = 3 AND horse_id IN progeny",
             "populated_pct": 100.0
           },
           {
@@ -1545,7 +1545,7 @@
             "type": "integer",
             "source": "Database Calculation - Pedigree Agent",
             "api_endpoint": "N/A - Calculated from database",
-            "field_path": "COUNT(ra_runners) WHERE race.class = class_1_name",
+            "field_path": "COUNT(ra_mst_runners) WHERE race.class = class_1_name",
             "populated_pct": 0.0
           },
           {
@@ -1553,7 +1553,7 @@
             "type": "integer",
             "source": "Database Calculation - Pedigree Agent",
             "api_endpoint": "N/A - Calculated from database",
-            "field_path": "COUNT(ra_runners) WHERE position = 1 AND race.class = class_1_name",
+            "field_path": "COUNT(ra_mst_runners) WHERE position = 1 AND race.class = class_1_name",
             "populated_pct": 0.0
           },
           {
@@ -1585,7 +1585,7 @@
             "type": "integer",
             "source": "Database Calculation - Pedigree Agent",
             "api_endpoint": "N/A - Calculated from database",
-            "field_path": "COUNT(ra_runners) WHERE race.class = class_2_name",
+            "field_path": "COUNT(ra_mst_runners) WHERE race.class = class_2_name",
             "populated_pct": 0.0
           },
           {
@@ -1593,7 +1593,7 @@
             "type": "integer",
             "source": "Database Calculation - Pedigree Agent",
             "api_endpoint": "N/A - Calculated from database",
-            "field_path": "COUNT(ra_runners) WHERE position = 1 AND race.class = class_2_name",
+            "field_path": "COUNT(ra_mst_runners) WHERE position = 1 AND race.class = class_2_name",
             "populated_pct": 0.0
           },
           {
@@ -1625,7 +1625,7 @@
             "type": "integer",
             "source": "Database Calculation - Pedigree Agent",
             "api_endpoint": "N/A - Calculated from database",
-            "field_path": "COUNT(ra_runners) WHERE race.class = class_3_name",
+            "field_path": "COUNT(ra_mst_runners) WHERE race.class = class_3_name",
             "populated_pct": 0.0
           },
           {
@@ -1633,7 +1633,7 @@
             "type": "integer",
             "source": "Database Calculation - Pedigree Agent",
             "api_endpoint": "N/A - Calculated from database",
-            "field_path": "COUNT(ra_runners) WHERE position = 1 AND race.class = class_3_name",
+            "field_path": "COUNT(ra_mst_runners) WHERE position = 1 AND race.class = class_3_name",
             "populated_pct": 0.0
           },
           {
@@ -1665,7 +1665,7 @@
             "type": "integer",
             "source": "Database Calculation - Pedigree Agent",
             "api_endpoint": "N/A - Calculated from database",
-            "field_path": "COUNT(ra_runners) WHERE race.distance_f = distance_1_name",
+            "field_path": "COUNT(ra_mst_runners) WHERE race.distance_f = distance_1_name",
             "populated_pct": 0.0
           },
           {
@@ -1673,7 +1673,7 @@
             "type": "integer",
             "source": "Database Calculation - Pedigree Agent",
             "api_endpoint": "N/A - Calculated from database",
-            "field_path": "COUNT(ra_runners) WHERE position = 1 AND race.distance_f = distance_1_name",
+            "field_path": "COUNT(ra_mst_runners) WHERE position = 1 AND race.distance_f = distance_1_name",
             "populated_pct": 0.0
           },
           {
@@ -1705,7 +1705,7 @@
             "type": "integer",
             "source": "Database Calculation - Pedigree Agent",
             "api_endpoint": "N/A - Calculated from database",
-            "field_path": "COUNT(ra_runners) WHERE race.distance_f = distance_2_name",
+            "field_path": "COUNT(ra_mst_runners) WHERE race.distance_f = distance_2_name",
             "populated_pct": 0.0
           },
           {
@@ -1713,7 +1713,7 @@
             "type": "integer",
             "source": "Database Calculation - Pedigree Agent",
             "api_endpoint": "N/A - Calculated from database",
-            "field_path": "COUNT(ra_runners) WHERE position = 1 AND race.distance_f = distance_2_name",
+            "field_path": "COUNT(ra_mst_runners) WHERE position = 1 AND race.distance_f = distance_2_name",
             "populated_pct": 0.0
           },
           {
@@ -1745,7 +1745,7 @@
             "type": "integer",
             "source": "Database Calculation - Pedigree Agent",
             "api_endpoint": "N/A - Calculated from database",
-            "field_path": "COUNT(ra_runners) WHERE race.distance_f = distance_3_name",
+            "field_path": "COUNT(ra_mst_runners) WHERE race.distance_f = distance_3_name",
             "populated_pct": 0.0
           },
           {
@@ -1753,7 +1753,7 @@
             "type": "integer",
             "source": "Database Calculation - Pedigree Agent",
             "api_endpoint": "N/A - Calculated from database",
-            "field_path": "COUNT(ra_runners) WHERE position = 1 AND race.distance_f = distance_3_name",
+            "field_path": "COUNT(ra_mst_runners) WHERE position = 1 AND race.distance_f = distance_3_name",
             "populated_pct": 0.0
           },
           {
@@ -1862,7 +1862,7 @@
             "type": "integer",
             "source": "Database Calculation - Pedigree Agent",
             "api_endpoint": "N/A - Calculated from database",
-            "field_path": "COUNT(ra_runners) WHERE horse_id IN (SELECT id FROM ra_mst_horses WHERE sire_id/dam_id/damsire_id = entity.id)",
+            "field_path": "COUNT(ra_mst_runners) WHERE horse_id IN (SELECT id FROM ra_mst_horses WHERE sire_id/dam_id/damsire_id = entity.id)",
             "populated_pct": 100.0
           },
           {
@@ -1870,7 +1870,7 @@
             "type": "integer",
             "source": "Database Calculation - Pedigree Agent",
             "api_endpoint": "N/A - Calculated from database",
-            "field_path": "COUNT(ra_runners) WHERE position = 1 AND horse_id IN progeny",
+            "field_path": "COUNT(ra_mst_runners) WHERE position = 1 AND horse_id IN progeny",
             "populated_pct": 100.0
           },
           {
@@ -1878,7 +1878,7 @@
             "type": "integer",
             "source": "Database Calculation - Pedigree Agent",
             "api_endpoint": "N/A - Calculated from database",
-            "field_path": "COUNT(ra_runners) WHERE position = 2 AND horse_id IN progeny",
+            "field_path": "COUNT(ra_mst_runners) WHERE position = 2 AND horse_id IN progeny",
             "populated_pct": 100.0
           },
           {
@@ -1886,7 +1886,7 @@
             "type": "integer",
             "source": "Database Calculation - Pedigree Agent",
             "api_endpoint": "N/A - Calculated from database",
-            "field_path": "COUNT(ra_runners) WHERE position = 3 AND horse_id IN progeny",
+            "field_path": "COUNT(ra_mst_runners) WHERE position = 3 AND horse_id IN progeny",
             "populated_pct": 100.0
           },
           {
@@ -1958,7 +1958,7 @@
             "type": "integer",
             "source": "Database Calculation - Pedigree Agent",
             "api_endpoint": "N/A - Calculated from database",
-            "field_path": "COUNT(ra_runners) WHERE race.class = class_1_name",
+            "field_path": "COUNT(ra_mst_runners) WHERE race.class = class_1_name",
             "populated_pct": 0.0
           },
           {
@@ -1966,7 +1966,7 @@
             "type": "integer",
             "source": "Database Calculation - Pedigree Agent",
             "api_endpoint": "N/A - Calculated from database",
-            "field_path": "COUNT(ra_runners) WHERE position = 1 AND race.class = class_1_name",
+            "field_path": "COUNT(ra_mst_runners) WHERE position = 1 AND race.class = class_1_name",
             "populated_pct": 0.0
           },
           {
@@ -1998,7 +1998,7 @@
             "type": "integer",
             "source": "Database Calculation - Pedigree Agent",
             "api_endpoint": "N/A - Calculated from database",
-            "field_path": "COUNT(ra_runners) WHERE race.class = class_2_name",
+            "field_path": "COUNT(ra_mst_runners) WHERE race.class = class_2_name",
             "populated_pct": 0.0
           },
           {
@@ -2006,7 +2006,7 @@
             "type": "integer",
             "source": "Database Calculation - Pedigree Agent",
             "api_endpoint": "N/A - Calculated from database",
-            "field_path": "COUNT(ra_runners) WHERE position = 1 AND race.class = class_2_name",
+            "field_path": "COUNT(ra_mst_runners) WHERE position = 1 AND race.class = class_2_name",
             "populated_pct": 0.0
           },
           {
@@ -2038,7 +2038,7 @@
             "type": "integer",
             "source": "Database Calculation - Pedigree Agent",
             "api_endpoint": "N/A - Calculated from database",
-            "field_path": "COUNT(ra_runners) WHERE race.class = class_3_name",
+            "field_path": "COUNT(ra_mst_runners) WHERE race.class = class_3_name",
             "populated_pct": 0.0
           },
           {
@@ -2046,7 +2046,7 @@
             "type": "integer",
             "source": "Database Calculation - Pedigree Agent",
             "api_endpoint": "N/A - Calculated from database",
-            "field_path": "COUNT(ra_runners) WHERE position = 1 AND race.class = class_3_name",
+            "field_path": "COUNT(ra_mst_runners) WHERE position = 1 AND race.class = class_3_name",
             "populated_pct": 0.0
           },
           {
@@ -2078,7 +2078,7 @@
             "type": "integer",
             "source": "Database Calculation - Pedigree Agent",
             "api_endpoint": "N/A - Calculated from database",
-            "field_path": "COUNT(ra_runners) WHERE race.distance_f = distance_1_name",
+            "field_path": "COUNT(ra_mst_runners) WHERE race.distance_f = distance_1_name",
             "populated_pct": 0.0
           },
           {
@@ -2086,7 +2086,7 @@
             "type": "integer",
             "source": "Database Calculation - Pedigree Agent",
             "api_endpoint": "N/A - Calculated from database",
-            "field_path": "COUNT(ra_runners) WHERE position = 1 AND race.distance_f = distance_1_name",
+            "field_path": "COUNT(ra_mst_runners) WHERE position = 1 AND race.distance_f = distance_1_name",
             "populated_pct": 0.0
           },
           {
@@ -2118,7 +2118,7 @@
             "type": "integer",
             "source": "Database Calculation - Pedigree Agent",
             "api_endpoint": "N/A - Calculated from database",
-            "field_path": "COUNT(ra_runners) WHERE race.distance_f = distance_2_name",
+            "field_path": "COUNT(ra_mst_runners) WHERE race.distance_f = distance_2_name",
             "populated_pct": 0.0
           },
           {
@@ -2126,7 +2126,7 @@
             "type": "integer",
             "source": "Database Calculation - Pedigree Agent",
             "api_endpoint": "N/A - Calculated from database",
-            "field_path": "COUNT(ra_runners) WHERE position = 1 AND race.distance_f = distance_2_name",
+            "field_path": "COUNT(ra_mst_runners) WHERE position = 1 AND race.distance_f = distance_2_name",
             "populated_pct": 0.0
           },
           {
@@ -2158,7 +2158,7 @@
             "type": "integer",
             "source": "Database Calculation - Pedigree Agent",
             "api_endpoint": "N/A - Calculated from database",
-            "field_path": "COUNT(ra_runners) WHERE race.distance_f = distance_3_name",
+            "field_path": "COUNT(ra_mst_runners) WHERE race.distance_f = distance_3_name",
             "populated_pct": 0.0
           },
           {
@@ -2166,7 +2166,7 @@
             "type": "integer",
             "source": "Database Calculation - Pedigree Agent",
             "api_endpoint": "N/A - Calculated from database",
-            "field_path": "COUNT(ra_runners) WHERE position = 1 AND race.distance_f = distance_3_name",
+            "field_path": "COUNT(ra_mst_runners) WHERE position = 1 AND race.distance_f = distance_3_name",
             "populated_pct": 0.0
           },
           {
@@ -2242,7 +2242,7 @@
         ]
       }
     },
-    "ra_races": {
+    "ra_mst_races": {
       "total_columns": 48,
       "racing_api": {
         "count": 46,
@@ -2661,7 +2661,7 @@
         "columns": []
       }
     },
-    "ra_runners": {
+    "ra_mst_runners": {
       "total_columns": 57,
       "racing_api": {
         "count": 53,
@@ -3101,7 +3101,7 @@
             "column": "last_run",
             "type": "character varying",
             "source": "Calculated from Recent Activity",
-            "api_endpoint": "Database Query: ra_runners WHERE date > NOW() - INTERVAL 'N days'",
+            "api_endpoint": "Database Query: ra_mst_runners WHERE date > NOW() - INTERVAL 'N days'",
             "field_path": "Date-filtered aggregation over last N days",
             "populated_pct": 0.04
           }

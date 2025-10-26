@@ -13,7 +13,7 @@
    - No profile endpoint, no statistics endpoint, no biographical data
 
 2. **All enrichment comes from DATABASE AGGREGATION:**
-   - Calculate statistics from `ra_runners` table
+   - Calculate statistics from `ra_mst_runners` table
    - Migration 007 already provides career stats
    - Can add recent form, contextual stats, partnerships
 
@@ -106,7 +106,7 @@ active_last_30d           -- Boolean: rode in last 30 days
 ```
 
 **Value:** Shows current form vs. career average
-**Source:** Calculated from ra_runners + ra_races
+**Source:** Calculated from ra_mst_runners + ra_mst_races
 **Effort:** 2-3 hours (extend migration 007)
 
 ---
@@ -120,7 +120,7 @@ recent_30d_prize_money    -- Prize money in last 30 days
 ```
 
 **Value:** Financial success metric
-**Source:** Sum of `ra_runners.prize_money_won` where position = 1
+**Source:** Sum of `ra_mst_runners.prize_money_won` where position = 1
 **Effort:** 30 minutes
 
 ---
@@ -237,7 +237,7 @@ Racing API (/v1/racecards/pro, /v1/results)
     ↓
   ra_jockeys (basic identity)
     ↓
-  ra_runners (race participation with jockey context)
+  ra_mst_runners (race participation with jockey context)
     ↓
   Database Aggregation (update_entity_statistics())
     ↓

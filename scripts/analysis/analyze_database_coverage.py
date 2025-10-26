@@ -100,7 +100,7 @@ def analyze_database(db):
         ],
         'Racing Data': [
             ('ra_races', 'race_date', ['race_id', 'race_date', 'course_name', 'race_name']),
-            ('ra_runners', 'race_date', ['runner_id', 'race_id', 'horse_name', 'jockey_name', 'position'])
+            ('ra_mst_runners', 'race_date', ['runner_id', 'race_id', 'horse_name', 'jockey_name', 'position'])
         ]
     }
 
@@ -176,7 +176,7 @@ def analyze_database(db):
 
     # Check ratios
     races_count = overall_stats.get('ra_races', {}).get('total', 0)
-    runners_count = overall_stats.get('ra_runners', {}).get('total', 0)
+    runners_count = overall_stats.get('ra_mst_runners', {}).get('total', 0)
     horses_count = overall_stats.get('ra_horses', {}).get('total', 0)
 
     if races_count > 0:

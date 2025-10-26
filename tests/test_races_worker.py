@@ -48,7 +48,7 @@ class RacesWorkerTest:
         print("\n" + "=" * 80)
         print(f"{Fore.CYAN}🏁 RACES WORKER TEST{Style.RESET_ALL}")
         print("=" * 80)
-        print(f"Testing: ra_races and ra_runners tables")
+        print(f"Testing: ra_races and ra_mst_runners tables")
         print(f"Timestamp: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
         print("=" * 80 + "\n")
 
@@ -57,7 +57,7 @@ class RacesWorkerTest:
         print(f"{Fore.YELLOW}[TEST 1]{Style.RESET_ALL} Checking if ra_races table exists...")
 
         try:
-            response = self.client.table('ra_races').select('*', count='exact').limit(1).execute()
+            response = self.client.table('ra_mst_races').select('*', count='exact').limit(1).execute()
 
             if response.count > 0:
                 print(f"{Fore.GREEN}✅ PASS{Style.RESET_ALL} - Table exists with {response.count:,} total records")
@@ -79,7 +79,7 @@ class RacesWorkerTest:
         try:
             today = date.today().isoformat()
 
-            response = self.client.table('ra_races')\
+            response = self.client.table('ra_mst_races')\
                 .select('race_date', count='exact')\
                 .gte('race_date', today)\
                 .execute()
@@ -93,7 +93,7 @@ class RacesWorkerTest:
             else:
                 # Check last 7 days
                 week_ago = (date.today() - timedelta(days=7)).isoformat()
-                response = self.client.table('ra_races')\
+                response = self.client.table('ra_mst_races')\
                     .select('race_date', count='exact')\
                     .gte('race_date', week_ago)\
                     .execute()
@@ -120,7 +120,7 @@ class RacesWorkerTest:
 
         try:
             # Check for non-UK/Ireland races
-            response = self.client.table('ra_races')\
+            response = self.client.table('ra_mst_races')\
                 .select('region_code', count='exact')\
                 .not_.in_('region_code', ['gb', 'ire'])\
                 .execute()
@@ -141,11 +141,11 @@ class RacesWorkerTest:
             return False
 
     def test_results_table_exists(self):
-        """Test 4: Verify ra_runners table exists with data"""
-        print(f"\n{Fore.YELLOW}[TEST 4]{Style.RESET_ALL} Checking if ra_runners table exists...")
+        """Test 4: Verify ra_mst_runners table exists with data"""
+        print(f"\n{Fore.YELLOW}[TEST 4]{Style.RESET_ALL} Checking if ra_mst_runners table exists...")
 
         try:
-            response = self.client.table('ra_runners').select('*', count='exact').limit(1).execute()
+            response = self.client.table('ra_mst_runners').select('*', count='exact').limit(1).execute()
 
             if response.count > 0:
                 print(f"{Fore.GREEN}✅ PASS{Style.RESET_ALL} - Table exists with {response.count:,} total records")
@@ -162,19 +162,19 @@ class RacesWorkerTest:
             return False
 
     def test_results_coverage(self):
-        """Test 5: Check results data coverage (position data in ra_runners)"""
+        """Test 5: Check results data coverage (position data in ra_mst_runners)"""
         print(f"\n{Fore.YELLOW}[TEST 5]{Style.RESET_ALL} Checking results coverage...")
 
         try:
-            # Get earliest and latest results (from ra_runners with position data)
-            response_earliest = self.client.table('ra_runners')\
+            # Get earliest and latest results (from ra_mst_runners with position data)
+            response_earliest = self.client.table('ra_mst_runners')\
                 .select('race_date')\
                 .not_.is_('position', 'null')\
                 .order('race_date', desc=False)\
                 .limit(1)\
                 .execute()
 
-            response_latest = self.client.table('ra_runners')\
+            response_latest = self.client.table('ra_mst_runners')\
                 .select('race_date')\
                 .not_.is_('position', 'null')\
                 .order('race_date', desc=True)\
@@ -215,7 +215,7 @@ class RacesWorkerTest:
         print(f"\n{Fore.YELLOW}[TEST 6]{Style.RESET_ALL} Checking data freshness...")
 
         try:
-            response = self.client.table('ra_races')\
+            response = self.client.table('ra_mst_races')\
                 .select('updated_at')\
                 .order('updated_at', desc=True)\
                 .limit(1)\

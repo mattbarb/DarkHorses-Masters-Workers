@@ -31,7 +31,7 @@ def get_all_ra_tables(db_client) -> Dict[str, List[str]]:
         'ra_mst_courses', 'ra_mst_horses', 'ra_mst_jockeys', 'ra_mst_trainers',
         'ra_mst_owners', 'ra_mst_bookmakers', 'ra_mst_regions',
         'ra_mst_sires', 'ra_mst_dams', 'ra_mst_damsires',
-        'ra_races', 'ra_runners', 'ra_results', 'ra_race_results',
+        'ra_races', 'ra_mst_runners', 'ra_results', 'ra_mst_race_results',
         'ra_horse_pedigree', 'ra_metadata_tracking'
     ]
 
@@ -114,11 +114,11 @@ def analyze_fetcher_file(file_path: str) -> Dict:
                 'insert_damsires': 'ra_mst_damsires',
                 'insert_pedigree': 'ra_horse_pedigree',
                 'insert_races': 'ra_races',
-                'insert_runners': 'ra_runners',
+                'insert_runners': 'ra_mst_runners',
                 'insert_results': 'ra_results',
                 'insert_bookmakers': 'ra_mst_bookmakers',
                 'insert_regions': 'ra_mst_regions',
-                'insert_race_results': 'ra_race_results'
+                'insert_race_results': 'ra_mst_race_results'
             }
 
             if method in table_map:

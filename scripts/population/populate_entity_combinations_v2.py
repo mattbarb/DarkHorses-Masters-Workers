@@ -2,7 +2,7 @@
 """
 Populate ra_entity_combinations Table (Version 2)
 
-Analyzes ra_runners to identify frequent entity pair combinations
+Analyzes ra_mst_runners to identify frequent entity pair combinations
 (jockey-horse, trainer-horse, owner-horse, jockey-trainer, etc.)
 and calculates their performance statistics.
 
@@ -55,7 +55,7 @@ def analyze_entity_pairs(
     logger.info("Fetching runners data...")
 
     # Fetch all runners with position data
-    response = db_client.client.table('ra_runners')\
+    response = db_client.client.table('ra_mst_runners')\
         .select('jockey_id, trainer_id, owner_id, horse_id, position, race_id')\
         .not_.is_('position', 'null')\
         .execute()

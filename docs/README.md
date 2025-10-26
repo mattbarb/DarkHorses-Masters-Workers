@@ -249,7 +249,7 @@ This ensures all new horses have complete pedigree data immediately.
 Tables use `ra_` prefix (racing):
 - `ra_courses`, `ra_bookmakers`, `ra_jockeys`, `ra_trainers`, `ra_owners`
 - `ra_horses`, `ra_horse_pedigree`
-- `ra_races`, `ra_runners`, `ra_results`
+- `ra_mst_races`, `ra_mst_runners`, `ra_results`
 - `ra_metadata_tracking` (system metadata)
 
 ### Update Schedule

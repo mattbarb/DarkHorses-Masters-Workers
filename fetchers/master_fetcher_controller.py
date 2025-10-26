@@ -34,8 +34,8 @@ Tables Managed (API Data):
 - ra_mst_owners
 - ra_mst_horses (with pedigree)
 - ra_races
-- ra_runners
-- ra_race_results
+- ra_mst_runners
+- ra_mst_race_results
 - ra_horse_pedigree
 
 Usage:
@@ -113,7 +113,7 @@ BACKFILL_START_DATE = '2015-01-01'
 SCHEDULE_CONFIG = {
     'daily': {
         'description': 'Daily sync - runs every day at 1am UK time',
-        'tables': ['ra_races', 'ra_race_results'],  # Transaction tables
+        'tables': ['ra_races', 'ra_mst_race_results'],  # Transaction tables
         'time': '01:00',  # UK time
         'timezone': 'Europe/London',
         'enabled': True
@@ -195,7 +195,7 @@ FETCHER_MAPPING = {
         'api_endpoint': '/v1/racecards/pro',
         'columns': ['id', 'date', 'time', 'course_id', 'race_class', 'distance_f', 'going', 'prize_money...']
     },
-    'ra_runners': {
+    'ra_mst_runners': {
         'fetcher': RacesFetcher,  # Same fetcher as races
         'method': 'fetch_and_store',
         'type': 'date_range',
@@ -222,7 +222,7 @@ FETCHER_MAPPING = {
         'api_endpoint': '/v1/horses/{id}/pro',
         'columns': ['horse_id', 'sire', 'sire_id', 'dam', 'dam_id', 'damsire', 'damsire_id', 'breeder...']
     },
-    'ra_race_results': {
+    'ra_mst_race_results': {
         'fetcher': ResultsFetcher,
         'method': 'fetch_and_store',
         'type': 'date_range',
@@ -551,10 +551,10 @@ class MasterFetcherController:
         # 1. Master tables first (reference data)
         master_tables = [t for t in tables if t.startswith('ra_mst_') and t != 'ra_mst_horses']
         # 2. Races (creates horses, pedigree, runners)
-        race_tables = ['ra_races', 'ra_runners', 'ra_mst_horses', 'ra_horse_pedigree']
+        race_tables = ['ra_races', 'ra_mst_runners', 'ra_mst_horses', 'ra_horse_pedigree']
         race_tables = [t for t in race_tables if t in tables]
         # 3. Results (updates runners)
-        result_tables = [t for t in tables if t == 'ra_race_results']
+        result_tables = [t for t in tables if t == 'ra_mst_race_results']
 
         execution_order = master_tables + race_tables + result_tables
 
@@ -599,9 +599,9 @@ class MasterFetcherController:
 
         # Run in same order as backfill
         master_tables = [t for t in tables if t.startswith('ra_mst_') and t != 'ra_mst_horses']
-        race_tables = ['ra_races', 'ra_runners', 'ra_mst_horses', 'ra_horse_pedigree']
+        race_tables = ['ra_races', 'ra_mst_runners', 'ra_mst_horses', 'ra_horse_pedigree']
         race_tables = [t for t in race_tables if t in tables]
-        result_tables = [t for t in tables if t == 'ra_race_results']
+        result_tables = [t for t in tables if t == 'ra_mst_race_results']
 
         execution_order = master_tables + race_tables + result_tables
 
@@ -741,7 +741,7 @@ Examples:
   python3 fetchers/master_fetcher_controller.py --mode analyze --interactive
 
   # Analyze specific tables
-  python3 fetchers/master_fetcher_controller.py --mode analyze --tables ra_races ra_runners --interactive
+  python3 fetchers/master_fetcher_controller.py --mode analyze --tables ra_races ra_mst_runners --interactive
 
   # Insert test data into all tables
   python3 fetchers/master_fetcher_controller.py --mode test-insert --interactive

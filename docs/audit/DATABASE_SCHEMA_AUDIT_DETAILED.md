@@ -27,7 +27,7 @@ This comprehensive audit analyzes all ra_* database tables against Racing API ca
 
 **Major Gaps Identified:**
 
-1. **CRITICAL: Position data not being populated** (23 NULL columns in ra_runners)
+1. **CRITICAL: Position data not being populated** (23 NULL columns in ra_mst_runners)
    - Blocks 43% of ML model fields
    - position, distance_beaten, prize_won, starting_price all NULL
 
@@ -56,8 +56,8 @@ This comprehensive audit analyzes all ra_* database tables against Racing API ca
 3. [ra_trainers Entity Table](#3-ra_trainers-entity-table)
 4. [ra_owners Entity Table](#4-ra_owners-entity-table)
 5. [ra_courses Entity Table](#5-ra_courses-entity-table)
-6. [ra_runners Table](#6-ra_runners-table)
-7. [ra_races Table](#7-ra_races-table)
+6. [ra_mst_runners Table](#6-ra_mst_runners-table)
+7. [ra_mst_races Table](#7-ra_mst_races-table)
 8. [Summary and Recommendations](#8-summary-and-recommendations)
 9. [Migration Scripts](#9-migration-scripts)
 10. [Implementation Guide](#10-implementation-guide)
@@ -213,7 +213,7 @@ This comprehensive audit analyzes all ra_* database tables against Racing API ca
    ```
 
 2. **Create statistics calculation job**
-   - Calculate from ra_runners where position IS NOT NULL
+   - Calculate from ra_mst_runners where position IS NOT NULL
    - Update periodically (daily/weekly)
    - Use for jockey performance analysis
 
@@ -302,8 +302,8 @@ This comprehensive audit analyzes all ra_* database tables against Racing API ca
    ```
 
 3. **Create statistics calculation job**
-   - Calculate career stats from ra_runners
-   - Extract recent_14d stats from trainer_14_days JSONB in ra_runners
+   - Calculate career stats from ra_mst_runners
+   - Extract recent_14d stats from trainer_14_days JSONB in ra_mst_runners
    - Update daily
 
 **Migration Required:** YES (see Section 9)
@@ -371,7 +371,7 @@ This comprehensive audit analyzes all ra_* database tables against Racing API ca
    ```
 
 2. **Create statistics calculation job**
-   - Calculate from ra_runners
+   - Calculate from ra_mst_runners
    - Count unique horses per owner
    - Calculate win rates
    - Mark owners active in last 30 days
@@ -420,7 +420,7 @@ This comprehensive audit analyzes all ra_* database tables against Racing API ca
 
 **No critical missing fields identified.**
 
-The course data appears complete for ML model requirements. Course characteristics (left/right-handed, distance, surface types) are captured at race level in ra_races.
+The course data appears complete for ML model requirements. Course characteristics (left/right-handed, distance, surface types) are captured at race level in ra_mst_races.
 
 | Missing Field | API Source | Priority | Justification | ML Impact |
 |---------------|-----------|----------|---------------|-----------|
@@ -440,7 +440,7 @@ The courses table is well-populated and serves its purpose as a reference table.
 
 ---
 
-## 6. ra_runners Table
+## 6. ra_mst_runners Table
 
 ### 6.1 Current Schema
 
@@ -528,22 +528,22 @@ The courses table is well-populated and serves its purpose as a reference table.
 
 | API Field | Type | Availability | Currently Stored | Where to Store | Priority |
 |-----------|------|--------------|-----------------|----------------|----------|
-| dob | string | 95% | NO | ra_runners.dob | **P1-HIGH** |
-| colour | string | 95% | NO | ra_runners.colour | **P2-MEDIUM** |
-| breeder | string | 80% | NO | ra_runners.breeder | **P2-MEDIUM** |
-| dam_region | string | 95% | NO | ra_runners.dam_region | **P2-MEDIUM** |
-| sire_region | string | 95% | NO | ra_runners.sire_region | **P2-MEDIUM** |
-| damsire_region | string | 95% | NO | ra_runners.damsire_region | **P2-MEDIUM** |
-| trainer_location | string | 90% | NO | ra_runners.trainer_location | **P1-HIGH** |
-| trainer_rtf | string | 70% | NO | ra_runners.trainer_rtf | P2-MEDIUM |
-| trainer_14_days | object | 90% | NO | ra_runners.trainer_14_days_data | **P1-HIGH** |
-| spotlight | string | 60% | NO | ra_runners.spotlight | P2-MEDIUM |
-| wind_surgery | string | 10% | NO | ra_runners.wind_surgery | P3-LOW |
-| wind_surgery_run | string | 10% | NO | ra_runners.wind_surgery_run | P3-LOW |
-| past_results_flags | array | 40% | NO | ra_runners.past_results_flags | P2-MEDIUM |
-| quotes | array | 20% | NO | ra_runners.quotes_data | P3-LOW |
-| stable_tour | array | 20% | NO | ra_runners.stable_tour_data | P3-LOW |
-| medical | array | 5% | NO | ra_runners.medical_data | P3-LOW |
+| dob | string | 95% | NO | ra_mst_runners.dob | **P1-HIGH** |
+| colour | string | 95% | NO | ra_mst_runners.colour | **P2-MEDIUM** |
+| breeder | string | 80% | NO | ra_mst_runners.breeder | **P2-MEDIUM** |
+| dam_region | string | 95% | NO | ra_mst_runners.dam_region | **P2-MEDIUM** |
+| sire_region | string | 95% | NO | ra_mst_runners.sire_region | **P2-MEDIUM** |
+| damsire_region | string | 95% | NO | ra_mst_runners.damsire_region | **P2-MEDIUM** |
+| trainer_location | string | 90% | NO | ra_mst_runners.trainer_location | **P1-HIGH** |
+| trainer_rtf | string | 70% | NO | ra_mst_runners.trainer_rtf | P2-MEDIUM |
+| trainer_14_days | object | 90% | NO | ra_mst_runners.trainer_14_days_data | **P1-HIGH** |
+| spotlight | string | 60% | NO | ra_mst_runners.spotlight | P2-MEDIUM |
+| wind_surgery | string | 10% | NO | ra_mst_runners.wind_surgery | P3-LOW |
+| wind_surgery_run | string | 10% | NO | ra_mst_runners.wind_surgery_run | P3-LOW |
+| past_results_flags | array | 40% | NO | ra_mst_runners.past_results_flags | P2-MEDIUM |
+| quotes | array | 20% | NO | ra_mst_runners.quotes_data | P3-LOW |
+| stable_tour | array | 20% | NO | ra_mst_runners.stable_tour_data | P3-LOW |
+| medical | array | 5% | NO | ra_mst_runners.medical_data | P3-LOW |
 | odds | array | 100% | NO | Separate table? | P2-MEDIUM |
 
 **From Results API (app__models__result__Runner):**
@@ -565,7 +565,7 @@ The courses table is well-populated and serves its purpose as a reference table.
 
 The position, distance_beaten, prize_won, starting_price, and finishing_time fields are:
 1. Available in Results API (100% availability)
-2. Already added to ra_runners schema (migration 005)
+2. Already added to ra_mst_runners schema (migration 005)
 3. NOT being extracted by results_fetcher.py
 4. Required for 43 ML model fields (43% of total)
 
@@ -581,7 +581,7 @@ The position, distance_beaten, prize_won, starting_price, and finishing_time fie
 - Update results_fetcher.py to extract runner results
 - Use utils/position_parser.py (already exists)
 - Call _prepare_runner_records() method
-- UPSERT into ra_runners by runner_id
+- UPSERT into ra_mst_runners by runner_id
 
 ### 6.6 Recommendations
 
@@ -650,7 +650,7 @@ The position, distance_beaten, prize_won, starting_price, and finishing_time fie
 
 ---
 
-## 7. ra_races Table
+## 7. ra_mst_races Table
 
 ### 7.1 Current Schema
 
@@ -836,8 +836,8 @@ The position, distance_beaten, prize_won, starting_price, and finishing_time fie
 
 | Action | Table | Effort | Impact | Blocks |
 |--------|-------|--------|--------|--------|
-| Enable position data extraction | ra_runners | 1h | CRITICAL | 43% of ML fields |
-| Backfill position data | ra_runners | 3h | CRITICAL | Historical ML training |
+| Enable position data extraction | ra_mst_runners | 1h | CRITICAL | 43% of ML fields |
+| Backfill position data | ra_mst_runners | 3h | CRITICAL | Historical ML training |
 
 **Total P0 Effort:** 4 hours
 **Impact:** Unlocks 43% of ML model capabilities
@@ -846,14 +846,14 @@ The position, distance_beaten, prize_won, starting_price, and finishing_time fie
 
 | Action | Table | Effort | Impact |
 |--------|-------|--------|--------|
-| Fix distance_meters extraction | ra_races | 1h | Distance-based calculations |
-| Fix prize_money parsing | ra_races | 1h | Earnings analysis |
-| Extract going_detailed/weather | ra_races | 1h | Track conditions |
+| Fix distance_meters extraction | ra_mst_races | 1h | Distance-based calculations |
+| Fix prize_money parsing | ra_mst_races | 1h | Earnings analysis |
+| Extract going_detailed/weather | ra_mst_races | 1h | Track conditions |
 | Populate dob field | ra_horses | 2h | Age-based analysis |
 | Populate trainer location | ra_trainers | 1h | Regional patterns |
-| Extract trainer_14_days | ra_runners | 2h | Recent form analysis |
-| Extract days_since_last_run | ra_runners | 1h | Fitness indicator |
-| Fix headgear population | ra_runners | 1h | Equipment tracking |
+| Extract trainer_14_days | ra_mst_runners | 2h | Recent form analysis |
+| Extract days_since_last_run | ra_mst_runners | 1h | Fitness indicator |
+| Fix headgear population | ra_mst_runners | 1h | Equipment tracking |
 
 **Total P1 Effort:** 10 hours
 **Impact:** Completes core data capture
@@ -865,10 +865,10 @@ The position, distance_beaten, prize_won, starting_price, and finishing_time fie
 | Add jockey statistics | ra_jockeys | 4h |
 | Add trainer statistics | ra_trainers | 4h |
 | Add owner statistics | ra_owners | 3h |
-| Extract pedigree regions | ra_runners | 2h |
-| Calculate field_size | ra_races | 0.5h |
-| Extract rail_movements/stalls | ra_races | 1h |
-| Add career statistics fields | ra_runners | 5h |
+| Extract pedigree regions | ra_mst_runners | 2h |
+| Calculate field_size | ra_mst_races | 0.5h |
+| Extract rail_movements/stalls | ra_mst_races | 1h |
+| Add career statistics fields | ra_mst_runners | 5h |
 
 **Total P2 Effort:** 19.5 hours
 **Impact:** Enhanced entity analytics
@@ -880,7 +880,7 @@ The position, distance_beaten, prize_won, starting_price, and finishing_time fie
 | Schema cleanup (remove unused columns) | All | 3h |
 | Consider odds table | New table | 10h |
 | Consider tote table | New table | 4h |
-| Extract premium content | ra_runners | 2h |
+| Extract premium content | ra_mst_runners | 2h |
 
 **Total P3 Effort:** 19 hours
 **Impact:** Nice to have
@@ -888,7 +888,7 @@ The position, distance_beaten, prize_won, starting_price, and finishing_time fie
 ### 8.3 Critical Data Gaps Summary
 
 **Gap 1: Position Data Not Populated (CRITICAL)**
-- **Tables Affected:** ra_runners (23 NULL columns)
+- **Tables Affected:** ra_mst_runners (23 NULL columns)
 - **Records Affected:** 379,422 runners
 - **ML Fields Blocked:** 43% (48 out of 115 fields)
 - **API Availability:** 100% (Results API)
@@ -901,9 +901,9 @@ The position, distance_beaten, prize_won, starting_price, and finishing_time fie
 - **Records Affected:** 0 out of 111,430 horses
 - **ML Fields Blocked:** 8 pedigree fields
 - **API Availability:** 100% (sire_id, dam_id, damsire_id in runners)
-- **Resolution:** Pedigree data is actually in ra_runners - don't need separate table!
+- **Resolution:** Pedigree data is actually in ra_mst_runners - don't need separate table!
 - **Effort:** 0 hours (already captured)
-- **Priority:** P0 - FALSE ALARM (data exists in ra_runners)
+- **Priority:** P0 - FALSE ALARM (data exists in ra_mst_runners)
 
 **Gap 3: Low Runner Count (CRITICAL)**
 - **Issue:** Average 2.78 runners/race (expected 8-12)
@@ -1010,7 +1010,7 @@ if all_results:
     runner_records = self._prepare_runner_records(all_results)
 
     if runner_records:
-        # UPSERT into ra_runners (update existing or insert new)
+        # UPSERT into ra_mst_runners (update existing or insert new)
         runner_stats = self.db_client.insert_runners(runner_records)
         logger.info(f"Runner records updated: {runner_stats}")
         results_dict['runners'] = runner_stats
@@ -1136,10 +1136,10 @@ SELECT
     distance_beaten,
     prize_won,
     starting_price
-FROM ra_runners
+FROM ra_mst_runners
 WHERE position IS NOT NULL
 AND race_id IN (
-    SELECT race_id FROM ra_races
+    SELECT race_id FROM ra_mst_races
     WHERE race_date = '2025-10-01'
 )
 LIMIT 10;
@@ -1171,9 +1171,9 @@ SELECT
     trainer_location,
     days_since_last_run,
     trainer_14_days_data
-FROM ra_runners
+FROM ra_mst_runners
 WHERE race_id IN (
-    SELECT race_id FROM ra_races
+    SELECT race_id FROM ra_mst_races
     WHERE race_date = '2025-10-14'
 )
 LIMIT 5;
@@ -1190,7 +1190,7 @@ SELECT
     COUNT(*) as total_runners,
     COUNT(position) as runners_with_position,
     ROUND(100.0 * COUNT(position) / COUNT(*), 2) as percentage_populated
-FROM ra_runners;
+FROM ra_mst_runners;
 
 -- Expected: Should increase from 0% to >90% after backfill
 ```
@@ -1233,7 +1233,7 @@ SELECT
     COUNT(weather_conditions) as races_with_weather,
     COUNT(distance_meters) as races_with_dist_meters,
     COUNT(prize_money) as races_with_prize
-FROM ra_races
+FROM ra_mst_races
 WHERE race_date >= CURRENT_DATE - INTERVAL '30 days';
 
 -- Expected: All percentages >70% for recent races
@@ -1285,7 +1285,7 @@ python3 scripts/backfill_race_fields.py \
 -- Create view for data completeness monitoring
 CREATE OR REPLACE VIEW data_completeness_monitor AS
 SELECT
-    'ra_runners' as table_name,
+    'ra_mst_runners' as table_name,
     COUNT(*) as total_records,
     COUNT(position) as position_populated,
     ROUND(100.0 * COUNT(position) / COUNT(*), 2) as position_pct,
@@ -1293,7 +1293,7 @@ SELECT
     ROUND(100.0 * COUNT(dob) / COUNT(*), 2) as dob_pct,
     COUNT(trainer_location) as trainer_loc_populated,
     ROUND(100.0 * COUNT(trainer_location) / COUNT(*), 2) as trainer_loc_pct
-FROM ra_runners
+FROM ra_mst_runners
 UNION ALL
 SELECT
     'ra_horses' as table_name,
@@ -1330,7 +1330,7 @@ SELECT
     COUNT(*) as total_runners,
     COUNT(position) as with_position,
     ROUND(100.0 * COUNT(position) / COUNT(*), 2) as percentage
-FROM ra_runners
+FROM ra_mst_runners
 WHERE created_at >= CURRENT_DATE - INTERVAL '7 days';
 ```
 

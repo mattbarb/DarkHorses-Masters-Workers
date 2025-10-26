@@ -26,8 +26,8 @@
 - **Priority:** ❌ **CRITICAL**
 
 ### 3. 40 Database Columns Entirely NULL
-- **ra_races:** 16 entirely NULL columns
-- **ra_runners:** 17 entirely NULL columns
+- **ra_mst_races:** 16 entirely NULL columns
+- **ra_mst_runners:** 17 entirely NULL columns
 - **ra_horses:** 4 entirely NULL columns (dob, sex_code, colour, region)
 - **Impact:** Database bloat, confusion, missing data
 - **Cause:** Not extracting available API fields
@@ -275,7 +275,7 @@ if not horse_id:
 
 ## 📊 DETAILED BREAKDOWN BY TABLE
 
-### ra_races (136,448 records)
+### ra_mst_races (136,448 records)
 ```
 ✅ Good Data:
    - race_id, course_id, race_name, race_date, off_time
@@ -298,7 +298,7 @@ if not horse_id:
    - jumps, stalls, tip, verdict, betting_forecast
 ```
 
-### ra_runners (377,713 records - SHOULD BE 1.36M)
+### ra_mst_runners (377,713 records - SHOULD BE 1.36M)
 ```
 ✅ Good Data:
    - runner_id, race_id, horse_id, horse_name
@@ -355,8 +355,8 @@ Fix: Use /horses/{id}/pro for each horse
 ```
 /v1/courses              → ra_courses (101 records) ✓
 /v1/courses/regions      → Reference data ✓
-/v1/racecards/pro        → ra_races + ra_runners (partial) ⚠️
-/v1/results              → ra_races (historical) ⚠️
+/v1/racecards/pro        → ra_mst_races + ra_mst_runners (partial) ⚠️
+/v1/results              → ra_mst_races (historical) ⚠️
 /v1/horses/search        → ra_horses (basic only) ⚠️
 /v1/jockeys/search       → ra_jockeys (3,478 records) ✓
 /v1/trainers/search      → ra_trainers (2,779 records) ✓

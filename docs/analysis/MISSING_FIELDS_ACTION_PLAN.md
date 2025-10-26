@@ -121,24 +121,24 @@ clear run-in - easily(op 9/1)"
 ### Step 1: Update Database Schema (15 minutes)
 
 ```sql
--- Add new columns to ra_runners table
-ALTER TABLE ra_runners ADD COLUMN IF NOT EXISTS finishing_time TEXT;
-ALTER TABLE ra_runners ADD COLUMN IF NOT EXISTS starting_price_decimal DECIMAL(10,2);
-ALTER TABLE ra_runners ADD COLUMN IF NOT EXISTS starting_price_fractional TEXT;
-ALTER TABLE ra_runners ADD COLUMN IF NOT EXISTS overall_beaten_distance DECIMAL(10,2);
-ALTER TABLE ra_runners ADD COLUMN IF NOT EXISTS weight_stones_lbs TEXT;
-ALTER TABLE ra_runners ADD COLUMN IF NOT EXISTS jockey_claim_lbs INTEGER;
+-- Add new columns to ra_mst_runners table
+ALTER TABLE ra_mst_runners ADD COLUMN IF NOT EXISTS finishing_time TEXT;
+ALTER TABLE ra_mst_runners ADD COLUMN IF NOT EXISTS starting_price_decimal DECIMAL(10,2);
+ALTER TABLE ra_mst_runners ADD COLUMN IF NOT EXISTS starting_price_fractional TEXT;
+ALTER TABLE ra_mst_runners ADD COLUMN IF NOT EXISTS overall_beaten_distance DECIMAL(10,2);
+ALTER TABLE ra_mst_runners ADD COLUMN IF NOT EXISTS weight_stones_lbs TEXT;
+ALTER TABLE ra_mst_runners ADD COLUMN IF NOT EXISTS jockey_claim_lbs INTEGER;
 
 -- Verify existing columns (these should already exist)
 -- comment TEXT
 -- silk_url TEXT
 
 -- Create index on finishing_time for performance analysis
-CREATE INDEX IF NOT EXISTS idx_runners_finishing_time ON ra_runners(finishing_time)
+CREATE INDEX IF NOT EXISTS idx_runners_finishing_time ON ra_mst_runners(finishing_time)
 WHERE finishing_time IS NOT NULL;
 
 -- Create index on starting_price_decimal
-CREATE INDEX IF NOT EXISTS idx_runners_sp_decimal ON ra_runners(starting_price_decimal)
+CREATE INDEX IF NOT EXISTS idx_runners_sp_decimal ON ra_mst_runners(starting_price_decimal)
 WHERE starting_price_decimal IS NOT NULL;
 ```
 
@@ -223,7 +223,7 @@ SELECT
     starting_price_decimal,
     starting_price_fractional,
     comment
-FROM ra_runners
+FROM ra_mst_runners
 WHERE finishing_time IS NOT NULL
 LIMIT 5;
 "
@@ -239,7 +239,7 @@ db = SupabaseReferenceClient(
     service_key=config.supabase.service_key
 )
 
-result = db.client.table('ra_runners').select('*').not_.is_('finishing_time', 'null').limit(10).execute()
+result = db.client.table('ra_mst_runners').select('*').not_.is_('finishing_time', 'null').limit(10).execute()
 
 for runner in result.data:
     print(f\"{runner['horse_name']}: {runner['position']} in {runner['finishing_time']}\")
@@ -256,7 +256,7 @@ for runner in result.data:
 After implementation, verify:
 
 - [ ] Database migration completed successfully
-- [ ] New columns exist in `ra_runners` table
+- [ ] New columns exist in `ra_mst_runners` table
 - [ ] Indexes created
 - [ ] `results_fetcher.py` updated
 - [ ] `races_fetcher.py` updated
@@ -284,8 +284,8 @@ SELECT
     ru.position,
     ru.finishing_time,
     ru.distance_beaten
-FROM ra_runners ru
-JOIN ra_races r ON ru.race_id = r.race_id
+FROM ra_mst_runners ru
+JOIN ra_mst_races r ON ru.race_id = r.race_id
 WHERE ru.finishing_time IS NOT NULL
 ORDER BY r.race_date DESC, r.race_id, ru.position::INTEGER
 LIMIT 20;
@@ -300,8 +300,8 @@ SELECT
     r.going,
     r.course_name,
     r.race_date
-FROM ra_runners ru
-JOIN ra_races r ON ru.race_id = r.race_id
+FROM ra_mst_runners ru
+JOIN ra_mst_races r ON ru.race_id = r.race_id
 WHERE ru.finishing_time IS NOT NULL
     AND ru.position = '1'
     AND r.distance_f BETWEEN 7.9 AND 8.1  -- About 1 mile
@@ -318,7 +318,7 @@ SELECT
     SUM(CASE WHEN ru.position = '1' THEN 1 ELSE 0 END) as wins,
     ROUND(100.0 * SUM(CASE WHEN ru.position = '1' THEN 1 ELSE 0 END) / COUNT(*), 2) as win_pct,
     ROUND(100.0 / AVG(ru.starting_price_decimal::DECIMAL(10,2)), 2) as implied_prob
-FROM ra_runners ru
+FROM ra_mst_runners ru
 WHERE ru.starting_price_decimal IS NOT NULL
 GROUP BY 1, 2
 ORDER BY 1, 2;
@@ -331,7 +331,7 @@ SELECT
     position,
     finishing_time,
     comment
-FROM ra_runners
+FROM ra_mst_runners
 WHERE comment LIKE '%easily%'
     AND position = '1'
 ORDER BY finishing_time ASC

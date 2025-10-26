@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Analyze current ra_runners schema for duplicates and inconsistencies
+Analyze current ra_mst_runners schema for duplicates and inconsistencies
 """
 
 import psycopg2
@@ -29,7 +29,7 @@ try:
             column_default,
             ordinal_position
         FROM information_schema.columns
-        WHERE table_name = 'ra_runners'
+        WHERE table_name = 'ra_mst_runners'
         ORDER BY ordinal_position;
     """)
 

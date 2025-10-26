@@ -47,8 +47,8 @@ Modes Available: 3 (backfill, daily, manual)
 3. `jockeys_fetcher.py` - Active jockeys (ra_mst_jockeys)
 4. `trainers_fetcher.py` - Active trainers (ra_mst_trainers)
 5. `owners_fetcher.py` - Active owners (ra_mst_owners)
-6. `races_fetcher.py` - Races + runners + horses with pedigree (ra_races, ra_runners, ra_mst_horses, ra_horse_pedigree)
-7. `results_fetcher.py` - Historical results (ra_race_results, updates ra_runners)
+6. `races_fetcher.py` - Races + runners + horses with pedigree (ra_mst_races, ra_mst_runners, ra_mst_horses, ra_horse_pedigree)
+7. `results_fetcher.py` - Historical results (ra_mst_race_results, updates ra_mst_runners)
 8. `horses_fetcher.py` - Direct bulk horse fetch (legacy/backup)
 
 **Status:** All fetchers operational and integrated
@@ -121,9 +121,9 @@ Modes Available: 3 (backfill, daily, manual)
 | ra_mst_owners | 48,168 | /v1/owners | owners_fetcher.py | Weekly | ✅ READY |
 | ra_mst_horses | 111,669 | /v1/racecards/pro + /v1/horses/{id}/pro | races_fetcher.py | Daily | ✅ READY |
 | ra_horse_pedigree | ~90,000 | /v1/horses/{id}/pro (enrichment) | races_fetcher.py | Daily | ✅ READY |
-| ra_races | ~850,000 | /v1/racecards/pro | races_fetcher.py | Daily | ✅ READY |
-| ra_runners | ~12M | /v1/racecards/pro | races_fetcher.py | Daily | ✅ READY |
-| ra_race_results | ~850,000 | /v1/results | results_fetcher.py | Daily | ✅ READY |
+| ra_mst_races | ~850,000 | /v1/racecards/pro | races_fetcher.py | Daily | ✅ READY |
+| ra_mst_runners | ~12M | /v1/racecards/pro | races_fetcher.py | Daily | ✅ READY |
+| ra_mst_race_results | ~850,000 | /v1/results | results_fetcher.py | Daily | ✅ READY |
 
 **Total:** 10 tables, 300+ columns, 100% coverage
 
@@ -173,8 +173,8 @@ Individual Fetchers (8 scripts)
     ├── jockeys_fetcher.py → ra_mst_jockeys
     ├── trainers_fetcher.py → ra_mst_trainers
     ├── owners_fetcher.py → ra_mst_owners
-    ├── races_fetcher.py → ra_races, ra_runners, ra_mst_horses, ra_horse_pedigree
-    └── results_fetcher.py → ra_race_results (updates ra_runners)
+    ├── races_fetcher.py → ra_mst_races, ra_mst_runners, ra_mst_horses, ra_horse_pedigree
+    └── results_fetcher.py → ra_mst_race_results (updates ra_mst_runners)
     ↓
 Supabase PostgreSQL (10 tables)
     ↓
@@ -241,10 +241,10 @@ python3 fetchers/master_fetcher_controller.py --mode daily
 
 ```bash
 # Fetch specific table
-python3 fetchers/master_fetcher_controller.py --mode manual --table ra_races --days-back 7
+python3 fetchers/master_fetcher_controller.py --mode manual --table ra_mst_races --days-back 7
 
 # Fetch specific date range
-python3 fetchers/master_fetcher_controller.py --mode manual --table ra_races \
+python3 fetchers/master_fetcher_controller.py --mode manual --table ra_mst_races \
     --start-date 2024-01-01 --end-date 2024-01-31
 
 # Test with limited data
@@ -364,11 +364,11 @@ python3 fetchers/master_fetcher_controller.py --list
 ```bash
 # Races for January 2024
 python3 fetchers/master_fetcher_controller.py --mode manual \
-    --table ra_races --start-date 2024-01-01 --end-date 2024-01-31
+    --table ra_mst_races --start-date 2024-01-01 --end-date 2024-01-31
 
 # Results for last 7 days
 python3 fetchers/master_fetcher_controller.py --mode manual \
-    --table ra_race_results --days-back 7
+    --table ra_mst_race_results --days-back 7
 ```
 
 **Update Specific Tables:**
@@ -615,16 +615,16 @@ SELECT 'Horses', COUNT(*), MAX(updated_at)
 FROM ra_mst_horses
 UNION ALL
 SELECT 'Races', COUNT(*), MAX(race_date)
-FROM ra_races
+FROM ra_mst_races
 UNION ALL
 SELECT 'Runners', COUNT(*), MAX(updated_at)
-FROM ra_runners
+FROM ra_mst_runners
 UNION ALL
 SELECT 'Pedigree', COUNT(*), MAX(updated_at)
 FROM ra_horse_pedigree
 UNION ALL
 SELECT 'Results', COUNT(*), MAX(updated_at)
-FROM ra_race_results;
+FROM ra_mst_race_results;
 ```
 
 **Check Horse Enrichment:**
@@ -658,7 +658,7 @@ SELECT
     race_date,
     COUNT(*) as races,
     COUNT(DISTINCT course_id) as courses
-FROM ra_races
+FROM ra_mst_races
 WHERE race_date >= CURRENT_DATE - INTERVAL '7 days'
 GROUP BY race_date
 ORDER BY race_date DESC;

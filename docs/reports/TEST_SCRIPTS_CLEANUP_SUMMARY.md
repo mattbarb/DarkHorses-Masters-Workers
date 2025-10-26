@@ -139,7 +139,7 @@ python3 tests/test_live_data_with_markers.py --cleanup
 
 ### What You'll See
 
-**In Supabase ra_runners table:**
+**In Supabase ra_mst_runners table:**
 ```
 horse_name:             "**TEST** Dancing King"       ← REAL horse name
 jockey_name:            "**TEST** A P McCoy"          ← REAL jockey name

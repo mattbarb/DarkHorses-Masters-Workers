@@ -428,7 +428,7 @@ class DeploymentTestOrchestrator:
         print(f"   • Monthly (First Monday 3:00 AM UTC): Courses, Bookmakers")
         print(f"\n📍 Database Tables: 8 (ra_courses, ra_bookmakers, ra_jockeys,")
         print(f"                        ra_trainers, ra_owners, ra_horses,")
-        print(f"                        ra_races, ra_runners)")
+        print(f"                        ra_races, ra_mst_runners)")
 
         # Next Steps
         print(f"\n{'=' * 80}")

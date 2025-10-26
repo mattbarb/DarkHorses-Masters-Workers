@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
 Backfill ancestor statistics tables with:
-1. Ancestor's own racing career results (from ra_runners where horse_id = ancestor_id)
-2. Progeny/grandoffspring performance statistics (from ra_lineage + ra_runners)
+1. Ancestor's own racing career results (from ra_mst_runners where horse_id = ancestor_id)
+2. Progeny/grandoffspring performance statistics (from ra_lineage + ra_mst_runners)
 """
 
 import psycopg2
@@ -44,7 +44,7 @@ try:
             sire_name,
             sire_region,
 
-            -- Own racing career (from ra_runners where horse_id = sire_id)
+            -- Own racing career (from ra_mst_runners where horse_id = sire_id)
             own_race_runs,
             own_race_wins,
             own_race_places,
@@ -54,7 +54,7 @@ try:
             own_career_start,
             own_career_end,
 
-            -- Progeny statistics (from ra_lineage + ra_runners)
+            -- Progeny statistics (from ra_lineage + ra_mst_runners)
             total_progeny,
             progeny_total_runs,
             progeny_wins,
@@ -125,7 +125,7 @@ try:
                 ROUND(AVG(CASE WHEN position IS NOT NULL THEN position::int ELSE NULL END), 2) as avg_position,
                 MIN(race_date) as career_start,
                 MAX(race_date) as career_end
-            FROM ra_runners r
+            FROM ra_mst_runners r
             JOIN ra_races rac ON r.race_id = rac.race_id
             WHERE r.position IS NOT NULL
             GROUP BY horse_id
@@ -142,7 +142,7 @@ try:
                 SUM(COALESCE(r.prize_won, 0)) as total_prize,
                 ROUND(AVG(CASE WHEN r.position IS NOT NULL THEN r.position::int ELSE NULL END), 2) as avg_position
             FROM ra_lineage lin
-            JOIN ra_runners r ON lin.runner_id = r.runner_id
+            JOIN ra_mst_runners r ON lin.runner_id = r.runner_id
             WHERE lin.relation_type = 'sire'
             AND r.position IS NOT NULL
             GROUP BY lin.ancestor_horse_id
@@ -274,7 +274,7 @@ try:
                 ROUND(AVG(CASE WHEN position IS NOT NULL THEN position::int ELSE NULL END), 2) as avg_position,
                 MIN(race_date) as career_start,
                 MAX(race_date) as career_end
-            FROM ra_runners r
+            FROM ra_mst_runners r
             JOIN ra_races rac ON r.race_id = rac.race_id
             WHERE r.position IS NOT NULL
             GROUP BY horse_id
@@ -291,7 +291,7 @@ try:
                 SUM(COALESCE(r.prize_won, 0)) as total_prize,
                 ROUND(AVG(CASE WHEN r.position IS NOT NULL THEN r.position::int ELSE NULL END), 2) as avg_position
             FROM ra_lineage lin
-            JOIN ra_runners r ON lin.runner_id = r.runner_id
+            JOIN ra_mst_runners r ON lin.runner_id = r.runner_id
             WHERE lin.relation_type = 'dam'
             AND r.position IS NOT NULL
             GROUP BY lin.ancestor_horse_id
@@ -423,7 +423,7 @@ try:
                 ROUND(AVG(CASE WHEN position IS NOT NULL THEN position::int ELSE NULL END), 2) as avg_position,
                 MIN(race_date) as career_start,
                 MAX(race_date) as career_end
-            FROM ra_runners r
+            FROM ra_mst_runners r
             JOIN ra_races rac ON r.race_id = rac.race_id
             WHERE r.position IS NOT NULL
             GROUP BY horse_id
@@ -440,7 +440,7 @@ try:
                 SUM(COALESCE(r.prize_won, 0)) as total_prize,
                 ROUND(AVG(CASE WHEN r.position IS NOT NULL THEN r.position::int ELSE NULL END), 2) as avg_position
             FROM ra_lineage lin
-            JOIN ra_runners r ON lin.runner_id = r.runner_id
+            JOIN ra_mst_runners r ON lin.runner_id = r.runner_id
             WHERE lin.relation_type = 'grandsire_maternal'
             AND r.position IS NOT NULL
             GROUP BY lin.ancestor_horse_id

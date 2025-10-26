@@ -185,9 +185,9 @@ Successfully organized all fetcher documentation into a dedicated `/fetchers/doc
 11. ra_horse_pedigree
 
 **Transaction Tables (3):**
-12. ra_races
-13. ra_runners
-14. ra_race_results
+12. ra_mst_races
+13. ra_mst_runners
+14. ra_mst_race_results
 
 **Future/TBD Tables (10):**
 15. ra_entity_combinations

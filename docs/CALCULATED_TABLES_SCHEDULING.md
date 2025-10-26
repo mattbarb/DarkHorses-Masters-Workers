@@ -283,7 +283,7 @@ python3 scripts/populate_runner_statistics.py --min-runs 3
 
 **Verify Racing API data exists:**
 ```sql
-SELECT COUNT(*) FROM ra_runners WHERE position IS NOT NULL;
+SELECT COUNT(*) FROM ra_mst_runners WHERE position IS NOT NULL;
 ```
 
 If count is 0, Racing API fetch hasn't run or completed.

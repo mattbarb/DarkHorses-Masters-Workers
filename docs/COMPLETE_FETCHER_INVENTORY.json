@@ -3,8 +3,8 @@
     "file": "races_fetcher.py",
     "path": "/Users/matthewbarber/Documents/GitHub/DarkHorses-Masters-Workers/fetchers/races_fetcher.py",
     "target_tables": [
-      "ra_races",
-      "ra_runners"
+      "ra_mst_races",
+      "ra_mst_runners"
     ],
     "field_mappings": {},
     "api_endpoints": [],
@@ -45,8 +45,8 @@
     "file": "events_fetcher.py",
     "path": "/Users/matthewbarber/Documents/GitHub/DarkHorses-Masters-Workers/fetchers/events_fetcher.py",
     "target_tables": [
-      "ra_races",
-      "ra_runners"
+      "ra_mst_races",
+      "ra_mst_runners"
     ],
     "field_mappings": {},
     "api_endpoints": [],
@@ -59,9 +59,9 @@
     "file": "results_fetcher.py",
     "path": "/Users/matthewbarber/Documents/GitHub/DarkHorses-Masters-Workers/fetchers/results_fetcher.py",
     "target_tables": [
-      "ra_races",
-      "ra_runners",
-      "ra_race_results"
+      "ra_mst_races",
+      "ra_mst_runners",
+      "ra_mst_race_results"
     ],
     "field_mappings": {},
     "api_endpoints": [],

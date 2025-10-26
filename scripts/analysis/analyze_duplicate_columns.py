@@ -1,5 +1,5 @@
 """
-Analyze duplicate columns in ra_runners table
+Analyze duplicate columns in ra_mst_runners table
 Identifies which duplicates have data vs which are empty
 """
 
@@ -45,7 +45,7 @@ def analyze_column_usage(supabase, column_name: str):
     """
     try:
         # Get total records
-        total_result = supabase.table('ra_runners') \
+        total_result = supabase.table('ra_mst_runners') \
             .select('runner_id', count='exact') \
             .limit(1) \
             .execute()
@@ -53,7 +53,7 @@ def analyze_column_usage(supabase, column_name: str):
         total_records = total_result.count if hasattr(total_result, 'count') else 0
 
         # Get non-null records for this column
-        non_null_result = supabase.table('ra_runners') \
+        non_null_result = supabase.table('ra_mst_runners') \
             .select('runner_id', count='exact') \
             .not_.is_(column_name, 'null') \
             .limit(1) \
@@ -82,7 +82,7 @@ def analyze_column_usage(supabase, column_name: str):
 
 def main():
     logger.info("=" * 80)
-    logger.info("DUPLICATE COLUMN ANALYSIS FOR ra_runners")
+    logger.info("DUPLICATE COLUMN ANALYSIS FOR ra_mst_runners")
     logger.info("=" * 80)
 
     config = get_config()

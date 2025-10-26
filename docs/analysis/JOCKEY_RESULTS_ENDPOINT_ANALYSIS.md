@@ -408,15 +408,15 @@ runner_record = {
 
 ### B. Database Schema Changes
 
-Add columns to `ra_runners` table:
+Add columns to `ra_mst_runners` table:
 
 ```sql
-ALTER TABLE ra_runners ADD COLUMN IF NOT EXISTS finishing_time TEXT;
-ALTER TABLE ra_runners ADD COLUMN IF NOT EXISTS starting_price_decimal DECIMAL(10,2);
-ALTER TABLE ra_runners ADD COLUMN IF NOT EXISTS starting_price_fractional TEXT;
-ALTER TABLE ra_runners ADD COLUMN IF NOT EXISTS overall_beaten_distance DECIMAL(10,2);
-ALTER TABLE ra_runners ADD COLUMN IF NOT EXISTS weight_stones_lbs TEXT;
-ALTER TABLE ra_runners ADD COLUMN IF NOT EXISTS jockey_claim_lbs INTEGER;
+ALTER TABLE ra_mst_runners ADD COLUMN IF NOT EXISTS finishing_time TEXT;
+ALTER TABLE ra_mst_runners ADD COLUMN IF NOT EXISTS starting_price_decimal DECIMAL(10,2);
+ALTER TABLE ra_mst_runners ADD COLUMN IF NOT EXISTS starting_price_fractional TEXT;
+ALTER TABLE ra_mst_runners ADD COLUMN IF NOT EXISTS overall_beaten_distance DECIMAL(10,2);
+ALTER TABLE ra_mst_runners ADD COLUMN IF NOT EXISTS weight_stones_lbs TEXT;
+ALTER TABLE ra_mst_runners ADD COLUMN IF NOT EXISTS jockey_claim_lbs INTEGER;
 
 -- Verify comment and silk_url already exist:
 -- comment TEXT (should exist)
@@ -647,7 +647,7 @@ def get_jockey_results(self, jockey_id: str, start_date: Optional[str] = None,
    - No additional API calls needed
 
 3. **Update database schema**
-   - Add new columns to `ra_runners`
+   - Add new columns to `ra_mst_runners`
    - Run migration script
    - Validate data quality
 

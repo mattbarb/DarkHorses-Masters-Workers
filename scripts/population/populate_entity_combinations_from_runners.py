@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-Populate ra_entity_combinations Table from ra_runners
+Populate ra_entity_combinations Table from ra_mst_runners
 
 Calculates entity pair statistics (jockey-horse, trainer-horse, etc.)
-directly from the ra_runners table using database aggregation.
+directly from the ra_mst_runners table using database aggregation.
 
 This is more efficient than fetching all rows and processing in Python.
 
@@ -66,7 +66,7 @@ def calculate_combinations_sql(
             SUM(CASE WHEN position = '1' THEN 1 ELSE 0 END) as wins,
             SUM(CASE WHEN position = '2' THEN 1 ELSE 0 END) as places_2nd,
             SUM(CASE WHEN position = '3' THEN 1 ELSE 0 END) as places_3rd
-        FROM ra_runners
+        FROM ra_mst_runners
         WHERE {entity1_col} IS NOT NULL
           AND {entity2_col} IS NOT NULL
           AND position IS NOT NULL
@@ -81,7 +81,7 @@ def calculate_combinations_sql(
         # (More efficient would be a stored procedure, but this works)
 
         logger.info("Fetching runner data for aggregation...")
-        response = db_client.client.table('ra_runners')\
+        response = db_client.client.table('ra_mst_runners')\
             .select(f'{entity1_col}, {entity2_col}, position')\
             .not_.is_(entity1_col, 'null')\
             .not_.is_(entity2_col, 'null')\

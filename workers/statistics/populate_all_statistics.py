@@ -37,7 +37,7 @@ TOTAL ESTIMATED TIME: 30-60 minutes for full database
 
 Data Requirements:
 ------------------
-- Position data must be populated in ra_runners (from results fetcher)
+- Position data must be populated in ra_mst_runners (from results fetcher)
 - Pedigree data must be populated in ra_rel_pedigree
 - Race dates must be in ra_races
 - All master tables (ra_mst_*) must exist

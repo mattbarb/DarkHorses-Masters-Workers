@@ -46,8 +46,8 @@ Based on system analysis, we have:
 
 **Transaction Tables (Historical Data):**
 - `ra_races` - ⚠️ Need all races 2015-01-01 to present
-- `ra_runners` - ⚠️ **CRITICAL GAP** - Need all runners 2015-2024
-- `ra_race_results` - ⚠️ Need all results 2015-01-01 to present
+- `ra_mst_runners` - ⚠️ **CRITICAL GAP** - Need all runners 2015-2024
+- `ra_mst_race_results` - ⚠️ Need all results 2015-01-01 to present
 - `ra_horse_pedigree` - ⚠️ Need all pedigrees for historical horses
 
 **Statistics Tables:**
@@ -77,7 +77,7 @@ nohup python3 fetchers/master_fetcher_controller.py --mode backfill > logs/backf
 **What this does:**
 1. Fetches all racecards from `/v1/racecards/pro` (2015-01-01 to today)
 2. Stores race metadata → `ra_races`
-3. Stores runner entries → `ra_runners` (fills the gap!)
+3. Stores runner entries → `ra_mst_runners` (fills the gap!)
 4. Extracts entities:
    - Jockeys → `ra_mst_jockeys`
    - Trainers → `ra_mst_trainers`
@@ -107,13 +107,13 @@ nohup python3 fetchers/master_fetcher_controller.py --mode backfill > logs/backf
 
 ```bash
 # Backfill results (can run concurrently with Step 1 or after)
-python3 fetchers/master_fetcher_controller.py --mode backfill --tables ra_race_results --interactive
+python3 fetchers/master_fetcher_controller.py --mode backfill --tables ra_mst_race_results --interactive
 ```
 
 **What this does:**
 1. Fetches all results from `/v1/results/pro` (2015-01-01 to today)
-2. Updates `ra_runners` with finishing positions, times, SP
-3. Updates `ra_race_results` with complete result data
+2. Updates `ra_mst_runners` with finishing positions, times, SP
+3. Updates `ra_mst_race_results` with complete result data
 
 **Estimated Time:** 10-12 hours
 **API Calls:** ~3,900 (1 per day)
@@ -183,7 +183,7 @@ Once historical backfill is complete, maintain currency with scheduled syncs.
 **Races, Runners, Results - Every 4 hours starting 6AM UK:**
 ```bash
 # Cron: 0 6,10,14,18,22 * * *
-0 6,10,14,18,22 * * * cd /path/to/project && python3 fetchers/master_fetcher_controller.py --mode daily --tables ra_races ra_runners ra_race_results ra_horse_pedigree >> logs/cron_transactions.log 2>&1
+0 6,10,14,18,22 * * * cd /path/to/project && python3 fetchers/master_fetcher_controller.py --mode daily --tables ra_races ra_mst_runners ra_mst_race_results ra_horse_pedigree >> logs/cron_transactions.log 2>&1
 ```
 
 **Why every 4 hours?**
@@ -246,9 +246,9 @@ Once historical backfill is complete, maintain currency with scheduled syncs.
   ```sql
   SELECT 'ra_races' as table, COUNT(*) as records FROM ra_races
   UNION ALL
-  SELECT 'ra_runners', COUNT(*) FROM ra_runners
+  SELECT 'ra_mst_runners', COUNT(*) FROM ra_mst_runners
   UNION ALL
-  SELECT 'ra_race_results', COUNT(*) FROM ra_race_results
+  SELECT 'ra_mst_race_results', COUNT(*) FROM ra_mst_race_results
   UNION ALL
   SELECT 'ra_mst_horses', COUNT(*) FROM ra_mst_horses
   UNION ALL
@@ -270,8 +270,8 @@ Once historical backfill is complete, maintain currency with scheduled syncs.
   ```sql
   SELECT
     COUNT(*) as total_races,
-    (SELECT COUNT(*) FROM ra_runners) as total_runners,
-    ROUND((SELECT COUNT(*) FROM ra_runners)::numeric / COUNT(*)::numeric, 2) as runners_per_race
+    (SELECT COUNT(*) FROM ra_mst_runners) as total_runners,
+    ROUND((SELECT COUNT(*) FROM ra_mst_runners)::numeric / COUNT(*)::numeric, 2) as runners_per_race
   FROM ra_races;
   ```
 
@@ -323,9 +323,9 @@ SELECT
   COUNT(*) as total_records
 FROM ra_races
 UNION ALL
-SELECT 'ra_runners', MAX(updated_at), COUNT(*) FROM ra_runners
+SELECT 'ra_mst_runners', MAX(updated_at), COUNT(*) FROM ra_mst_runners
 UNION ALL
-SELECT 'ra_race_results', MAX(updated_at), COUNT(*) FROM ra_race_results;
+SELECT 'ra_mst_race_results', MAX(updated_at), COUNT(*) FROM ra_mst_race_results;
 ```
 
 ### Weekly Checks
@@ -364,7 +364,7 @@ No separate entity backfill needed!
 
 The 4 statistics tables (`ra_entity_combinations`, `ra_performance_by_*`, `ra_runner_statistics`) are **calculated from source data**:
 
-1. ✅ Run backfill first (fills `ra_race_results`)
+1. ✅ Run backfill first (fills `ra_mst_race_results`)
 2. ✅ Then run statistics calculation:
    ```bash
    python3 fetchers/populate_all_calculated_tables.py
@@ -435,7 +435,7 @@ tail -f logs/fetcher_backfill_*.json
 ps aux | grep master_fetcher
 
 # Check database
-psql "$SUPABASE_URL" -c "SELECT COUNT(*) FROM ra_runners;"
+psql "$SUPABASE_URL" -c "SELECT COUNT(*) FROM ra_mst_runners;"
 ```
 
 ### 5. Install Scheduled Syncs
@@ -453,7 +453,7 @@ crontab -e
 You'll know the system is working correctly when:
 
 1. **Historical backfill complete:**
-   - `ra_runners` has ~10 runners per race (not ~2.7)
+   - `ra_mst_runners` has ~10 runners per race (not ~2.7)
    - All years 2015-2025 represented in `ra_races`
    - `ra_horse_pedigree` has records for all horses
 
@@ -480,8 +480,8 @@ After complete backfill and ongoing sync:
 | Table | Expected Records | Coverage | Update Frequency |
 |-------|-----------------|----------|------------------|
 | **ra_races** | ~150,000+ | 2015-current | Every 4 hours |
-| **ra_runners** | ~1,500,000+ | 2015-current | Every 4 hours |
-| **ra_race_results** | ~150,000+ | 2015-current | Every 4 hours |
+| **ra_mst_runners** | ~1,500,000+ | 2015-current | Every 4 hours |
+| **ra_mst_race_results** | ~150,000+ | 2015-current | Every 4 hours |
 | **ra_mst_horses** | ~200,000+ | All discovered | Every 4 hours |
 | **ra_horse_pedigree** | ~200,000+ | All enriched | Every 4 hours |
 | **ra_mst_jockeys** | ~5,000+ | All active | Weekly |
