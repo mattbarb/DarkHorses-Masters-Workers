@@ -65,9 +65,10 @@ class ReferenceDataOrchestrator:
             'description': 'UK and Ireland horses (filtered post-fetch)'
         },
         'races': {
-            'days_back': 30,
+            'days_back': 2,
+            'days_forward': 14,
             'region_codes': ['gb', 'ire'],
-            'description': 'Last 30 days UK/Ireland races with runners'
+            'description': 'Last 2 days + next 14 days UK/Ireland races with runners'
         },
         'results': {
             'days_back': 365,

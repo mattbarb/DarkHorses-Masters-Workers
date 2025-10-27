@@ -46,6 +46,7 @@ class RacesFetcher:
         start_date: Optional[str] = None,
         end_date: Optional[str] = None,
         days_back: int = 30,
+        days_forward: int = 0,
         region_codes: List[str] = None
     ) -> Dict:
         """
@@ -53,8 +54,9 @@ class RacesFetcher:
 
         Args:
             start_date: Start date (YYYY-MM-DD format). If None, calculated from days_back
-            end_date: End date (YYYY-MM-DD format). If None, defaults to today
+            end_date: End date (YYYY-MM-DD format). If None, calculated from days_forward
             days_back: Number of days to go back (default: 30). Ignored if start_date provided
+            days_forward: Number of days to go forward from today (default: 0). Ignored if end_date provided
             region_codes: Optional list of region codes to filter (e.g., ['gb', 'ire'])
 
         Returns:
@@ -64,13 +66,15 @@ class RacesFetcher:
         logger.info(f"Region filtering: {region_codes if region_codes else 'None (all regions)'}")
 
         # Calculate date range
+        today = datetime.utcnow().date()
+
         if end_date is None:
-            end_dt = datetime.utcnow().date()
+            end_dt = today + timedelta(days=days_forward)
         else:
             end_dt = datetime.strptime(end_date, '%Y-%m-%d').date()
 
         if start_date is None:
-            start_dt = end_dt - timedelta(days=days_back)
+            start_dt = today - timedelta(days=days_back)
         else:
             start_dt = datetime.strptime(start_date, '%Y-%m-%d').date()
 
